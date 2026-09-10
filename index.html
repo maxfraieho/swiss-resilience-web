@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Swiss Resilience Navigator — Житло, ORP та солідарність з Україною</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Modular Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Modular Scripts -->
+  <script type="module" src="calculator.js" defer></script>
+  <script type="module" src="merkle_ledger.js" defer></script>
+</head>
+<body>
+
+<!-- ================== NAV ================== -->
+<div class="nav-wrap">
+  <div class="container">
+    <nav class="nav" aria-label="Головна навігація">
+      <a href="#" class="brand" aria-label="Swiss Resilience Navigator">
+        <span class="brand-badge" aria-hidden="true">
+          <!-- Swiss cross + Ukrainian trident (minimalist geometric mark) -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <!-- swiss cross bg -->
+            <rect x="1" y="1" width="22" height="22" rx="4" fill="#D52B1E"/>
+            <rect x="10.5" y="5" width="3" height="14" fill="#F8FAFC"/>
+            <rect x="5" y="10.5" width="14" height="3" fill="#F8FAFC"/>
+            <!-- trident overlay -->
+            <path d="M12 6.5v11 M9 8.5v5 M15 8.5v5" stroke="#D97706" stroke-width="1.2" stroke-linecap="round" opacity="0.95"/>
+          </svg>
+        </span>
+        <span class="brand-name">Swiss Resilience Navigator<span>Housing · ORP · Solidarity</span></span>
+      </a>
+
+      <div class="nav-links" role="navigation">
+        <a href="#radar">Житловий Радар</a>
+        <a href="#calc">Калькулятор EVAM</a>
+        <a href="#zsu">ЗСУ Прозорість</a>
+        <a href="#orp">Кар'єра ORP</a>
+        <a href="#pricing">Тарифи</a>
+      </div>
+
+      <div class="nav-actions">
+        <div class="lang-toggle" role="group" aria-label="Мова">
+          <button class="active" data-lang="ua">🇺🇦 UA</button>
+          <button data-lang="fr">🇫🇷 FR</button>
+        </div>
+        <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Запустити Telegram-бота
+        </a>
+        <a href="https://t.me/SwissResilienceHubBot/app" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Відкрити Web App
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- ================== HERO ================== -->
+<section class="hero" id="radar">
+  <div class="container">
+    <span class="pill">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      ⚡ ПРЯМИЙ МОНІТОРИНГ FLATFOX REST API · &lt; 60 СЕКУНД
+    </span>
+    <h1 class="hero-title">
+      Швейцарське житло та легальна інтеграція <span class="accent">без посередників і переплат</span>
+    </h1>
+    <p class="hero-sub">
+      Прямий автоматизований моніторинг житла за офіційними баремами EVAM та Hospice Général, передача договорів оренди (Reprise de bail, Art. 264 CO), миттєва компіляція досьє стандарту USPI та солідарний внесок 30% на захист України.
+    </p>
+    <div class="hero-cta">
+      <a href="https://t.me/SwissResilienceHubBot/app" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+        🚀 Знайти житло в Telegram TMA
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#calc" class="btn btn-ghost btn-lg">
+        📊 Розрахувати шанс оренди
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-metrics" role="list">
+      <div class="metric v-emerald" role="listitem">
+        <div class="metric-label">Верифіковано за тиждень</div>
+        <div class="metric-value" data-count="1420">1,420+</div>
+        <div class="metric-desc">квартир пройшли перевірку відповідності EVAM/HG бареми</div>
+      </div>
+      <div class="metric v-crimson" role="listitem">
+        <div class="metric-label">Комісії посередникам</div>
+        <div class="metric-value">0 CHF</div>
+        <div class="metric-desc">сплачено тіньовим спекулянтам — прямий доступ до першоджерела</div>
+      </div>
+      <div class="metric v-gold" role="listitem">
+        <div class="metric-label">Переказано на оборону 🇺🇦</div>
+        <div class="metric-value" data-count="18640">CHF 18,640</div>
+        <div class="metric-desc">на спецрахунок НБУ та фонд «Повернись живим» цього місяця</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== CALCULATOR ================== -->
+<section id="calc">
+  <div class="container">
+    <span class="eyebrow">02 · Compliance Engine</span>
+    <h2 class="section-title">Калькулятор бареми EVAM / Hospice&nbsp;Général</h2>
+    <p class="section-sub">Введіть склад сім'ї та комуну — миттєво отримайте максимальний бюджет оренди, статус відповідності та юридичну рекомендацію щодо оптимальної процедури укладення договору.</p>
+
+    <div class="calc" id="calc-widget">
+      <div class="calc-side calc-left">
+        <h3>Ваш профіль</h3>
+
+        <div class="field">
+          <label for="canton">Кантон</label>
+          <select class="select" id="canton">
+            <option value="vd" selected>Vaud (Во)</option>
+            <option value="ge">Genève (Женева)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="commune">Комуна</label>
+          <select class="select" id="commune">
+            <option value="lausanne">Lausanne · Лозанна</option>
+            <option value="morges">Morges · Морж</option>
+            <option value="etoy">Etoy · Етуа</option>
+            <option value="nyon">Nyon · Ньйон</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="family">Склад сім'ї</label>
+          <select class="select" id="family">
+            <option value="1">1 особа · кімната або студія</option>
+            <option value="2">2 особи · 2 пок.</option>
+            <option value="3" selected>3 особи · 3 пок.</option>
+            <option value="4">4 особи · 4 пок.</option>
+            <option value="5">5+ осіб · 4.5–5 пок.</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Статус</label>
+          <div class="radio-row" id="status-group">
+            <label class="radio checked" data-value="evam">
+              <input type="radio" name="status" value="evam" checked>
+              <span class="dot"></span>
+              <span>Бенефіціар EVAM</span>
+            </label>
+            <label class="radio" data-value="income">
+              <input type="radio" name="status" value="income">
+              <span class="dot"></span>
+              <span>Працевлаштований / власний дохід</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-side calc-right">
+        <h3>Юридичний вердикт</h3>
+        <div class="verdict">
+          <div class="verdict-label">Максимальний допустимий бюджет оренди</div>
+          <div class="verdict-amount">
+            <span class="cur">CHF</span><span id="verdict-value">1'290</span><span class="per"> / місяць</span>
+          </div>
+          <div class="verdict-note" id="verdict-note">Barème Communes Vaudoises (EVAM) · 3 особи · Lausanne · оновлено 09.2026</div>
+
+          <div class="gauge">
+            <div class="gauge-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="gauge-text">
+              <div class="gauge-title">100% EVAM Compliant</div>
+              <div class="gauge-sub">Договір може бути повністю покритий соціальною допомогою EVAM без ризику відхилення</div>
+            </div>
+          </div>
+
+          <div class="legal-note">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p><strong>Рекомендовано: Reprise de bail (Art. 264 CO).</strong> Орендна плата фіксується за чинним договором без права режі на підвищення. Ми надамо шаблон запиту та повний пакет USPI-стандарту досьє в 1 клік.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== SOLIDARITY / ZSU ================== -->
+<section id="zsu">
+  <div class="container">
+    <span class="eyebrow">03 · Ethical Solidarity Engine</span>
+    <h2 class="section-title">Прозорість кожного франка: солідарна підтримка України</h2>
+    <p class="section-sub">Розподіл кожного платежу верифікується Merkle-деревом та публікується в реальному часі. Жоден CHF не осідає в проміжних рахунках — прямий переказ на спецрахунок оборони.</p>
+
+    <div class="sol-grid">
+      <div class="sol-card">
+        <h3 class="sol-card-title">Розподіл 70 / 30</h3>
+        <p class="sol-card-sub">Кожен CHF, отриманий на тарифі Pro Solidarity або Success Relocation</p>
+        <div class="split-viz" aria-label="Розподіл коштів: 70% інфраструктура, 30% допомога Україні">
+          <div class="split-70">
+            <div>
+              <div class="split-label">Операційна інфраструктура</div>
+              <div class="split-pct">70%</div>
+            </div>
+            <div class="split-desc">Appwrite Cloud (Frankfurt), Flatfox REST API, генератор PDF/A досьє, підтримка українських агентів 6 днів на тиждень</div>
+          </div>
+          <div class="split-30">
+            <div>
+              <div class="split-label">🇺🇦 На потреби ЗСУ</div>
+              <div class="split-pct">30%</div>
+            </div>
+            <div class="split-desc">Автоматичний переказ на спецрахунок НБУ та фонд «Повернись живим» — з публічним хешем транзакції</div>
+          </div>
+        </div>
+        <div class="sol-tags">
+          <span class="recipient-tag">NBU Special Defense Account</span>
+          <span class="recipient-tag cba">Come Back Alive Foundation</span>
+        </div>
+      </div>
+
+      <div class="sol-card ledger">
+        <div class="ledger-head">
+          <h3>Останні транзакції — публічний Merkle-леджер</h3>
+          <span class="live"><span class="pulse-dot"></span>LIVE</span>
+        </div>
+        <div class="table-wrap">
+          <table class="ledger-table">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Одержувач</th>
+                <th style="text-align:right">Сума</th>
+                <th>Merkle Leaf</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Dynamically populated and verified by merkle_ledger.js -->
+              <tr>
+                <td class="col-date">2026-09-10 08:14</td>
+                <td><span class="recipient-tag">NBU Defense Account</span></td>
+                <td class="col-amount">CHF 1'240.00</td>
+                <td class="col-hash">0x8f3c…a2d1e7</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
+              </tr>
+              <tr>
+                <td class="col-date">2026-09-09 22:47</td>
+                <td><span class="recipient-tag cba">Come Back Alive</span></td>
+                <td class="col-amount">CHF 890.50</td>
+                <td class="col-hash">0x2a91…7f04b3</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
+              </tr>
+              <tr>
+                <td class="col-date">2026-09-08 14:22</td>
+                <td><span class="recipient-tag">NBU Defense Account</span></td>
+                <td class="col-amount">CHF 2'110.30</td>
+                <td class="col-hash">0xc4e0…19b8fa</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
+              </tr>
+              <tr>
+                <td class="col-date">2026-09-07 09:03</td>
+                <td><span class="recipient-tag cba">Come Back Alive</span></td>
+                <td class="col-amount">CHF 654.80</td>
+                <td class="col-hash">0x6b12…3ad5c9</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
+              </tr>
+              <tr>
+                <td class="col-date">2026-09-06 18:31</td>
+                <td><span class="recipient-tag">NBU Defense Account</span></td>
+                <td class="col-amount">CHF 1'805.00</td>
+                <td class="col-hash">0xf07a…be82d4</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ledger-footer">
+          <span class="ledger-root" title="Клікніть для копіювання">Root: 0x9d4f8a…2c1b7e6a</span>
+          <a class="ledger-register-link" href="#zsu">Повний публічний реєстр →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== CAREER / ORP SECTION ================== -->
+<section id="orp">
+  <div class="container">
+    <span class="eyebrow">04 · Employment & ORP Module</span>
+    <h2 class="section-title">Інтеграція в ринок праці Швейцарії (ORP / RAV)</h2>
+    <p class="section-sub">Автоматизована підготовка щомісячних звітів з пошуку роботи (Rapport de recherches d'emploi), відповідність нормам Permis S та пряма конвертація вакансій у заявки USPI-стандарту.</p>
+    
+    <div class="hero-metrics" style="margin-top:32px">
+      <div class="metric v-emerald">
+        <div class="metric-label">Норма пошуку ORP</div>
+        <div class="metric-value">10-12</div>
+        <div class="metric-desc">підтверджених відгуків щомісяця формуються в готовий формуляр Formulaire ORP</div>
+      </div>
+      <div class="metric v-gold">
+        <div class="metric-label">Автогенерація CV & Dossier</div>
+        <div class="metric-value">&lt; 3 хв</div>
+        <div class="metric-desc">швейцарський стандарт резюме та мотиваційні листи французькою мовою</div>
+      </div>
+      <div class="metric v-crimson">
+        <div class="metric-label">Легальний статус</div>
+        <div class="metric-value">Permis S</div>
+        <div class="metric-desc">100% відповідність вимогам SECO та кантональних міграційних служб Vaud/Genève</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== PRICING ================== -->
+<section id="pricing">
+  <div class="container">
+    <span class="eyebrow">05 · Pricing & Solidarity Tiers</span>
+    <h2 class="section-title">Тарифи, що працюють на вас — і на Україну</h2>
+    <p class="section-sub">Прозоре ціноутворення без прихованих комісій. Кожна платна підписка автоматично відраховує 30% на потреби оборони України.</p>
+
+    <div class="pricing-grid">
+
+      <!-- FREE -->
+      <div class="price-card">
+        <div class="price-name">Free Explorer</div>
+        <div class="price-amount"><span class="cur">CHF</span>0<span class="per">/ назавжди</span></div>
+        <p class="price-tagline">Стартовий доступ до платформи для базового пошуку житла.</p>
+        <ul class="features">
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Базовий фід оголошень із затримкою 20 хв</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>1 досьє на місяць, стандартний шаблон листа</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Калькулятор EVAM / Hospice Général</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Доступ до бази ORP-вакансій</li>
+        </ul>
+        <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost price-cta btn-lg">Почати безкоштовно</a>
+      </div>
+
+      <!-- PRO SOLIDARITY (FEATURED) -->
+      <div class="price-card featured">
+        <span class="price-tag-featured">★ Найпопулярніший</span>
+        <div class="price-name" style="color:#FCD34D">Pro Solidarity</div>
+        <div class="price-amount"><span class="cur">CHF</span>19<span class="per">/ місяць</span></div>
+        <p class="price-tagline">Пріоритетна швидкість, необмежені досьє та автоматичний внесок на ЗСУ.</p>
+        <ul class="features">
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Пріоритетний пуш у Telegram &lt; 60 сек після появи</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Безлімітна 1-Click генерація PDF/A досьє USPI-стандарту</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Модуль звітів для ORP (Rapport de recherche)</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Автоматичне порівняння з баремами EVAM/HG</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Підтримка українською 6/7</li>
+        </ul>
+        <div class="zsu-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
+          CHF 5.70 / міс. → ЗСУ (гарантовано, з Merkle-хешем)
+        </div>
+        <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" class="btn btn-primary price-cta btn-lg">Оформити Pro Solidarity</a>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="price-card">
+        <div class="price-name">Success Relocation</div>
+        <div class="price-amount"><span class="cur">CHF</span>49<span class="per">/ разово</span></div>
+        <p class="price-tagline">Повний юридичний супровід процедури Reprise de bail.</p>
+        <ul class="features">
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Супровід процедури заміни орендаря (Art. 264 CO)</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Перевірка договору юристом-партнером (Vaud/Genève)</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Комунікація з gérance від вашого імені</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Гарантія повернення при відмові gérance</li>
+        </ul>
+        <div class="zsu-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
+          CHF 14.70 разово → ЗСУ
+        </div>
+        <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost price-cta btn-lg">Замовити супровід</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================== FOOTER ================== -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-col foot-brand">
+        <div class="brand" style="gap:12px">
+          <span class="brand-badge" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <rect x="1" y="1" width="22" height="22" rx="4" fill="#D52B1E"/>
+              <rect x="10.5" y="5" width="3" height="14" fill="#F8FAFC"/>
+              <rect x="5" y="10.5" width="14" height="3" fill="#F8FAFC"/>
+              <path d="M12 6.5v11 M9 8.5v5 M15 8.5v5" stroke="#D97706" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="brand-name">Swiss Resilience Navigator</span>
+        </div>
+        <p>Некомерційна ініціатива, що поєднує технологію легальної інтеграції для власників Permis S із прямою підтримкою Збройних Сил України.</p>
+      </div>
+
+      <div class="foot-col">
+        <h4>Продукт</h4>
+        <ul>
+          <li><a href="#radar">Житловий Радар</a></li>
+          <li><a href="#calc">Калькулятор EVAM</a></li>
+          <li><a href="#orp">Кар'єра ORP</a></li>
+          <li><a href="#pricing">Тарифи</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Право & Довідники</h4>
+        <ul>
+          <li><a href="https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_253" target="_blank" rel="noopener noreferrer">Swiss rental laws (CO 253–274)</a></li>
+          <li><a href="https://www.evam.ch" target="_blank" rel="noopener noreferrer">EVAM Guide d'assistance</a></li>
+          <li><a href="https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_264" target="_blank" rel="noopener noreferrer">Reprise de bail (Art. 264 CO)</a></li>
+          <li><a href="https://www.hospicegeneral.ch" target="_blank" rel="noopener noreferrer">Hospice Général — Barèmes</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>🇺🇦 Прозорість</h4>
+        <ul>
+          <li><a href="#zsu">Публічний Merkle-леджер</a></li>
+          <li><a href="https://bank.gov.ua" target="_blank" rel="noopener noreferrer">NBU Special Defense Account</a></li>
+          <li><a href="https://savelife.in.ua" target="_blank" rel="noopener noreferrer">Come Back Alive Foundation</a></li>
+          <li><a href="#zsu" class="ledger-register-link">Звіт про використання коштів</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="compliance-row">
+      <span class="comp-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Swiss nLPD Compliant</span>
+      <span class="comp-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>EU GDPR</span>
+      <span class="comp-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>AES-256 Object Encryption</span>
+      <span class="comp-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>Appwrite Cloud · Frankfurt</span>
+    </div>
+
+    <div class="comp-legal">
+      Association déclarée selon art. 60 ss CC (Canton de Vaud) — Enregistrée au Registre du commerce du Canton de Vaud · IDE CHE-XXX.XXX.XXX.<br>
+      Data protection: Appwrite Cloud Frankfurt Region — Strict Swiss nLPD & EU GDPR compliance (AES-256 object encryption). Merkle-ledger transaction verification публічно доступна.<br>
+      © 2026 Swiss Resilience Navigator · Slava Ukraini 🇺🇦 · Vive la Suisse 🇨🇭
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

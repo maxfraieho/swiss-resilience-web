@@ -1,0 +1,8 @@
+{
+  "name": "swiss-resilience-web",
+  "version": "1.0.0",
+  "description": "Swiss Resilience Navigator & Telegram Mini App Web Portal",
+  "scripts": {
+    "build": "echo \"Static assets ready\""
+  }
+}

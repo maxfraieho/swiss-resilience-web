@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>Resilience Navigator Mobile — TMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script data-cfasync="false" src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Telegram Native Navigation Header -->
+  <header class="tg-header">
+    <button id="btn-header-action" class="tg-close-btn" onclick="app.handleHeaderAction()">✕ Закрити</button>
+    <div class="title-group">
+      <span class="shield-icon">🛡️</span>
+      <span id="page-title" class="title">Resilience Navigator</span>
+    </div>
+    <div class="tg-lang-toggle">
+      <button id="lang-ua" class="active" onclick="app.setLanguage('ua')">UA</button>
+      <button id="lang-fr" onclick="app.setLanguage('fr')">FR</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+
+    <!-- ================= VIEW 1: ONBOARDING / PROFILE ================= -->
+    <section id="view-onboarding" class="view-section">
+      <div class="progress-wrap">
+        <div class="progress-head">
+          <span class="step">Крок 2 з 3</span>
+          <span class="step-title">Параметри пошуку</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="field-label">
+          <span class="lbl">Склад родини</span>
+          <span class="hint">визначає барем EVAM</span>
+        </div>
+        <div class="pill-row">
+          <button class="pill-btn" onclick="app.setFamilySize(1, this)">1 особа</button>
+          <button class="pill-btn" onclick="app.setFamilySize(2, this)">2 особи</button>
+          <button class="pill-btn active" onclick="app.setFamilySize(3, this)">Сім'я 3–4</button>
+          <button class="pill-btn" onclick="app.setFamilySize(5, this)">5+</button>
+        </div>
+
+        <div class="field-label">
+          <span class="lbl">Бажані комуни Во</span>
+          <span class="hint" id="communes-counter">3 обрано</span>
+        </div>
+        <div class="tag-cloud" id="commune-tags">
+          <button class="tag-btn active" onclick="app.toggleCommune('Etoy', this)">✓ Etoy (Етуа)</button>
+          <button class="tag-btn active" onclick="app.toggleCommune('Morges', this)">✓ Morges (Морж)</button>
+          <button class="tag-btn active" onclick="app.toggleCommune('Lausanne', this)">✓ Lausanne</button>
+          <button class="tag-btn" onclick="app.toggleCommune('Nyon', this)">+ Nyon</button>
+          <button class="tag-btn" onclick="app.toggleCommune('Rolle', this)">+ Rolle</button>
+          <button class="tag-btn" onclick="app.toggleCommune('Saint-Prex', this)">+ Saint-Prex</button>
+        </div>
+
+        <div class="field-label">
+          <span class="lbl">Фінансове забезпечення</span>
+        </div>
+        <div class="radio-group">
+          <div class="radio-card active" onclick="app.setIncomeType('evam', this)">
+            <div class="radio-dot"></div>
+            <div>
+              <div style="font-size:13px; font-weight:600;">Бенефіціар EVAM (барем оренди)</div>
+              <div style="font-size:11px; color:var(--text-3);">100% покриття житла державою за нормативами LARA</div>
+            </div>
+          </div>
+          <div class="radio-card" onclick="app.setIncomeType('salaried', this)">
+            <div class="radio-dot"></div>
+            <div>
+              <div style="font-size:13px; font-weight:600;">Власний заробіток / Контракт</div>
+              <div style="font-size:11px; color:var(--text-3);">Ліміт платоспроможності 33% від зарплати</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vault-banner">
+          <div class="shield-box">🔒</div>
+          <div>
+            <div class="title">Захищене сховище: 3/3 документів</div>
+            <div class="sub">Permis S, витяг з реєстру боргів та атестат EVAM зашифровано (AES-256)</div>
+          </div>
+        </div>
+
+        <div style="margin:12px 0; border:1px solid rgba(245, 158, 11, 0.35); background:rgba(245, 158, 11, 0.08); border-radius:12px; padding:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:13px; font-weight:700; color:#FBBF24;">Тариф Pro Solidarity (CHF 19)</div>
+            <div style="font-size:11px; color:var(--text-2);">30% внеску автоматично перераховується на ЗСУ</div>
+          </div>
+          <button class="btn-secondary" style="padding:6px 12px; font-size:11px; border-color:#F59E0B; color:#FBBF24; cursor:pointer;" onclick="app.openCheckout('pro')">Оформити</button>
+        </div>
+
+        <button class="btn-primary" onclick="app.saveProfileAndLaunchRadar()">
+          <span>Зберегти та активувати Радар ⚡</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 2: REAL-TIME RADAR FEED ================= -->
+    <section id="view-radar" class="view-section active">
+      <div class="radar-top-bar">
+        <div>
+          <div class="radar-live-badge">
+            <span class="live-dot"></span>
+            <span>FLATFOX RADAR &lt;60С</span>
+          </div>
+          <div style="font-size:18px; font-weight:700;">Свіжі квартири</div>
+        </div>
+        <div style="font-size:11px; color:var(--text-3);" id="listings-stat-count">Завантаження...</div>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="chip-scroll">
+        <button id="filter-evam" class="chip-btn active emerald" onclick="app.toggleFilter('evam')">🟢 Тільки EVAM 100%</button>
+        <button id="filter-reprise" class="chip-btn active purple" onclick="app.toggleFilter('reprise')">⚡ Reprise de bail (Art. 264)</button>
+        <button id="filter-etoy" class="chip-btn" onclick="app.toggleFilter('etoy')">🚆 До 15 хв від Etoy</button>
+      </div>
+
+      <!-- Dynamic property list container -->
+      <div id="property-feed-container">
+        <!-- Rendered dynamically by app.js from Appwrite -->
+      </div>
+    </section>
+
+    <!-- ================= VIEW 3: 1-CLICK DOSSIER PREVIEW ================= -->
+    <section id="view-dossier" class="view-section">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <div style="font-size:12px; color:var(--emerald-2); font-weight:700;">PDF/A USPI COMPLIANT</div>
+            <div style="font-size:17px; font-weight:700;">Досьє кандидата</div>
+          </div>
+          <span style="font-size:24px;">📄</span>
+        </div>
+
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:8px;">Супровідний лист французькою мовою:</div>
+        <div class="letter-preview" id="dossier-letter-text">
+          Madame, Monsieur le Gestionnaire,<br><br>
+          Faisant suite à la visite de l'appartement situé à <strong>1163 Etoy, Route Cantonale 14</strong>, j'ai l'honneur de vous soumettre mon dossier complet dans le cadre strict d'une <strong>reprise de bail anticipée (Art. 264 CO)</strong>.<br><br>
+          Titulaire d'un permis S, mon loyer est intégralement garanti par l'Établissement vaudois d'accueil des migrants (EVAM). Mon extrait de l'Office des poursuites est strictement vierge.
+        </div>
+
+        <div style="font-size:12px; font-weight:700; color:var(--text); margin-bottom:6px;">Пакет верифікованих додатків:</div>
+        <div class="checklist-item"><span class="chk">✓</span> <span>Анкета оренди режі (Demande de location)</span></div>
+        <div class="checklist-item"><span class="chk">✓</span> <span>Офіційний гарантійний лист EVAM</span></div>
+        <div class="checklist-item"><span class="chk">✓</span> <span>Витяг з реєстру боргів (&lt;30 днів, vierge)</span></div>
+        <div class="checklist-item"><span class="chk">✓</span> <span>Копія посвідки Permis S (двостороння)</span></div>
+        <div class="checklist-item"><span class="chk">✓</span> <span>Поліс цивільної відповідальності RC Ménage</span></div>
+
+        <div style="margin-top:16px; display:flex; flex-direction:column; gap:8px;">
+          <button class="btn-primary" onclick="app.sendDossierByEmail()">
+            <span>Надіслати в режі через Email ✉️</span>
+          </button>
+          <button class="btn-secondary" onclick="app.downloadDossierPdf()">
+            <span>Завантажити зведений PDF (3.8 MB)</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 4: ZSU SOLIDARITY & IMPACT ================= -->
+    <section id="view-zsu" class="view-section">
+      <div class="zsu-gold-card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-size:12px; font-weight:700; color:#F59E0B;">ПІДПИСКА PRO SOLIDARITY</div>
+          <span>🇺🇦🤝🇨🇭</span>
+        </div>
+        <div class="zsu-metric-large">CHF 18,640</div>
+        <div style="font-size:12px; color:var(--text-2);">Сумарно перераховано на захист України</div>
+
+        <div class="zsu-progress-bar">
+          <div class="zsu-progress-fill"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-3);">
+          <span>Ціль: РЕБ-комплекс</span>
+          <span style="color:#10B981; font-weight:700;">74% профінансовано</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Ваш особистий внесок</div>
+        <div style="font-size:12px; color:var(--text-2); line-height:1.5;">
+          З вашої місячної підписки (CHF 19.00) рівно <strong>30% (CHF 5.70)</strong> автоматично спрямовано на спецрахунок ЗСУ в Національному банку України.
+        </div>
+      </div>
+
+      <!-- Pricing Tier Options with Dual-Rail Checkout Triggers -->
+      <div class="card">
+        <div style="font-size:14px; font-weight:700; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+          <span>Тарифи платформи та внесок у ЗСУ</span>
+          <span style="font-size:11px; color:#10B981; font-weight:600;">$0 фікс. комісії</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <!-- Basic Tier -->
+          <div style="border:1px solid var(--stroke); border-radius:12px; padding:12px; background:rgba(255,255,255,0.02); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:13px; font-weight:700;">Basic • CHF 9 <span style="font-size:11px; color:var(--text-3);">/ 420 грн</span></div>
+              <div style="font-size:11px; color:var(--text-2);">Радар житла + 10% на ЗСУ (CHF 0.90)</div>
+            </div>
+            <button class="btn-secondary" style="padding:6px 12px; font-size:12px; cursor:pointer;" onclick="app.openCheckout('basic')">Обрати</button>
+          </div>
+
+          <!-- Pro Solidarity Tier -->
+          <div style="border:1px solid #F59E0B; border-radius:12px; padding:12px; background:rgba(245, 158, 11, 0.05); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:13px; font-weight:700; color:#FBBF24;">Pro Solidarity • CHF 19 <span style="font-size:11px; color:var(--text-2);">/ 890 грн</span></div>
+              <div style="font-size:11px; color:var(--emerald-2); font-weight:600;">🛡️ 30% на ЗСУ (CHF 5.70 / 265 грн)</div>
+            </div>
+            <button class="btn-primary" style="padding:6px 14px; font-size:12px; background:#F59E0B; cursor:pointer;" onclick="app.openCheckout('pro')">Оформити ⚡</button>
+          </div>
+
+          <!-- Success Contribution -->
+          <div style="border:1px solid var(--stroke); border-radius:12px; padding:12px; background:rgba(255,255,255,0.02); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:13px; font-weight:700;">Success Contribution • CHF 49 <span style="font-size:11px; color:var(--text-3);">/ 2300 грн</span></div>
+              <div style="font-size:11px; color:var(--emerald-2); font-weight:600;">🛡️ 30% на ЗСУ (CHF 14.70 / 680 грн)</div>
+            </div>
+            <button class="btn-secondary" style="padding:6px 12px; font-size:12px; cursor:pointer;" onclick="app.openCheckout('success')">Внесок</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:13px; font-weight:700; margin-bottom:8px;">Криптографічний Merkle-реєстр</div>
+        <table class="merkle-log-table">
+          <thead>
+            <tr>
+              <th>Дата</th>
+              <th>Одержувач</th>
+              <th>Сума</th>
+              <th>Хеш</th>
+            </tr>
+          </thead>
+          <tbody id="merkle-log-body">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 5: ORP CAREER HUB ================= -->
+    <section id="view-orp" class="view-section">
+      <div class="card">
+        <div style="font-size:17px; font-weight:700; margin-bottom:4px;">Кар'єрний модуль ORP</div>
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:12px;">Інтеграція за ст. 21a LEI (Stellenmeldepflicht) та звітність LACI</div>
+
+        <div class="checklist-item"><span class="chk">●</span> <span>Вектор 1: Інженерно-технічний супровід</span></div>
+        <div class="checklist-item"><span class="chk">●</span> <span>Вектор 2: Сервісний технік (Morges / Littoral Parc)</span></div>
+        <div class="checklist-item"><span class="chk">●</span> <span>Вектор 3: Франкомовна адаптація та сертифікація</span></div>
+
+        <button class="btn-secondary" style="margin-top:14px; width:100%;" onclick="app.exportOrpMonthlyReport()">
+          <span>Експортувати щомісячний звіт для куратора ORP 📄</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= VIEW 6: AI FRENCH MOCK INTERVIEWER (ADR-009) ================= -->
+    <section id="view-interview" class="view-section">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+          <div>
+            <div class="badge badge-green" style="margin-bottom:4px;">ADR-009 • SIMULATEUR IA</div>
+            <div style="font-size:18px; font-weight:700;">Entretien d'embauche IA</div>
+            <div style="font-size:12px; color:var(--text-3);">Pratique en français suisse vaudois (CECRL A2/B1)</div>
+          </div>
+          <span style="font-size:28px;">🎙️</span>
+        </div>
+
+        <div class="field-label" style="margin-top:8px;">
+          <span class="lbl">1. Choisissez votre vecteur professionnel</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:14px;">
+          <button id="btn-vec-v1" class="tag-btn" style="text-align:center; padding:8px 4px; font-size:11px;" onclick="app.selectInterviewVector('v1')">🎻 Musique</button>
+          <button id="btn-vec-v2" class="tag-btn" style="text-align:center; padding:8px 4px; font-size:11px;" onclick="app.selectInterviewVector('v2')">💻 IT/Hardware</button>
+          <button id="btn-vec-v3" class="tag-btn active" style="text-align:center; padding:8px 4px; font-size:11px;" onclick="app.selectInterviewVector('v3')">📦 Logistique</button>
+        </div>
+
+        <!-- Question Box -->
+        <div id="interview-question-box" style="background:rgba(15, 23, 42, 0.6); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px; margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span id="interview-stage-badge" class="badge" style="background:rgba(59, 130, 246, 0.2); color:#60A5FA;">Étape 1/3 • Présentation</span>
+            <span style="font-size:11px; color:var(--text-3);">Suisse Romande</span>
+          </div>
+          <div id="interview-question-text" style="font-size:13px; font-weight:600; line-height:1.4; color:var(--text-1); margin-bottom:6px;">
+            « Bonjour. Parlez-nous de vos expériences en logistique et de votre proximité avec le site d'Etoy. »
+          </div>
+          <div id="interview-hint-text" style="font-size:11px; color:var(--text-3); font-style:italic;">
+            💡 Conseil : Saluez poliment (« Bonjour Madame/Monsieur »), vouvoyez le recruteur et rappelez que vous résidez à Etoy.
+          </div>
+        </div>
+
+        <!-- Audio & Text Input -->
+        <div class="field-label">
+          <span class="lbl">2. Votre réponse (vocal ou texte)</span>
+        </div>
+        <textarea id="interview-answer-input" rows="3" style="width:100%; background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:#fff; padding:10px; font-size:13px; font-family:inherit; resize:none; margin-bottom:8px;" placeholder="Ex: Bonjour Monsieur. Je m'appelle Arsen, j'habite à Etoy tout près de Littoral Parc..."></textarea>
+
+        <div style="display:flex; gap:8px; margin-bottom:12px;">
+          <button id="btn-interview-mic" class="btn-secondary" style="flex:1; display:flex; justify-content:center; align-items:center; gap:6px;" onclick="app.toggleVoiceRecording()">
+            <span>🎤</span>
+            <span id="interview-mic-label">Enregistrer audio</span>
+          </button>
+          <button class="btn-primary" style="flex:1;" onclick="app.submitInterviewAnswer()">
+            <span>Évaluer ⚡</span>
+          </button>
+        </div>
+
+        <!-- Evaluation Results Card -->
+        <div id="interview-eval-result" style="display:none; background:rgba(16, 185, 129, 0.08); border:1px solid rgba(16, 185, 129, 0.3); border-radius:12px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:14px; font-weight:700; color:#34D399;" id="eval-score-title">🏆 Score : 85/100 (B1)</div>
+            <span class="badge badge-green" id="eval-status-badge">REÇU</span>
+          </div>
+          <div style="font-size:11px; color:var(--text-2); margin-bottom:6px;" id="eval-breakdown-text">
+            Politesse : 18/20 • Métier : 26/30 • Clarté : 22/25 • Permis S : 25/25
+          </div>
+          <div id="eval-feedback-text" style="font-size:12px; line-height:1.4; color:var(--text-1); margin-bottom:8px;"></div>
+          <div style="background:rgba(0,0,0,0.3); border-radius:8px; padding:8px; font-size:11px; color:#93C5FD;" id="eval-ideal-reformulation"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Persistent Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button id="tab-radar" class="nav-tab-btn active" onclick="app.switchTab('radar', this)">
+      <span class="tab-icon">🏠</span>
+      <span>Квартири</span>
+    </button>
+    <button id="tab-interview" class="nav-tab-btn" onclick="app.switchTab('interview', this)">
+      <span class="tab-icon">🎙️</span>
+      <span>Entretien</span>
+    </button>
+    <button id="tab-dossier" class="nav-tab-btn" onclick="app.switchTab('dossier', this)">
+      <span class="tab-icon">📄</span>
+      <span>Досьє</span>
+    </button>
+    <button id="tab-orp" class="nav-tab-btn" onclick="app.switchTab('orp', this)">
+      <span class="tab-icon">💼</span>
+      <span>ORP</span>
+    </button>
+    <button id="tab-zsu" class="nav-tab-btn" onclick="app.switchTab('zsu', this)">
+      <span class="tab-icon">🇺🇦</span>
+      <span>ЗСУ Звіт</span>
+    </button>
+    <button id="tab-onboarding" class="nav-tab-btn" onclick="app.switchTab('onboarding', this)">
+      <span class="tab-icon">⚙️</span>
+      <span>Профіль</span>
+    </button>
+  </nav>
+
+  <!-- ================= DUAL-RAIL CHECKOUT MODAL ================= -->
+  <div id="modal-checkout" class="checkout-modal-backdrop" style="display:none;" onclick="if(event.target === this) app.closeCheckout();">
+    <div class="checkout-modal-container">
+      <!-- Modal Header -->
+      <div class="checkout-modal-header">
+        <div>
+          <div class="checkout-modal-sub" id="checkout-modal-sub">Оформлення підписки • Souscription solidaire</div>
+          <div class="checkout-modal-title" id="checkout-tier-title">Pro Solidarity — CHF 19 / міс</div>
+        </div>
+        <button class="checkout-close-btn" onclick="app.closeCheckout()">✕</button>
+      </div>
+
+      <!-- Currency / Rail Switcher -->
+      <div class="checkout-rail-switcher">
+        <button id="btn-rail-chf" class="rail-btn active" onclick="app.setCheckoutRailCurrency('CHF')">
+          <span>🇨🇭 CHF (Швейцарія)</span>
+        </button>
+        <button id="btn-rail-uah" class="rail-btn" onclick="app.setCheckoutRailCurrency('UAH')">
+          <span>🇺🇦 UAH (Україна)</span>
+        </button>
+      </div>
+
+      <!-- CHF Options Group (Rail A) -->
+      <div id="checkout-options-chf" class="checkout-options-group">
+        <div class="checkout-option-item" onclick="app.initiatePayment('chf_stripe')">
+          <div class="opt-icon">🇨🇭</div>
+          <div class="opt-content">
+            <div class="opt-title">TWINT / Carte suisse (Stripe)</div>
+            <div class="opt-sub">TWINT App, Apple Pay, Google Pay, Visa/MC</div>
+          </div>
+          <div class="opt-action">➔</div>
+        </div>
+
+        <div class="checkout-option-item" onclick="app.initiatePayment('chf_revolut')">
+          <div class="opt-icon">⚡</div>
+          <div class="opt-content">
+            <div class="opt-title">Revolut Pay</div>
+            <div class="opt-sub">1-Click оплата з додатку Revolut / Cards</div>
+          </div>
+          <div class="opt-action">➔</div>
+        </div>
+      </div>
+
+      <!-- UAH Options Group (Rail B) -->
+      <div id="checkout-options-uah" class="checkout-options-group" style="display:none;">
+        <div class="checkout-option-item" onclick="app.initiatePayment('uah_mono_checkout')">
+          <div class="opt-icon">💳</div>
+          <div class="opt-content">
+            <div class="opt-title">Monobank / Apple Pay (plata)</div>
+            <div class="opt-sub">Apple Pay, Google Pay, українські картки</div>
+          </div>
+          <div class="opt-action">➔</div>
+        </div>
+
+        <div class="checkout-option-item" onclick="app.initiatePayment('uah_mono_jar')">
+          <div class="opt-icon">🪙</div>
+          <div class="opt-content">
+            <div class="opt-title">Monobank Банка (0% комісії)</div>
+            <div class="opt-sub">Прямий переказ у Банку без комісій еквайрингу</div>
+          </div>
+          <div class="opt-action">➔</div>
+        </div>
+      </div>
+
+      <!-- Transparency Badge -->
+      <div class="checkout-transparency-card" id="checkout-transparency-badge">
+        <span class="shield-badge-icon">🛡️</span>
+        <div class="shield-badge-text" id="checkout-badge-text">
+          30% вашого внеску (CHF 5.70) автоматично спрямовується до фонду ЗСУ з фіксацією в реєстрі Merkle.
+        </div>
+      </div>
+
+      <!-- Footer legal note -->
+      <div class="checkout-legal-note">
+        🔒 Нульова фіксована абонплата сервісу ($0/міс). Корпоративна благодійність відповідно до ст. 60 CC.
+      </div>
+    </div>
+  </div>
+
+  <script data-cfasync="false" src="app.js"></script>
+</body>
+</html>
