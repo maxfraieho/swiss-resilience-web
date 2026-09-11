@@ -479,7 +479,7 @@ class ResilienceMiniApp {
 
     // DS 2.0 state
     this.radarSegment = 'housing';
-    this.checkoutRail = 'ch';
+    this.checkoutRail = 'tg';
     this.solidarityPct = 30;
 
     this.user = this.loadSavedUser();
@@ -568,6 +568,17 @@ class ResilienceMiniApp {
         if (this.tg.setBackgroundColor) this.tg.setBackgroundColor('#0F172A');
       } catch (e) {
         console.warn('Telegram SDK initialization warning:', e);
+      }
+    }
+
+    // Initialize Paddle Billing MoR if available
+    if (window.Paddle) {
+      try {
+        window.Paddle.Initialize({
+          token: window.PADDLE_CLIENT_TOKEN || 'test_7a12b_placeholder'
+        });
+      } catch (e) {
+        console.warn('Paddle.Initialize info:', e);
       }
     }
 
@@ -1680,6 +1691,9 @@ class ResilienceMiniApp {
       tgDeepBtn.href = `https://t.me/SwissResilienceHubBot?start=pay_${suffix}`;
     }
 
+    const isInsideTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
+    this.setCheckoutRail(isInsideTelegram ? 'tg' : (this.checkoutRail || 'tg'));
+
     modal.style.display = 'flex';
   }
 
@@ -1817,13 +1831,13 @@ class ResilienceMiniApp {
     });
 
     // Update rail contents
-    const chEl = document.getElementById('checkout-options-chf');
-    const uaEl = document.getElementById('checkout-options-uah');
     const tgEl = document.getElementById('checkout-options-tg');
+    const morEl = document.getElementById('checkout-options-mor');
+    const directEl = document.getElementById('checkout-options-direct');
 
-    if (chEl) chEl.style.display = (rail === 'ch') ? 'block' : 'none';
-    if (uaEl) uaEl.style.display = (rail === 'ua') ? 'block' : 'none';
     if (tgEl) tgEl.style.display = (rail === 'tg') ? 'block' : 'none';
+    if (morEl) morEl.style.display = (rail === 'mor') ? 'block' : 'none';
+    if (directEl) directEl.style.display = (rail === 'direct') ? 'block' : 'none';
 
     this.updateCheckoutAmounts();
   }
@@ -1866,6 +1880,16 @@ class ResilienceMiniApp {
     const allocEl = document.getElementById('zsu-alloc-amount');
     if (allocEl) allocEl.textContent = `CHF ${zsuChf}`;
 
+    // Update Stars amount
+    const starsAmount = document.getElementById('stars-amount-display');
+    const starsCount = this.checkoutTier === 'basic' ? 450 : (this.checkoutTier === 'success' ? 2450 : 950);
+    if (starsAmount) starsAmount.textContent = `⭐ ${starsCount}`;
+
+    // Update Paddle amount
+    const paddleAmount = document.getElementById('paddle-amount-display');
+    if (paddleAmount) paddleAmount.textContent = `CHF ${t.chf.toFixed(2)}`;
+
+    // Update TWINT & UAH amounts
     const twintAmount = document.getElementById('twint-amount-display');
     if (twintAmount) twintAmount.textContent = `CHF ${t.chf.toFixed(2)}`;
 
@@ -1879,6 +1903,61 @@ class ResilienceMiniApp {
       const hash = sha256Sync(mockPayload);
       merklePreview.textContent = `${hash.slice(0, 4)}·${hash.slice(4, 8)}·${hash.slice(8, 12)}·…·${hash.slice(-4)}`;
     }
+  }
+
+  openPaddleCheckout() {
+    this.haptic('medium');
+    const t = TIERS[this.checkoutTier] || TIERS.pro;
+    this.showToast(this.lang === 'fr' ? 'Ouverture de Paddle Checkout (MoR)...' : 'Відкриття захищеного чекауту Paddle (MoR)...');
+
+    const customData = {
+      user_id: this.candidate?.id || 'candidate_arsen',
+      telegram_id: this.tgUser?.id || '',
+      tier: this.checkoutTier,
+      solidarity_pct: this.solidarityPct || 30,
+      ref_code: document.getElementById('payment-ref-code')?.innerText || 'SRN-PRO'
+    };
+
+    if (window.Paddle && window.Paddle.Checkout) {
+      try {
+        const priceMap = {
+          basic: 'pri_basic_9chf_sub',
+          pro: 'pri_pro_19chf_sub',
+          success: 'pri_success_49chf_one'
+        };
+        Paddle.Checkout.open({
+          items: [{ priceId: priceMap[this.checkoutTier] || priceMap.pro, quantity: 1 }],
+          customData: customData,
+          settings: {
+            displayMode: 'overlay',
+            theme: 'dark',
+            locale: this.lang === 'fr' ? 'fr' : 'en'
+          }
+        });
+        return;
+      } catch (e) {
+        console.warn('Paddle.Checkout.open fallback:', e);
+      }
+    }
+
+    setTimeout(() => {
+      this.openPaymentConfirmModal();
+    }, 600);
+  }
+
+  openPolarCheckout() {
+    this.haptic('medium');
+    this.showToast(this.lang === 'fr' ? 'Redirection vers Polar.sh...' : 'Перехід до резервного шлюзу Polar.sh...');
+    const url = `https://polar.sh/checkout?tier=${this.checkoutTier}&ref=${document.getElementById('payment-ref-code')?.innerText || 'SRN'}`;
+    this.openExternalLink(url);
+  }
+
+  handleStarsPayment() {
+    this.haptic('medium');
+    const starsCount = this.checkoutTier === 'basic' ? 450 : (this.checkoutTier === 'success' ? 2450 : 950);
+    const suffix = this.checkoutTier === 'basic' ? 'basic9' : (this.checkoutTier === 'success' ? 'success49' : 'pro19');
+    this.showToast(this.lang === 'fr' ? `Ouverture de paiement Telegram Stars (${starsCount} ★)...` : `Відкриття рахунку Telegram Stars (${starsCount} ★)...`);
+    this.openExternalLink(`https://t.me/SwissResilienceHubBot?start=pay_${suffix}`);
   }
 
   handleTwintPayment() {
@@ -1906,15 +1985,6 @@ class ResilienceMiniApp {
     
     navigator.clipboard?.writeText(qrInfo);
     this.showToast(this.lang === 'fr' ? 'Données QR-Bill copiées dans le presse-papier !' : 'Реквізити QR-Bill скопійовано в буфер обміну!');
-  }
-
-  handleStarsPayment() {
-    this.haptic('medium');
-    if (this.tg && this.tg.openInvoice) {
-      this.showToast(this.lang === 'fr' ? 'Ouverture de facture Telegram Stars...' : 'Відкриття рахунку Telegram Stars...');
-    } else {
-      this.openExternalLink('https://t.me/SwissResilienceHubBot?start=pay_pro19');
-    }
   }
 
   openLetterModal() {
