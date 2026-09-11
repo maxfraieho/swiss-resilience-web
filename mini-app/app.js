@@ -73,8 +73,11 @@ const CONFIG = {
   databaseId: 'swiss_platform_main',
   collections: {
     listings: 'housing_listings',
-    donations: 'zsu_donations',
-    candidates: 'candidates'
+    donations: 'donations',
+    candidates: 'candidates',
+    canton_ceilings: 'canton_ceilings',
+    professions: 'professions',
+    mentors: 'mentors'
   }
 };
 
@@ -453,6 +456,246 @@ const TRANSLATIONS = {
     btn_receipt_ok: 'Compris, merci ! 🇨🇭🤝🇺🇦',
     btn_copy_french_letter: '📋 Copier la lettre en français',
     btn_send_job_email: '✉️ Ouvrir le client de messagerie'
+  },
+
+  de: {
+    hdr_close: 'Schliessen',
+    hdr_website: 'Website',
+    btn_login: 'Anmelden',
+    nav_radar: 'Wohnungen',
+    nav_orp: 'RAV / Jobs',
+    nav_interview: 'Interview',
+    nav_dossier: 'Dossier',
+    nav_zsu: 'ZSU-Bericht',
+    nav_profile: 'Profil',
+    app_top_banner: '⚡ Öffentliche Beta-Version — Verein Swiss Resilience in Gründung (Art. 60–79 ZGB) · Freier Zugang',
+
+    trans_desktop_title: 'Vollständige Desktop-Version im Browser',
+    trans_desktop_sub: 'violin-integration.works • Interaktive Karte & Analysen',
+    auth_modal_title: 'Authentifizierung & Profil',
+    auth_desc: 'Ihr Konto ist automatisch mit Telegram WebApp und dem sicheren Appwrite Pro Cloud Speicher verknüpft.',
+    auth_btn_sync_tg: 'Mit Telegram synchronisieren',
+    auth_btn_open_web: 'Plattform im Browser öffnen ↗',
+    auth_logout: 'Abmelden',
+
+    prof_step: 'Schritt 1 von 2',
+    prof_title: 'Kandidatenprofil & Mietzinsrichtlinien',
+    prof_sec_personal: '👤 Persönliche Angaben für das Dossier',
+    lbl_fullname: 'Vollständiger Name (gemäss Pass)',
+    lbl_phone: 'Schweizer Telefonnummer',
+    lbl_email: 'E-Mail',
+    lbl_address: 'Aktuelle Wohnadresse',
+    lbl_permit: 'Aufenthaltsstatus (Permis S)',
+    lbl_french: 'Sprachniveau (DE/FR)',
+    lbl_family_size: 'Haushaltsgrösse',
+    lbl_family_hint: 'bestimmt die Mietzinsgrenze',
+    fam_1: '1 Person',
+    fam_2: '2 Personen',
+    fam_3: 'Familie 3–4',
+    fam_5: '5+ Personen',
+    evam_cap_title: 'Offizielle Mietzinslimite (Sozialhilfe)',
+    evam_cap_sub: '100% Deckung der Wohnkosten',
+    lbl_communes: 'Zielkantone & Gemeinden',
+    lbl_income_type: 'Finanzierungsart',
+    inc_evam_title: 'Sozialhilfeempfänger (Richtlinie)',
+    inc_evam_sub: 'Vollständige Übernahme der Wohnkosten',
+    inc_salaried_title: 'Erwerbseinkommen / Arbeitsvertrag',
+    inc_salaried_sub: 'Tragbarkeitsregel: max. 33% des Bruttoeinkommens',
+    lbl_doc_checklist: 'Erforderliche USPI-Bewerbungsunterlagen',
+    lbl_doc_hint: 'zur Einreichung bei der Verwaltung',
+    doc_permis: 'Permis S (Vorder- und Rückseite)',
+    doc_permis_sub: 'Gültige Aufenthalts- und Arbeitsbewilligung',
+    doc_op: 'Betreibungsauszug (< 60 Tage, sauber)',
+    doc_op_sub: 'Vollständig unbelastet (vierge de poursuites)',
+    doc_evam: 'Finanzierungsbestätigung Sozialbehörde',
+    doc_evam_sub: 'Garantie der direkten Mietzinsübernahme',
+    doc_rc: 'Privathaftpflichtversicherung (RC Ménage)',
+    doc_rc_sub: 'Deckung von Mieterschäden',
+    pro_banner_title: 'Solidaritätsbeitrag Pro (CHF 19)',
+    pro_banner_sub: '30% gehen direkt an ukrainische Verteidigungskonten',
+    btn_checkout_tier: 'Unterstützen',
+    btn_save_launch: 'Speichern & Radar aktivieren ⚡',
+
+    hdr_fresh_flats: 'Aktuelle Wohnungen',
+    pill_all_prices: 'Alle Mieten',
+    filter_evam: '🟢 100% Richtlinienkonform',
+    filter_reprise: '⚡ Mietvertragsübernahme (Art. 264 OR)',
+    filter_etoy: '🚆 Bis 10 km von Etoy',
+    btn_dossier_1click: '⚡ Dossier 1-Klick',
+    btn_flatfox_link: '📍 Flatfox',
+    status_evam_ok: '🟢 100% Konform',
+    status_evam_warn: '⚠️ Über Richtwert',
+
+    dossier_title: 'Bewerbungsdossier USPI',
+    dossier_letter_label: 'Offizielles Begleitschreiben:',
+    dossier_annexes_label: 'Geprüfte Pflichtanhänge:',
+    btn_copy_letter: '📋 Begleitschreiben kopieren',
+    btn_send_email: '✉️ Per E-Mail an Verwaltung senden',
+    btn_print_dossier: '🖨️ Drucken / PDF exportieren',
+
+    zsu_header_card: 'PRO SOLIDARITY BEITRAG',
+    zsu_metric_sub: 'Gesamthaft für die Ukraine gesammelt',
+    zsu_goal_label: 'Ziel: REB-Störsender für die 3. Brigade',
+    zsu_goal_pct: '74% finanziert',
+    zsu_your_part_title: 'Ihr direkter Beitrag',
+    zsu_your_part_desc: 'Von jedem Beitrag (CHF 19.00) werden exakt <strong>30% (CHF 5.70)</strong> an das Sonderkonto der NBU und Come Back Alive überwiesen.',
+    pricing_title: 'Freiwillige Solidaritätsbeiträge',
+    btn_choose: 'Auswählen',
+    btn_order_now: 'Beitragen ⚡',
+    btn_donate: 'Spenden',
+    merkle_table_title: 'Kryptografisches Merkle-Register',
+
+    orp_header_title: 'RAV & SECO Karrieremodul',
+    orp_header_sub: 'Stellenmeldepflicht (Art. 21a AIG) und monatlicher Nachweis der Arbeitsbemühungen',
+    job_filter_all: 'Alle Stellen (6)',
+    btn_export_orp: 'Nachweis für RAV-Berater exportieren 📄',
+    btn_job_letter: '📄 Motivationsschreiben',
+    btn_job_portal: '🔗 Stelleninserat',
+
+    seg_housing: 'Wohnungen',
+    seg_jobs: 'Stellen',
+    seg_interview: 'Interview',
+    tg_sub_radar: 'Neue Objekte · < 60s',
+    lbl_net_income: 'Monatliches Nettoeinkommen',
+    lbl_target_rent: 'Zielmiete (inkl. Nebenkosten)',
+    btn_print_dossier: 'Dossier herunterladen (PDF)',
+    btn_view_letter: 'Begleitbrief anzeigen',
+    checkout_modal_sub: 'Solidaritätsbeitrag • Zahlungsformular',
+    twint_note: 'Betrag eingeben und ID als Mitteilung angeben',
+    btn_copy: 'Kopieren',
+    lbl_payment_ref: 'Obligatorische Zahlungsmitteilung:',
+    btn_confirm_payment: '✅ Zahlung getätigt (Merkle-Beleg abrufen)',
+    checkout_legal_note: '🔒 Keine monatlichen Fixgebühren. Gemeinnützige Initiative gemäss Art. 60 ZGB.',
+    confirm_payment_title: 'Zahlungsbestätigung',
+    confirm_payment_desc: 'Zahlungsart und Absendernamen angeben für den Merkle-Eintrag:',
+    lbl_pay_method: 'Zahlungsart',
+    lbl_sender_name: 'Name des Absenders / Referenz / Betrag',
+    btn_validate_receipt: 'Bestätigen & Merkle-Block erzeugen 🛡️',
+    receipt_title: 'ZSU-Solidaritätsnachweis',
+    receipt_verified_stamp: '✓ MERKLE GEPRÜFT',
+    btn_receipt_ok: 'Verstanden, danke! 🇨🇭🤝🇺🇦',
+    btn_copy_french_letter: '📋 Text kopieren',
+    btn_send_job_email: '✉️ E-Mail-Programm öffnen'
+  },
+
+  it: {
+    hdr_close: 'Chiudi',
+    hdr_website: 'Sito Web',
+    btn_login: 'Accedi',
+    nav_radar: 'Alloggi',
+    nav_orp: 'URC / Lavoro',
+    nav_interview: 'Colloquio',
+    nav_dossier: 'Dossier',
+    nav_zsu: 'Rapporto ZSU',
+    nav_profile: 'Profilo',
+    app_top_banner: '⚡ Versione Beta pubblica — Associazione Swiss Resilience in costituzione (Art. 60–79 CC Svizzero) · Accesso libero',
+
+    trans_desktop_title: 'Versione desktop completa nel browser',
+    trans_desktop_sub: 'violin-integration.works • Mappa interattiva & analisi',
+    auth_modal_title: 'Autenticazione & Profilo',
+    auth_desc: 'Il tuo account è collegato automaticamente a Telegram WebApp e al cloud sicuro Appwrite Pro.',
+    auth_btn_sync_tg: 'Sincronizza con Telegram',
+    auth_btn_open_web: 'Apri la piattaforma nel browser ↗',
+    auth_logout: 'Disconnetti',
+
+    prof_step: 'Passo 1 di 2',
+    prof_title: 'Profilo candidato & Massimale d\'affitto',
+    prof_sec_personal: '👤 Dati personali per il dossier',
+    lbl_fullname: 'Nome completo (come da passaporto)',
+    lbl_phone: 'Telefono svizzero',
+    lbl_email: 'Email',
+    lbl_address: 'Indirizzo attuale',
+    lbl_permit: 'Permesso di soggiorno (Permis S)',
+    lbl_french: 'Livello linguistico (FR/DE/IT)',
+    lbl_family_size: 'Nucleo familiare',
+    lbl_family_hint: 'determina il limite d\'affitto',
+    fam_1: '1 persona',
+    fam_2: '2 persone',
+    fam_3: 'Famiglia 3–4',
+    fam_5: '5+ persone',
+    evam_cap_title: 'Massimale ufficiale assistenza sociale',
+    evam_cap_sub: 'Copertura 100% del canone d\'affitto',
+    lbl_communes: 'Cantoni e comuni obiettivo',
+    lbl_income_type: 'Fonte di sostentamento',
+    inc_evam_title: 'Beneficiario assistenza sociale',
+    inc_evam_sub: 'Presa a carico integrale secondo i baremi',
+    inc_salaried_title: 'Reddito da lavoro / Contratto',
+    inc_salaried_sub: 'Regola di solvibilità: max 33% del reddito',
+    lbl_doc_checklist: 'Documenti USPI richiesti',
+    lbl_doc_hint: 'per inoltro all\'amministrazione',
+    doc_permis: 'Permis S (fronte e retro)',
+    doc_permis_sub: 'Autorizzazione di soggiorno e lavoro',
+    doc_op: 'Estratto ufficio esecuzioni (< 60 giorni, pulito)',
+    doc_op_sub: 'Privo di qualsiasi esecuzione (poursuites)',
+    doc_evam: 'Attestazione finanziaria dell\'ente sociale',
+    doc_evam_sub: 'Garanzia di pagamento diretto dell\'affitto',
+    doc_rc: 'Assicurazione responsabilità civile (RC)',
+    doc_rc_sub: 'Copertura danni locativi',
+    pro_banner_title: 'Sostegno Pro Solidarity (CHF 19)',
+    pro_banner_sub: 'Il 30% è devoluto alla difesa ucraina',
+    btn_checkout_tier: 'Sostieni',
+    btn_save_launch: 'Salva & Attiva il Radar ⚡',
+
+    hdr_fresh_flats: 'Alloggi recenti',
+    pill_all_prices: 'Tutti i canoni',
+    filter_evam: '🟢 100% Conforme baremi',
+    filter_reprise: '⚡ Subentro locazione (Art. 264 CO)',
+    filter_etoy: '🚆 Fino a 10 km da Etoy',
+    btn_dossier_1click: '⚡ Dossier 1-Clic',
+    btn_flatfox_link: '📍 Flatfox',
+    status_evam_ok: '🟢 100% Conforme',
+    status_evam_warn: '⚠️ Oltre il massimale',
+
+    dossier_title: 'Dossier di candidatura USPI',
+    dossier_letter_label: 'Lettera di motivazione ufficiale:',
+    dossier_annexes_label: 'Allegati obbligatori verificati:',
+    btn_copy_letter: '📋 Copia la lettera di motivazione',
+    btn_send_email: '✉️ Invia per email all\'amministrazione',
+    btn_print_dossier: '🖨️ Stampa / Esporta PDF USPI',
+
+    zsu_header_card: 'SOSTEGNO PRO SOLIDARITY',
+    zsu_metric_sub: 'Totale raccolto per la difesa ucraina',
+    zsu_goal_label: 'Obiettivo: Dispositivo REB per la 3a brigata',
+    zsu_goal_pct: '74% finanziato',
+    zsu_your_part_title: 'Il tuo contributo diretto',
+    zsu_your_part_desc: 'Su ogni quota (CHF 19.00), esattamente <strong>30% (CHF 5.70)</strong> è devoluto alla Banca Nazionale Ucraina e a Come Back Alive.',
+    pricing_title: 'Contributi volontari di solidarietà',
+    btn_choose: 'Scegli',
+    btn_order_now: 'Contribuisci ⚡',
+    btn_donate: 'Dona',
+    merkle_table_title: 'Registro crittografico Merkle',
+
+    orp_header_title: 'Modulo Carriera URC & SECO',
+    orp_header_sub: 'Obbligo di notifica art. 21a LStran e resoconto mensile LADI',
+    job_filter_all: 'Tutti i posti (6)',
+    btn_export_orp: 'Esporta resoconto per il consulente URC 📄',
+    btn_job_letter: '📄 Lettera di motivazione',
+    btn_job_portal: '🔗 Offerta di lavoro',
+
+    seg_housing: 'Alloggi',
+    seg_jobs: 'Offerte',
+    seg_interview: 'Colloquio',
+    tg_sub_radar: 'Nuovi annunci · < 60s',
+    lbl_net_income: 'Reddito netto mensile',
+    lbl_target_rent: 'Affitto obiettivo (spese incl.)',
+    btn_print_dossier: 'Scarica dossier (PDF)',
+    btn_view_letter: 'Vedi la lettera',
+    checkout_modal_sub: 'Contributo solidale • Modulo di pagamento',
+    twint_note: 'Inserisci l\'importo e il tuo ID come causale',
+    btn_copy: 'Copia',
+    lbl_payment_ref: 'Causale obbligatoria del versamento:',
+    btn_confirm_payment: '✅ Ho effettuato il pagamento (Ottieni ricevuta Merkle)',
+    checkout_legal_note: '🔒 Nessun costo fisso mensile. Iniziativa benefica art. 60 CC.',
+    confirm_payment_title: 'Conferma del pagamento',
+    confirm_payment_desc: 'Indica il metodo di pagamento e il nome per il blocco Merkle:',
+    lbl_pay_method: 'Metodo di pagamento',
+    lbl_sender_name: 'Nome del mittente / Riferimento / Importo',
+    btn_validate_receipt: 'Conferma & Genera blocco Merkle 🛡️',
+    receipt_title: 'Attestato di Solidarietà ZSU',
+    receipt_verified_stamp: '✓ VERIFICATO MERKLE',
+    btn_receipt_ok: 'Ricevuto, grazie! 🇨🇭🤝🇺🇦',
+    btn_copy_french_letter: '📋 Copia testo',
+    btn_send_job_email: '✉️ Apri client di posta'
   }
 };
 
@@ -747,10 +990,10 @@ class ResilienceMiniApp {
     const dict = TRANSLATIONS[lang] || TRANSLATIONS.ua;
 
     // Toggle active buttons in header
-    const btnUa = document.getElementById('lang-ua');
-    const btnFr = document.getElementById('lang-fr');
-    if (btnUa) btnUa.classList.toggle('active', lang === 'ua');
-    if (btnFr) btnFr.classList.toggle('active', lang === 'fr');
+    ['ua', 'fr', 'de', 'it'].forEach(l => {
+      const btn = document.getElementById(`lang-${l}`);
+      if (btn) btn.classList.toggle('active', lang === l);
+    });
 
     // Translate all elements with data-i18n
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -763,9 +1006,10 @@ class ResilienceMiniApp {
     // Update search placeholder
     const searchInput = document.getElementById('housing-search-input');
     if (searchInput) {
-      searchInput.placeholder = lang === 'fr'
-        ? '🔍 Filtrer par commune (Etoy, Morges...), NPA ou gérance...'
-        : '🔍 Пошук за комуною (Etoy, Morges...), індексом чи назвою...';
+      if (lang === 'fr') searchInput.placeholder = '🔍 Filtrer par commune, canton (VD, ZH, GE...), NPA...';
+      else if (lang === 'de') searchInput.placeholder = '🔍 Nach Gemeinde, Kanton (VD, ZH, GE...), PLZ filtern...';
+      else if (lang === 'it') searchInput.placeholder = '🔍 Cerca per comune, cantone (VD, ZH, GE...), NPA...';
+      else searchInput.placeholder = '🔍 Пошук за комуною, кантоном (VD, ZH, GE...), індексом...';
     }
 
     // Update active tab title in header

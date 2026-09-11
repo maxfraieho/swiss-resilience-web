@@ -2230,3 +2230,36 @@ button[disabled], .btn-primary[disabled] {
   .card, .gauge-card, .input-card { border: 1px solid #ccc !important; background: white !important; color: black !important; box-shadow: none !important; }
   .letter-preview { background: #fdfdfd !important; border: 1px solid #aaa !important; color: black !important; }
 }
+
+/* Pan-Swiss 2.5 Banner & Multi-language additions */
+.app-top-banner {
+  background: linear-gradient(90deg, #1E293B, #0F172A);
+  border-bottom: 1px solid rgba(217, 119, 6, 0.3);
+  color: #FCD34D;
+  text-align: center;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.tg-lang-toggle {
+  display: flex;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--stroke-subtle);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.tg-lang-toggle button {
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 6px;
+  color: var(--text-2);
+  transition: all 0.15s ease;
+}
+.tg-lang-toggle button.active {
+  background: var(--crimson);
+  color: #fff;
+}
+

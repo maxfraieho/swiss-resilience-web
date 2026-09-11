@@ -11,3 +11,7 @@
 /mini-app/*
   Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
   X-Frame-Options: ALLOWALL
+
+/hub/*
+  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
+  X-Frame-Options: ALLOWALL

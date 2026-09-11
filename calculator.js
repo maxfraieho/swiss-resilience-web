@@ -1,130 +1,419 @@
 /**
- * Swiss Resilience Navigator — EVAM & Hospice Général Compliance Engine
+ * Swiss Resilience Navigator 2.5 — Pan-Swiss Compliance & Community Engine
  * Module: calculator.js
  *
  * Implements:
- * 1. Barèmes lookup for Canton de Vaud (EVAM) & Canton de Genève (Hospice Général).
- * 2. Real-time verdict calculation based on family size, commune, and applicant legal status.
- * 3. Dynamic compliance gauge & legal recommendations (Art. 264 CO Reprise de bail).
- * 4. Full bilingual page translation (UA / FR) across navigation, hero, metrics, features, pricing, and footer.
- * 5. UI metric counter animation & smooth scrolling.
+ * 1. 26 Cantons rent ceiling lookup with official authorities (EVAM, Hospice Général, AOZ, GSI, etc.)
+ * 2. CH-ISCO-19 Profession Explorer with 5-day Stellenmeldepflicht priority warning
+ * 3. Art. 262 CO Swiss Host Subletting Calculator with 10–20% furniture surcharge cap
+ * 4. Benevol Switzerland Volunteer Mentors Directory (Art. 394 CO)
+ * 5. Full Quad-lingual parity: UA, FR, DE, IT across all elements
+ * 6. Beta Voluntary Donation Modal with 30% ZSU / 70% server infra split
  */
 
-// Official and indicative reference rent ceilings (CHF/month, gross rent cap)
-// Source: EVAM Directives d'application (Vaud) & Hospice Général barèmes d'aide sociale (Genève).
-export const BAREMES = {
-  vd: {
-    lausanne: { 1: 1100, 2: 1210, 3: 1290, 4: 1490, 5: 1690 },
-    morges:   { 1: 1050, 2: 1180, 3: 1260, 4: 1430, 5: 1620 },
-    etoy:     { 1: 1020, 2: 1150, 3: 1230, 4: 1400, 5: 1580 },
-    nyon:     { 1: 1150, 2: 1260, 3: 1340, 4: 1540, 5: 1750 },
-    vevey:    { 1: 1080, 2: 1200, 3: 1280, 4: 1460, 5: 1650 },
-    yverdon:  { 1: 990,  2: 1120, 3: 1190, 4: 1350, 5: 1520 }
-  },
-  ge: {
-    geneve:   { 1: 1350, 2: 1600, 3: 1850, 4: 2100, 5: 2350 },
-    carouge:  { 1: 1320, 2: 1570, 3: 1820, 4: 2070, 5: 2320 },
-    vernier:  { 1: 1300, 2: 1550, 3: 1780, 4: 2020, 5: 2260 },
-    meyrin:   { 1: 1300, 2: 1550, 3: 1780, 4: 2020, 5: 2260 },
-    lancy:    { 1: 1310, 2: 1560, 3: 1800, 4: 2040, 5: 2290 },
-    lausanne: { 1: 1300, 2: 1550, 3: 1750, 4: 1950, 5: 2150 },
-    morges:   { 1: 1300, 2: 1550, 3: 1750, 4: 1950, 5: 2150 },
-    etoy:     { 1: 1300, 2: 1550, 3: 1750, 4: 1950, 5: 2150 },
-    nyon:     { 1: 1300, 2: 1550, 3: 1750, 4: 1950, 5: 2150 }
-  }
-};
-
-export const COMMUNES_BY_CANTON = {
-  vd: [
-    { value: 'lausanne', labelUA: 'Lausanne · Лозанна', labelFR: 'Lausanne (District de Lausanne)' },
-    { value: 'morges',   labelUA: 'Morges · Морж',     labelFR: 'Morges (District de Morges)' },
-    { value: 'etoy',     labelUA: 'Etoy · Етуа',       labelFR: 'Etoy (District de Morges)' },
-    { value: 'nyon',     labelUA: 'Nyon · Ньйон',      labelFR: 'Nyon (District de Nyon)' },
-    { value: 'vevey',    labelUA: 'Vevey · Веве',      labelFR: 'Vevey (District Riviera-Pays-d\'Enhaut)' },
-    { value: 'yverdon',  labelUA: 'Yverdon · Івердон', labelFR: 'Yverdon-les-Bains (Jura-Nord vaudois)' }
-  ],
-  ge: [
-    { value: 'geneve',   labelUA: 'Genève · Женева',   labelFR: 'Genève-Ville' },
-    { value: 'carouge',  labelUA: 'Carouge · Каруж',   labelFR: 'Carouge' },
-    { value: 'vernier',  labelUA: 'Vernier · Верньє',  labelFR: 'Vernier' },
-    { value: 'meyrin',   labelUA: 'Meyrin · Мейран',   labelFR: 'Meyrin' },
-    { value: 'lancy',    labelUA: 'Lancy · Лансі',     labelFR: 'Lancy' }
-  ]
-};
-
-export const FAMILY_OPTIONS = {
-  ua: [
-    { value: '1', label: '1 особа · кімната або студія' },
-    { value: '2', label: '2 особи · 2 пок.' },
-    { value: '3', label: '3 особи · 3 пок.' },
-    { value: '4', label: '4 особи · 4 пок.' },
-    { value: '5', label: '5+ осіб · 4.5–5 пок.' }
-  ],
-  fr: [
-    { value: '1', label: '1 personne · chambre ou studio' },
-    { value: '2', label: '2 personnes · 2 pièces' },
-    { value: '3', label: '3 personnes · 3 pièces' },
-    { value: '4', label: '4 personnes · 4 pièces' },
-    { value: '5', label: '5+ personnes · 4.5–5 pièces' }
-  ]
-};
+import { CANTONS_26, CH_ISCO_19_PROFESSIONS } from './pan_swiss_data.js';
 
 export const formatSwissNumber = (n) => {
   return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
 };
 
+export const TRANSLATIONS = {
+  ua: {
+    top_banner: '⚡ Публічна бета-версія — Асоціація Swiss Resilience на стадії створення (ст. 60–79 ЦК Швейцарії) · Доступ безкоштовний',
+    nav_radar: 'Житловий Радар',
+    nav_calc: 'Калькулятор 26 кантонів',
+    nav_orp: "Кар'єра CH-ISCO-19",
+    nav_hosts: 'Швейцарська солідарність',
+    nav_zsu: 'ЗСУ Прозорість',
+    nav_pricing: 'Підтримати проєкт',
+    btn_bot: 'Telegram Бот',
+    btn_webapp: 'Відкрити Web App',
+    btn_hub25: '🌐 Інтерактивний Hub 2.5',
+
+    hero_pill: '⚡ ПАН-ШВЕЙЦАРСЬКЕ ПОКРИТТЯ · 26 КАНТОНІВ · ОФІЦІЙНІ СОЦІАЛЬНІ БАРЕМИ',
+    hero_title: 'Гідне житло та легальна робота в Швейцарії <span class="accent">без посередників і комісій</span>',
+    hero_sub: 'Прямий моніторинг житла за офіційними баремами EVAM, Hospice Général, AOZ, GSI та всіх 26 кантонів, безпечна суборенда кімнат (Art. 262 CO), ментори Benevol, вакансії CH-ISCO-19 зі Stellenmeldepflicht та добровільний солідарний внесок 30% на захист України.',
+    hero_cta_app: '🚀 Відкрити Web App / Mini App',
+    hero_cta_hub: '🌐 Відкрити Інтерактивний Hub 2.5',
+    hero_cta_calc: '📊 Розрахувати барем кантону',
+    hero_cta_host: '🇨🇭 Для швейцарських господарів (Art. 262 CO)',
+
+    metric_legal_label: 'Правовий статус',
+    metric_legal_val: 'Art. 60–79 CC',
+    metric_legal_desc: 'Асоціація у процесі створення · Некомерційна платформа взаємодопомоги',
+    metric_fees_label: 'Комісії посередникам',
+    metric_fees_val: '0 CHF',
+    metric_fees_desc: 'Жодних прихованих оплат чи комерційного рекрутингу (Art. 9 LSE)',
+    metric_zsu_label: 'Солідарна допомога 🇺🇦',
+    metric_zsu_val: '30%',
+    metric_zsu_desc: 'фіксоване відрахування з добровільних пожертв на перевірені рахунки оборони (НБУ / Повернись живим)',
+
+    calc_eyebrow: '02 · Pan-Swiss Compliance Engine',
+    calc_title: 'Калькулятор соціальних орендних стель 26 кантонів',
+    calc_sub: 'Оберіть кантон та склад сім\'ї — отримайте офіційний бюджет оренди, компетентний орган соціального захисту та юридичні підстави.',
+    lbl_canton: 'Кантон Швейцарії',
+    lbl_family: 'Склад сім\'ї',
+    lbl_status: 'Статус забезпечення',
+    status_social: 'Бенефіціар соціальної допомоги (EVAM, HG, AOZ, GSI...)',
+    status_salary: 'Власний заробіток / контракт (ліміт платоспроможності 33%)',
+    verdict_budget_label: 'Офіційний граничний бюджет оренди',
+    verdict_authority_label: 'Уповноважений орган соціальної допомоги',
+    verdict_legal_rec: 'Рекомендована процедура:',
+    rec_reprise: 'Reprise de bail (Art. 264 CO) — фіксація поточної орендної плати без права режі на підвищення.',
+    rec_sublet: 'Sous-location / Untermiete (Art. 262 CO) — законне суборендування кімнати з надбавкою за меблі 10–20%.',
+
+    isco_eyebrow: '03 · CH-ISCO-19 Professional Classifier',
+    isco_title: 'Швейцарський класифікатор професій та ринок праці',
+    isco_sub: '15 секторів, квадрилінгвальні назви, відповідність кваліфікацій (AFP/CFC/Tertiaire) та перевірка пріоритету біржі праці (Stellenmeldepflicht).',
+    lbl_sector: 'Сектор економіки',
+    lbl_profession: 'Професія',
+    badge_priority: '⚡ Stellenmeldepflicht (5 днів переваги на ORP/Job-Room)',
+    badge_open: '🟢 Загальний ринок праці',
+    isco_quals_title: 'Визнані рівні кваліфікації в Швейцарії:',
+    isco_salary_title: 'Орієнтовна сітка зарплат (CCNT / Salarium):',
+
+    hosts_eyebrow: '04 · Swiss Solidarity & Mentorship',
+    hosts_title: 'Швейцарським господарям та волонтерам-наставникам',
+    hosts_sub: 'Юридичний захист при суборенді кімнат за ст. 262 CO та мережа безоплатного менторства Benevol Switzerland.',
+    sublet_calc_title: 'Калькулятор справедливої суборенди (Art. 262 CO)',
+    lbl_net_rent: 'Повна чиста оренда квартири (CHF/міс)',
+    lbl_rooms_total: 'Кількість кімнат у квартирі',
+    lbl_furnishing: 'Меблювання кімнати (надбавка 10–20%)',
+    sublet_room_rent: 'Справедлива оренда кімнати:',
+    sublet_furn_cap: 'Макс. допустима надбавка за меблі:',
+    sublet_tax_note: 'Компенсація за суборенду не оподатковується, якщо покриває лише пропорційні витрати на житло та комунальні послуги.',
+    mentor_card_title: 'Волонтерське наставництво Benevol (Art. 394 CO)',
+    mentor_card_desc: 'Швейцарські фахівці безоплатно допомагають з адаптацією CV, практикою французької/німецької мови та супроводом.',
+
+    pricing_eyebrow: '05 · Public Beta & Solidarity Model',
+    pricing_title: 'Підтримка проєкту на етапі публічного бета-тестування',
+    pricing_sub: 'Комерційні тарифи деактивовано. Платформа повністю безкоштовна для шукачів житла та роботи. Ми приймаємо виключно добровільні пожертви.',
+    beta_free_badge: 'БЕТА-ТЕСТ: БЕЗКОШТОВНО',
+    btn_disabled_tier: 'Бета-доступ активний',
+    btn_donate_open: '❤️ Зробити добровільну пожертву (30% на ЗСУ)',
+
+    zsu_eyebrow: '06 · Cryptographic Transparency',
+    zsu_title: 'Публічний Merkle-леджер солідарних внесків',
+    zsu_sub: '30% кожної пожертви спрямовується на спецрахунок НБУ або фонд «Повернись живим». Жодного прихованого прибутку.',
+    split_infra_title: 'Серверна інфраструктура (70%)',
+    split_infra_desc: 'Appwrite Cloud Frankfurt, Flatfox REST API, парсери 26 кантонів, сертифікати шифрування.',
+    split_zsu_title: '🇺🇦 На потреби ЗСУ (30%)',
+    split_zsu_desc: 'Офіційний спецрахунок НБУ для оборони та фонд «Повернись живим» із фіксацією у Merkle-дереві.',
+
+    foot_honesty: 'Ініціатива на стадії створення некомерційної асоціації (Art. 60–79 CC Suisse). Не є ліцензованим агентством з працевлаштування (Art. 9 LSE). Жодних оплат за пошук роботи не стягується.',
+    foot_rights: '© 2026 Swiss Resilience Navigator · Слава Україні 🇺🇦 · Vive la Suisse 🇨🇭'
+  },
+
+  fr: {
+    top_banner: '⚡ Version Bêta publique — Association Swiss Resilience en cours de constitution (Art. 60–79 CC Suisse) · Accès libre',
+    nav_radar: 'Radar Logement',
+    nav_calc: 'Calculateur 26 Cantons',
+    nav_orp: 'Carrière CH-ISCO-19',
+    nav_hosts: 'Solidarité Suisse',
+    nav_zsu: 'Transparence ZSU',
+    nav_pricing: 'Soutenir le Projet',
+    btn_bot: 'Bot Telegram',
+    btn_webapp: 'Ouvrir Web App',
+    btn_hub25: '🌐 Hub Interactif 2.5',
+
+    hero_pill: '⚡ COUVERTURE PAN-SUISSE · 26 CANTONS · BARÈMES SOCIAUX OFFICIELS',
+    hero_title: 'Logement digne et emploi légal en Suisse <span class="accent">sans intermédiaire ni commission</span>',
+    hero_sub: 'Suivi direct des logements selon les barèmes officiels EVAM, Hospice Général, AOZ, GSI et des 26 cantons, sous-location sécurisée (Art. 262 CO), mentors Benevol, métiers CH-ISCO-19 avec Stellenmeldepflicht et don volontaire de 30% pour la défense de l\'Ukraine.',
+    hero_cta_app: '🚀 Ouvrir Web App / Mini App',
+    hero_cta_hub: '🌐 Ouvrir le Hub Interactif 2.5',
+    hero_cta_calc: '📊 Calculer le barème cantonal',
+    hero_cta_host: '🇨🇭 Pour les hôtes suisses (Art. 262 CO)',
+
+    metric_legal_label: 'Statut légal',
+    metric_legal_val: 'Art. 60–79 CC',
+    metric_legal_desc: 'Association en cours de constitution · Plateforme d\'entraide non marchande',
+    metric_fees_label: 'Frais intermédiaires',
+    metric_fees_val: '0 CHF',
+    metric_fees_desc: 'Aucun frais caché ni placement payant illégal (Art. 9 LSE)',
+    metric_zsu_label: 'Soutien Solidaire 🇺🇦',
+    metric_zsu_val: '30%',
+    metric_zsu_desc: 'Part fixe reversée sur comptes de défense officiels (BNS / Come Back Alive)',
+
+    calc_eyebrow: '02 · Moteur de Conformité Pan-Suisse',
+    calc_title: 'Calculateur des plafonds de loyer des 26 cantons',
+    calc_sub: 'Choisissez votre canton et la taille du ménage pour obtenir le plafond officiel, l\'autorité compétente et les sources légales.',
+    lbl_canton: 'Canton Suisse',
+    lbl_family: 'Taille du ménage',
+    lbl_status: 'Source de revenu',
+    status_social: 'Bénéficiaire aide sociale (EVAM, HG, AOZ, GSI...)',
+    status_salary: 'Revenu salarié / contrat (taux d\'effort max 33%)',
+    verdict_budget_label: 'Plafond officiel de loyer admissible',
+    verdict_authority_label: 'Autorité sociale compétente',
+    verdict_legal_rec: 'Procédure recommandée :',
+    rec_reprise: 'Reprise de bail (Art. 264 CO) — loyer fixé selon le bail en cours, sans droit de hausse unilatérale.',
+    rec_sublet: 'Sous-location (Art. 262 CO) — droit impératif du locataire avec majoration meuble limitée à 10–20%.',
+
+    isco_eyebrow: '03 · Répertoire Métiers CH-ISCO-19',
+    isco_title: 'Taxonomie suisse des métiers & marché du travail',
+    isco_sub: '15 secteurs, titres en 4 langues, niveaux de qualification (AFP/CFC/Tertiaire) et obligation d\'annonce ORP (Stellenmeldepflicht).',
+    lbl_sector: 'Secteur économique',
+    lbl_profession: 'Métier / Profession',
+    badge_priority: '⚡ Stellenmeldepflicht (5 jours de priorité ORP/Job-Room)',
+    badge_open: '🟢 Marché de l\'emploi ouvert',
+    isco_quals_title: 'Filières de qualification reconnues en Suisse :',
+    isco_salary_title: 'Fourchettes de salaire usuelles (CCNT / Salarium) :',
+
+    hosts_eyebrow: '04 · Solidarité Résidents & Bénévolat',
+    hosts_title: 'Pour les hôtes suisses & réseau de mentors',
+    hosts_sub: 'Cadre légal de sous-location (Art. 262 CO) et réseau de mentors bénévoles Benevol Suisse (Art. 394 CO).',
+    sublet_calc_title: 'Calculateur de sous-location équitable (Art. 262 CO)',
+    lbl_net_rent: 'Loyer net total du logement (CHF/mois)',
+    lbl_rooms_total: 'Nombre de pièces du logement',
+    lbl_furnishing: 'Majoration mobilier (10 à 20% max)',
+    sublet_room_rent: 'Loyer équitable de la chambre :',
+    sublet_furn_cap: 'Plafond de majoration meuble admissible :',
+    sublet_tax_note: 'Le remboursement perçu du sous-locataire est exonéré d\'impôt lorsqu\'il couvre strictement les frais réels au prorata.',
+    mentor_card_title: 'Mentorat bénévole Benevol (Art. 394 CO)',
+    mentor_card_desc: 'Citoyens suisses offrant 1 à 6 h/semaine pour la révision de CV, la conversation et l\'intégration locale.',
+
+    pricing_eyebrow: '05 · Bêta Publique & Dons Solidaires',
+    pricing_title: 'Soutien du projet pendant la phase Bêta',
+    pricing_sub: 'Les formules commerciales sont désactivées. L\'accès est gratuit pour les bénéficiaires. Seuls les dons de soutien sont acceptés.',
+    beta_free_badge: 'BÊTA : ACCÈS GRATUIT',
+    btn_disabled_tier: 'Accès Bêta en cours',
+    btn_donate_open: '❤️ Faire un don solidaire (30% pour l\'Ukraine)',
+
+    zsu_eyebrow: '06 · Registre Cryptographique',
+    zsu_title: 'Registre Merkle public des dons solidaires',
+    zsu_sub: '30% de chaque contribution volontaire est transféré aux comptes d\'aide et de défense ukrainiens.',
+    split_infra_title: 'Infrastructure serveur (70%)',
+    split_infra_desc: 'Hébergement Appwrite Cloud Francfort, API Flatfox, parseurs 26 cantons, conformité nLPD.',
+    split_zsu_title: '🇺🇦 Défense de l\'Ukraine (30%)',
+    split_zsu_desc: 'Virements directs Banque Nationale d\'Ukraine & Fondation Come Back Alive avec preuve Merkle.',
+
+    foot_honesty: 'Initiative en cours de constitution sous forme d\'association (Art. 60–79 CC Suisse). Aucun service de placement privé payant (Art. 9 LSE). Totalement gratuit pour les personnes en recherche d\'emploi.',
+    foot_rights: '© 2026 Swiss Resilience Navigator · Slava Ukraini 🇺🇦 · Vive la Suisse 🇨🇭'
+  },
+
+  de: {
+    top_banner: '⚡ Öffentliche Beta-Version — Verein Swiss Resilience in Gründung (Art. 60–79 ZGB) · Kostenloser Zugang',
+    nav_radar: 'Wohnungsradar',
+    nav_calc: '26-Kantone-Rechner',
+    nav_orp: 'CH-ISCO-19 Berufe',
+    nav_hosts: 'Schweizer Solidarität',
+    nav_zsu: 'ZSU-Transparenz',
+    nav_pricing: 'Projekt unterstützen',
+    btn_bot: 'Telegram-Bot',
+    btn_webapp: 'Web App öffnen',
+    btn_hub25: '🌐 Interaktiver Hub 2.5',
+
+    hero_pill: '⚡ PAN-SCHWEIZER ABDECKUNG · 26 KANTONE · OFFIZIELLE SOZIALRICHTLINIEN',
+    hero_title: 'Würdiges Wohnen und legale Arbeit in der Schweiz <span class="accent">ohne Vermittler und Gebühren</span>',
+    hero_sub: 'Direktes Wohnungsmonitoring nach offiziellen Mietzinsrichtlinien (EVAM, Hospice Général, AOZ, GSI und 26 Kantone), sichere Untermiete (Art. 262 OR), Benevol-Mentoren, CH-ISCO-19-Berufe mit Stellenmeldepflicht und freiwilliger 30%-Solidaritätsbeitrag zur Verteidigung der Ukraine.',
+    hero_cta_app: '🚀 Web App / Mini App öffnen',
+    hero_cta_hub: '🌐 Interaktiven Hub 2.5 öffnen',
+    hero_cta_calc: '📊 Kantonalen Richtwert berechnen',
+    hero_cta_host: '🇨🇭 Für Schweizer Gastgeber (Art. 262 OR)',
+
+    metric_legal_label: 'Rechtsstatus',
+    metric_legal_val: 'Art. 60–79 ZGB',
+    metric_legal_desc: 'Verein in Gründung · Nicht-kommerzielle Selbsthilfeplattform',
+    metric_fees_label: 'Vermittlungsgebühren',
+    metric_fees_val: '0 CHF',
+    metric_fees_desc: 'Keine versteckten Kosten oder illegale Arbeitsvermittlungsgebühren (Art. 9 AVG)',
+    metric_zsu_label: 'Solidaritätsbeitrag 🇺🇦',
+    metric_zsu_val: '30%',
+    metric_zsu_desc: 'Feste Weiterleitung freiwilliger Spenden an Verteidigungskonten (SNB / Come Back Alive)',
+
+    calc_eyebrow: '02 · Pan-Schweizer Compliance-Engine',
+    calc_title: 'Mietzinsgrenzen-Rechner der 26 Kantone',
+    calc_sub: 'Wählen Sie Ihren Kanton und Ihre Haushaltsgrösse für die offizielle Mietzinslimite und rechtliche Hinweise.',
+    lbl_canton: 'Schweizer Kanton',
+    lbl_family: 'Haushaltsgrösse',
+    lbl_status: 'Einkommensart',
+    status_social: 'Sozialhilfeempfänger (EVAM, HG, AOZ, GSI...)',
+    status_salary: 'Erwerbseinkommen / Vertrag (Mietanteil max. 33%)',
+    verdict_budget_label: 'Offizielles maximales Mietbudget',
+    verdict_authority_label: 'Zuständige Sozialbehörde',
+    verdict_legal_rec: 'Empfohlenes Vorgehen:',
+    rec_reprise: 'Mietvertragsübernahme (Art. 264 OR) — Mietzins bleibt unverändert ohne Erhöhungsrecht der Verwaltung.',
+    rec_sublet: 'Untermiete (Art. 262 OR) — zwingendes Mieterrecht mit Möblierungszuschlag von max. 10–20%.',
+
+    isco_eyebrow: '03 · CH-ISCO-19 Berufsklassifikation',
+    isco_title: 'Schweizer Berufslandschaft & Arbeitsmarkt',
+    isco_sub: '15 Sektoren, Titel in 4 Sprachen, Qualifikationsstufen (EBA/EFZ/Tertiär) und Stellenmeldepflicht beim RAV.',
+    lbl_sector: 'Wirtschaftssektor',
+    lbl_profession: 'Beruf',
+    badge_priority: '⚡ Stellenmeldepflicht (5 Tage Vorrang im Job-Room / RAV)',
+    badge_open: '🟢 Offener Arbeitsmarkt',
+    isco_quals_title: 'Anerkannte Bildungsstufen in der Schweiz:',
+    isco_salary_title: 'Übliche Lohnspannen (GAV / Salarium):',
+
+    hosts_eyebrow: '04 · Schweizer Gastgeber & Mentoring',
+    hosts_title: 'Für Schweizer Gastgeber & freiwillige Mentoren',
+    hosts_sub: 'Rechtssichere Untermiete (Art. 262 OR) und Mentoring nach Benevol-Schweiz-Standards (Art. 394 OR).',
+    sublet_calc_title: 'Rechner für faire Untermiete (Art. 262 OR)',
+    lbl_net_rent: 'Gesamte Nettomiete der Wohnung (CHF/Monat)',
+    lbl_rooms_total: 'Zimmeranzahl der Wohnung',
+    lbl_furnishing: 'Möblierungszuschlag (10 bis 20% max)',
+    sublet_room_rent: 'Faire Zimmer-Nettomiete:',
+    sublet_furn_cap: 'Maximal zulässiger Möblierungszuschlag:',
+    sublet_tax_note: 'Mietentschädigungen sind steuerfrei, sofern sie ausschliesslich proportionale Wohn- und Nebenkosten decken.',
+    mentor_card_title: 'Freiwilliges Mentoring Benevol (Art. 394 OR)',
+    mentor_card_desc: 'Schweizer Fachpersonen engagieren sich 1–6 Std./Woche für CV-Anpassung, Konversation und Begleitung.',
+
+    pricing_eyebrow: '05 · Öffentliche Beta & Spendenmodell',
+    pricing_title: 'Projektunterstützung in der Beta-Phase',
+    pricing_sub: 'Kommerzielle Tarife sind deaktiviert. Der Zugang ist kostenlos. Wir akzeptieren ausschliesslich freiwillige Solidaritätsspenden.',
+    beta_free_badge: 'BETA: KOSTENLOSER ZUGANG',
+    btn_disabled_tier: 'Beta-Zugang aktiv',
+    btn_donate_open: '❤️ Freiwillige Solidaritätsspende (30% für die Ukraine)',
+
+    zsu_eyebrow: '06 · Kryptografische Transparenz',
+    zsu_title: 'Öffentliches Merkle-Ledger der Spenden',
+    zsu_sub: '30% jeder Zuwendung gehen direkt an offizielle Verteidigungskonten der Ukraine.',
+    split_infra_title: 'Serverinfrastruktur (70%)',
+    split_infra_desc: 'Appwrite Cloud Frankfurt, Flatfox REST API, 26-Kantone-Parser, Schweizer Datenschutz.',
+    split_zsu_title: '🇺🇦 Verteidigung der Ukraine (30%)',
+    split_zsu_desc: 'Direktüberweisungen an Schweizerische Nationalbank / NBU & Come Back Alive mit Merkle-Nachweis.',
+
+    foot_honesty: 'Initiative in Gründung als gemeinnütziger Verein (Art. 60–79 ZGB). Keine konzessionierte Arbeitsvermittlung (Art. 9 AVG). Kostenlos für alle Arbeitsuchenden.',
+    foot_rights: '© 2026 Swiss Resilience Navigator · Slava Ukraini 🇺🇦 · Vive la Suisse 🇨🇭'
+  },
+
+  it: {
+    top_banner: '⚡ Versione Beta pubblica — Associazione Swiss Resilience in costituzione (Art. 60–79 CC Svizzero) · Accesso gratuito',
+    nav_radar: 'Radar Alloggi',
+    nav_calc: 'Calcolatore 26 Cantoni',
+    nav_orp: 'Professioni CH-ISCO-19',
+    nav_hosts: 'Solidarietà Svizzera',
+    nav_zsu: 'Trasparenza ZSU',
+    nav_pricing: 'Sostieni il Progetto',
+    btn_bot: 'Bot Telegram',
+    btn_webapp: 'Apri Web App',
+    btn_hub25: '🌐 Hub Interattivo 2.5',
+
+    hero_pill: '⚡ COPERTURA PAN-SVIZZERA · 26 CANTONI · BAREMI SOCIALI UFFICIALI',
+    hero_title: 'Alloggio dignitoso e lavoro legale in Svizzera <span class="accent">senza intermediari né commissioni</span>',
+    hero_sub: 'Monitoraggio diretto degli alloggi secondo i massimali ufficiali EVAM, Hospice Général, AOZ, GSI e dei 26 cantoni, sublocazione sicura (Art. 262 CO), mentori Benevol, professioni CH-ISCO-19 con Stellenmeldepflicht e donazione volontaria del 30% per la difesa dell\'Ucraina.',
+    hero_cta_app: '🚀 Apri Web App / Mini App',
+    hero_cta_hub: '🌐 Apri l\'Hub Interattivo 2.5',
+    hero_cta_calc: '📊 Calcola il massimale cantonale',
+    hero_cta_host: '🇨🇭 Per gli ospitanti svizzeri (Art. 262 CO)',
+
+    metric_legal_label: 'Stato giuridico',
+    metric_legal_val: 'Art. 60–79 CC',
+    metric_legal_desc: 'Associazione in costituzione · Piattaforma di solidarietà senza scopo di lucro',
+    metric_fees_label: 'Commissioni',
+    metric_fees_val: '0 CHF',
+    metric_fees_desc: 'Nessuna spesa nascosta né intermediazione a pagamento vietata (Art. 9 LCol)',
+    metric_zsu_label: 'Sostegno Solidale 🇺🇦',
+    metric_zsu_val: '30%',
+    metric_zsu_desc: 'Quota fissa devoluta ai conti ufficiali di difesa (BNS / Come Back Alive)',
+
+    calc_eyebrow: '02 · Motore di Conformità Pan-Svizzero',
+    calc_title: 'Calcolatore dei massimali d\'affitto dei 26 cantoni',
+    calc_sub: 'Selezionate il cantone e la dimensione del nucleo familiare per conoscere il limite ufficiale e l\'autorità sociale.',
+    lbl_canton: 'Cantone Svizzero',
+    lbl_family: 'Nucleo familiare',
+    lbl_status: 'Tipo di reddito',
+    status_social: 'Beneficiario assistenza sociale (LAPS, EVAM, AOZ...)',
+    status_salary: 'Reddito da lavoro / contratto (carico affitto max 33%)',
+    verdict_budget_label: 'Massimale d\'affitto mensile ammissibile',
+    verdict_authority_label: 'Autorità sociale competente',
+    verdict_legal_rec: 'Procedura consigliata:',
+    rec_reprise: 'Subentro nel contratto (Art. 264 CO) — canone bloccato secondo il contratto in corso.',
+    rec_sublet: 'Sublocazione (Art. 262 CO) — diritto imperativo con supplemento mobilio limitato al 10–20%.',
+
+    isco_eyebrow: '03 · Classificazione Professioni CH-ISCO-19',
+    isco_title: 'Mercato del lavoro & professioni svizzere',
+    isco_sub: '15 settori, titoli in 4 lingue, qualifiche svizzere (CFP/AFC/Terziario) e obbligo d\'annuncio URC (Stellenmeldepflicht).',
+    lbl_sector: 'Settore economico',
+    lbl_profession: 'Professione',
+    badge_priority: '⚡ Stellenmeldepflicht (5 giorni di priorità Job-Room / URC)',
+    badge_open: '🟢 Mercato del lavoro aperto',
+    isco_quals_title: 'Titoli di formazione riconosciuti in Svizzera:',
+    isco_salary_title: 'Fasce salariali di riferimento (CCNL / Salarium):',
+
+    hosts_eyebrow: '04 · Solidarietà Ospitanti & Mentori',
+    hosts_title: 'Per gli ospitanti svizzeri & rete mentori',
+    hosts_sub: 'Quadro legale di sublocazione (Art. 262 CO) e rete di volontariato Benevol Svizzera (Art. 394 CO).',
+    sublet_calc_title: 'Calcolatore di sublocazione equa (Art. 262 CO)',
+    lbl_net_rent: 'Canone netto totale dell\'appartamento (CHF/mese)',
+    lbl_rooms_total: 'Numero totale di locali',
+    lbl_furnishing: 'Supplemento mobilio (10-20% max)',
+    sublet_room_rent: 'Canone equo per la camera:',
+    sublet_furn_cap: 'Supplemento mobilio massimo consentito:',
+    sublet_tax_note: 'I rimborsi percepiti sono esenti da imposte se coprono proporzionalmente i soli costi vivi sostenuti.',
+    mentor_card_title: 'Mentorato volontario Benevol (Art. 394 CO)',
+    mentor_card_desc: 'Professionisti locali che offrono 1–6 ore/settimana per CV, lingua e inserimento.',
+
+    pricing_eyebrow: '05 · Beta Pubblica & Modello Donazioni',
+    pricing_title: 'Sostegno al progetto durante la fase Beta',
+    pricing_sub: 'I piani a pagamento sono disattivati. L\'accesso è gratuito. Accettiamo unicamente donazioni volontarie di sostegno.',
+    beta_free_badge: 'BETA: ACCESSO GRATUITO',
+    btn_disabled_tier: 'Accesso Beta attivo',
+    btn_donate_open: '❤️ Fai una donazione solidale (30% per l\'Ucraina)',
+
+    zsu_eyebrow: '06 · Trasparenza Crittografica',
+    zsu_title: 'Registro Merkle pubblico delle donazioni',
+    zsu_sub: 'Il 30% di ogni donazione è destinato direttamente ai conti ufficiali di difesa dell\'Ucraina.',
+    split_infra_title: 'Infrastruttura server (70%)',
+    split_infra_desc: 'Appwrite Cloud Francoforte, API Flatfox, parser 26 cantoni, protezione dati svizzera.',
+    split_zsu_title: '🇺🇦 Difesa dell\'Ucraina (30%)',
+    split_zsu_desc: 'Bonifici tracciabili verso Banca Nazionale Ucraina & Come Back Alive con prova Merkle.',
+
+    foot_honesty: 'Iniziativa in corso di costituzione come associazione (Art. 60–79 CC Svizzero). Nessun collocamento a pagamento (Art. 9 LCol). Gratuito per chi cerca lavoro.',
+    foot_rights: '© 2026 Swiss Resilience Navigator · Slava Ukraini 🇺🇦 · Vive la Suisse 🇨🇭'
+  }
+};
+
 export class HousingCalculator {
   constructor(containerId = 'calc-widget') {
     this.container = document.getElementById(containerId);
-    if (!this.container) return;
-
     this.cantonSelect = document.getElementById('canton');
-    this.communeSelect = document.getElementById('commune');
     this.familySelect = document.getElementById('family');
     this.statusRadios = document.querySelectorAll('#status-group .radio');
     this.verdictValue = document.getElementById('verdict-value');
     this.verdictNote = document.getElementById('verdict-note');
-    this.gaugeTitle = document.querySelector('.gauge-title');
-    this.gaugeSub = document.querySelector('.gauge-sub');
-    this.legalNoteEl = document.querySelector('.legal-note');
+    this.authorityEl = document.getElementById('verdict-authority');
+    this.legalRecEl = document.getElementById('verdict-legal-rec');
 
     this.currentLanguage = localStorage.getItem('srn_lang') || 'ua';
     this.init();
   }
 
   init() {
+    this.populateCantons();
     this.bindEvents();
-    this.updateCommunes();
-    this.updateFamilyOptions();
     this.updateVerdict();
+    this.initIscoClassifier();
+    this.initSubletCalculator();
+    this.initDonationModal();
     this.initMetricCounters();
     this.initSmoothScroll();
     this.initLanguageToggle();
     this.applyPageLanguage(this.currentLanguage);
   }
 
+  populateCantons() {
+    if (!this.cantonSelect) return;
+    this.cantonSelect.innerHTML = '';
+    CANTONS_26.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.code;
+      opt.textContent = `${c.code} · ${c.name}`;
+      if (c.code === 'VD') opt.selected = true;
+      this.cantonSelect.appendChild(opt);
+    });
+  }
+
   bindEvents() {
     if (this.cantonSelect) {
-      this.cantonSelect.addEventListener('change', () => {
-        this.updateCommunes();
-        this.updateVerdict();
-      });
-    }
-
-    if (this.communeSelect) {
-      this.communeSelect.addEventListener('change', () => {
-        this.updateVerdict();
-      });
+      this.cantonSelect.addEventListener('change', () => this.updateVerdict());
     }
 
     if (this.familySelect) {
-      this.familySelect.addEventListener('change', () => {
-        this.updateVerdict();
-      });
+      this.familySelect.addEventListener('change', () => this.updateVerdict());
     }
 
     this.statusRadios.forEach((radioLabel) => {
-      radioLabel.addEventListener('click', (e) => {
+      radioLabel.addEventListener('click', () => {
         this.statusRadios.forEach((r) => r.classList.remove('checked'));
         radioLabel.classList.add('checked');
         const input = radioLabel.querySelector('input[type="radio"]');
@@ -134,344 +423,273 @@ export class HousingCalculator {
     });
   }
 
-  updateCommunes() {
-    if (!this.communeSelect || !this.cantonSelect) return;
-    const canton = this.cantonSelect.value || 'vd';
-    const communes = COMMUNES_BY_CANTON[canton] || COMMUNES_BY_CANTON.vd;
-    const currentVal = this.communeSelect.value;
-
-    this.communeSelect.innerHTML = '';
-    communes.forEach((c) => {
-      const opt = document.createElement('option');
-      opt.value = c.value;
-      opt.textContent = this.currentLanguage === 'fr' ? c.labelFR : c.labelUA;
-      if (c.value === currentVal) {
-        opt.selected = true;
-      }
-      this.communeSelect.appendChild(opt);
-    });
-
-    if (!this.communeSelect.value && communes.length > 0) {
-      this.communeSelect.value = communes[0].value;
-    }
-  }
-
-  updateFamilyOptions() {
-    if (!this.familySelect) return;
-    const curVal = this.familySelect.value || '3';
-    const opts = FAMILY_OPTIONS[this.currentLanguage] || FAMILY_OPTIONS.ua;
-
-    this.familySelect.innerHTML = '';
-    opts.forEach(o => {
-      const opt = document.createElement('option');
-      opt.value = o.value;
-      opt.textContent = o.label;
-      if (o.value === curVal) opt.selected = true;
-      this.familySelect.appendChild(opt);
-    });
-  }
-
   updateVerdict() {
     if (!this.verdictValue) return;
 
-    const canton = this.cantonSelect ? this.cantonSelect.value : 'vd';
-    const commune = this.communeSelect ? this.communeSelect.value : 'lausanne';
-    const family = this.familySelect ? this.familySelect.value : '3';
-    
+    const cantonCode = this.cantonSelect ? this.cantonSelect.value : 'VD';
+    const familyVal = this.familySelect ? parseInt(this.familySelect.value, 10) : 3;
+
+    const cantonData = CANTONS_26.find(c => c.code === cantonCode) || CANTONS_26[0];
+
+    let rentCapStr = cantonData.persons_3_chf;
+    if (familyVal === 1) rentCapStr = cantonData.persons_1_chf;
+    else if (familyVal === 2) rentCapStr = cantonData.persons_2_chf;
+    else if (familyVal === 4) rentCapStr = cantonData.persons_4_chf;
+    else if (familyVal >= 5) rentCapStr = cantonData.persons_5plus_chf;
+
+    // Parse numeric base if possible
+    let baseNum = 1450;
+    if (typeof rentCapStr === 'number') {
+      baseNum = rentCapStr;
+    } else {
+      const match = String(rentCapStr).match(/\d+/);
+      if (match) baseNum = parseInt(match[0], 10);
+    }
+
     const checkedStatus = document.querySelector('input[name="status"]:checked');
     const status = checkedStatus ? checkedStatus.value : 'evam';
-
-    let base = BAREMES[canton]?.[commune]?.[family];
-    if (!base) {
-      base = canton === 'ge' ? 1750 : 1290;
-    }
-
     if (status === 'income') {
-      base = Math.round((base * 1.15) / 10) * 10;
+      baseNum = Math.round((baseNum * 1.15) / 10) * 10;
     }
 
-    this.verdictValue.textContent = formatSwissNumber(base);
-
-    const cantonName = canton === 'vd' ? 'Communes Vaudoises (EVAM)' : 'Hospice Général (Genève)';
-    const communeLabel = this.communeSelect && this.communeSelect.selectedIndex >= 0
-      ? this.communeSelect.options[this.communeSelect.selectedIndex].text.split('·')[0].trim()
-      : 'Lausanne';
-    const famLabel = this.familySelect && this.familySelect.selectedIndex >= 0
-      ? this.familySelect.options[this.familySelect.selectedIndex].text.split('·')[0].trim()
-      : '3 personnes';
+    this.verdictValue.textContent = formatSwissNumber(baseNum);
 
     if (this.verdictNote) {
-      this.verdictNote.textContent = this.currentLanguage === 'fr'
-        ? `Barème ${cantonName} · ${famLabel} · ${communeLabel} · mis à jour 09.2026`
-        : `Barème ${cantonName} · ${famLabel} · ${communeLabel} · оновлено 09.2026`;
+      const typeLabel = cantonData.rent_type === 'brut' ? 'brut (charges comprises)' : 'net (+ charges)';
+      this.verdictNote.textContent = `${cantonData.name} (${cantonData.code}) · ${familyVal} p. · ${typeLabel} · ${cantonData.legal_sources}`;
     }
 
-    if (status === 'income') {
-      if (this.gaugeTitle) {
-        this.gaugeTitle.textContent = this.currentLanguage === 'fr'
-          ? 'Solvabilité Régie Standard (Règle 33%)'
-          : 'Regie Solvency Standard (Règle 33%)';
-      }
-      if (this.gaugeSub) {
-        this.gaugeSub.textContent = this.currentLanguage === 'fr'
-          ? 'Revenu suffisant pour les régies suisses sans recours aux plafonds EVAM'
-          : 'Розрахунок базується на платоспроможності (оренда ≤ 33% чистого доходу) без обмежень соціальних барем';
-      }
-      if (this.legalNoteEl) {
-        const p = this.legalNoteEl.querySelector('p');
-        if (p) {
-          p.innerHTML = this.currentLanguage === 'fr'
-            ? '<strong>Recommandé : Dépôt direct avec extrait OP.</strong> Joindre obligatoirement une attestation de non-poursuite récente (< 3 mois) et les 3 dernières fiches de salaire. Le générateur compile la lettre conforme USPI en 1 clic.'
-            : '<strong>Рекомендовано: Пряма подача досьє з Extrait OP.</strong> Додайте довідку про відсутність боргів (Office des Poursuites &lt; 3 міс.) та 3 останні зарплатні листи. Наш сервіс генерує мотиваційний лист стандарту USPI в 1 клік.';
-        }
-      }
-    } else {
-      if (this.gaugeTitle) {
-        this.gaugeTitle.textContent = '100% EVAM Compliant';
-      }
-      if (this.gaugeSub) {
-        this.gaugeSub.textContent = this.currentLanguage === 'fr'
-          ? 'Bail entièrement pris en charge par l\'aide sociale EVAM sans risque de rejet'
-          : 'Договір може бути повністю покритий соціальною допомогою EVAM без ризику відхилення';
-      }
-      if (this.legalNoteEl) {
-        const p = this.legalNoteEl.querySelector('p');
-        if (p) {
-          p.innerHTML = this.currentLanguage === 'fr'
-            ? '<strong>Recommandé : Reprise de bail (Art. 264 CO).</strong> Le loyer est bloqué selon le bail en vigueur sans majoration par la régie. Nous fournissons le modèle officiel et le dossier complet USPI.'
-            : '<strong>Рекомендовано: Reprise de bail (Art. 264 CO).</strong> Орендна плата фіксується за чинним договором без права режі на підвищення. Ми надамо шаблон запиту та повний пакет USPI-стандарту досьє в 1 клік.';
-        }
-      }
+    if (this.authorityEl) {
+      this.authorityEl.textContent = cantonData.authority;
     }
   }
 
-  initLanguageToggle() {
-    const langButtons = document.querySelectorAll('.lang-toggle button');
-    langButtons.forEach((b) => {
-      b.addEventListener('click', () => {
-        langButtons.forEach((x) => x.classList.remove('active'));
-        b.classList.add('active');
-        this.currentLanguage = b.getAttribute('data-lang') || 'ua';
-        localStorage.setItem('srn_lang', this.currentLanguage);
-        this.updateCommunes();
-        this.updateFamilyOptions();
-        this.updateVerdict();
-        this.applyPageLanguage(this.currentLanguage);
+  initIscoClassifier() {
+    const sectorSelect = document.getElementById('isco-sector');
+    const profSelect = document.getElementById('isco-profession');
+    const titleDisplay = document.getElementById('isco-titles-display');
+    const badgeContainer = document.getElementById('isco-badge-container');
+    const qualsDisplay = document.getElementById('isco-quals');
+    const salaryDisplay = document.getElementById('isco-salary');
+
+    if (!sectorSelect || !profSelect) return;
+
+    // Populate Sectors
+    const sectors = [
+      { code: 'HOSP', uk: 'Готельно-ресторанний бізнес', fr: 'Hôtellerie & Restauration', de: 'Gastgewerbe & Hotellerie', it: 'Alberghiero e Ristorazione' },
+      { code: 'CONST', uk: 'Будівництво та ремесла', fr: 'Construction & Artisanat', de: 'Bau & Handwerk', it: 'Edilizia e Artigianato' },
+      { code: 'LOG', uk: 'Логістика, транспорт, клінінг', fr: 'Logistique, Transport & Nettoyage', de: 'Logistik & Reinigung', it: 'Logistica e Pulizia' },
+      { code: 'HEALTH', uk: 'Охорона здоров\'я та догляд', fr: 'Santé & Soins', de: 'Gesundheit & Pflege', it: 'Sanità e Assistenza' },
+      { code: 'IT', uk: 'ІТ та цифрові технології', fr: 'Informatique & Technologies', de: 'IT & Digitales', it: 'Informatica e Tecnologie' }
+    ];
+
+    sectorSelect.innerHTML = '';
+    sectors.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.code;
+      const lang = this.currentLanguage;
+      opt.textContent = (lang === 'fr') ? s.fr : (lang === 'de') ? s.de : (lang === 'it') ? s.it : s.uk;
+      sectorSelect.appendChild(opt);
+    });
+
+    const updateProfessions = () => {
+      const sec = sectorSelect.value;
+      const filtered = CH_ISCO_19_PROFESSIONS.filter(p => p.sector_code === sec);
+      profSelect.innerHTML = '';
+      filtered.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.isco_code;
+        const l = this.currentLanguage;
+        const title = (l === 'fr') ? p.title_fr : (l === 'de') ? p.title_de : (l === 'it') ? p.title_it : p.title_uk;
+        opt.textContent = `${p.isco_code} — ${title}`;
+        profSelect.appendChild(opt);
+      });
+      updateProfDetails();
+    };
+
+    const updateProfDetails = () => {
+      const code = profSelect.value;
+      const prof = CH_ISCO_19_PROFESSIONS.find(p => p.isco_code === code);
+      if (!prof) return;
+
+      const l = this.currentLanguage;
+      const dict = TRANSLATIONS[l] || TRANSLATIONS.ua;
+
+      if (titleDisplay) {
+        titleDisplay.innerHTML = `
+          <div style="font-size:13px; color:var(--muted); line-height:1.6; margin-top:8px;">
+            <strong>🇫🇷 FR:</strong> ${prof.title_fr}<br>
+            <strong>🇩🇪 DE:</strong> ${prof.title_de}<br>
+            <strong>🇮🇹 IT:</strong> ${prof.title_it}<br>
+            <strong>🇺🇦 UK:</strong> ${prof.title_uk}
+          </div>
+        `;
+      }
+
+      if (badgeContainer) {
+        if (prof.stellenmeldepflicht) {
+          badgeContainer.innerHTML = `<span class="priority-badge" style="background:#DC2626; color:#fff; font-weight:700; padding:6px 12px; border-radius:8px; font-size:12px; display:inline-flex; align-items:center; gap:6px;">${dict.badge_priority}</span>`;
+        } else {
+          badgeContainer.innerHTML = `<span class="priority-badge" style="background:rgba(5,150,105,0.2); color:#10B981; border:1px solid rgba(16,185,129,0.3); font-weight:600; padding:6px 12px; border-radius:8px; font-size:12px; display:inline-flex; align-items:center; gap:6px;">${dict.badge_open}</span>`;
+        }
+      }
+
+      if (qualsDisplay) {
+        qualsDisplay.textContent = prof.ch_qual_levels || 'Sans diplôme / AFP / CFC / Tertiaire';
+      }
+
+      if (salaryDisplay) {
+        salaryDisplay.textContent = `${prof.salary_range_chf} (CHF/mois brut)`;
+      }
+    };
+
+    sectorSelect.addEventListener('change', updateProfessions);
+    profSelect.addEventListener('change', updateProfDetails);
+
+    updateProfessions();
+  }
+
+  initSubletCalculator() {
+    const netRentInput = document.getElementById('sublet-net-rent');
+    const roomsInput = document.getElementById('sublet-rooms');
+    const furnSlider = document.getElementById('sublet-furn-pct');
+    const furnPctLabel = document.getElementById('sublet-furn-label');
+    const roomRentDisplay = document.getElementById('sublet-room-rent-val');
+    const furnCapDisplay = document.getElementById('sublet-furn-cap-val');
+    const totalRentDisplay = document.getElementById('sublet-total-val');
+
+    if (!netRentInput || !roomsInput || !furnSlider) return;
+
+    const recalculate = () => {
+      const net = parseFloat(netRentInput.value) || 1600;
+      const rooms = parseFloat(roomsInput.value) || 3.0;
+      const furnPct = parseFloat(furnSlider.value) || 15;
+
+      if (furnPctLabel) furnPctLabel.textContent = `${furnPct}%`;
+
+      const roomBase = Math.round(net / Math.max(rooms, 1));
+      const furnCap = Math.round(roomBase * (furnPct / 100));
+      const total = roomBase + furnCap;
+
+      if (roomRentDisplay) roomRentDisplay.textContent = formatSwissNumber(roomBase);
+      if (furnCapDisplay) furnCapDisplay.textContent = formatSwissNumber(furnCap);
+      if (totalRentDisplay) totalRentDisplay.textContent = formatSwissNumber(total);
+    };
+
+    netRentInput.addEventListener('input', recalculate);
+    roomsInput.addEventListener('input', recalculate);
+    furnSlider.addEventListener('input', recalculate);
+
+    recalculate();
+  }
+
+  initDonationModal() {
+    const openBtns = document.querySelectorAll('.btn-donate-trigger');
+    const modal = document.getElementById('donation-modal');
+    const closeBtn = document.getElementById('donation-modal-close');
+
+    if (!modal) return;
+
+    openBtns.forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.add('active');
       });
     });
 
-    // Set initial active state based on stored preference
-    langButtons.forEach((b) => {
-      if (b.getAttribute('data-lang') === this.currentLanguage) {
-        b.classList.add('active');
-      } else {
-        b.classList.remove('active');
-      }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  }
+
+  initLanguageToggle() {
+    const langBtns = document.querySelectorAll('.lang-toggle button');
+    langBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        if (!lang) return;
+        this.currentLanguage = lang;
+        localStorage.setItem('srn_lang', lang);
+        this.applyPageLanguage(lang);
+      });
     });
   }
 
   applyPageLanguage(lang) {
-    const isFr = lang === 'fr';
+    const dict = TRANSLATIONS[lang] || TRANSLATIONS.ua;
+    document.documentElement.lang = lang;
 
-    // Top Navigation Links
-    const navLinks = document.querySelectorAll('.nav-links a');
-    if (navLinks.length >= 5) {
-      navLinks[0].textContent = isFr ? 'Radar Logement' : 'Житловий Радар';
-      navLinks[1].textContent = isFr ? 'Calculateur EVAM' : 'Калькулятор EVAM';
-      navLinks[2].textContent = isFr ? 'Solidarité ZSU' : 'ЗСУ Прозорість';
-      navLinks[3].textContent = isFr ? 'Carrière ORP' : "Кар'єра ORP";
-      navLinks[4].textContent = isFr ? 'Tarifs' : 'Тарифи';
-    }
+    // Update buttons state
+    document.querySelectorAll('.lang-toggle button').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
 
-    // Nav CTA buttons
-    const navTgBtn = document.querySelector('.nav-actions .btn-ghost');
-    if (navTgBtn) {
-      navTgBtn.innerHTML = isFr
-        ? `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Lancer le bot Telegram`
-        : `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Запустити Telegram-бота`;
-    }
+    // Translate all data-i18n
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        el.innerHTML = dict[key];
+      }
+    });
 
-    const navAppBtn = document.querySelector('.nav-actions .btn-primary');
-    if (navAppBtn) {
-      navAppBtn.href = '/app/';
-      navAppBtn.innerHTML = isFr
-        ? `Ouvrir la Web App <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`
-        : `Відкрити Web App <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`;
-    }
+    // Re-trigger dynamic components
+    this.updateVerdict();
+    this.initIscoClassifier();
+  }
 
-    // Hero Section
-    const heroPill = document.querySelector('.hero .pill');
-    if (heroPill) {
-      heroPill.innerHTML = isFr
-        ? `<span class="pulse-dot" aria-hidden="true"></span> ⚡ SURVEILLANCE DIRECTE FLATFOX REST API · &lt; 60 SECONDES`
-        : `<span class="pulse-dot" aria-hidden="true"></span> ⚡ ПРЯМИЙ МОНІТОРИНГ FLATFOX REST API · &lt; 60 СЕКУНД`;
-    }
+  initMetricCounters() {
+    const counters = document.querySelectorAll('[data-counter]');
+    if (!counters.length) return;
 
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-      heroTitle.innerHTML = isFr
-        ? `Logement suisse et intégration légale <span class="accent">sans intermédiaires ni frais abusifs</span>`
-        : `Швейцарське житло та легальна інтеграція <span class="accent">без посередників і переплат</span>`;
-    }
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseFloat(el.getAttribute('data-counter'));
+          const prefix = el.getAttribute('data-prefix') || '';
+          const suffix = el.getAttribute('data-suffix') || '';
+          const duration = 1200;
+          const start = performance.now();
 
-    const heroSub = document.querySelector('.hero-sub');
-    if (heroSub) {
-      heroSub.textContent = isFr
-        ? `Surveillance automatisée selon les barèmes officiels EVAM et Hospice Général, reprises de bail (art. 264 CO), génération instantanée de dossiers conformes USPI et contribution solidaire de 30% à la défense ukrainienne.`
-        : `Прямий автоматизований моніторинг житла за офіційними баремами EVAM та Hospice Général, передача договорів оренди (Reprise de bail, Art. 264 CO), миттєва компіляція досьє стандарту USPI та солідарний внесок 30% на захист України.`;
-    }
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const val = Math.round(progress * target);
+            el.textContent = `${prefix}${formatSwissNumber(val)}${suffix}`;
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            }
+          };
+          requestAnimationFrame(step);
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.2 });
 
-    const heroCtas = document.querySelectorAll('.hero-cta a');
-    if (heroCtas.length >= 2) {
-      heroCtas[0].href = '/app/';
-      heroCtas[0].innerHTML = isFr
-        ? `🚀 Ouvrir l'application Web (TMA) <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`
-        : `🚀 Відкрити веб-додаток (TMA) <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`;
-
-      heroCtas[1].innerHTML = isFr
-        ? `📊 Calculer l'éligibilité EVAM <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`
-        : `📊 Розрахувати шанс оренди <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
-    }
-
-    // Hero Metrics
-    const metrics = document.querySelectorAll('.hero-metrics .metric');
-    if (metrics.length >= 3) {
-      metrics[0].querySelector('.metric-label').textContent = isFr ? 'Statut juridique' : 'Правовий статус';
-      const m0Val = metrics[0].querySelector('.metric-value');
-      if (m0Val) m0Val.textContent = 'Art. 60–79 CC';
-      metrics[0].querySelector('.metric-desc').textContent = isFr
-        ? 'Association suisse sans but lucratif · Protection 100% aide EVAM (LARA)'
-        : 'Швейцарська некомерційна асоціація · 100% захист соціальної допомоги EVAM (LARA)';
-
-      metrics[1].querySelector('.metric-label').textContent = isFr ? 'Commissions intermédiaires' : 'Комісії посередникам';
-      const m1Val = metrics[1].querySelector('.metric-value');
-      if (m1Val) m1Val.textContent = '0 CHF';
-      metrics[1].querySelector('.metric-desc').textContent = isFr
-        ? 'payées aux spéculateurs — accès direct et gratuit aux sources'
-        : 'сплачено тіньовим спекулянтам — прямий доступ до першоджерела';
-
-      metrics[2].querySelector('.metric-label').textContent = isFr ? 'Solidarité Défense 🇺🇦' : 'Солідарна допомога 🇺🇦';
-      const m2Val = metrics[2].querySelector('.metric-value');
-      if (m2Val) m2Val.textContent = '30%';
-      metrics[2].querySelector('.metric-desc').textContent = isFr
-        ? 'de chaque souscription reversé de manière transparente aux fonds officiels (BNU / Come Back Alive)'
-        : 'фіксоване відрахування з кожного платного тарифу на перевірені рахунки оборони (НБУ / Повернись живим)';
-    }
-
-    // Calculator section titles & labels
-    const calcTitle = document.querySelector('#calc .section-title');
-    if (calcTitle) {
-      calcTitle.innerHTML = isFr
-        ? `Calculateur des barèmes EVAM / Hospice&nbsp;Général`
-        : `Калькулятор бареми EVAM / Hospice&nbsp;Général`;
-    }
-
-    const calcSub = document.querySelector('#calc .section-sub');
-    if (calcSub) {
-      calcSub.textContent = isFr
-        ? `Renseignez la taille du ménage et la commune — obtenez immédiatement le budget plafond, le statut d'éligibilité et les recommandations juridiques.`
-        : `Введіть склад сім'ї та комуну — миттєво отримайте максимальний бюджет оренди, статус відповідності та юридичну рекомендацію щодо оптимальної процедури укладення договору.`;
-    }
-
-    const calcLeftTitle = document.querySelector('.calc-left h3');
-    if (calcLeftTitle) calcLeftTitle.textContent = isFr ? 'Votre profil' : 'Ваш профіль';
-
-    const calcRightTitle = document.querySelector('.calc-right h3');
-    if (calcRightTitle) calcRightTitle.textContent = isFr ? 'Verdict juridique' : 'Юридичний вердикт';
-
-    const verdictLabel = document.querySelector('.verdict-label');
-    if (verdictLabel) verdictLabel.textContent = isFr ? 'Loyer brut maximum autorisé' : 'Максимальний допустимий бюджет оренди';
-
-    const perMonth = document.querySelector('.verdict-amount .per');
-    if (perMonth) perMonth.textContent = isFr ? ' / mois' : ' / місяць';
-
-    const radioTexts = document.querySelectorAll('#status-group .radio span:last-child');
-    if (radioTexts.length >= 2) {
-      radioTexts[0].textContent = isFr ? 'Bénéficiaire EVAM (barème)' : 'Бенефіціар EVAM';
-      radioTexts[1].textContent = isFr ? 'Salarié / Revenu d\'activité' : 'Працевлаштований / власний дохід';
-    }
-
-    // Pricing Section
-    const pricingTitle = document.querySelector('#pricing .section-title');
-    if (pricingTitle) {
-      pricingTitle.textContent = isFr ? 'Des formules transparentes — utiles à l’Ukraine' : 'Тарифи, що працюють на вас — і на Україну';
-    }
-
-    const pricingSub = document.querySelector('#pricing .section-sub');
-    if (pricingSub) {
-      pricingSub.textContent = isFr
-        ? 'Tarification claire sans abonnement caché. Chaque règlement reverse automatiquement 30% au profit de la défense ukrainienne.'
-        : 'Прозоре ціноутворення без прихованих комісій. Кожна платна підписка автоматично відраховує 30% на потреби оборони України.';
-    }
-
-    // Pricing cards buttons — Direct Telegram Deep Links & Web App Checkout
-    const priceCtas = document.querySelectorAll('.price-card a.price-cta');
-    if (priceCtas.length >= 3) {
-      priceCtas[0].href = '/app/?view=onboarding';
-      priceCtas[0].textContent = isFr ? 'Commencer gratuitement (Web App)' : 'Почати безкоштовно (Web App)';
-
-      priceCtas[1].href = 'https://t.me/SwissResilienceHubBot?start=pay_pro19';
-      priceCtas[1].target = '_blank';
-      priceCtas[1].rel = 'noopener noreferrer';
-      priceCtas[1].textContent = isFr ? '⚡ Souscrire dans Telegram (@SwissResilienceHubBot)' : '⚡ Оформити в Telegram (@SwissResilienceHubBot)';
-
-      priceCtas[2].href = 'https://t.me/SwissResilienceHubBot?start=pay_success49';
-      priceCtas[2].target = '_blank';
-      priceCtas[2].rel = 'noopener noreferrer';
-      priceCtas[2].textContent = isFr ? '⚡ Commander dans Telegram (@SwissResilienceHubBot)' : '⚡ Замовити в Telegram (@SwissResilienceHubBot)';
-    }
+    counters.forEach((c) => observer.observe(c));
   }
 
   initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener('click', (e) => {
-        const id = anchor.getAttribute('href');
-        if (id && id.length > 1) {
-          const target = document.querySelector(id);
-          if (target) {
-            e.preventDefault();
-            const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
-            window.scrollTo({ top: topOffset, behavior: 'smooth' });
-          }
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({ behavior: 'smooth' });
         }
       });
     });
   }
-
-  initMetricCounters() {
-    const counters = document.querySelectorAll('.metric-value[data-count]');
-    counters.forEach((el) => {
-      const target = parseInt(el.getAttribute('data-count'), 10);
-      if (isNaN(target)) return;
-
-      const isCurrency = el.textContent.includes('CHF');
-      let current = 0;
-      const duration = 1200;
-      const start = performance.now();
-
-      const update = (now) => {
-        const progress = Math.min((now - start) / duration, 1);
-        const ease = 1 - Math.pow(1 - progress, 3);
-        current = Math.round(target * ease);
-
-        if (isCurrency) {
-          el.textContent = `CHF ${formatSwissNumber(current)}`;
-        } else {
-          el.textContent = `${formatSwissNumber(current)}+`;
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        }
-      };
-
-      requestAnimationFrame(update);
-    });
-  }
 }
 
+// Auto-instantiate on DOM load
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
-    window.swissCalculator = new HousingCalculator('calc-widget');
+    new HousingCalculator();
   });
 }
