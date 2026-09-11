@@ -2117,7 +2117,7 @@ class ResilienceMiniApp {
     if (totalEl) totalEl.innerText = `CHF ${this.totalZsuRaised.toFixed(2)}`;
     
     const fill = document.getElementById('zsu-progress-fill');
-    const goalPct = Math.min(100, Math.round((this.totalZsuRaised / 18640) * 100));
+    const goalPct = Math.min(100, Math.round((this.totalZsuRaised / 500) * 100));
     if (fill) fill.style.width = `${goalPct}%`;
     const goalPctEl = document.getElementById('zsu-goal-pct-display');
     if (goalPctEl) goalPctEl.innerText = `${goalPct}% профінансовано`;
