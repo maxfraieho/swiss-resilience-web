@@ -14,14 +14,30 @@
 
   <!-- Top Telegram Native Navigation Header -->
   <header class="tg-header">
-    <button id="btn-header-action" class="tg-close-btn" onclick="app.handleHeaderAction()">✕ <span data-i18n="hdr_close">Закрити</span></button>
-    <div class="title-group">
-      <span class="shield-icon">🛡️</span>
-      <span id="page-title" class="title" data-i18n="nav_radar">Свіжі квартири</span>
+    <div class="tg-header-left">
+      <button id="btn-header-action" class="tg-close-btn" onclick="app.handleHeaderAction()">✕ <span data-i18n="hdr_close">Закрити</span></button>
+      <div class="title-group">
+        <span class="shield-icon">🛡️</span>
+        <span id="page-title" class="title" data-i18n="nav_radar">Свіжі квартири</span>
+      </div>
     </div>
-    <div class="tg-lang-toggle">
-      <button id="lang-ua" class="active" onclick="app.setLanguage('ua')">UA</button>
-      <button id="lang-fr" onclick="app.setLanguage('fr')">FR</button>
+    <div class="tg-header-actions">
+      <!-- Direct Link to Main Web Platform in Browser -->
+      <button class="tg-site-btn" onclick="app.openMainSite()" title="Відкрити повний веб-сайт у браузері">
+        <span>🌐</span> <span class="hide-xs" data-i18n="hdr_website">Сайт</span> <span style="font-size:10px; opacity:0.8;">↗</span>
+      </button>
+
+      <!-- Auth / User Profile Button -->
+      <button id="btn-auth-header" class="tg-auth-btn" onclick="app.openAuthModal()" title="Авторизація та профіль">
+        <span class="auth-dot"></span>
+        <span id="auth-btn-label">👤 Arsen</span>
+      </button>
+
+      <!-- Language Toggle -->
+      <div class="tg-lang-toggle">
+        <button id="lang-ua" class="active" onclick="app.setLanguage('ua')">UA</button>
+        <button id="lang-fr" onclick="app.setLanguage('fr')">FR</button>
+      </div>
     </div>
   </header>
 
@@ -193,7 +209,7 @@
             <div style="font-size:13px; font-weight:700; color:#FBBF24;" data-i18n="pro_banner_title">Тариф Pro Solidarity (CHF 19)</div>
             <div style="font-size:11px; color:var(--text-2);" data-i18n="pro_banner_sub">30% внеску автоматично перераховується на ЗСУ</div>
           </div>
-          <button class="btn-secondary" style="padding:6px 12px; font-size:11px; border-color:#F59E0B; color:#FBBF24; cursor:pointer;" onclick="app.openCheckout('pro')"><span data-i18n="btn_checkout_tier">Оформити</span></button>
+          <button class="btn-amber" style="height:32px; font-size:11px; padding:0 12px;" onclick="app.openCheckout('pro')"><span data-i18n="btn_checkout_tier">Оформити</span></button>
         </div>
 
         <button class="btn-primary" onclick="app.saveProfileAndLaunchRadar()">
@@ -213,6 +229,16 @@
           <div style="font-size:18px; font-weight:700;" data-i18n="hdr_fresh_flats">Свіжі квартири</div>
         </div>
         <div style="font-size:11px; color:var(--text-3);" id="listings-stat-count">Завантаження...</div>
+      </div>
+
+      <!-- Desktop Web Platform Transition Banner -->
+      <div class="web-transition-banner" onclick="app.openMainSite()">
+        <div class="web-trans-icon">🌐</div>
+        <div class="web-trans-text">
+          <div class="web-trans-title" data-i18n="trans_desktop_title">Повна десктоп-версія в браузері</div>
+          <div class="web-trans-sub" data-i18n="trans_desktop_sub">violin-integration.works • Інтерактивна мапа та аналітика</div>
+        </div>
+        <div class="web-trans-arrow">↗</div>
       </div>
 
       <!-- Real-time Search Input -->
@@ -338,30 +364,30 @@
         </div>
         <div style="display:flex; flex-direction:column; gap:10px;">
           <!-- Basic Tier -->
-          <div style="border:1px solid var(--stroke); border-radius:12px; padding:12px; background:rgba(255,255,255,0.02); display:flex; justify-content:space-between; align-items:center;">
+          <div style="border:1px solid var(--stroke-strong); border-radius:14px; padding:12px 14px; background:rgba(30, 41, 59, 0.6); display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
             <div>
-              <div style="font-size:13px; font-weight:700;">Basic • CHF 9 <span style="font-size:11px; color:var(--text-3);">/ 420 грн</span></div>
-              <div style="font-size:11px; color:var(--text-2);" data-i18n="tier_basic_desc">Радар житла + 10% на ЗСУ (CHF 0.90)</div>
+              <div style="font-size:13.5px; font-weight:700; color:#FFFFFF;">Basic • CHF 9 <span style="font-size:11px; color:var(--text-3);">/ 420 грн</span></div>
+              <div style="font-size:11px; color:var(--text-2); margin-top:2px;" data-i18n="tier_basic_desc">Радар житла + 10% на ЗСУ (CHF 0.90)</div>
             </div>
-            <button class="btn-secondary" style="padding:6px 12px; font-size:12px; cursor:pointer;" onclick="app.openCheckout('basic')"><span data-i18n="btn_choose">Обрати</span></button>
+            <button class="btn-secondary" style="height:34px; font-size:11.5px; padding:0 14px;" onclick="app.openCheckout('basic')"><span data-i18n="btn_choose">Обрати</span></button>
           </div>
 
           <!-- Pro Solidarity Tier -->
-          <div style="border:1px solid #F59E0B; border-radius:12px; padding:12px; background:rgba(245, 158, 11, 0.05); display:flex; justify-content:space-between; align-items:center;">
+          <div style="border:1.5px solid #F59E0B; border-radius:14px; padding:12px 14px; background:rgba(245, 158, 11, 0.08); display:flex; justify-content:space-between; align-items:center; box-shadow:0 4px 14px rgba(245, 158, 11, 0.15);">
             <div>
-              <div style="font-size:13px; font-weight:700; color:#FBBF24;">Pro Solidarity • CHF 19 <span style="font-size:11px; color:var(--text-2);">/ 890 грн</span></div>
-              <div style="font-size:11px; color:var(--emerald-2); font-weight:600;" data-i18n="tier_pro_desc">🛡️ 30% на ЗСУ (CHF 5.70 / 265 грн)</div>
+              <div style="font-size:13.5px; font-weight:700; color:#FBBF24;">Pro Solidarity • CHF 19 <span style="font-size:11px; color:var(--text-2);">/ 890 грн</span></div>
+              <div style="font-size:11px; color:var(--emerald-2); font-weight:600; margin-top:2px;" data-i18n="tier_pro_desc">🛡️ 30% на ЗСУ (CHF 5.70 / 265 грн)</div>
             </div>
-            <button class="btn-primary" style="padding:6px 14px; font-size:12px; background:#F59E0B; cursor:pointer;" onclick="app.openCheckout('pro')"><span data-i18n="btn_order_now">Оформити ⚡</span></button>
+            <button class="btn-amber" style="height:34px; font-size:11.5px; padding:0 14px;" onclick="app.openCheckout('pro')"><span data-i18n="btn_order_now">Оформити ⚡</span></button>
           </div>
 
           <!-- Success Contribution -->
-          <div style="border:1px solid var(--stroke); border-radius:12px; padding:12px; background:rgba(255,255,255,0.02); display:flex; justify-content:space-between; align-items:center;">
+          <div style="border:1px solid var(--stroke-strong); border-radius:14px; padding:12px 14px; background:rgba(30, 41, 59, 0.6); display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
             <div>
-              <div style="font-size:13px; font-weight:700;">Success Contribution • CHF 49 <span style="font-size:11px; color:var(--text-3);">/ 2300 грн</span></div>
-              <div style="font-size:11px; color:var(--emerald-2); font-weight:600;" data-i18n="tier_success_desc">🛡️ 30% на ЗСУ (CHF 14.70 / 680 грн)</div>
+              <div style="font-size:13.5px; font-weight:700; color:#FFFFFF;">Success Contribution • CHF 49 <span style="font-size:11px; color:var(--text-3);">/ 2300 грн</span></div>
+              <div style="font-size:11px; color:var(--emerald-2); font-weight:600; margin-top:2px;" data-i18n="tier_success_desc">🛡️ 30% на ЗСУ (CHF 14.70 / 680 грн)</div>
             </div>
-            <button class="btn-secondary" style="padding:6px 12px; font-size:12px; cursor:pointer;" onclick="app.openCheckout('success')"><span data-i18n="btn_donate">Внесок</span></button>
+            <button class="btn-secondary" style="height:34px; font-size:11.5px; padding:0 14px;" onclick="app.openCheckout('success')"><span data-i18n="btn_donate">Внесок</span></button>
           </div>
         </div>
       </div>
@@ -704,6 +730,46 @@
         </button>
         <button class="btn-secondary" onclick="app.sendMotivationByEmail()">
           <span data-i18n="btn_send_job_email">✉️ Відкрити Email клієнт</span>
+        </button>
+      </div>
+    </div>
+  <!-- ================= AUTHENTICATION & PROFILE MODAL ================= -->
+  <div id="modal-auth" class="modal-overlay" style="display:none;" onclick="if(event.target === this) app.closeAuthModal();">
+    <div class="modal-window">
+      <div class="modal-head">
+        <div class="title" data-i18n="auth_modal_title">Авторизація & Профіль</div>
+        <button class="tg-close-btn" onclick="app.closeAuthModal()">✕</button>
+      </div>
+
+      <div class="auth-user-card">
+        <div class="auth-avatar" id="auth-user-avatar">AK</div>
+        <div class="auth-details">
+          <div class="auth-name" id="auth-user-name">Arsen Kovalenko</div>
+          <div class="auth-handle" id="auth-user-handle">@Kewobe • ID 1204892</div>
+          <div class="auth-badge-row">
+            <span class="auth-status-chip">🛡️ Permis S Vaud</span>
+            <span class="auth-status-chip" style="background:rgba(56,189,248,0.16); border-color:rgba(56,189,248,0.4); color:#38BDF8;">USPI 100%</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:12px; color:var(--text-2); margin-bottom:12px; line-height:1.5;" data-i18n="auth_desc">
+        Ваш обліковий запис автоматично прив'язано до Telegram WebApp та захищеного сховища Appwrite Pro Cloud.
+      </div>
+
+      <div class="auth-methods-group">
+        <button class="btn-primary" onclick="app.syncTelegramAuth()">
+          <span>🔄</span> <span data-i18n="auth_btn_sync_tg">Синхронізувати з Telegram</span>
+        </button>
+        <button class="btn-secondary" onclick="app.openMainSite()">
+          <span>🌐</span> <span data-i18n="auth_btn_open_web">Відкрити платформу в браузері (violin-integration.works) ↗</span>
+        </button>
+      </div>
+
+      <div style="padding-top:14px; border-top:1px solid var(--stroke-strong); display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:11px; color:var(--text-3);" id="auth-session-info">Appwrite Session: fra1-live</span>
+        <button class="btn-secondary" style="height:32px; font-size:11px; padding:0 12px; color:#F87171; border-color:rgba(239,68,68,0.3);" onclick="app.logoutUser()">
+          <span data-i18n="auth_logout">Вийти</span>
         </button>
       </div>
     </div>

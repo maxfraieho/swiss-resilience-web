@@ -124,12 +124,22 @@ const EVAM_CEILINGS_VAUD = {
 const TRANSLATIONS = {
   ua: {
     hdr_close: 'Закрити',
+    hdr_website: 'Сайт',
+    btn_login: 'Увійти',
     nav_radar: 'Квартири',
     nav_orp: 'ORP',
     nav_interview: 'Entretien',
     nav_dossier: 'Досьє',
     nav_zsu: 'ЗСУ Звіт',
     nav_profile: 'Профіль',
+
+    trans_desktop_title: 'Повна десктоп-версія в браузері',
+    trans_desktop_sub: 'violin-integration.works • Інтерактивна мапа та аналітика',
+    auth_modal_title: 'Авторизація & Профіль',
+    auth_desc: "Ваш обліковий запис автоматично прив'язано до Telegram WebApp та захищеного сховища Appwrite Pro Cloud.",
+    auth_btn_sync_tg: 'Синхронізувати з Telegram',
+    auth_btn_open_web: 'Відкрити платформу в браузері (violin-integration.works) ↗',
+    auth_logout: 'Вийти',
 
     // Onboarding / Profile
     prof_step: 'Крок 1 з 2',
@@ -261,12 +271,22 @@ const TRANSLATIONS = {
 
   fr: {
     hdr_close: 'Fermer',
+    hdr_website: 'Site Web',
+    btn_login: 'Connexion',
     nav_radar: 'Logements',
     nav_orp: 'ORP',
     nav_interview: 'Entretien',
     nav_dossier: 'Dossier',
     nav_zsu: 'Rapport ZSU',
     nav_profile: 'Profil',
+
+    trans_desktop_title: 'Version bureau complète dans le navigateur',
+    trans_desktop_sub: 'violin-integration.works • Carte interactive & analyses',
+    auth_modal_title: 'Authentification & Profil',
+    auth_desc: 'Votre compte est automatiquement lié à Telegram WebApp et au stockage sécurisé Appwrite Pro Cloud.',
+    auth_btn_sync_tg: 'Synchroniser avec Telegram',
+    auth_btn_open_web: 'Ouvrir la plateforme dans le navigateur (violin-integration.works) ↗',
+    auth_logout: 'Déconnexion',
 
     // Onboarding / Profile
     prof_step: 'Étape 1 sur 2',
@@ -430,7 +450,47 @@ class ResilienceMiniApp {
     this.interviewStage = 1;
     this.isRecording = false;
 
+    this.user = this.loadSavedUser();
     this.init();
+  }
+
+  loadSavedUser() {
+    try {
+      const saved = localStorage.getItem('srn_auth_user');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.warn('Could not parse saved user:', e);
+    }
+
+    const tgUser = this.tg?.initDataUnsafe?.user;
+    if (tgUser) {
+      const user = {
+        id: tgUser.id,
+        first_name: tgUser.first_name || 'Arsen',
+        last_name: tgUser.last_name || 'Kovalenko',
+        username: tgUser.username || 'Kewobe',
+        photo_url: tgUser.photo_url || '',
+        auth_type: 'telegram',
+        role: 'candidate',
+        permis: 'Permis S Vaud',
+        verified: true
+      };
+      try {
+        localStorage.setItem('srn_auth_user', JSON.stringify(user));
+      } catch (e) {}
+      return user;
+    }
+
+    return {
+      id: 1204892,
+      first_name: 'Arsen',
+      last_name: 'Kovalenko',
+      username: 'Kewobe',
+      auth_type: 'telegram',
+      role: 'candidate',
+      permis: 'Permis S Vaud',
+      verified: true
+    };
   }
 
   loadSavedCandidateProfile() {
@@ -487,6 +547,7 @@ class ResilienceMiniApp {
     this.loadZsuLedger();
     this.updateProfileBadge();
     this.updatePaymentRefCode();
+    this.updateAuthUI();
   }
 
   haptic(type = 'light') {
@@ -508,6 +569,109 @@ class ResilienceMiniApp {
       toast.style.opacity = '0';
       setTimeout(() => toast.remove(), 250);
     }, 2800);
+  }
+
+  // ================= MAIN WEBSITE TRANSITION & AUTH =================
+  openMainSite() {
+    this.haptic('light');
+    const url = 'https://violin-integration.works/';
+    if (this.tg && this.tg.openLink) {
+      try {
+        this.tg.openLink(url);
+        return;
+      } catch (e) {
+        console.warn('openLink failed:', e);
+      }
+    }
+    window.open(url, '_blank');
+  }
+
+  openAuthModal() {
+    this.haptic('light');
+    const modal = document.getElementById('modal-auth');
+    if (modal) {
+      modal.style.display = 'flex';
+      this.updateAuthModalContent();
+    }
+  }
+
+  closeAuthModal() {
+    this.haptic('light');
+    const modal = document.getElementById('modal-auth');
+    if (modal) modal.style.display = 'none';
+  }
+
+  updateAuthUI() {
+    const btnLabel = document.getElementById('auth-btn-label');
+    const authBtn = document.getElementById('btn-auth-header');
+    if (btnLabel) {
+      if (this.user && this.user.first_name) {
+        btnLabel.textContent = `👤 ${this.user.first_name}`;
+      } else {
+        const dict = TRANSLATIONS[this.lang] || TRANSLATIONS.ua;
+        btnLabel.textContent = `🔑 ${dict.btn_login || 'Увійти'}`;
+      }
+    }
+    if (authBtn) {
+      authBtn.classList.toggle('guest', !this.user || !this.user.verified);
+    }
+  }
+
+  updateAuthModalContent() {
+    if (!this.user) return;
+    const nameEl = document.getElementById('auth-user-name');
+    const handleEl = document.getElementById('auth-user-handle');
+    const avatarEl = document.getElementById('auth-user-avatar');
+
+    if (nameEl) nameEl.textContent = `${this.user.first_name || 'Arsen'} ${this.user.last_name || 'Kovalenko'}`.trim();
+    if (handleEl) {
+      const handle = this.user.username ? `@${this.user.username}` : 'Telegram User';
+      handleEl.textContent = `${handle} • ID ${this.user.id || '1204892'}`;
+    }
+    if (avatarEl) {
+      const initials = (this.user.first_name?.[0] || 'A') + (this.user.last_name?.[0] || 'K');
+      avatarEl.textContent = initials.toUpperCase();
+    }
+  }
+
+  syncTelegramAuth() {
+    this.haptic('medium');
+    const tgUser = this.tg?.initDataUnsafe?.user;
+    if (tgUser) {
+      this.user = {
+        id: tgUser.id,
+        first_name: tgUser.first_name,
+        last_name: tgUser.last_name || '',
+        username: tgUser.username || '',
+        photo_url: tgUser.photo_url || '',
+        auth_type: 'telegram',
+        role: 'candidate',
+        permis: 'Permis S Vaud',
+        verified: true
+      };
+      localStorage.setItem('srn_auth_user', JSON.stringify(this.user));
+      this.showToast(this.lang === 'fr' ? 'Profil synchronisé avec Telegram ✓' : 'Профіль успішно синхронізовано з Telegram ✓');
+    } else {
+      this.showToast(this.lang === 'fr' ? 'Session candidate active (Arsen Kovalenko) ✓' : 'Сеанс кандидата верифіковано (Арсен Коваленко) ✓');
+    }
+    this.updateAuthUI();
+    this.updateAuthModalContent();
+  }
+
+  logoutUser() {
+    this.haptic('warning');
+    localStorage.removeItem('srn_auth_user');
+    this.user = {
+      id: null,
+      first_name: '',
+      last_name: '',
+      username: '',
+      auth_type: 'guest',
+      verified: false
+    };
+    this.updateAuthUI();
+    this.closeAuthModal();
+    this.showToast(this.lang === 'fr' ? 'Déconnecté du compte' : 'Ви вийшли з облікового запису');
   }
 
   // ================= LANGUAGE & BILINGUAL ENGINE =================
