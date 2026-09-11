@@ -812,312 +812,301 @@
     <button id="tab-interview" style="display:none;" onclick="app.switchTab('interview', this)"></button>
   </nav>
 
-  <!-- ================= DUAL-RAIL CHECKOUT MODAL ================= -->
+  <!-- ================= TRI-RAIL CHECKOUT MODAL (DESIGN SYSTEM 2.0) ================= -->
   <div id="modal-checkout" class="modal-overlay" style="display:none;" onclick="if(event.target === this) app.closeCheckout();">
-    <div class="sheet modal-window">
+    <div class="sheet">
       <div class="sheet-handle"></div>
-
-      <div class="sheet-head">
-        <div>
-          <div class="micro-eyebrow micro-emerald" id="checkout-modal-sub" data-i18n="checkout_modal_sub">Souscription solidaire</div>
-          <div class="sheet-title" id="checkout-tier-title">Pro Solidarity · <span class="tabular">CHF 19</span><span class="sheet-title-suffix">/міс</span></div>
-        </div>
-        <button class="tg-close-btn" onclick="app.closeCheckout()" title="Закрити"><svg class="ic"><use href="#i-close"/></svg></button>
-      </div>
-
-      <!-- Telegram In-App Fast Checkout Banner -->
-      <div class="tg-fast-checkout" style="background:rgba(34, 211, 238, 0.08); border:1px solid rgba(34, 211, 238, 0.25); border-radius:12px; padding:10px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <div style="font-size:12px; font-weight:700; color:#38BDF8;">Оплата в Telegram Mini App</div>
-          <div style="font-size:10.5px; color:var(--text-2);">Миттєва підписка через Stars або Monobank у боті</div>
-        </div>
-        <a id="btn-tg-deep-checkout" href="https://t.me/SwissResilienceHubBot?start=pay_pro19" target="_blank" rel="noopener" class="btn-primary" style="height:30px; font-size:11px; padding:0 12px; text-decoration:none; display:flex; align-items:center; gap:4px;">
-          <svg class="ic" style="width:13px;height:13px;"><use href="#i-bolt"/></svg>
-          В бот
-        </a>
-      </div>
-
-      <!-- Rail tabs -->
-      <div class="rail-tabs" role="tablist">
-        <button id="btn-rail-tg" class="rail-tab active" data-rail="tg" onclick="app.setCheckoutRail('tg')">
-          <svg class="ic rail-flag-svg"><use href="#i-star"/></svg>
-          <span class="rail-name">Telegram Stars</span>
-        </button>
-        <button id="btn-rail-mor" class="rail-tab" data-rail="mor" onclick="app.setCheckoutRail('mor')">
-          <span class="rail-flag">💳</span>
-          <span class="rail-name">Paddle MoR</span>
-        </button>
-        <button id="btn-rail-direct" class="rail-tab" data-rail="direct" onclick="app.setCheckoutRail('direct')">
-          <span class="rail-flag">🏛️</span>
-          <span class="rail-name">Асоціація</span>
-        </button>
-      </div>
-
-      <!-- Telegram Stars rail content -->
-      <div id="checkout-options-tg" class="rail-content active" data-rail-content="tg">
-        <!-- Telegram Stars primary -->
-        <button class="pay-primary" style="background: linear-gradient(135deg, #0b3d54, #0f172a); border-color: rgba(6, 182, 212, 0.5);" onclick="app.handleStarsPayment()">
-          <div class="pay-primary-left">
-            <div class="pay-logo-twint" style="background:linear-gradient(135deg, #22D3EE, #06B6D4);">
-              <span class="twint-mark" style="color:#fff;">★</span>
-            </div>
-            <div>
-              <div class="pay-primary-title">Telegram Stars (XTR)</div>
-              <div class="pay-primary-sub">In-app · Миттєва оплата в 1 клік</div>
-            </div>
-          </div>
-          <div class="pay-primary-right">
-            <div class="pay-amount tabular" id="stars-amount-display">⭐ 950</div>
-            <div class="pay-fee">Telegram In-App</div>
-          </div>
-        </button>
-
-        <!-- Send in chat -->
-        <button class="pay-row pay-row-featured" onclick="app.openExternalLink('https://t.me/ArsenJobHunterBot')">
-          <div class="pay-row-icon pay-row-icon-dark" style="font-size:20px;">📲</div>
-          <div class="pay-row-body">
-            <div class="pay-row-title">Оплата в діалозі з ботом <span class="badge badge-emerald badge-xs">Instant</span></div>
-            <div class="pay-row-sub">@ArsenJobHunterBot · пряме надсилання зірок</div>
-          </div>
-          <div class="pay-row-action"><svg class="ic"><use href="#i-chevron"/></svg></div>
-        </button>
-
-        <!-- Bot deep link -->
-        <button class="pay-row" onclick="app.openExternalLink('https://t.me/SwissResilienceHubBot?start=pay_pro19')">
-          <div class="pay-row-icon pay-row-icon-dark" style="font-size:20px;">⚡</div>
-          <div class="pay-row-body">
-            <div class="pay-row-title">Deep Link: @SwissResilienceHubBot</div>
-            <div class="pay-row-sub">Команда /pay для швидкої активації</div>
-          </div>
-          <div class="pay-row-action"><svg class="ic"><use href="#i-arrow-ur"/></svg></div>
-        </button>
-
-        <div style="background:rgba(34, 211, 238, 0.08); border:1px solid rgba(34, 211, 238, 0.25); border-radius:12px; padding:10px 12px; font-size:11px; color:var(--text-2); line-height:1.4;">
-          ⭐ <b>Telegram Stars</b> підтримують оплату картками будь-яких банків світу безпосередньо через App Store та Google Play з повною конфіденційністю.
-        </div>
-      </div>
-
-      <!-- MoR (Paddle / Polar) rail content -->
-      <div id="checkout-options-mor" class="rail-content" data-rail-content="mor" style="display:none;">
-        <!-- Paddle MoR primary -->
-        <button class="pay-primary" style="background: linear-gradient(135deg, #0d2818, #0f172a); border-color: rgba(16, 185, 129, 0.5);" onclick="app.openPaddleCheckout()">
-          <div class="pay-primary-left">
-            <div class="pay-logo-twint" style="background:linear-gradient(135deg, #10B981, #059669);">
-              <span class="twint-mark" style="color:#fff;">P</span>
-            </div>
-            <div>
-              <div class="pay-primary-title">Paddle Billing (MoR)</div>
-              <div class="pay-primary-sub">Visa · Mastercard · Apple Pay · PayPal</div>
-            </div>
-          </div>
-          <div class="pay-primary-right">
-            <div class="pay-amount tabular" id="paddle-amount-display">CHF 19.00</div>
-            <div class="pay-fee">100% Tax Compliant</div>
-          </div>
-        </button>
-
-        <!-- Polar.sh backup -->
-        <button class="pay-row pay-row-featured" onclick="app.openPolarCheckout()">
-          <div class="pay-row-icon pay-row-icon-dark" style="font-size:20px;">❄️</div>
-          <div class="pay-row-body">
-            <div class="pay-row-title">Polar.sh Checkout <span class="badge badge-cyan badge-xs">MoR Backup</span></div>
-            <div class="pay-row-sub">Stripe Connect · Zero FOP liability</div>
-          </div>
-          <div class="pay-row-action"><svg class="ic"><use href="#i-arrow-ur"/></svg></div>
-        </button>
-
-        <!-- EVAM Protection Escrow Card -->
-        <div style="background:rgba(16, 185, 129, 0.08); border:1px solid rgba(16, 185, 129, 0.25); border-radius:12px; padding:10px 12px; font-size:11px; color:var(--text-2); line-height:1.4;">
-          🛡️ <b>Захист виплат EVAM / Hospice Général</b>: Оплата здійснюється на користь ліцензованого продавця Paddle Payments Ltd. Виплати утримуються в режимі Escrow Hold (ст. 80–84 LAsi / ст. 34 LAS Vaud). Не потребує відкриття ФОП.
-        </div>
-      </div>
-
-      <!-- Direct Association / Legacy Acquiring rail content -->
-      <div id="checkout-options-direct" class="rail-content" data-rail-content="direct" style="display:none;">
-        <div style="background:rgba(245, 158, 11, 0.08); border:1px solid rgba(245, 158, 11, 0.25); border-radius:12px; padding:10px 12px; font-size:11px; color:#FCD34D; line-height:1.4;">
-          🏛️ <b>Канал асоціації (Art. 60–79 CC)</b>: Прямий банківський еквайринг та інституційні внески. Зберігається для прямої сплати на рахунки неприбуткової організації.
-        </div>
-
-        <!-- TWINT primary -->
-        <button class="pay-primary pay-twint" onclick="app.handleTwintPayment()">
-          <div class="pay-primary-left">
-            <div class="pay-logo-twint">
-              <span class="twint-mark">T</span>
-            </div>
-            <div>
-              <div class="pay-primary-title">TWINT</div>
-              <div class="pay-primary-sub">1-tap · Stripe secured</div>
-            </div>
-          </div>
-          <div class="pay-primary-right">
-            <div class="pay-amount tabular" id="twint-amount-display">CHF 19.00</div>
-            <div class="pay-fee">0.9% frais</div>
-          </div>
-        </button>
-
-        <!-- Apple Pay -->
-        <button class="pay-row" onclick="app.handleApplePay()">
-          <div class="pay-row-icon pay-row-icon-dark">
-            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#fff" d="M17.6 12.6c0-1.7 1.4-2.5 1.4-2.5-.8-1.1-2-1.3-2.4-1.3-1-.1-2 .6-2.5.6s-1.3-.6-2.2-.6c-1.1 0-2.2.7-2.7 1.7-1.2 2-.3 5 .8 6.6.6.8 1.2 1.7 2.1 1.6.8 0 1.2-.5 2.2-.5s1.3.5 2.2.5c.9 0 1.5-.8 2.1-1.6.7-.9.9-1.8.9-1.9 0 0-1.9-.7-1.9-2.6ZM15.7 7.2c.5-.6.8-1.4.7-2.2-.7 0-1.5.4-2 1-.4.5-.8 1.3-.7 2.1.8.1 1.5-.3 2-.9Z"/></svg>
-          </div>
-          <div class="pay-row-body">
-            <div class="pay-row-title">Apple Pay (Stripe)</div>
-            <div class="pay-row-sub">Touch / Face ID · Stripe</div>
-          </div>
-          <div class="pay-row-action"><svg class="ic"><use href="#i-chevron"/></svg></div>
-        </button>
-
-        <!-- Swiss QR-Bill -->
-        <button class="pay-row pay-row-featured" onclick="app.downloadQrBill()">
-          <div class="pay-row-icon pay-row-icon-crimson">
-            <svg viewBox="0 0 20 20" width="22" height="22">
-              <rect x="1" y="1" width="6" height="6" fill="#F1F5F9"/>
-              <rect x="2.5" y="2.5" width="3" height="3" fill="#0A0E17"/>
-              <rect x="13" y="1" width="6" height="6" fill="#F1F5F9"/>
-              <rect x="14.5" y="2.5" width="3" height="3" fill="#0A0E17"/>
-              <rect x="1" y="13" width="6" height="6" fill="#F1F5F9"/>
-              <rect x="2.5" y="14.5" width="3" height="3" fill="#0A0E17"/>
-              <rect x="9" y="9" width="2" height="2" fill="#E23325"/>
-              <rect x="7" y="9" width="1" height="1" fill="#F1F5F9"/>
-              <rect x="12" y="9" width="1" height="1" fill="#F1F5F9"/>
-              <rect x="9" y="7" width="1" height="1" fill="#F1F5F9"/>
-              <rect x="9" y="12" width="1" height="1" fill="#F1F5F9"/>
-              <rect x="13" y="11" width="1" height="1" fill="#F1F5F9"/>
-              <rect x="7" y="12" width="1" height="1" fill="#F1F5F9"/>
-            </svg>
-          </div>
-          <div class="pay-row-body">
-            <div class="pay-row-title">
-              Swiss QR-Bill
-              <span class="badge badge-emerald badge-xs">0% commission</span>
-            </div>
-            <div class="pay-row-sub tabular">CH33 0076 · BCV Vaud</div>
-          </div>
-          <div class="pay-row-action"><svg class="ic"><use href="#i-arrow-ur"/></svg></div>
-        </button>
-
-        <!-- Direct TWINT Phone Copy Card -->
-        <div class="copy-field-card">
+      <div class="sheet-scroll">
+        <!-- Sheet Head -->
+        <div class="sheet-head">
           <div>
-            <div class="lbl">🇨🇭 TWINT (Номер для прямого переказу)</div>
-            <div class="val" id="twint-phone-val">+41 78 777 24 59</div>
-            <div style="font-size:10px; color:var(--text-3); margin-top:2px;" data-i18n="twint_note">Введіть суму та вкажіть у повідомленні ваш ID</div>
+            <div class="micro-eyebrow" id="checkout-modal-sub" data-i18n="checkout_modal_sub">Souscription solidaire</div>
+            <div class="sheet-title" id="checkout-tier-title">Pro Solidarity ·&nbsp;<span class="price tabular" id="checkout-tier-price">CHF 19</span><span class="suffix" id="checkout-tier-suffix">/міс</span></div>
           </div>
-          <button class="copy-btn" onclick="app.copyToClipboard('+41 78 777 24 59', 'Номер TWINT скопійовано')">
-            <svg class="ic"><use href="#i-copy"/></svg>
-            <span data-i18n="btn_copy">Копіювати</span>
+          <button class="close-btn tg-close-btn" onclick="app.closeCheckout()" aria-label="Закрити" title="Закрити">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2L12 12M12 2L2 12"/></svg>
           </button>
         </div>
 
-        <!-- BCV IBAN Copy Card -->
-        <div class="copy-field-card">
+        <!-- Fast Telegram In-App Checkout Banner -->
+        <div class="tg-fast" id="tg-fast-banner">
           <div>
-            <div class="lbl">🏛️ BCV IBAN (Швейцарський банк)</div>
-            <div class="val" style="font-size:12px;">CH33 0076 7000 T888 2459 1</div>
-            <div style="font-size:10px; color:var(--text-3); margin-top:2px;">Banque Cantonale Vaudoise · Vaud</div>
+            <div class="tg-fast-text-t">⚡ Оплата в Telegram Mini App</div>
+            <div class="tg-fast-text-s">Миттєва підписка через Stars або Monobank</div>
           </div>
-          <button class="copy-btn" onclick="app.copyToClipboard('CH3300767000T88824591', 'IBAN BCV скопійовано')">
-            <svg class="ic"><use href="#i-copy"/></svg>
-            <span data-i18n="btn_copy">Копіювати</span>
+          <a id="btn-tg-deep-checkout" class="tg-fast-btn" href="https://t.me/SwissResilienceHubBot?start=pay_pro19" target="_blank" rel="noopener">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+            В бот
+          </a>
+        </div>
+
+        <!-- Rail tabs -->
+        <div class="rail-tabs" role="tablist">
+          <button id="btn-rail-tg" class="rail-tab active" data-rail="tg" role="tab" onclick="app.setCheckoutRail('tg')">
+            <span class="rail-icon">⭐</span>
+            <span class="rail-name">Stars</span>
+          </button>
+          <button id="btn-rail-mor" class="rail-tab" data-rail="mor" role="tab" onclick="app.setCheckoutRail('mor')">
+            <span class="rail-icon">💳</span>
+            <span class="rail-name">Paddle MoR</span>
+          </button>
+          <button id="btn-rail-direct" class="rail-tab" data-rail="direct" role="tab" onclick="app.setCheckoutRail('direct')">
+            <span class="rail-icon">🏛️</span>
+            <span class="rail-name">Асоціація</span>
           </button>
         </div>
 
-        <!-- Monobank plata primary -->
-        <button class="pay-primary" style="background: linear-gradient(135deg, #0a1a24, #0f172a); border-color: rgba(6, 182, 212, 0.5); margin-top:6px;" onclick="app.openExternalLink('https://send.monobank.ua/jar/9wL7mKxZ2y')">
-          <div class="pay-primary-left">
-            <div class="pay-logo-twint" style="background:linear-gradient(135deg, #000, #1a1a1a);">
-              <span class="twint-mark" style="color:#fff;">M</span>
+        <!-- ================= RAIL 1: TELEGRAM STARS ================= -->
+        <div id="checkout-options-tg" class="rail-content active" data-content="tg" data-rail-content="tg">
+          <button class="pay-primary pay-primary--tg" onclick="app.handleStarsPayment()">
+            <div class="pay-primary-left">
+              <div class="pay-logo pay-logo--tg">★</div>
+              <div>
+                <div class="pay-primary-title">Telegram Stars (XTR)</div>
+                <div class="pay-primary-sub">In-app · оплата в 1 клік</div>
+              </div>
             </div>
+            <div class="pay-primary-right">
+              <div class="pay-amount tabular" id="stars-amount-display">⭐ 950</div>
+              <div class="pay-fee">In-App · Zero KYC</div>
+            </div>
+          </button>
+
+          <button class="pay-row" onclick="app.openExternalLink('https://t.me/ArsenJobHunterBot')">
+            <div class="pay-row-icon">📲</div>
+            <div class="pay-row-body">
+              <div class="pay-row-title">Оплата в діалозі з ботом <span class="badge badge-emerald">Instant</span></div>
+              <div class="pay-row-sub">@ArsenJobHunterBot</div>
+            </div>
+            <div class="pay-row-action">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 3l4 4-4 4"/></svg>
+            </div>
+          </button>
+
+          <button class="pay-row" onclick="app.openExternalLink('https://t.me/SwissResilienceHubBot?start=pay_pro19')">
+            <div class="pay-row-icon">⚡</div>
+            <div class="pay-row-body">
+              <div class="pay-row-title">Deep Link: @SwissResilienceHubBot</div>
+              <div class="pay-row-sub">/pay_pro19 · швидка активація</div>
+            </div>
+            <div class="pay-row-action">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10L10 4M10 4H5M10 4V9"/></svg>
+            </div>
+          </button>
+
+          <div class="info-card info-card--cyan">
+            <span class="icon">⭐</span>
+            <div><b>Telegram Stars</b> підтримують оплату картками будь-яких банків світу безпосередньо через App Store та Google Play з повною конфіденційністю.</div>
+          </div>
+        </div>
+
+        <!-- ================= RAIL 2: PADDLE MOR ================= -->
+        <div id="checkout-options-mor" class="rail-content" data-content="mor" data-rail-content="mor" style="display:none;">
+          <button class="pay-primary pay-primary--mor" onclick="app.openPaddleCheckout()">
+            <div class="pay-primary-left">
+              <div class="pay-logo pay-logo--paddle">P</div>
+              <div>
+                <div class="pay-primary-title">Paddle Billing (MoR)</div>
+                <div class="pay-primary-sub">Visa · Mastercard · Apple Pay · PayPal</div>
+              </div>
+            </div>
+            <div class="pay-primary-right">
+              <div class="pay-amount tabular" id="paddle-amount-display">CHF 19.00</div>
+              <div class="pay-fee">100% Tax Compliant</div>
+            </div>
+          </button>
+
+          <button class="pay-row" onclick="app.openPolarCheckout()">
+            <div class="pay-row-icon" style="background:linear-gradient(135deg,#06B6D4,#0891B2); color:#fff; border-color:rgba(6,182,212,0.4);">❄</div>
+            <div class="pay-row-body">
+              <div class="pay-row-title">Polar.sh Checkout <span class="badge badge-cyan">MoR Backup</span></div>
+              <div class="pay-row-sub">Stripe Connect · Zero FOP</div>
+            </div>
+            <div class="pay-row-action">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10L10 4M10 4H5M10 4V9"/></svg>
+            </div>
+          </button>
+
+          <div class="info-card info-card--emerald">
+            <span class="icon">🛡️</span>
+            <div><b>Захист виплат EVAM / Hospice Général:</b> оплата на користь ліцензованого продавця Paddle Payments Ltd. Виплати утримуються в режимі Escrow Hold (LAsi Art. 80–84 / LAS Vaud Art. 34). Не потребує ФОП.</div>
+          </div>
+
+          <div class="rail-divider">Wallets & Cards</div>
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;">
+            <div class="pay-row-icon" style="height:44px; width:auto; font-size:11px; font-weight:800; letter-spacing:-0.02em;">Visa</div>
+            <div class="pay-row-icon" style="height:44px; width:auto; font-size:16px;">
+              <svg width="26" height="16" viewBox="0 0 26 16" fill="none"><circle cx="8" cy="8" r="7" fill="#EB001B" opacity="0.85"/><circle cx="18" cy="8" r="7" fill="#F79E1B" opacity="0.85"/></svg>
+            </div>
+            <div class="pay-row-icon" style="height:44px; width:auto; font-size:14px;">
+              <svg width="20" height="24" viewBox="0 0 20 24" fill="#fff"><path d="M14.6 12.6c0-1.7 1.4-2.5 1.4-2.5-.8-1.1-2-1.3-2.4-1.3-1-.1-2 .6-2.5.6s-1.3-.6-2.2-.6c-1.1 0-2.2.7-2.7 1.7-1.2 2-.3 5 .8 6.6.6.8 1.2 1.7 2.1 1.6.8 0 1.2-.5 2.2-.5s1.3.5 2.2.5c.9 0 1.5-.8 2.1-1.6.7-.9.9-1.8.9-1.9 0 0-1.9-.7-1.9-2.6ZM12.7 7.2c.5-.6.8-1.4.7-2.2-.7 0-1.5.4-2 1-.4.5-.8 1.3-.7 2.1.8.1 1.5-.3 2-.9Z"/></svg>
+            </div>
+            <div class="pay-row-icon" style="height:44px; width:auto; font-size:11px; font-weight:800; color:#4285F4; letter-spacing:-0.02em;">G&nbsp;Pay</div>
+          </div>
+        </div>
+
+        <!-- ================= RAIL 3: SWISS ASSOCIATION (DIRECT) ================= -->
+        <div id="checkout-options-direct" class="rail-content" data-content="direct" data-rail-content="direct" style="display:none;">
+          <div class="info-card info-card--amber">
+            <span class="icon">🏛️</span>
+            <div><b>Канал асоціації (Art. 60–79 CC):</b> прямий банківський еквайринг та інституційні внески. Legacy-компоненти збережено — Zero Loss Architecture.</div>
+          </div>
+
+          <button class="pay-primary pay-primary--twint" onclick="app.handleTwintPayment()">
+            <div class="pay-primary-left">
+              <div class="pay-logo pay-logo--twint">T</div>
+              <div>
+                <div class="pay-primary-title">TWINT</div>
+                <div class="pay-primary-sub">1-tap · Stripe secured</div>
+              </div>
+            </div>
+            <div class="pay-primary-right">
+              <div class="pay-amount tabular" id="twint-amount-display">CHF 19.00</div>
+              <div class="pay-fee">0.9% frais</div>
+            </div>
+          </button>
+
+          <button class="pay-row" onclick="app.downloadQrBill()">
+            <div class="pay-row-icon" style="background:#0a0a0a; border:1px solid rgba(255,255,255,0.14);">
+              <svg width="20" height="20" viewBox="0 0 20 20"><rect x="1" y="1" width="6" height="6" fill="#F1F5F9"/><rect x="2.5" y="2.5" width="3" height="3" fill="#0A0E17"/><rect x="13" y="1" width="6" height="6" fill="#F1F5F9"/><rect x="14.5" y="2.5" width="3" height="3" fill="#0A0E17"/><rect x="1" y="13" width="6" height="6" fill="#F1F5F9"/><rect x="2.5" y="14.5" width="3" height="3" fill="#0A0E17"/><rect x="9" y="9" width="2" height="2" fill="#E23325"/><rect x="7" y="9" width="1" height="1" fill="#F1F5F9"/><rect x="12" y="9" width="1" height="1" fill="#F1F5F9"/><rect x="9" y="7" width="1" height="1" fill="#F1F5F9"/><rect x="9" y="12" width="1" height="1" fill="#F1F5F9"/></svg>
+            </div>
+            <div class="pay-row-body">
+              <div class="pay-row-title">Swiss QR-Bill <span class="badge badge-emerald">0% comm.</span></div>
+              <div class="pay-row-sub tabular">CH33 0076 · BCV Vaud</div>
+            </div>
+            <div class="pay-row-action">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10L10 4M10 4H5M10 4V9"/></svg>
+            </div>
+          </button>
+
+          <div class="copy-card">
             <div>
-              <div class="pay-primary-title">Monobank plata</div>
-              <div class="pay-primary-sub">Картки · Apple Pay · 0.5%</div>
+              <div class="lbl">🇨🇭 TWINT — прямий переказ</div>
+              <div class="val" id="twint-phone-val">+41 78 777 24 59</div>
+              <div class="note">У повідомленні вкажіть ваш SRN-ID</div>
+            </div>
+            <button class="copy-btn" data-copy="+41787772459" onclick="app.handleCopyBtn(this)">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><path d="M2 8V2h6"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+
+          <div class="copy-card">
+            <div>
+              <div class="lbl">🏛️ BCV IBAN — Асоціація</div>
+              <div class="val">CH33 0076 7000 T888 2459 1</div>
+              <div class="note">Banque Cantonale Vaudoise · Vaud</div>
+            </div>
+            <button class="copy-btn" data-copy="CH3300767000T88824591" onclick="app.handleCopyBtn(this)">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><path d="M2 8V2h6"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+
+          <div class="rail-divider">Ukraine · Volunteer</div>
+
+          <button class="pay-primary pay-primary--mono" onclick="app.openExternalLink('https://send.monobank.ua/jar/9wL7mKxZ2y')">
+            <div class="pay-primary-left">
+              <div class="pay-logo pay-logo--mono">M</div>
+              <div>
+                <div class="pay-primary-title">Monobank plata</div>
+                <div class="pay-primary-sub">Картки · Apple Pay · 0.5%</div>
+              </div>
+            </div>
+            <div class="pay-primary-right">
+              <div class="pay-amount tabular" id="uah-amount-display">890 ₴</div>
+              <div class="pay-fee">Мін. комісія</div>
+            </div>
+          </button>
+
+          <button class="pay-row" onclick="app.openExternalLink('https://send.monobank.ua/jar/9wL7mKxZ2y')">
+            <div class="pay-row-icon">🪙</div>
+            <div class="pay-row-body">
+              <div class="pay-row-title">Банка Monobank <span class="badge badge-emerald">0% charity</span></div>
+              <div class="pay-row-sub">send.monobank.ua/jar/9wL7…</div>
+            </div>
+            <div class="pay-row-action">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 10L10 4M10 4H5M10 4V9"/></svg>
+            </div>
+          </button>
+
+          <div class="copy-card">
+            <div>
+              <div class="lbl">💳 Картка Monobank (UAH)</div>
+              <div class="val">5375 4141 0928 8459</div>
+              <div class="note">Призначення: благодійний внесок ЗСУ</div>
+            </div>
+            <button class="copy-btn" data-copy="5375414109288459" onclick="app.handleCopyBtn(this)">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><path d="M2 8V2h6"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Payment ref -->
+        <div class="copy-card copy-card--ref" style="margin-top:12px;">
+          <div>
+            <div class="lbl" data-i18n="lbl_payment_ref">Обов'язковий коментар до платежу</div>
+            <div class="val" id="payment-ref-code">SRN-ARSEN-PRO-M09</div>
+          </div>
+          <button class="copy-btn" id="btn-copy-ref" data-copy="SRN-ARSEN-PRO-M09" style="border-color:rgba(245,158,11,0.5); color:var(--amber-2);" onclick="app.handleCopyBtn(this)">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><path d="M2 8V2h6"/></svg>
+            <span>Copy</span>
+          </button>
+        </div>
+
+        <!-- ============ ZSU / SOLIDARITY FOOTER ============ -->
+        <section class="zsu">
+          <div class="zsu-head">
+            <span class="zsu-flags">🇺🇦&nbsp;🤝&nbsp;🇨🇭</span>
+            <div>
+              <div class="zsu-title">Solidarity ZSU</div>
+              <div class="zsu-sub">Alloué automatiquement · <b id="zsu-pct-label" class="tabular">30%</b></div>
+            </div>
+            <div class="zsu-amount">
+              <span id="zsu-alloc-amount" class="tabular">CHF 5.70</span>
+              <span class="lbl">to defence</span>
             </div>
           </div>
-          <div class="pay-primary-right">
-            <div class="pay-amount tabular" id="uah-amount-display">890 ₴</div>
-            <div class="pay-fee">Мін. комісія</div>
+
+          <div class="zsu-slider" id="zsu-slider-track" onclick="app.handleZsuSliderClick(event)">
+            <div class="zsu-track">
+              <div class="zsu-fill" id="zsu-slider-fill" style="width:100%"></div>
+            </div>
+            <div class="zsu-thumb" id="zsu-slider-thumb" style="left:100%"></div>
+            <div class="zsu-ticks">
+              <button type="button" class="zsu-tick" data-pct="10" onclick="event.stopPropagation(); app.setSolidarityPct(10)">10%</button>
+              <button type="button" class="zsu-tick" data-pct="20" onclick="event.stopPropagation(); app.setSolidarityPct(20)">20%</button>
+              <button type="button" class="zsu-tick active" data-pct="30" onclick="event.stopPropagation(); app.setSolidarityPct(30)">30%</button>
+            </div>
           </div>
+
+          <div class="zsu-audit">
+            <div class="zsu-hash-block">
+              <div class="zsu-hash-label">
+                <span class="pulse"></span>
+                SHA-256 Merkle Root · live
+              </div>
+              <div class="zsu-hash" id="zsu-merkle-hash-preview">
+                <b>7f3a·9c2e</b>·b4d1·02af·5c7b·e419·af08
+              </div>
+            </div>
+            <button type="button" class="zsu-audit-btn" onclick="app.switchTab('zsu'); app.closeCheckout();">
+              Audit
+              <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 10L10 4M10 4H5M10 4V9"/></svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- Confirm -->
+        <button type="button" class="confirm-btn" onclick="app.openPaymentConfirmModal()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l3 3 7-7"/></svg>
+          <span data-i18n="btn_confirm_payment">Я здійснив оплату (Отримати Merkle-квитанцію)</span>
         </button>
 
-        <!-- Monobank Jar -->
-        <button class="pay-row pay-row-featured" onclick="app.openExternalLink('https://send.monobank.ua/jar/9wL7mKxZ2y')">
-          <div class="pay-row-icon pay-row-icon-dark" style="font-size:20px;">🪙</div>
-          <div class="pay-row-body">
-            <div class="pay-row-title">Банка Monobank <span class="badge badge-emerald badge-xs">0% charity</span></div>
-            <div class="pay-row-sub">send.monobank.ua/jar/...</div>
-          </div>
-          <div class="pay-row-action"><svg class="ic"><use href="#i-arrow-ur"/></svg></div>
-        </button>
-
-        <!-- Monobank Card IBAN -->
-        <div class="copy-field-card">
-          <div>
-            <div class="lbl">💳 Картка Monobank (UAH)</div>
-            <div class="val">5375 4141 0928 8459</div>
-            <div style="font-size:10px; color:var(--text-3); margin-top:2px;">Призначення: благодійний внесок ЗСУ</div>
-          </div>
-          <button class="copy-btn" onclick="app.copyToClipboard('5375414109288459', 'Номер картки скопійовано')">
-            <svg class="ic"><use href="#i-copy"/></svg>
-            <span data-i18n="btn_copy">Копіювати</span>
-          </button>
+        <div class="legal-note checkout-legal-note" data-i18n="checkout_legal_note">
+          🔒 <b>Нульова фіксована абонплата</b> ($0/міс). Режим <b>Escrow Hold</b> та швейцарська асоціація (<b>Art. 60–79 CC</b>) гарантують збереження соціального статусу EVAM/HG.
         </div>
-      </div>
-
-      <!-- Payment Ref Code -->
-      <div class="copy-field-card" style="margin-top:12px; background:rgba(245, 158, 11, 0.08); border-color:rgba(245, 158, 11, 0.3);">
-        <div>
-          <div class="lbl" style="color:#FBBF24;" data-i18n="lbl_payment_ref">Обов'язковий коментар до платежу:</div>
-          <div class="val" id="payment-ref-code" style="color:#FBBF24;">SRN-ARSEN-PRO</div>
-        </div>
-        <button class="copy-btn" style="border-color:#F59E0B; color:#FBBF24;" onclick="app.copyPaymentRef()">
-          <svg class="ic"><use href="#i-copy"/></svg>
-          <span data-i18n="btn_copy">Копіювати</span>
-        </button>
-      </div>
-
-      <!-- ZSU Solidarity Footer -->
-      <div class="zsu-footer">
-        <div class="zsu-footer-head">
-          <div class="zsu-flag-pair">🇺🇦 🤝 🇨🇭</div>
-          <div>
-            <div class="zsu-title">Solidarity ZSU</div>
-            <div class="zsu-sub">Alloué automatiquement · <b class="tabular" id="zsu-pct-label">30%</b></div>
-          </div>
-          <div class="zsu-amount tabular" id="zsu-alloc-amount">CHF 5.70</div>
-        </div>
-
-        <!-- Solidarity slider -->
-        <div class="zsu-slider-wrap" onclick="app.handleZsuSliderClick(event)">
-          <div class="zsu-slider-track" id="zsu-slider-track">
-            <div class="zsu-slider-fill" id="zsu-slider-fill" style="width:100%"></div>
-            <div class="zsu-slider-thumb" id="zsu-slider-thumb" style="left:100%"></div>
-            <div class="zsu-slider-tick" style="left:0%" onclick="event.stopPropagation(); app.setSolidarityPct(10)"><span class="tabular">10%</span></div>
-            <div class="zsu-slider-tick" style="left:50%" onclick="event.stopPropagation(); app.setSolidarityPct(20)"><span class="tabular">20%</span></div>
-            <div class="zsu-slider-tick" style="left:100%" onclick="event.stopPropagation(); app.setSolidarityPct(30)"><span class="tabular">30%</span></div>
-          </div>
-        </div>
-
-        <div class="zsu-audit">
-          <div class="zsu-audit-hash tabular">
-            <span class="mono-hint">SHA-256 MERKLE ROOT</span>
-            <span id="zsu-merkle-hash-preview">7f3a·9c2e·b4d1·…·af08</span>
-          </div>
-          <button class="zsu-audit-btn" onclick="app.switchTab('zsu'); app.closeCheckout();">
-            Audit Merkle Proof
-            <svg class="ic"><use href="#i-arrow-ur"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Confirm Payment Button -->
-      <button class="btn-primary btn-full" style="margin-top:14px; background:linear-gradient(180deg, #10B981, #059669);" onclick="app.openPaymentConfirmModal()">
-        <svg class="ic"><use href="#i-check"/></svg>
-        <span data-i18n="btn_confirm_payment">Я здійснив оплату (Отримати Merkle-квитанцію)</span>
-      </button>
-
-      <!-- Legal note -->
-      <div class="checkout-legal-note" data-i18n="checkout_legal_note">
-        🔒 Нульова фіксована абонплата ($0/міс). Режим Escrow Hold та швейцарська асоціація (Art. 60–79 CC) гарантують збереження соціального статусу EVAM/HG.
       </div>
     </div>
   </div>

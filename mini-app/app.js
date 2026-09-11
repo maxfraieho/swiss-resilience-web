@@ -80,31 +80,43 @@ const CONFIG = {
 
 const TIERS = {
   basic: {
-    title: 'Basic — CHF 9 / міс (420 грн)',
+    name: 'Basic Access',
+    title: 'Basic Access · CHF 9/міс',
     sub_ua: 'Базова підписка • 10% на ЗСУ',
     sub_fr: 'Souscription Basic • 10% ZSU',
     chf: 9.0,
     uah: 420.0,
+    xtr: 450,
+    cadence: '/міс',
+    paddlePriceId: 'pri_basic_9chf_sub',
     zsu_pct: 10,
     zsu_chf: '0.90',
     zsu_uah: '42.00'
   },
   pro: {
-    title: 'Pro Solidarity — CHF 19 / міс (890 грн)',
+    name: 'Pro Solidarity',
+    title: 'Pro Solidarity · CHF 19/міс',
     sub_ua: 'Солідарна підписка • 30% на ЗСУ',
     sub_fr: 'Souscription Pro • 30% ZSU',
     chf: 19.0,
     uah: 890.0,
+    xtr: 950,
+    cadence: '/міс',
+    paddlePriceId: 'pri_pro_19chf_sub',
     zsu_pct: 30,
     zsu_chf: '5.70',
     zsu_uah: '265.00'
   },
   success: {
-    title: 'Success Contribution — CHF 49 (2300 грн)',
+    name: 'Success Contribution',
+    title: 'Success Contribution · CHF 49 разово',
     sub_ua: 'Разовий внесок солідарності • 30% на ЗСУ',
     sub_fr: 'Contribution au succès • 30% ZSU',
     chf: 49.0,
     uah: 2300.0,
+    xtr: 2450,
+    cadence: ' разово',
+    paddlePriceId: 'pri_success_49chf_one',
     zsu_pct: 30,
     zsu_chf: '14.70',
     zsu_uah: '680.00'
@@ -595,6 +607,7 @@ class ResilienceMiniApp {
     this.updateHeroProfile();
     this.initGaugeListeners();
     this.updateGauge();
+    this.initMerkleHashRotation();
     this.handleInitialRouting();
   }
 
@@ -1667,24 +1680,27 @@ class ResilienceMiniApp {
     }, 400);
   }
 
-  // ================= DUAL-RAIL CHECKOUT & CRYPTOGRAPHIC MERKLE LEDGER =================
+  // ================= TRI-RAIL CHECKOUT (DESIGN SYSTEM 2.0) =================
   openCheckout(tierKey = 'pro') {
     this.haptic('medium');
-    this.checkoutTier = tierKey.toLowerCase();
+    this.checkoutTier = (tierKey || 'pro').toLowerCase();
     const modal = document.getElementById('modal-checkout');
     if (!modal) return;
 
     const t = TIERS[this.checkoutTier] || TIERS.pro;
     const titleEl = document.getElementById('checkout-tier-title');
     const subEl = document.getElementById('checkout-modal-sub');
-    if (titleEl) titleEl.innerText = t.title;
+    if (titleEl) {
+      titleEl.innerHTML = `${t.name} ·&nbsp;<span class="price tabular" id="checkout-tier-price">CHF ${t.chf}</span><span class="suffix" id="checkout-tier-suffix">${t.cadence}</span>`;
+    }
     if (subEl) subEl.innerText = this.lang === 'fr' ? t.sub_fr : t.sub_ua;
 
     this.updatePaymentRefCode();
     this.updateCheckoutBadge();
     this.updateGauge();
 
-    // Update Telegram deep link button inside modal
+    // Fast Telegram In-App Checkout Banner
+    const tgFastBanner = document.getElementById('tg-fast-banner');
     const tgDeepBtn = document.getElementById('btn-tg-deep-checkout');
     if (tgDeepBtn) {
       const suffix = this.checkoutTier === 'basic' ? 'basic9' : (this.checkoutTier === 'success' ? 'success49' : 'pro19');
@@ -1692,7 +1708,14 @@ class ResilienceMiniApp {
     }
 
     const isInsideTelegram = !!(window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData);
-    this.setCheckoutRail(isInsideTelegram ? 'tg' : (this.checkoutRail || 'tg'));
+    if (tgFastBanner) {
+      tgFastBanner.style.display = isInsideTelegram ? 'none' : 'flex';
+    }
+
+    const savedRail = localStorage.getItem('srn_checkout_rail');
+    const defaultRail = isInsideTelegram ? 'tg' : (savedRail || 'mor');
+    this.setCheckoutRail(defaultRail);
+    this.setSolidarityPct(t.zsu_pct || 30);
 
     modal.style.display = 'flex';
   }
@@ -1824,6 +1847,9 @@ class ResilienceMiniApp {
   setCheckoutRail(rail) {
     this.haptic('light');
     this.checkoutRail = rail;
+    try {
+      localStorage.setItem('srn_checkout_rail', rail);
+    } catch(e) {}
     
     // Update rail tabs
     document.querySelectorAll('.rail-tab').forEach(tab => {
@@ -1831,30 +1857,32 @@ class ResilienceMiniApp {
     });
 
     // Update rail contents
-    const tgEl = document.getElementById('checkout-options-tg');
-    const morEl = document.getElementById('checkout-options-mor');
-    const directEl = document.getElementById('checkout-options-direct');
-
-    if (tgEl) tgEl.style.display = (rail === 'tg') ? 'block' : 'none';
-    if (morEl) morEl.style.display = (rail === 'mor') ? 'block' : 'none';
-    if (directEl) directEl.style.display = (rail === 'direct') ? 'block' : 'none';
+    document.querySelectorAll('.rail-content').forEach(panel => {
+      const isMatch = panel.getAttribute('data-content') === rail || panel.getAttribute('data-rail-content') === rail;
+      panel.classList.toggle('active', isMatch);
+      panel.style.display = isMatch ? 'flex' : 'none';
+    });
 
     this.updateCheckoutAmounts();
   }
 
   setSolidarityPct(pct) {
     this.haptic('light');
-    this.solidarityPct = pct;
+    this.solidarityPct = [10, 20, 30].includes(+pct) ? +pct : 30;
     
     const pctLabel = document.getElementById('zsu-pct-label');
-    if (pctLabel) pctLabel.textContent = `${pct}%`;
+    if (pctLabel) pctLabel.textContent = `${this.solidarityPct}%`;
 
     const fill = document.getElementById('zsu-slider-fill');
     const thumb = document.getElementById('zsu-slider-thumb');
     // 10% -> 0%, 20% -> 50%, 30% -> 100%
-    const pos = pct === 10 ? 0 : (pct === 20 ? 50 : 100);
+    const pos = this.solidarityPct === 10 ? 0 : (this.solidarityPct === 20 ? 50 : 100);
     if (fill) fill.style.width = `${pos}%`;
     if (thumb) thumb.style.left = `${pos}%`;
+
+    document.querySelectorAll('.zsu-tick').forEach(t => {
+      t.classList.toggle('active', +t.getAttribute('data-pct') === this.solidarityPct);
+    });
 
     this.updateCheckoutAmounts();
   }
@@ -1882,7 +1910,7 @@ class ResilienceMiniApp {
 
     // Update Stars amount
     const starsAmount = document.getElementById('stars-amount-display');
-    const starsCount = this.checkoutTier === 'basic' ? 450 : (this.checkoutTier === 'success' ? 2450 : 950);
+    const starsCount = t.xtr || (this.checkoutTier === 'basic' ? 450 : (this.checkoutTier === 'success' ? 2450 : 950));
     if (starsAmount) starsAmount.textContent = `⭐ ${starsCount}`;
 
     // Update Paddle amount
@@ -1901,8 +1929,44 @@ class ResilienceMiniApp {
     if (merklePreview) {
       const mockPayload = `${t.chf}|${zsuChf}|${pct}%|${Date.now()}`;
       const hash = sha256Sync(mockPayload);
-      merklePreview.textContent = `${hash.slice(0, 4)}·${hash.slice(4, 8)}·${hash.slice(8, 12)}·…·${hash.slice(-4)}`;
+      merklePreview.innerHTML = `<b>${hash.slice(0, 4)}·${hash.slice(4, 8)}</b>·${hash.slice(8, 12)}·${hash.slice(12, 16)}·${hash.slice(16, 20)}·${hash.slice(-4)}`;
     }
+  }
+
+  handleCopyBtn(btn) {
+    if (!btn) return;
+    const val = btn.getAttribute('data-copy');
+    if (!val) return;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(val);
+      }
+    } catch (e) {
+      console.warn('Clipboard write error:', e);
+    }
+    const origHtml = btn.innerHTML;
+    btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l3 3 7-7"/></svg> <span>Copied</span>`;
+    btn.classList.add('copied');
+    this.showToast(this.lang === 'fr' ? 'Copié dans le presse-papier !' : 'Скопійовано в буфер обміну!');
+    setTimeout(() => {
+      btn.innerHTML = origHtml;
+      btn.classList.remove('copied');
+    }, 1400);
+  }
+
+  initMerkleHashRotation() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    const hashEl = document.getElementById('zsu-merkle-hash-preview');
+    const segs = ['7f3a·9c2e', '2b81·af04', 'e50c·1d9a', '9c2e·b4d1', 'af08·33fe', '5c7b·e419'];
+    let hi = 0;
+    setInterval(() => {
+      hi = (hi + 1) % segs.length;
+      if (hashEl) {
+        hashEl.innerHTML = `<b>${segs[hi]}</b>·b4d1·02af·5c7b·e419·af08`;
+      }
+    }, 2200);
   }
 
   openPaddleCheckout() {
@@ -2065,10 +2129,13 @@ class ResilienceMiniApp {
 
   updatePaymentRefCode() {
     const refEl = document.getElementById('payment-ref-code');
-    if (!refEl) return;
-    const safeName = (this.candidate.name || 'CANDIDATE').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 8);
-    const tierName = this.checkoutTier.toUpperCase();
-    refEl.innerText = `SRN-${safeName}-${tierName}`;
+    const copyRefBtn = document.getElementById('btn-copy-ref');
+    const safeName = (this.candidate?.name || 'ARSEN').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 8) || 'ARSEN';
+    const tierName = (this.checkoutTier || 'PRO').toUpperCase();
+    const mm = String(new Date().getMonth() + 1).padStart(2, '0');
+    const refCode = `SRN-${safeName}-${tierName}-M${mm}`;
+    if (refEl) refEl.innerText = refCode;
+    if (copyRefBtn) copyRefBtn.setAttribute('data-copy', refCode);
   }
 
   copyPaymentRef() {
