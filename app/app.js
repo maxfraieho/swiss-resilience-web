@@ -470,7 +470,7 @@ class ResilienceMiniApp {
     // Payment state
     this.checkoutTier = 'pro';
     this.checkoutCurrency = 'CHF';
-    this.totalZsuRaised = 18640.0;
+    this.totalZsuRaised = 0.0;
 
     // Interview simulator state
     this.interviewVector = 'v3';
@@ -584,6 +584,7 @@ class ResilienceMiniApp {
     this.updateHeroProfile();
     this.initGaugeListeners();
     this.updateGauge();
+    this.handleInitialRouting();
   }
 
   haptic(type = 'light') {
@@ -792,6 +793,54 @@ class ResilienceMiniApp {
     if (tabName === 'dossier') {
       this.updateDossierLetter();
     }
+  }
+
+
+  // ================= ROUTING & DEEP LINKING =================
+  handleInitialRouting() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const hash = (window.location.hash || '').toLowerCase();
+      const tier = params.get('tier') || (hash.includes('pro') ? 'pro' : (hash.includes('basic') ? 'basic' : (hash.includes('success') ? 'success' : null)));
+      const view = params.get('view') || hash.replace('#', '').split('?')[0];
+
+      if (view === 'onboarding') {
+        this.switchTab('onboarding');
+      } else if (view === 'dossier') {
+        this.switchTab('dossier');
+      } else if (view === 'zsu') {
+        this.switchTab('zsu');
+      } else if (view === 'orp') {
+        this.switchTab('orp');
+      } else if (view === 'interview') {
+        this.switchTab('interview');
+      }
+
+      if (tier || view === 'checkout' || hash.includes('checkout')) {
+        const targetTier = tier || 'pro';
+        setTimeout(() => {
+          this.openCheckout(targetTier);
+        }, 350);
+      }
+    } catch (e) {
+      console.warn('Initial routing error:', e);
+    }
+  }
+
+  getVerifiedZsuTotal() {
+    let total = 0.0;
+    try {
+      const saved = localStorage.getItem('srn_merkle_transactions');
+      if (saved) {
+        const txs = JSON.parse(saved);
+        if (Array.isArray(txs)) {
+          txs.forEach(t => {
+            total += Number(t.chf || 0);
+          });
+        }
+      }
+    } catch (e) {}
+    return total;
   }
 
   handleHeaderAction() {
@@ -1623,6 +1672,14 @@ class ResilienceMiniApp {
     this.updatePaymentRefCode();
     this.updateCheckoutBadge();
     this.updateGauge();
+
+    // Update Telegram deep link button inside modal
+    const tgDeepBtn = document.getElementById('btn-tg-deep-checkout');
+    if (tgDeepBtn) {
+      const suffix = this.checkoutTier === 'basic' ? 'basic9' : (this.checkoutTier === 'success' ? 'success49' : 'pro19');
+      tgDeepBtn.href = `https://t.me/SwissResilienceHubBot?start=pay_${suffix}`;
+    }
+
     modal.style.display = 'flex';
   }
 
@@ -2055,6 +2112,16 @@ class ResilienceMiniApp {
   }
 
   async loadZsuLedger() {
+    this.totalZsuRaised = this.getVerifiedZsuTotal();
+    const totalEl = document.getElementById('zsu-total-raised-display');
+    if (totalEl) totalEl.innerText = `CHF ${this.totalZsuRaised.toFixed(2)}`;
+    
+    const fill = document.getElementById('zsu-progress-fill');
+    const goalPct = Math.min(100, Math.round((this.totalZsuRaised / 18640) * 100));
+    if (fill) fill.style.width = `${goalPct}%`;
+    const goalPctEl = document.getElementById('zsu-goal-pct-display');
+    if (goalPctEl) goalPctEl.innerText = `${goalPct}% профінансовано`;
+
     const tableBody = document.getElementById('merkle-log-body');
     if (!tableBody) return;
 
@@ -2065,12 +2132,10 @@ class ResilienceMiniApp {
     } catch (e) {}
 
     const defaultTxs = [
-      { date: '10.09.2026', to: 'Come Back Alive', chf: '14.70', hash: '88d013b403...' },
-      { date: '09.09.2026', to: 'NBU Special Def.', chf: '5.70', hash: '346e48b92b...' },
-      { date: '08.09.2026', to: 'Come Back Alive', chf: '5.70', hash: ' genesis_tx ' }
+      { date: '11.09.2026', to: 'Come Back Alive / NBU', chf: '0.00', hash: ' genesis_block ' }
     ];
 
-    const allTxs = [...savedTxs, ...defaultTxs];
+    const allTxs = savedTxs.length > 0 ? savedTxs : defaultTxs;
 
     tableBody.innerHTML = allTxs.slice(0, 5).map(tx => `
       <tr>

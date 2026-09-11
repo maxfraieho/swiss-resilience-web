@@ -336,7 +336,7 @@
             <div style="font-size:13px; font-weight:700; color:#FBBF24;" data-i18n="pro_banner_title">Тариф Pro Solidarity (CHF 19)</div>
             <div style="font-size:11px; color:var(--text-2);" data-i18n="pro_banner_sub">30% внеску автоматично перераховується на ЗСУ</div>
           </div>
-          <button class="btn-amber" style="height:32px; font-size:11px; padding:0 12px;" onclick="app.openCheckout('pro')"><span data-i18n="btn_checkout_tier">Оформити</span></button>
+          <button class="btn-amber" style="height:32px; font-size:11px; padding:0 12px;" type="button" onclick="app.openCheckout('pro')"><span data-i18n="btn_checkout_tier">Оформити</span></button>
         </div>
 
         <button class="btn-primary" onclick="app.saveProfileAndLaunchRadar()">
@@ -612,15 +612,23 @@
           <div style="font-size:12px; font-weight:700; color:#F59E0B;" data-i18n="zsu_header_card">ПІДПИСКА PRO SOLIDARITY</div>
           <span>🇺🇦🤝🇨🇭</span>
         </div>
-        <div class="zsu-metric-large" id="zsu-total-raised-display">CHF 18,640</div>
-        <div style="font-size:12px; color:var(--text-2);" data-i18n="zsu_metric_sub">Сумарно перераховано на захист України</div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px;">
+          <div>
+            <div class="zsu-metric-large" id="zsu-total-raised-display">CHF 0.00</div>
+            <div style="font-size:11px; color:var(--text-2);" data-i18n="zsu_metric_sub">Зафіксовано в Merkle-реєстрі (Кампанію відкрито)</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:13px; font-weight:700; color:#FBBF24;" class="tabular">CHF 18'640</div>
+            <div style="font-size:10px; color:var(--text-3);">Цільовий транш</div>
+          </div>
+        </div>
 
-        <div class="zsu-progress-bar">
-          <div class="zsu-progress-fill" style="width: 74%;"></div>
+        <div class="zsu-progress-bar" style="margin-top:10px;">
+          <div class="zsu-progress-fill" id="zsu-progress-fill" style="width: 0%;"></div>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-3);">
           <span data-i18n="zsu_goal_label">Ціль: РЕБ-комплекс для 3-ї ОШБр</span>
-          <span style="color:#10B981; font-weight:700;" data-i18n="zsu_goal_pct">74% профінансовано</span>
+          <span style="color:#10B981; font-weight:700;" id="zsu-goal-pct-display">0% профінансовано</span>
         </div>
       </div>
 
@@ -644,7 +652,7 @@
               <div style="font-size:13.5px; font-weight:700; color:#FFFFFF;">Basic • CHF 9 <span style="font-size:11px; color:var(--text-3);">/ 420 грн</span></div>
               <div style="font-size:11px; color:var(--text-2); margin-top:2px;" data-i18n="tier_basic_desc">Радар житла + 10% на ЗСУ (CHF 0.90)</div>
             </div>
-            <button class="btn-secondary" style="height:34px; font-size:11.5px; padding:0 14px;" onclick="app.openCheckout('basic')"><span data-i18n="btn_choose">Обрати</span></button>
+            <button class="btn-secondary" style="height:34px; font-size:11.5px; padding:0 14px;" type="button" onclick="app.openCheckout('basic')"><span data-i18n="btn_choose">Обрати</span></button>
           </div>
 
           <!-- Pro Solidarity Tier -->
@@ -653,7 +661,7 @@
               <div style="font-size:13.5px; font-weight:700; color:#FBBF24;">Pro Solidarity • CHF 19 <span style="font-size:11px; color:var(--text-2);">/ 890 грн</span></div>
               <div style="font-size:11px; color:var(--emerald-2); font-weight:600; margin-top:2px;" data-i18n="tier_pro_desc">🛡️ 30% на ЗСУ (CHF 5.70 / 265 грн)</div>
             </div>
-            <button class="btn-amber" style="height:34px; font-size:11.5px; padding:0 14px;" onclick="app.openCheckout('pro')"><span data-i18n="btn_order_now">Оформити ⚡</span></button>
+            <button class="btn-amber" style="height:34px; font-size:11.5px; padding:0 14px;" type="button" onclick="app.openCheckout('pro')"><span data-i18n="btn_order_now">Оформити ⚡</span></button>
           </div>
 
           <!-- Success Contribution -->
@@ -662,7 +670,7 @@
               <div style="font-size:13.5px; font-weight:700; color:#FFFFFF;">Success Contribution • CHF 49 <span style="font-size:11px; color:var(--text-3);">/ 2300 грн</span></div>
               <div style="font-size:11px; color:var(--emerald-2); font-weight:600; margin-top:2px;" data-i18n="tier_success_desc">🛡️ 30% на ЗСУ (CHF 14.70 / 680 грн)</div>
             </div>
-            <button class="btn-secondary" style="height:34px; font-size:11.5px; padding:0 14px;" onclick="app.openCheckout('success')"><span data-i18n="btn_donate">Внесок</span></button>
+            <button class="btn-secondary" style="height:34px; font-size:11.5px; padding:0 14px;" type="button" onclick="app.openCheckout('success')"><span data-i18n="btn_donate">Внесок</span></button>
           </div>
         </div>
       </div>
@@ -814,6 +822,18 @@
           <div class="sheet-title" id="checkout-tier-title">Pro Solidarity · <span class="tabular">CHF 19</span><span class="sheet-title-suffix">/міс</span></div>
         </div>
         <button class="tg-close-btn" onclick="app.closeCheckout()" title="Закрити"><svg class="ic"><use href="#i-close"/></svg></button>
+      </div>
+
+      <!-- Telegram In-App Fast Checkout Banner -->
+      <div class="tg-fast-checkout" style="background:rgba(34, 211, 238, 0.08); border:1px solid rgba(34, 211, 238, 0.25); border-radius:12px; padding:10px 12px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:12px; font-weight:700; color:#38BDF8;">Оплата в Telegram Mini App</div>
+          <div style="font-size:10.5px; color:var(--text-2);">Миттєва підписка через Stars або Monobank у боті</div>
+        </div>
+        <a id="btn-tg-deep-checkout" href="https://t.me/SwissResilienceHubBot?start=pay_pro19" target="_blank" rel="noopener" class="btn-primary" style="height:30px; font-size:11px; padding:0 12px; text-decoration:none; display:flex; align-items:center; gap:4px;">
+          <svg class="ic" style="width:13px;height:13px;"><use href="#i-bolt"/></svg>
+          В бот
+        </a>
       </div>
 
       <!-- Rail tabs -->
