@@ -336,14 +336,26 @@ export class HousingCalculator {
     // Hero Metrics
     const metrics = document.querySelectorAll('.hero-metrics .metric');
     if (metrics.length >= 3) {
-      metrics[0].querySelector('.metric-label').textContent = isFr ? 'Vérifiés cette semaine' : 'Верифіковано за тиждень';
-      metrics[0].querySelector('.metric-desc').textContent = isFr ? 'logements passés au crible des barèmes officiels EVAM/HG' : 'квартир пройшли перевірку відповідності EVAM/HG бареми';
+      metrics[0].querySelector('.metric-label').textContent = isFr ? 'Statut juridique' : 'Правовий статус';
+      const m0Val = metrics[0].querySelector('.metric-value');
+      if (m0Val) m0Val.textContent = 'Art. 60–79 CC';
+      metrics[0].querySelector('.metric-desc').textContent = isFr
+        ? 'Association suisse sans but lucratif · Protection 100% aide EVAM (LARA)'
+        : 'Швейцарська некомерційна асоціація · 100% захист соціальної допомоги EVAM (LARA)';
 
       metrics[1].querySelector('.metric-label').textContent = isFr ? 'Commissions intermédiaires' : 'Комісії посередникам';
-      metrics[1].querySelector('.metric-desc').textContent = isFr ? 'payées aux spéculateurs — accès direct et gratuit aux sources' : 'сплачено тіньовим спекулянтам — прямий доступ до першоджерела';
+      const m1Val = metrics[1].querySelector('.metric-value');
+      if (m1Val) m1Val.textContent = '0 CHF';
+      metrics[1].querySelector('.metric-desc').textContent = isFr
+        ? 'payées aux spéculateurs — accès direct et gratuit aux sources'
+        : 'сплачено тіньовим спекулянтам — прямий доступ до першоджерела';
 
-      metrics[2].querySelector('.metric-label').textContent = isFr ? 'Reversé à la défense 🇺🇦' : 'Переказано на оборону 🇺🇦';
-      metrics[2].querySelector('.metric-desc').textContent = isFr ? 'versé sur compte spécial BNU et Come Back Alive ce mois' : 'на спецрахунок НБУ та фонд «Повернись живим» цього місяця';
+      metrics[2].querySelector('.metric-label').textContent = isFr ? 'Solidarité Défense 🇺🇦' : 'Солідарна допомога 🇺🇦';
+      const m2Val = metrics[2].querySelector('.metric-value');
+      if (m2Val) m2Val.textContent = '30%';
+      metrics[2].querySelector('.metric-desc').textContent = isFr
+        ? 'de chaque souscription reversé de manière transparente aux fonds officiels (BNU / Come Back Alive)'
+        : 'фіксоване відрахування з кожного платного тарифу на перевірені рахунки оборони (НБУ / Повернись живим)';
     }
 
     // Calculator section titles & labels
@@ -392,17 +404,21 @@ export class HousingCalculator {
         : 'Прозоре ціноутворення без прихованих комісій. Кожна платна підписка автоматично відраховує 30% на потреби оборони України.';
     }
 
-    // Pricing cards buttons
+    // Pricing cards buttons — Direct Telegram Deep Links & Web App Checkout
     const priceCtas = document.querySelectorAll('.price-card a.price-cta');
     if (priceCtas.length >= 3) {
-      priceCtas[0].href = '/app/';
-      priceCtas[0].textContent = isFr ? 'Commencer gratuitement' : 'Почати безкоштовно';
+      priceCtas[0].href = '/app/?view=onboarding';
+      priceCtas[0].textContent = isFr ? 'Commencer gratuitement (Web App)' : 'Почати безкоштовно (Web App)';
 
-      priceCtas[1].href = '/app/';
-      priceCtas[1].textContent = isFr ? 'Souscrire Pro Solidarity' : 'Оформити Pro Solidarity';
+      priceCtas[1].href = 'https://t.me/SwissResilienceHubBot?start=pay_pro19';
+      priceCtas[1].target = '_blank';
+      priceCtas[1].rel = 'noopener noreferrer';
+      priceCtas[1].textContent = isFr ? '⚡ Souscrire dans Telegram (@SwissResilienceHubBot)' : '⚡ Оформити в Telegram (@SwissResilienceHubBot)';
 
-      priceCtas[2].href = '/app/';
-      priceCtas[2].textContent = isFr ? 'Demander l’accompagnement' : 'Замовити супровід';
+      priceCtas[2].href = 'https://t.me/SwissResilienceHubBot?start=pay_success49';
+      priceCtas[2].target = '_blank';
+      priceCtas[2].rel = 'noopener noreferrer';
+      priceCtas[2].textContent = isFr ? '⚡ Commander dans Telegram (@SwissResilienceHubBot)' : '⚡ Замовити в Telegram (@SwissResilienceHubBot)';
     }
   }
 
