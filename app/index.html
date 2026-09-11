@@ -12,25 +12,64 @@
 </head>
 <body>
 
+  <!-- ================= SVG ICON DEFINITIONS (DS 2.0) ================= -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 20 20"><path d="m3 9.5 7-6 7 6V17a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.5 18v-6h5v6" stroke="currentColor" stroke-width="1.5" fill="none"/></symbol>
+      <symbol id="i-briefcase" viewBox="0 0 20 20"><rect x="2.5" y="6" width="15" height="10" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7 6V4.5A1.5 1.5 0 0 1 8.5 3h3A1.5 1.5 0 0 1 13 4.5V6M2.5 10.5h15" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></symbol>
+      <symbol id="i-mic" viewBox="0 0 20 20"><rect x="7.5" y="2.5" width="5" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 9.5a5.5 5.5 0 0 0 11 0M10 15v2.5M7 17.5h6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 20 20"><path d="M4.5 2.5h7l4 4v11a1 1 0 0 1-1 1h-10a1 1 0 0 1-1-1v-14a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M11.5 2.5v4h4M7 11h6M7 14h4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 20 20"><path d="M10 2.5 3.5 5v5.5c0 3.7 2.7 6.6 6.5 7.5 3.8-.9 6.5-3.8 6.5-7.5V5L10 2.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m7 10 2.2 2.2L13 8.6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 20 20"><path d="m4.5 10.5 3.5 3.5 7.5-8" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 20 20"><rect x="6.5" y="6.5" width="10" height="11" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13.5 6.5V4a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 4v8A1.5 1.5 0 0 0 5 13.5h1.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+      <symbol id="i-arrow-ur" viewBox="0 0 20 20"><path d="M6 14 14 6M7 6h7v7" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-close" viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 20 20"><path d="m7 5 5 5-5 5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-star" viewBox="0 0 20 20"><path d="m10 2.5 2.4 5 5.5.8-4 3.9.9 5.4L10 15l-4.8 2.6.9-5.4-4-3.9 5.5-.8 2.4-5Z" fill="currentColor"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 10h15M10 2.5c2.2 2.4 3.4 5 3.4 7.5S12.2 15 10 17.5M10 2.5C7.8 4.9 6.6 7.5 6.6 10s1.2 5.1 3.4 7.5" stroke="currentColor" stroke-width="1.5" fill="none"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 20 20"><rect x="4" y="9" width="12" height="9" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 1 1 7 0V9" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+      <symbol id="i-search" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m13 13 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-user" viewBox="0 0 20 20"><circle cx="10" cy="7" r="3.2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 17c1-3.2 3.6-5 6.5-5s5.5 1.8 6.5 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+      <symbol id="i-bolt" viewBox="0 0 20 20"><path d="M11 2 4 11h5l-1 7 7-9h-5l1-7Z" fill="currentColor"/></symbol>
+      <symbol id="i-info" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5M10 6.2v.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+
+      <!-- Official brand mark: Swiss red shield + Ukrainian trident overlay -->
+      <symbol id="brand-mark" viewBox="0 0 24 24">
+        <rect x="1" y="1" width="22" height="22" rx="5" fill="#D52B1E"/>
+        <rect x="10.5" y="5" width="3" height="14" fill="#F8FAFC"/>
+        <rect x="5" y="10.5" width="14" height="3" fill="#F8FAFC"/>
+        <path d="M12 6.5v11 M9 8.5v5 M15 8.5v5" stroke="#D97706" stroke-width="1.3" stroke-linecap="round" opacity="0.95"/>
+      </symbol>
+    </defs>
+  </svg>
+
+
   <!-- Top Telegram Native Navigation Header -->
   <header class="tg-header">
     <div class="tg-header-left">
-      <button id="btn-header-action" class="tg-close-btn" onclick="app.handleHeaderAction()">✕ <span data-i18n="hdr_close">Закрити</span></button>
-      <div class="title-group">
-        <span class="shield-icon">🛡️</span>
-        <span id="page-title" class="title" data-i18n="nav_radar">Свіжі квартири</span>
+      <button id="btn-header-action" class="tg-close-btn" onclick="app.handleHeaderAction()" title="Закрити">
+        <svg class="ic"><use href="#i-close"/></svg>
+      </button>
+      <div class="tg-title-group">
+        <svg class="brand-mark-sm" viewBox="0 0 24 24"><use href="#brand-mark"/></svg>
+        <div>
+          <div id="page-title" class="tg-title" data-i18n="nav_radar">Radar</div>
+          <div id="page-sub" class="tg-sub" data-i18n="tg_sub_radar">Свіжі об'єкти · <span class="tabular">&lt; 60с</span></div>
+        </div>
       </div>
     </div>
     <div class="tg-header-actions">
       <!-- Direct Link to Main Web Platform in Browser -->
       <button class="tg-site-btn" onclick="app.openMainSite()" title="Відкрити повний веб-сайт у браузері">
-        <span>🌐</span> <span class="hide-xs" data-i18n="hdr_website">Сайт</span> <span style="font-size:10px; opacity:0.8;">↗</span>
+        <svg class="ic" style="width:14px;height:14px;"><use href="#i-globe"/></svg>
+        <span class="hide-xs" data-i18n="hdr_website">Сайт</span>
+        <svg class="ic" style="width:10px;height:10px;opacity:0.8;"><use href="#i-arrow-ur"/></svg>
       </button>
 
       <!-- Auth / User Profile Button -->
       <button id="btn-auth-header" class="tg-auth-btn" onclick="app.openAuthModal()" title="Авторизація та профіль">
         <span class="auth-dot"></span>
-        <span id="auth-btn-label">👤 Arsen</span>
+        <span id="auth-btn-label">Arsen</span>
       </button>
 
       <!-- Language Toggle -->
@@ -45,6 +84,94 @@
 
     <!-- ================= VIEW 1: ONBOARDING / PROFILE ================= -->
     <section id="view-onboarding" class="view-section">
+      <!-- Identity Hero Card -->
+      <div class="identity-card">
+        <div class="identity-avatar">
+          <span class="avatar-initials" id="profile-hero-initials">AV</span>
+          <span class="avatar-status"></span>
+        </div>
+        <div class="identity-body">
+          <div class="identity-name" id="profile-hero-name">Arsen Vokov</div>
+          <div class="identity-role">
+            <span class="chip chip-mono" id="profile-hero-permit">Permis S</span>
+            <span class="chip chip-mono" id="profile-hero-commune">Etoy · 1163</span>
+          </div>
+          <div class="identity-meta">
+            <span class="tabular" id="profile-hero-french">Français B1</span>
+            <span class="dot-sep">·</span>
+            <span id="profile-hero-family">Famille 3–4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance badges: three separate legal shields -->
+      <div class="section-eyebrow" data-i18n="prof_legal_separation">Séparation légale</div>
+      <div class="compliance-grid">
+        <div class="compliance-card compliance-slate">
+          <div class="compliance-icon"><svg class="ic ic-lg"><use href="#i-lock"/></svg></div>
+          <div class="compliance-title">Association</div>
+          <div class="compliance-sub">Art. 60–79 CC</div>
+          <div class="compliance-tag">Non-profit</div>
+        </div>
+        <div class="compliance-card compliance-emerald">
+          <div class="compliance-icon"><svg class="ic ic-lg"><use href="#i-shield"/></svg></div>
+          <div class="compliance-title">EVAM</div>
+          <div class="compliance-sub">Aide protégée · LARA</div>
+          <div class="compliance-tag">Actif</div>
+        </div>
+        <div class="compliance-card compliance-crimson">
+          <div class="compliance-icon"><svg class="ic ic-lg"><use href="#i-check"/></svg></div>
+          <div class="compliance-title">USPI</div>
+          <div class="compliance-sub">Solvable · <span class="tabular">31.5%</span></div>
+          <div class="compliance-tag">Conforme</div>
+        </div>
+      </div>
+
+      <!-- EVAM ceiling preview -->
+      <div class="ceiling-card">
+        <div class="ceiling-left">
+          <div class="micro-eyebrow" data-i18n="evam_ceiling_title">Plafond EVAM · Vaud</div>
+          <div class="ceiling-desc" data-i18n="evam_ceiling_desc">100% couverture logement · LARA</div>
+        </div>
+        <div class="ceiling-val tabular" id="evam-ceiling-display">CHF 1'350</div>
+      </div>
+
+      <!-- Document checklist -->
+      <div class="section-eyebrow"><span data-i18n="dossier_uspi_check_title">Dossier USPI</span> · <span class="mono-hint">4/5 vérifiés</span></div>
+      <ul class="doc-list" style="margin-bottom:14px;">
+        <li class="doc-row doc-ok">
+          <span class="doc-check"><svg class="ic"><use href="#i-check"/></svg></span>
+          <div class="doc-body">
+            <div class="doc-title">Permis S · recto/verso</div>
+            <div class="doc-sub" data-i18n="doc_permit_sub">Droit de séjour et de travail</div>
+          </div>
+          <span class="mono-hint">ACTIF</span>
+        </li>
+        <li class="doc-row doc-ok">
+          <span class="doc-check"><svg class="ic"><use href="#i-check"/></svg></span>
+          <div class="doc-body">
+            <div class="doc-title">Extrait Office des poursuites</div>
+            <div class="doc-sub" data-i18n="doc_op_sub">vierge · &lt; 60 jours</div>
+          </div>
+          <span class="mono-hint tabular">&lt; 30d</span>
+        </li>
+        <li class="doc-row doc-ok">
+          <span class="doc-check"><svg class="ic"><use href="#i-check"/></svg></span>
+          <div class="doc-body">
+            <div class="doc-title">Attestation EVAM</div>
+            <div class="doc-sub" data-i18n="doc_evam_sub">Prise en charge directe</div>
+          </div>
+          <span class="mono-hint tabular">VALIDE</span>
+        </li>
+        <li class="doc-row doc-pending">
+          <span class="doc-check doc-check-pending"><svg class="ic"><use href="#i-info"/></svg></span>
+          <div class="doc-body">
+            <div class="doc-title">RC Ménage · ECA</div>
+            <div class="doc-sub" data-i18n="doc_rc_sub">Assurance responsabilité civile</div>
+          </div>
+          <span class="mono-hint" data-i18n="doc_pending_badge">à ajouter</span>
+        </li>
+      </ul>
       <div class="user-status-pill">
         <span class="dot"></span>
         <span id="profile-summary-badge">👤 Arsen Vokov • Permis S • Etoy (1163)</span>
@@ -220,6 +347,44 @@
 
     <!-- ================= VIEW 2: REAL-TIME RADAR FEED ================= -->
     <section id="view-radar" class="view-section active">
+      <!-- Segmented Control: Housing / Jobs / Interview (DS 2.0) -->
+      <div class="segmented" role="tablist">
+        <div class="seg-thumb" aria-hidden="true"></div>
+        <button class="seg-btn active" data-seg="housing" onclick="app.setRadarSegment('housing', this)">
+          <svg class="ic"><use href="#i-home"/></svg>
+          <span data-i18n="seg_housing">Житло</span>
+        </button>
+        <button class="seg-btn" data-seg="jobs" onclick="app.setRadarSegment('jobs', this)">
+          <svg class="ic"><use href="#i-briefcase"/></svg>
+          <span data-i18n="seg_jobs">Вакансії</span>
+        </button>
+        <button class="seg-btn" data-seg="interview" onclick="app.setRadarSegment('interview', this)">
+          <svg class="ic"><use href="#i-mic"/></svg>
+          <span data-i18n="seg_interview">Entretien</span>
+        </button>
+      </div>
+
+      <!-- Live status strip -->
+      <div class="live-strip">
+        <span class="live-dot"></span>
+        <span class="live-label">FLATFOX RADAR</span>
+        <span class="live-count tabular" id="radar-live-count">147 нових · Vaud</span>
+        <span class="live-time tabular" id="radar-live-time">оновлено &lt; 60с</span>
+      </div>
+
+      <!-- Filter rail -->
+      <div class="filter-rail">
+        <button id="filter-evam" class="filter-chip active" onclick="app.toggleFilter('evam')">
+          <span class="dot dot-emerald"></span>
+          <span data-i18n="chip_evam">EVAM 100%</span>
+        </button>
+        <button id="filter-reprise" class="filter-chip active" onclick="app.toggleFilter('reprise')">
+          <svg class="ic"><use href="#i-bolt"/></svg>
+          <span data-i18n="filter_reprise">Reprise · Art. 264</span>
+        </button>
+        <button class="filter-chip" onclick="app.setPriceCeiling(1350, this)">≤ CHF <span class="tabular">1'350</span></button>
+        <button class="filter-chip" onclick="app.handleSearch('Etoy')">Etoy · Morges</button>
+      </div>
       <div class="radar-top-bar">
         <div>
           <div class="radar-live-badge">
@@ -285,18 +450,129 @@
       </div>
     </section>
 
-    <!-- ================= VIEW 3: 1-CLICK DOSSIER PREVIEW ================= -->
+    <!-- ================= VIEW 3: USPI SOLVENCY ENGINE & DOSSIER (DS 2.0) ================= -->
     <section id="view-dossier" class="view-section">
-      <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+
+      <!-- Semi-circular gauge card -->
+      <div class="gauge-card">
+        <div class="gauge-head">
           <div>
-            <div style="font-size:12px; color:var(--emerald-2); font-weight:700;">PDF/A USPI COMPLIANT</div>
-            <div style="font-size:17px; font-weight:700;" data-i18n="dossier_title">Досьє кандидата</div>
+            <div class="micro-eyebrow micro-emerald">USPI · CONFORME</div>
+            <div class="gauge-verdict" id="gauge-verdict">Solvable</div>
           </div>
-          <span style="font-size:24px;">📄</span>
+          <div class="gauge-share tabular" id="gauge-share">31.5%</div>
         </div>
 
-        <div style="background:rgba(255,255,255,0.04); border-radius:10px; padding:10px 12px; margin-bottom:12px; font-size:12px;">
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="0 0 200 118" aria-hidden="true">
+            <defs>
+              <linearGradient id="gauge-emerald" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#059669"/>
+                <stop offset="100%" stop-color="#10B981"/>
+              </linearGradient>
+              <linearGradient id="gauge-amber" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#F59E0B"/>
+                <stop offset="100%" stop-color="#FBBF24"/>
+              </linearGradient>
+              <linearGradient id="gauge-crimson" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#E23325"/>
+                <stop offset="100%" stop-color="#C1231A"/>
+              </linearGradient>
+              <filter id="gauge-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- background track -->
+            <path d="M20 105 A80 80 0 0 1 180 105" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="18" stroke-linecap="round"/>
+            <!-- three zones (0-33 / 33-40 / 40-60) -->
+            <path d="M20 105 A80 80 0 0 1 108.5 26.6" fill="none" stroke="url(#gauge-emerald)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M113 27 A80 80 0 0 1 141 37.2" fill="none" stroke="url(#gauge-amber)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M144.2 39 A80 80 0 0 1 180 105" fill="none" stroke="url(#gauge-crimson)" stroke-width="14" stroke-linecap="round"/>
+
+            <!-- tick marks -->
+            <g stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-linecap="round">
+              <line x1="20" y1="98" x2="20" y2="112" transform="rotate(-90 20 105)"/>
+            </g>
+
+            <!-- 33% divider label -->
+            <g class="gauge-tick">
+              <line x1="100" y1="8" x2="100" y2="20" stroke="rgba(255,255,255,0.5)" stroke-width="1.4"/>
+              <text x="100" y="6" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="rgba(255,255,255,0.55)" font-weight="600">33%</text>
+            </g>
+
+            <!-- needle -->
+            <g id="gauge-needle" style="transform-origin: 100px 105px; transform: rotate(-90deg); transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1);">
+              <line x1="100" y1="105" x2="100" y2="30" stroke="#F1F5F9" stroke-width="2.4" stroke-linecap="round" filter="url(#gauge-glow)"/>
+              <circle cx="100" cy="105" r="7" fill="#0A0E17" stroke="#F1F5F9" stroke-width="1.5"/>
+              <circle cx="100" cy="105" r="2.5" fill="#F1F5F9"/>
+            </g>
+          </svg>
+
+          <div class="gauge-legend">
+            <div class="gauge-leg-item"><span class="leg-swatch" style="background:#10B981"></span><span>0–33%</span><span class="mono-hint">Conforme</span></div>
+            <div class="gauge-leg-item"><span class="leg-swatch" style="background:#F59E0B"></span><span>34–40%</span><span class="mono-hint">Vigilance</span></div>
+            <div class="gauge-leg-item"><span class="leg-swatch" style="background:#E23325"></span><span>&gt;40%</span><span class="mono-hint">Non-conforme</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div class="input-card">
+        <div class="input-row">
+          <label class="input-label" for="input-income">
+            <span data-i18n="lbl_net_income">Revenu net mensuel</span>
+            <span class="mono-hint">Salaire + EVAM</span>
+          </label>
+          <div class="money-input">
+            <span class="money-currency">CHF</span>
+            <input class="money-field tabular" value="4'090" id="input-income" oninput="app.updateGauge()">
+          </div>
+        </div>
+        <div class="input-divider"></div>
+        <div class="input-row">
+          <label class="input-label" for="input-rent">
+            <span data-i18n="lbl_target_rent">Loyer cible (charges incl.)</span>
+            <span class="mono-hint" id="dossier-target-hint">Route de Buchillon 12 · Etoy</span>
+          </label>
+          <div class="money-input">
+            <span class="money-currency">CHF</span>
+            <input class="money-field tabular" value="1'290" id="input-rent" oninput="app.updateGauge()">
+          </div>
+        </div>
+      </div>
+
+      <!-- Verdict + CTAs -->
+      <div class="verdict-banner verdict-ok" id="verdict-banner">
+        <div class="verdict-icon">
+          <svg class="ic ic-lg"><use href="#i-check"/></svg>
+        </div>
+        <div class="verdict-body">
+          <div class="verdict-title" id="verdict-title">Dossier conforme USPI</div>
+          <div class="verdict-sub" id="verdict-sub">Ratio <b class="tabular">31.5%</b> · marge <b class="tabular">CHF 60</b> avant seuil</div>
+        </div>
+      </div>
+
+      <button class="btn-primary btn-full" onclick="app.printDossierPdf()">
+        <svg class="ic"><use href="#i-doc"/></svg>
+        <span data-i18n="btn_print_dossier">Télécharger dossier régie (PDF)</span>
+      </button>
+      <button class="btn-ghost btn-full" onclick="app.openLetterModal()">
+        <svg class="ic"><use href="#i-arrow-ur"/></svg>
+        <span data-i18n="btn_view_letter">Voir la lettre en français</span>
+      </button>
+
+      <!-- Full Candidate Dossier & Letter Preview Card -->
+      <div class="card" style="margin-top:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div>
+            <div style="font-size:11px; color:var(--emerald); font-weight:700; font-family:var(--font-mono);">PDF/A USPI COMPLIANT</div>
+            <div style="font-size:16px; font-weight:700;" data-i18n="dossier_title">Досьє кандидата</div>
+          </div>
+          <svg class="ic ic-lg" style="color:var(--text-3);"><use href="#i-doc"/></svg>
+        </div>
+
+        <div style="background:var(--surface-inset); border-radius:10px; padding:10px 12px; margin-bottom:12px; font-size:12px; border:1px solid var(--stroke);">
           <div><strong>Кандидат:</strong> <span id="dossier-cand-name">Arsen Vokov</span> (<span id="dossier-cand-permit">Permis S</span>)</div>
           <div><strong>Адреса:</strong> <span id="dossier-cand-addr">Route Cantonale 14, 1163 Etoy</span></div>
           <div><strong>Об'єкт оренди:</strong> <span id="dossier-target-flat">3 pièces à 1163 Etoy (CHF 1'290)</span></div>
@@ -318,13 +594,12 @@
 
         <div style="margin-top:16px; display:flex; flex-direction:column; gap:8px;">
           <button class="btn-primary" onclick="app.copyDossierLetter()">
-            <span data-i18n="btn_copy_letter">📋 Скопіювати супровідний лист</span>
+            <svg class="ic"><use href="#i-copy"/></svg>
+            <span data-i18n="btn_copy_letter">Скопіювати супровідний лист</span>
           </button>
           <button class="btn-secondary" onclick="app.sendDossierByEmail()">
-            <span data-i18n="btn_send_email">✉️ Надіслати в режі через Email</span>
-          </button>
-          <button class="btn-secondary" onclick="app.printDossierPdf()">
-            <span data-i18n="btn_print_dossier">🖨️ Друк / Зберегти PDF досьє</span>
+            <svg class="ic"><use href="#i-arrow-ur"/></svg>
+            <span data-i18n="btn_send_email">Надіслати в режі через Email</span>
           </button>
         </div>
       </div>
@@ -508,68 +783,129 @@
   <!-- Persistent Bottom Navigation -->
   <nav class="bottom-nav">
     <button id="tab-radar" class="nav-tab-btn active" onclick="app.switchTab('radar', this)">
-      <span class="tab-icon">🏠</span>
-      <span data-i18n="nav_radar">Квартири</span>
-    </button>
-    <button id="tab-orp" class="nav-tab-btn" onclick="app.switchTab('orp', this)">
-      <span class="tab-icon">💼</span>
-      <span data-i18n="nav_orp">ORP</span>
-    </button>
-    <button id="tab-interview" class="nav-tab-btn" onclick="app.switchTab('interview', this)">
-      <span class="tab-icon">🎙️</span>
-      <span data-i18n="nav_interview">Entretien</span>
+      <svg class="ic"><use href="#i-home"/></svg>
+      <span data-i18n="nav_radar">Radar</span>
     </button>
     <button id="tab-dossier" class="nav-tab-btn" onclick="app.switchTab('dossier', this)">
-      <span class="tab-icon">📄</span>
+      <svg class="ic"><use href="#i-doc"/></svg>
       <span data-i18n="nav_dossier">Досьє</span>
     </button>
     <button id="tab-zsu" class="nav-tab-btn" onclick="app.switchTab('zsu', this)">
-      <span class="tab-icon">🇺🇦</span>
-      <span data-i18n="nav_zsu">ЗСУ Звіт</span>
+      <svg class="ic"><use href="#i-shield"/></svg>
+      <span data-i18n="nav_zsu">ЗСУ</span>
     </button>
     <button id="tab-onboarding" class="nav-tab-btn" onclick="app.switchTab('onboarding', this)">
-      <span class="tab-icon">👤</span>
+      <svg class="ic"><use href="#i-user"/></svg>
       <span data-i18n="nav_profile">Профіль</span>
     </button>
+    <!-- Backwards compatible hidden tabs -->
+    <button id="tab-orp" style="display:none;" onclick="app.switchTab('orp', this)"></button>
+    <button id="tab-interview" style="display:none;" onclick="app.switchTab('interview', this)"></button>
   </nav>
 
   <!-- ================= DUAL-RAIL CHECKOUT MODAL ================= -->
   <div id="modal-checkout" class="modal-overlay" style="display:none;" onclick="if(event.target === this) app.closeCheckout();">
-    <div class="modal-window">
-      <!-- Modal Header -->
-      <div class="modal-head">
+    <div class="sheet modal-window">
+      <div class="sheet-handle"></div>
+
+      <div class="sheet-head">
         <div>
-          <div style="font-size:11px; color:var(--emerald-2); font-weight:700;" id="checkout-modal-sub" data-i18n="checkout_modal_sub">Оформлення підписки • Souscription solidaire</div>
-          <div class="title" id="checkout-tier-title">Pro Solidarity — CHF 19 / міс</div>
+          <div class="micro-eyebrow micro-emerald" id="checkout-modal-sub" data-i18n="checkout_modal_sub">Souscription solidaire</div>
+          <div class="sheet-title" id="checkout-tier-title">Pro Solidarity · <span class="tabular">CHF 19</span><span class="sheet-title-suffix">/міс</span></div>
         </div>
-        <button class="tg-close-btn" onclick="app.closeCheckout()">✕</button>
+        <button class="tg-close-btn" onclick="app.closeCheckout()" title="Закрити"><svg class="ic"><use href="#i-close"/></svg></button>
       </div>
 
-      <!-- Currency / Rail Switcher -->
-      <div class="checkout-rail-switcher">
-        <button id="btn-rail-chf" class="rail-btn active" onclick="app.setCheckoutRailCurrency('CHF')">
-          <span>🇨🇭 CHF (Швейцарія)</span>
+      <!-- Rail tabs -->
+      <div class="rail-tabs" role="tablist">
+        <button id="btn-rail-chf" class="rail-tab active" data-rail="ch" onclick="app.setCheckoutRail('ch')">
+          <span class="rail-flag">🇨🇭</span>
+          <span class="rail-name">Suisse</span>
         </button>
-        <button id="btn-rail-uah" class="rail-btn" onclick="app.setCheckoutRailCurrency('UAH')">
-          <span>🇺🇦 UAH (Україна)</span>
+        <button id="btn-rail-uah" class="rail-tab" data-rail="ua" onclick="app.setCheckoutRail('ua')">
+          <span class="rail-flag">🇺🇦</span>
+          <span class="rail-name">Україна</span>
+        </button>
+        <button id="btn-rail-tg" class="rail-tab" data-rail="tg" onclick="app.setCheckoutRail('tg')">
+          <svg class="ic rail-flag-svg"><use href="#i-star"/></svg>
+          <span class="rail-name">Telegram</span>
         </button>
       </div>
 
-      <!-- CHF Options Group (Rail A) -->
-      <div id="checkout-options-chf" class="checkout-options-group">
-        <!-- TWINT Direct -->
+      <!-- CH rail content -->
+      <div id="checkout-options-chf" class="rail-content active" data-rail-content="ch">
+        <!-- TWINT primary -->
+        <button class="pay-primary pay-twint" onclick="app.handleTwintPayment()">
+          <div class="pay-primary-left">
+            <div class="pay-logo-twint">
+              <span class="twint-mark">T</span>
+            </div>
+            <div>
+              <div class="pay-primary-title">TWINT</div>
+              <div class="pay-primary-sub">1-tap · Stripe secured</div>
+            </div>
+          </div>
+          <div class="pay-primary-right">
+            <div class="pay-amount tabular" id="twint-amount-display">CHF 19.00</div>
+            <div class="pay-fee">0.9% frais</div>
+          </div>
+        </button>
+
+        <!-- Apple Pay -->
+        <button class="pay-row" onclick="app.handleApplePay()">
+          <div class="pay-row-icon pay-row-icon-dark">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="#fff" d="M17.6 12.6c0-1.7 1.4-2.5 1.4-2.5-.8-1.1-2-1.3-2.4-1.3-1-.1-2 .6-2.5.6s-1.3-.6-2.2-.6c-1.1 0-2.2.7-2.7 1.7-1.2 2-.3 5 .8 6.6.6.8 1.2 1.7 2.1 1.6.8 0 1.2-.5 2.2-.5s1.3.5 2.2.5c.9 0 1.5-.8 2.1-1.6.7-.9.9-1.8.9-1.9 0 0-1.9-.7-1.9-2.6ZM15.7 7.2c.5-.6.8-1.4.7-2.2-.7 0-1.5.4-2 1-.4.5-.8 1.3-.7 2.1.8.1 1.5-.3 2-.9Z"/></svg>
+          </div>
+          <div class="pay-row-body">
+            <div class="pay-row-title">Apple Pay</div>
+            <div class="pay-row-sub">Touch / Face ID · Stripe</div>
+          </div>
+          <div class="pay-row-action"><svg class="ic"><use href="#i-chevron"/></svg></div>
+        </button>
+
+        <!-- Swiss QR-Bill -->
+        <button class="pay-row pay-row-featured" onclick="app.downloadQrBill()">
+          <div class="pay-row-icon pay-row-icon-crimson">
+            <svg viewBox="0 0 20 20" width="22" height="22">
+              <rect x="1" y="1" width="6" height="6" fill="#F1F5F9"/>
+              <rect x="2.5" y="2.5" width="3" height="3" fill="#0A0E17"/>
+              <rect x="13" y="1" width="6" height="6" fill="#F1F5F9"/>
+              <rect x="14.5" y="2.5" width="3" height="3" fill="#0A0E17"/>
+              <rect x="1" y="13" width="6" height="6" fill="#F1F5F9"/>
+              <rect x="2.5" y="14.5" width="3" height="3" fill="#0A0E17"/>
+              <rect x="9" y="9" width="2" height="2" fill="#E23325"/>
+              <rect x="7" y="9" width="1" height="1" fill="#F1F5F9"/>
+              <rect x="12" y="9" width="1" height="1" fill="#F1F5F9"/>
+              <rect x="9" y="7" width="1" height="1" fill="#F1F5F9"/>
+              <rect x="9" y="12" width="1" height="1" fill="#F1F5F9"/>
+              <rect x="13" y="11" width="1" height="1" fill="#F1F5F9"/>
+              <rect x="7" y="12" width="1" height="1" fill="#F1F5F9"/>
+            </svg>
+          </div>
+          <div class="pay-row-body">
+            <div class="pay-row-title">
+              Swiss QR-Bill
+              <span class="badge badge-emerald badge-xs">0% commission</span>
+            </div>
+            <div class="pay-row-sub tabular">CH33 0076 · BCV Vaud</div>
+          </div>
+          <div class="pay-row-action"><svg class="ic"><use href="#i-arrow-ur"/></svg></div>
+        </button>
+
+        <!-- Direct TWINT Phone Copy Card -->
         <div class="copy-field-card">
           <div>
-            <div class="lbl">🇨🇭 TWINT (Номер для переказу)</div>
+            <div class="lbl">🇨🇭 TWINT (Номер для прямого переказу)</div>
             <div class="val" id="twint-phone-val">+41 78 777 24 59</div>
             <div style="font-size:10px; color:var(--text-3); margin-top:2px;" data-i18n="twint_note">Введіть суму та вкажіть у повідомленні ваш ID</div>
           </div>
           <button class="copy-btn" onclick="app.copyToClipboard('+41 78 777 24 59', 'Номер TWINT скопійовано')">
-            <span>📋</span> <span data-i18n="btn_copy">Копіювати</span>
+            <svg class="ic"><use href="#i-copy"/></svg>
+            <span data-i18n="btn_copy">Копіювати</span>
           </button>
         </div>
 
-        <!-- BCV IBAN -->
+        <!-- BCV IBAN Copy Card -->
         <div class="copy-field-card">
           <div>
             <div class="lbl">🏛️ BCV IBAN (Швейцарський банк)</div>
@@ -577,32 +913,40 @@
             <div style="font-size:10px; color:var(--text-3); margin-top:2px;">Banque Cantonale Vaudoise · Vaud</div>
           </div>
           <button class="copy-btn" onclick="app.copyToClipboard('CH3300767000T88824591', 'IBAN BCV скопійовано')">
-            <span>📋</span> <span data-i18n="btn_copy">Копіювати</span>
+            <svg class="ic"><use href="#i-copy"/></svg>
+            <span data-i18n="btn_copy">Копіювати</span>
           </button>
-        </div>
-
-        <!-- Revolut.me -->
-        <div class="checkout-option-item" onclick="app.openExternalLink('https://revolut.me/swissresilience')">
-          <div class="opt-icon">⚡</div>
-          <div class="opt-content">
-            <div class="opt-title">Revolut.me (CHF / EUR / USD)</div>
-            <div class="opt-sub">Миттєва оплата через додаток Revolut або картку</div>
-          </div>
-          <div class="opt-action">➔</div>
         </div>
       </div>
 
-      <!-- UAH Options Group (Rail B) -->
-      <div id="checkout-options-uah" class="checkout-options-group" style="display:none;">
-        <!-- Monobank Jar (0% fee) -->
-        <div class="checkout-option-item" onclick="app.openExternalLink('https://send.monobank.ua/jar/9wL7mKxZ2y')">
-          <div class="opt-icon">🪙</div>
-          <div class="opt-content">
-            <div class="opt-title">Банка Monobank (0% комісії)</div>
-            <div class="opt-sub">Apple Pay, Google Pay, українські картки</div>
+      <!-- UA rail content -->
+      <div id="checkout-options-uah" class="rail-content" data-rail-content="ua" style="display:none;">
+        <!-- Monobank plata primary -->
+        <button class="pay-primary" style="background: linear-gradient(135deg, #0a1a24, #0f172a); border-color: rgba(6, 182, 212, 0.5);" onclick="app.openExternalLink('https://send.monobank.ua/jar/9wL7mKxZ2y')">
+          <div class="pay-primary-left">
+            <div class="pay-logo-twint" style="background:linear-gradient(135deg, #000, #1a1a1a);">
+              <span class="twint-mark" style="color:#fff;">M</span>
+            </div>
+            <div>
+              <div class="pay-primary-title">Monobank plata</div>
+              <div class="pay-primary-sub">Картки · Apple Pay · 0.5%</div>
+            </div>
           </div>
-          <div class="opt-action">➔</div>
-        </div>
+          <div class="pay-primary-right">
+            <div class="pay-amount tabular" id="uah-amount-display">890 ₴</div>
+            <div class="pay-fee">Мін. комісія</div>
+          </div>
+        </button>
+
+        <!-- Monobank Jar -->
+        <button class="pay-row pay-row-featured" onclick="app.openExternalLink('https://send.monobank.ua/jar/9wL7mKxZ2y')">
+          <div class="pay-row-icon pay-row-icon-dark" style="font-size:20px;">🪙</div>
+          <div class="pay-row-body">
+            <div class="pay-row-title">Банка Monobank <span class="badge badge-emerald badge-xs">0% charity</span></div>
+            <div class="pay-row-sub">send.monobank.ua/jar/...</div>
+          </div>
+          <div class="pay-row-action"><svg class="ic"><use href="#i-arrow-ur"/></svg></div>
+        </button>
 
         <!-- Monobank Card IBAN -->
         <div class="copy-field-card">
@@ -612,36 +956,105 @@
             <div style="font-size:10px; color:var(--text-3); margin-top:2px;">Призначення: благодійний внесок ЗСУ</div>
           </div>
           <button class="copy-btn" onclick="app.copyToClipboard('5375414109288459', 'Номер картки скопійовано')">
-            <span>📋</span> <span data-i18n="btn_copy">Копіювати</span>
+            <svg class="ic"><use href="#i-copy"/></svg>
+            <span data-i18n="btn_copy">Копіювати</span>
           </button>
         </div>
       </div>
 
-      <!-- Reference Box with ID -->
-      <div class="copy-field-card" style="margin-top:10px; background:rgba(245, 158, 11, 0.08); border-color:rgba(245, 158, 11, 0.3);">
+      <!-- Telegram rail content -->
+      <div id="checkout-options-tg" class="rail-content" data-rail-content="tg" style="display:none;">
+        <!-- Telegram Stars primary -->
+        <button class="pay-primary" style="background: linear-gradient(135deg, #0b3d54, #0f172a); border-color: rgba(6, 182, 212, 0.5);" onclick="app.handleStarsPayment()">
+          <div class="pay-primary-left">
+            <div class="pay-logo-twint" style="background:linear-gradient(135deg, #22D3EE, #06B6D4);">
+              <span class="twint-mark" style="color:#fff;">★</span>
+            </div>
+            <div>
+              <div class="pay-primary-title">Telegram Stars</div>
+              <div class="pay-primary-sub">In-app · Instant payment</div>
+            </div>
+          </div>
+          <div class="pay-primary-right">
+            <div class="pay-amount tabular">⭐ 480</div>
+            <div class="pay-fee">Telegram Wallet</div>
+          </div>
+        </button>
+
+        <!-- Send in chat -->
+        <button class="pay-row pay-row-featured" onclick="app.openExternalLink('https://t.me/ArsenJobHunterBot')">
+          <div class="pay-row-icon pay-row-icon-dark" style="font-size:20px;">📲</div>
+          <div class="pay-row-body">
+            <div class="pay-row-title">Send in chat <span class="badge badge-emerald badge-xs">Instant</span></div>
+            <div class="pay-row-sub">@ArsenJobHunterBot</div>
+          </div>
+          <div class="pay-row-action"><svg class="ic"><use href="#i-chevron"/></svg></div>
+        </button>
+
+        <!-- Bot deep link -->
+        <button class="pay-row" onclick="app.openExternalLink('https://t.me/SwissResilienceHubBot?start=pay_pro19')">
+          <div class="pay-row-icon pay-row-icon-dark" style="font-size:20px;">⚡</div>
+          <div class="pay-row-body">
+            <div class="pay-row-title">Bot deep-link</div>
+            <div class="pay-row-sub">t.me/SwissResilienceHubBot</div>
+          </div>
+          <div class="pay-row-action"><svg class="ic"><use href="#i-arrow-ur"/></svg></div>
+        </button>
+      </div>
+
+      <!-- Payment Ref Code -->
+      <div class="copy-field-card" style="margin-top:12px; background:rgba(245, 158, 11, 0.08); border-color:rgba(245, 158, 11, 0.3);">
         <div>
           <div class="lbl" style="color:#FBBF24;" data-i18n="lbl_payment_ref">Обов'язковий коментар до платежу:</div>
           <div class="val" id="payment-ref-code" style="color:#FBBF24;">SRN-ARSEN-PRO</div>
         </div>
         <button class="copy-btn" style="border-color:#F59E0B; color:#FBBF24;" onclick="app.copyPaymentRef()">
-          <span>📋</span> <span data-i18n="btn_copy">Копіювати</span>
+          <svg class="ic"><use href="#i-copy"/></svg>
+          <span data-i18n="btn_copy">Копіювати</span>
         </button>
       </div>
 
-      <!-- Transparency Badge -->
-      <div class="checkout-transparency-card" id="checkout-transparency-badge">
-        <span class="shield-badge-icon">🛡️</span>
-        <div class="shield-badge-text" id="checkout-badge-text">
-          30% вашого внеску (CHF 5.70) автоматично спрямовується до фонду ЗСУ з фіксацією в реєстрі Merkle.
+      <!-- ZSU Solidarity Footer -->
+      <div class="zsu-footer">
+        <div class="zsu-footer-head">
+          <div class="zsu-flag-pair">🇺🇦 🤝 🇨🇭</div>
+          <div>
+            <div class="zsu-title">Solidarity ZSU</div>
+            <div class="zsu-sub">Alloué automatiquement · <b class="tabular" id="zsu-pct-label">30%</b></div>
+          </div>
+          <div class="zsu-amount tabular" id="zsu-alloc-amount">CHF 5.70</div>
+        </div>
+
+        <!-- Solidarity slider -->
+        <div class="zsu-slider-wrap" onclick="app.handleZsuSliderClick(event)">
+          <div class="zsu-slider-track" id="zsu-slider-track">
+            <div class="zsu-slider-fill" id="zsu-slider-fill" style="width:100%"></div>
+            <div class="zsu-slider-thumb" id="zsu-slider-thumb" style="left:100%"></div>
+            <div class="zsu-slider-tick" style="left:0%" onclick="event.stopPropagation(); app.setSolidarityPct(10)"><span class="tabular">10%</span></div>
+            <div class="zsu-slider-tick" style="left:50%" onclick="event.stopPropagation(); app.setSolidarityPct(20)"><span class="tabular">20%</span></div>
+            <div class="zsu-slider-tick" style="left:100%" onclick="event.stopPropagation(); app.setSolidarityPct(30)"><span class="tabular">30%</span></div>
+          </div>
+        </div>
+
+        <div class="zsu-audit">
+          <div class="zsu-audit-hash tabular">
+            <span class="mono-hint">SHA-256 MERKLE ROOT</span>
+            <span id="zsu-merkle-hash-preview">7f3a·9c2e·b4d1·…·af08</span>
+          </div>
+          <button class="zsu-audit-btn" onclick="app.switchTab('zsu'); app.closeCheckout();">
+            Audit Merkle Proof
+            <svg class="ic"><use href="#i-arrow-ur"/></svg>
+          </button>
         </div>
       </div>
 
       <!-- Confirm Payment Button -->
-      <button class="btn-primary" style="margin-top:14px; background:linear-gradient(180deg, #10B981, #059669);" onclick="app.openPaymentConfirmModal()">
-        <span data-i18n="btn_confirm_payment">✅ Я здійснив оплату (Отримати Merkle-квитанцію)</span>
+      <button class="btn-primary btn-full" style="margin-top:14px; background:linear-gradient(180deg, #10B981, #059669);" onclick="app.openPaymentConfirmModal()">
+        <svg class="ic"><use href="#i-check"/></svg>
+        <span data-i18n="btn_confirm_payment">Я здійснив оплату (Отримати Merkle-квитанцію)</span>
       </button>
 
-      <!-- Footer legal note -->
+      <!-- Legal note -->
       <div class="checkout-legal-note" data-i18n="checkout_legal_note">
         🔒 Нульова фіксована абонплата сервісу ($0/міс). Корпоративна благодійність відповідно до ст. 60 CC.
       </div>

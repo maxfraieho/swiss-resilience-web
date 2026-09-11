@@ -250,6 +250,15 @@ const TRANSLATIONS = {
     interview_btn_record: 'Enregistrer audio',
     interview_btn_eval: 'Évaluer ⚡',
 
+    // DS 2.0 Keys
+    seg_housing: 'Житло',
+    seg_jobs: 'Вакансії',
+    seg_interview: 'Entretien',
+    tg_sub_radar: "Свіжі об'єкти · < 60с",
+    lbl_net_income: 'Місячний чистий дохід',
+    lbl_target_rent: 'Цільова орендна плата (з комунальними)',
+    btn_print_dossier: 'Завантажити досьє USPI (PDF)',
+    btn_view_letter: 'Переглянути лист французькою',
     // Modals
     checkout_modal_sub: 'Оформлення підписки • Souscription solidaire',
     twint_note: 'Введіть суму та вкажіть у повідомленні ваш ID',
@@ -397,6 +406,24 @@ const TRANSLATIONS = {
     interview_btn_record: 'Enregistrer audio',
     interview_btn_eval: 'Évaluer ⚡',
 
+    // DS 2.0 Keys
+    seg_housing: 'Житло',
+    seg_jobs: 'Вакансії',
+    seg_interview: 'Entretien',
+    tg_sub_radar: "Свіжі об'єкти · < 60с",
+    lbl_net_income: 'Місячний чистий дохід',
+    lbl_target_rent: 'Цільова орендна плата (з комунальними)',
+    btn_print_dossier: 'Завантажити досьє USPI (PDF)',
+    btn_view_letter: 'Переглянути лист французькою',
+    // DS 2.0 Keys
+    seg_housing: 'Logement',
+    seg_jobs: 'Emplois',
+    seg_interview: 'Entretien',
+    tg_sub_radar: 'Nouveaux biens · < 60s',
+    lbl_net_income: 'Revenu net mensuel',
+    lbl_target_rent: 'Loyer cible (charges incl.)',
+    btn_print_dossier: 'Télécharger dossier régie (PDF)',
+    btn_view_letter: 'Voir la lettre en français',
     // Modals
     checkout_modal_sub: 'Souscription solidaire • Formulaire de paiement',
     twint_note: 'Indiquez le montant et votre identifiant en référence',
@@ -449,6 +476,11 @@ class ResilienceMiniApp {
     this.interviewVector = 'v3';
     this.interviewStage = 1;
     this.isRecording = false;
+
+    // DS 2.0 state
+    this.radarSegment = 'housing';
+    this.checkoutRail = 'ch';
+    this.solidarityPct = 30;
 
     this.user = this.loadSavedUser();
     this.init();
@@ -546,8 +578,12 @@ class ResilienceMiniApp {
     this.loadOrpJobs();
     this.loadZsuLedger();
     this.updateProfileBadge();
+    this.updateHeroProfile();
     this.updatePaymentRefCode();
     this.updateAuthUI();
+    this.updateHeroProfile();
+    this.initGaugeListeners();
+    this.updateGauge();
   }
 
   haptic(type = 'light') {
@@ -715,6 +751,7 @@ class ResilienceMiniApp {
     this.renderOrpJobs();
     this.updateDossierLetter();
     this.updateCheckoutBadge();
+    this.updateGauge();
   }
 
   updateHeaderTitle() {
@@ -789,6 +826,7 @@ class ResilienceMiniApp {
     this.candidate[field] = value;
     this.saveCandidateProfileLocally();
     this.updateProfileBadge();
+    this.updateHeroProfile();
     this.updatePaymentRefCode();
   }
 
@@ -1061,11 +1099,12 @@ class ResilienceMiniApp {
 
     // Search query filter
     if (this.searchQuery) {
+      const q = this.searchQuery.toLowerCase();
       filtered = filtered.filter(l =>
-        l.city.toLowerCase().includes(this.searchQuery) ||
-        l.zipcode.includes(this.searchQuery) ||
-        l.title.toLowerCase().includes(this.searchQuery) ||
-        l.regie.toLowerCase().includes(this.searchQuery)
+        l.city.toLowerCase().includes(q) ||
+        l.zipcode.includes(q) ||
+        l.title.toLowerCase().includes(q) ||
+        l.regie.toLowerCase().includes(q)
       );
     }
 
@@ -1084,7 +1123,7 @@ class ResilienceMiniApp {
       filtered = filtered.filter(l => l.is_reprise);
     }
 
-    // Proximity to Etoy (≤ 10 km)
+    // Proximity to Etoy (<= 10 km)
     if (this.filters.etoy) {
       filtered = filtered.filter(l => l.distance_km <= 10.0);
     }
@@ -1112,38 +1151,70 @@ class ResilienceMiniApp {
     }
 
     const dict = TRANSLATIONS[this.lang] || TRANSLATIONS.ua;
+    const inputInc = document.getElementById('input-income');
+    const candidateIncome = this.parseCHF(inputInc ? inputInc.value : 4090);
 
     container.innerHTML = filtered.map(l => {
-      const priceFormatted = Number(l.rent_gross).toLocaleString('fr-CH');
+      const priceFormatted = this.formatCHF(l.rent_gross);
       const isEvamOk = l.rent_gross <= this.candidate.evamCeiling;
       const diff = l.rent_gross - this.candidate.evamCeiling;
+      const ratio = candidateIncome > 0 ? (l.rent_gross / candidateIncome) * 100 : 31.5;
+      const barFillPct = Math.min(100, Math.max(5, Math.round((ratio / 50) * 100)));
 
-      const evamBadge = isEvamOk
-        ? `<span class="badge-item evam">🟢 Conforme EVAM (≤ CHF ${this.candidate.evamCeiling})</span>`
-        : `<span class="badge-item regie" style="color:#F59E0B; background:rgba(245,158,11,0.15);">⚠️ +CHF ${diff} sur barème</span>`;
+      let verdictClass = 'solv-ok';
+      let verdictLabel = 'Solvable USPI';
+      if (ratio > 40) {
+        verdictClass = 'solv-bad';
+        verdictLabel = this.lang === 'fr' ? 'Non-conforme' : 'Не відповідає';
+      } else if (ratio > 33) {
+        verdictClass = 'solv-warn';
+        verdictLabel = this.lang === 'fr' ? 'Vigilance' : 'Увага (>33%)';
+      }
 
       return `
-        <div class="prop-card">
-          <div class="prop-top-row">
-            <div class="prop-thumb">
-              🏢
-              <span class="new-tag">NEW</span>
+        <article class="listing-card" onclick="app.triggerDossier('${l.external_id}')">
+          <div class="listing-media">
+            <div class="listing-media-fallback">
+              <svg class="ic ic-lg"><use href="#i-home"/></svg>
+              <span class="mono-hint">${l.rooms} pièces · ${l.surface_sqm || '75'}m²</span>
             </div>
-            <div class="prop-info">
-              <div class="prop-title">${l.rooms} pièces • CHF ${priceFormatted} / mois</div>
-              <div class="prop-address">📍 ${l.zipcode} ${l.city} (${l.distance_km} km d’Etoy)</div>
-              <div class="badge-stack">
-                ${evamBadge}
-                ${l.is_reprise ? '<span class="badge-item reprise">⚡ Reprise (Art. 264 CO)</span>' : ''}
-                <span class="badge-item regie">${l.regie}</span>
+            <div class="listing-badges">
+              ${isEvamOk
+                ? `<span class="badge badge-emerald"><svg class="ic"><use href="#i-check"/></svg> EVAM</span>`
+                : `<span class="badge badge-amber">+CHF ${diff}</span>`
+              }
+              ${l.is_reprise ? `<span class="badge badge-crimson">Reprise 264</span>` : ''}
+            </div>
+            <div class="listing-fresh">
+              <span class="live-dot"></span>
+              <span class="tabular">&lt; 60с</span>
+            </div>
+          </div>
+          <div class="listing-body">
+            <div class="listing-row">
+              <div class="listing-title">${l.title || (l.address + ' · ' + l.city)}</div>
+              <div class="listing-price tabular">CHF ${priceFormatted}</div>
+            </div>
+            <div class="listing-row listing-meta">
+              <div>${l.city} (${l.zipcode}) · ${l.regie}</div>
+              <div class="tabular">${l.rooms}p · ${l.distance_km} km</div>
+            </div>
+            <div class="listing-solvency">
+              <div class="solv-bar">
+                <div class="solv-bar-fill" style="width:${barFillPct}%"></div>
+                <div class="solv-bar-mark" style="left:66%" title="33% плафон"></div>
+              </div>
+              <div class="solv-legend">
+                <span>Рент / дохід · <b class="tabular">${ratio.toFixed(1)}%</b></span>
+                <span class="solv-verdict ${verdictClass}">${verdictLabel}</span>
               </div>
             </div>
+            <div class="prop-actions" style="margin-top:10px; display:flex; gap:8px;" onclick="event.stopPropagation()">
+              <button class="btn-secondary" style="flex:1; height:34px; font-size:11.5px; padding:0 8px;" onclick="window.open('${l.url}', '_blank')">${dict.btn_flatfox_link || 'Flatfox'}</button>
+              <button class="btn-primary" style="flex:1; height:34px; font-size:11.5px; padding:0 8px;" onclick="app.triggerDossier('${l.external_id}')">${dict.btn_dossier_1click || 'Досьє 1-клік'}</button>
+            </div>
           </div>
-          <div class="prop-actions">
-            <button class="btn-secondary" onclick="window.open('${l.url}', '_blank')">${dict.btn_flatfox_link}</button>
-            <button class="btn-emerald" onclick="app.triggerDossier('${l.external_id}')">${dict.btn_dossier_1click}</button>
-          </div>
-        </div>
+        </article>
       `;
     }).join('');
   }
@@ -1153,6 +1224,23 @@ class ResilienceMiniApp {
     const listing = this.listings.find(l => l.external_id === listingId);
     if (listing) {
       this.selectedListing = listing;
+      const rentInput = document.getElementById('input-rent');
+      if (rentInput) {
+        rentInput.value = this.formatCHF(listing.rent_gross);
+      }
+      const hint = document.getElementById('dossier-target-hint');
+      if (hint) {
+        hint.textContent = `${listing.address || listing.title} · ${listing.city}`;
+      }
+      const flatEl = document.getElementById('dossier-target-flat');
+      if (flatEl) {
+        flatEl.textContent = `${listing.rooms} pièces à ${listing.zipcode} ${listing.city} (CHF ${this.formatCHF(listing.rent_gross)})`;
+      }
+      const regieEl = document.getElementById('dossier-target-regie');
+      if (regieEl) {
+        regieEl.textContent = listing.regie;
+      }
+      this.updateGauge();
       this.showToast(this.lang === 'fr' ? `📄 Dossier pré-rempli pour ${listing.city}` : `📄 Досьє сформовано для ${listing.city}`);
     }
     this.switchTab('dossier');
@@ -1534,7 +1622,288 @@ class ResilienceMiniApp {
 
     this.updatePaymentRefCode();
     this.updateCheckoutBadge();
+    this.updateGauge();
     modal.style.display = 'flex';
+  }
+
+
+  // ================= DESIGN SYSTEM 2.0 ENGINE HELPERS =================
+  parseCHF(v) {
+    return Number(String(v).replace(/[^\d]/g, '')) || 0;
+  }
+
+  formatCHF(n) {
+    return new Intl.NumberFormat('de-CH').format(n).replace(/,/g, "'");
+  }
+
+  updateGauge() {
+    const gaugeNeedle = document.getElementById('gauge-needle');
+    const gaugeShare = document.getElementById('gauge-share');
+    const gaugeVerdict = document.getElementById('gauge-verdict');
+    const verdictBanner = document.getElementById('verdict-banner');
+    const verdictTitle = document.getElementById('verdict-title');
+    const verdictSub = document.getElementById('verdict-sub');
+    const inputIncome = document.getElementById('input-income');
+    const inputRent = document.getElementById('input-rent');
+
+    if (!inputIncome || !inputRent) return;
+    const income = this.parseCHF(inputIncome.value);
+    const rent = this.parseCHF(inputRent.value);
+    if (income <= 0) return;
+
+    const ratio = (rent / income) * 100;
+    // Needle: 0% -> -90deg, 60% -> +90deg. Cap between 0 and 60%
+    const capped = Math.min(60, Math.max(0, ratio));
+    const deg = -90 + (capped / 60) * 180;
+
+    if (gaugeNeedle) {
+      gaugeNeedle.style.transform = `rotate(${deg}deg)`;
+    }
+    if (gaugeShare) {
+      gaugeShare.textContent = ratio.toFixed(1) + '%';
+    }
+
+    let verdict, color, statusClass, title, sub;
+    const isFr = this.lang === 'fr';
+
+    if (ratio <= 33) {
+      verdict = 'Solvable';
+      color = '#6EE7B7';
+      statusClass = 'verdict-ok';
+      title = isFr ? 'Dossier conforme USPI' : 'Досьє відповідає USPI';
+      const margin = Math.round(income * 0.33 - rent);
+      sub = isFr
+        ? `Ratio <b class="tabular">${ratio.toFixed(1)}%</b> · marge <b class="tabular">CHF ${this.formatCHF(margin)}</b> avant seuil`
+        : `Частка <b class="tabular">${ratio.toFixed(1)}%</b> · запас <b class="tabular">CHF ${this.formatCHF(margin)}</b> до ліміту`;
+    } else if (ratio <= 40) {
+      verdict = 'Vigilance';
+      color = '#FCD34D';
+      statusClass = 'verdict-warn';
+      title = isFr ? 'Garant recommandé' : 'Рекомендовано поручителя';
+      const excess = Math.round(rent - income * 0.33);
+      sub = isFr
+        ? `Ratio <b class="tabular">${ratio.toFixed(1)}%</b> · <b class="tabular">CHF ${this.formatCHF(excess)}</b> au-dessus du seuil`
+        : `Частка <b class="tabular">${ratio.toFixed(1)}%</b> · на <b class="tabular">CHF ${this.formatCHF(excess)}</b> вище 33%`;
+    } else {
+      verdict = 'Non-conforme';
+      color = '#FCA5A5';
+      statusClass = 'verdict-bad';
+      title = isFr ? 'Refus probable' : 'Ймовірна відмова режі';
+      sub = isFr
+        ? `Ratio <b class="tabular">${ratio.toFixed(1)}%</b> · loyer > 40% du revenu`
+        : `Частка <b class="tabular">${ratio.toFixed(1)}%</b> · оренда > 40% доходу`;
+    }
+
+    if (gaugeVerdict) gaugeVerdict.textContent = verdict;
+    if (gaugeShare) gaugeShare.style.color = color;
+    if (verdictBanner) {
+      verdictBanner.className = 'verdict-banner ' + statusClass;
+      if (verdictTitle) verdictTitle.textContent = title;
+      if (verdictSub) verdictSub.innerHTML = sub;
+    }
+  }
+
+  initGaugeListeners() {
+    const inputIncome = document.getElementById('input-income');
+    const inputRent = document.getElementById('input-rent');
+    [inputIncome, inputRent].forEach(inp => {
+      if (inp) {
+        inp.addEventListener('input', () => this.updateGauge());
+      }
+    });
+  }
+
+  setRadarSegment(seg, element) {
+    this.haptic('light');
+    this.radarSegment = seg;
+    const segContainer = element ? element.closest('.segmented') : document.querySelector('.segmented');
+    if (segContainer) {
+      const buttons = Array.from(segContainer.querySelectorAll('.seg-btn'));
+      const thumb = segContainer.querySelector('.seg-thumb');
+      const activeBtn = element || segContainer.querySelector(`[data-seg="${seg}"]`);
+      buttons.forEach((btn, idx) => {
+        const isActive = (btn === activeBtn);
+        btn.classList.toggle('active', isActive);
+        if (isActive && thumb) {
+          thumb.style.transform = `translateX(${idx * 100}%)`;
+        }
+      });
+    }
+
+    // Subfeed navigation
+    if (seg === 'housing') {
+      this.switchTab('radar');
+    } else if (seg === 'jobs') {
+      this.switchTab('orp');
+      const radarBtn = document.getElementById('tab-radar');
+      if (radarBtn) {
+        document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+        radarBtn.classList.add('active');
+      }
+    } else if (seg === 'interview') {
+      this.switchTab('interview');
+      const radarBtn = document.getElementById('tab-radar');
+      if (radarBtn) {
+        document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+        radarBtn.classList.add('active');
+      }
+    }
+  }
+
+  setCheckoutRail(rail) {
+    this.haptic('light');
+    this.checkoutRail = rail;
+    
+    // Update rail tabs
+    document.querySelectorAll('.rail-tab').forEach(tab => {
+      tab.classList.toggle('active', tab.getAttribute('data-rail') === rail);
+    });
+
+    // Update rail contents
+    const chEl = document.getElementById('checkout-options-chf');
+    const uaEl = document.getElementById('checkout-options-uah');
+    const tgEl = document.getElementById('checkout-options-tg');
+
+    if (chEl) chEl.style.display = (rail === 'ch') ? 'block' : 'none';
+    if (uaEl) uaEl.style.display = (rail === 'ua') ? 'block' : 'none';
+    if (tgEl) tgEl.style.display = (rail === 'tg') ? 'block' : 'none';
+
+    this.updateCheckoutAmounts();
+  }
+
+  setSolidarityPct(pct) {
+    this.haptic('light');
+    this.solidarityPct = pct;
+    
+    const pctLabel = document.getElementById('zsu-pct-label');
+    if (pctLabel) pctLabel.textContent = `${pct}%`;
+
+    const fill = document.getElementById('zsu-slider-fill');
+    const thumb = document.getElementById('zsu-slider-thumb');
+    // 10% -> 0%, 20% -> 50%, 30% -> 100%
+    const pos = pct === 10 ? 0 : (pct === 20 ? 50 : 100);
+    if (fill) fill.style.width = `${pos}%`;
+    if (thumb) thumb.style.left = `${pos}%`;
+
+    this.updateCheckoutAmounts();
+  }
+
+  handleZsuSliderClick(event) {
+    const track = document.getElementById('zsu-slider-track');
+    if (!track) return;
+    const rect = track.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const pctX = clickX / rect.width;
+    let chosen = 30;
+    if (pctX < 0.33) chosen = 10;
+    else if (pctX < 0.67) chosen = 20;
+    else chosen = 30;
+    this.setSolidarityPct(chosen);
+  }
+
+  updateCheckoutAmounts() {
+    const t = TIERS[this.checkoutTier] || TIERS.pro;
+    const pct = this.solidarityPct || 30;
+    const zsuChf = (t.chf * pct / 100).toFixed(2);
+    
+    const allocEl = document.getElementById('zsu-alloc-amount');
+    if (allocEl) allocEl.textContent = `CHF ${zsuChf}`;
+
+    const twintAmount = document.getElementById('twint-amount-display');
+    if (twintAmount) twintAmount.textContent = `CHF ${t.chf.toFixed(2)}`;
+
+    const uahAmount = document.getElementById('uah-amount-display');
+    if (uahAmount) uahAmount.textContent = `${t.uah} ₴`;
+
+    // Merkle root preview
+    const merklePreview = document.getElementById('zsu-merkle-hash-preview');
+    if (merklePreview) {
+      const mockPayload = `${t.chf}|${zsuChf}|${pct}%|${Date.now()}`;
+      const hash = sha256Sync(mockPayload);
+      merklePreview.textContent = `${hash.slice(0, 4)}·${hash.slice(4, 8)}·${hash.slice(8, 12)}·…·${hash.slice(-4)}`;
+    }
+  }
+
+  handleTwintPayment() {
+    this.haptic('medium');
+    this.showToast(this.lang === 'fr' ? 'Connexion sécurisée TWINT / Stripe...' : 'Безпечне з’єднання TWINT / Stripe...');
+    setTimeout(() => {
+      this.openPaymentConfirmModal();
+    }, 600);
+  }
+
+  handleApplePay() {
+    this.haptic('medium');
+    this.showToast(this.lang === 'fr' ? 'Initialisation Apple Pay...' : 'Ініціалізація Apple Pay...');
+    setTimeout(() => {
+      this.openPaymentConfirmModal();
+    }, 600);
+  }
+
+  downloadQrBill() {
+    this.haptic('medium');
+    this.showToast(this.lang === 'fr' ? 'Génération du bulletin QR suisse...' : 'Генерація швейцарського QR-рахунку...');
+    const t = TIERS[this.checkoutTier] || TIERS.pro;
+    const refCode = document.getElementById('payment-ref-code')?.innerText || 'SRN-PRO';
+    const qrInfo = `SPC\r\n0200\r\n1\r\nCH3300767000T88824591\r\nS\r\nSwiss Resilience Navigator\r\nRoute Cantonale 14\r\n1163 Etoy\r\n\r\n\r\n${t.chf.toFixed(2)}\r\nCHF\r\nS\r\n${this.candidate.name}\r\n${this.candidate.address}\r\n\r\n\r\nNON\r\n${refCode}\r\nEPD`;
+    
+    navigator.clipboard?.writeText(qrInfo);
+    this.showToast(this.lang === 'fr' ? 'Données QR-Bill copiées dans le presse-papier !' : 'Реквізити QR-Bill скопійовано в буфер обміну!');
+  }
+
+  handleStarsPayment() {
+    this.haptic('medium');
+    if (this.tg && this.tg.openInvoice) {
+      this.showToast(this.lang === 'fr' ? 'Ouverture de facture Telegram Stars...' : 'Відкриття рахунку Telegram Stars...');
+    } else {
+      this.openExternalLink('https://t.me/SwissResilienceHubBot?start=pay_pro19');
+    }
+  }
+
+  openLetterModal() {
+    this.haptic('light');
+    const preview = document.getElementById('dossier-letter-text');
+    if (preview) {
+      preview.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      preview.style.boxShadow = '0 0 0 2px var(--accent)';
+      setTimeout(() => {
+        preview.style.boxShadow = '';
+      }, 2000);
+    }
+  }
+
+  openExternalLink(url) {
+    this.haptic('light');
+    if (this.tg && this.tg.openLink) {
+      try {
+        this.tg.openLink(url);
+        return;
+      } catch (e) {}
+    }
+    window.open(url, '_blank');
+  }
+
+  updateHeroProfile() {
+    const heroName = document.getElementById('profile-hero-name');
+    const heroInitials = document.getElementById('profile-hero-initials');
+    const heroPermit = document.getElementById('profile-hero-permit');
+    const heroCommune = document.getElementById('profile-hero-commune');
+    const heroFrench = document.getElementById('profile-hero-french');
+    const heroFamily = document.getElementById('profile-hero-family');
+
+    if (heroName) heroName.textContent = this.candidate.name;
+    if (heroInitials) {
+      const parts = this.candidate.name.trim().split(' ');
+      const initials = (parts[0]?.[0] || 'A') + (parts[1]?.[0] || 'V');
+      heroInitials.textContent = initials.toUpperCase();
+    }
+    if (heroPermit) heroPermit.textContent = this.candidate.permit || 'Permis S';
+    if (heroCommune) {
+      const city = (this.candidate.address || '').split(',').pop()?.trim() || 'Etoy · 1163';
+      heroCommune.textContent = city;
+    }
+    if (heroFrench) heroFrench.textContent = `Français ${this.candidate.french || 'B1'}`;
+    if (heroFamily) heroFamily.textContent = `Famille ${this.familySize || 3}`;
   }
 
   closeCheckout() {
@@ -1564,6 +1933,7 @@ class ResilienceMiniApp {
     }
 
     this.updateCheckoutBadge();
+    this.updateGauge();
   }
 
   updatePaymentRefCode() {
