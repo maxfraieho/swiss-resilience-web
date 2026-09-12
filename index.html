@@ -11,13 +11,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <!-- Modular Stylesheet -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260911_1505" />
 
   <!-- Modular Scripts -->
-  <script type="module" src="calculator.js" defer></script>
-  <script type="module" src="merkle_ledger.js" defer></script>
+  <script type="module" src="calculator.js?v=20260911_1505" defer></script>
+  <script type="module" src="merkle_ledger.js?v=20260911_1505" defer></script>
 </head>
 <body>
+
+<!-- ================== TOP ANNOUNCEMENT BANNER (RADICAL HONESTY) ================== -->
+<div class="top-banner" style="background: linear-gradient(90deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.98)); border-bottom: 1px solid rgba(245, 158, 11, 0.25); color: #FCD34D; text-align: center; padding: 6px 16px; font-size: 11.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+  <span style="width: 7px; height: 7px; border-radius: 50%; background: #F59E0B; box-shadow: 0 0 8px #F59E0B; display: inline-block;"></span>
+  <span>⚡ Публічна бета-версія — Асоціація Swiss Resilience на стадії створення (ст. 60–79 ЦК) · Доступ вільний · Комерційні тарифи заморожено</span>
+</div>
 
 <!-- ================== NAV ================== -->
 <div class="nav-wrap">
@@ -51,11 +57,14 @@
           <button class="active" data-lang="ua">UA</button>
           <button data-lang="fr">FR</button>
         </div>
-        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Запустити Telegram-бота
+        <a href="/hub/" class="btn btn-ghost" style="border: 1px solid rgba(245, 158, 11, 0.35); color: #FCD34D;">
+          🌐 Hub 2.5
         </a>
-        <a href="https://t.me/swiss_resilience_bot/app" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Telegram-бот
+        </a>
+        <a href="/app/" class="btn btn-primary">
           Відкрити Web App
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
@@ -78,8 +87,8 @@
       Прямий автоматизований моніторинг житла за офіційними баремами EVAM та Hospice Général, передача договорів оренди (Reprise de bail, Art. 264 CO), миттєва компіляція досьє стандарту USPI та солідарний внесок 30% на захист України.
     </p>
     <div class="hero-cta">
-      <a href="https://t.me/swiss_resilience_bot/app" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
-        🚀 Знайти житло в Telegram TMA
+      <a href="/app/" class="btn btn-primary btn-lg">
+        🚀 Відкрити платформу (Web App)
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
       <a href="#calc" class="btn btn-ghost btn-lg">
@@ -90,9 +99,9 @@
 
     <div class="hero-metrics" role="list">
       <div class="metric v-emerald" role="listitem">
-        <div class="metric-label">Верифіковано за тиждень</div>
-        <div class="metric-value" data-count="1420">1,420+</div>
-        <div class="metric-desc">квартир пройшли перевірку відповідності EVAM/HG бареми</div>
+        <div class="metric-label">Правовий статус</div>
+        <div class="metric-value">Art. 60–79 CC</div>
+        <div class="metric-desc">Швейцарська некомерційна асоціація · 100% захист соціальної допомоги EVAM (LARA)</div>
       </div>
       <div class="metric v-crimson" role="listitem">
         <div class="metric-label">Комісії посередникам</div>
@@ -100,9 +109,9 @@
         <div class="metric-desc">сплачено тіньовим спекулянтам — прямий доступ до першоджерела</div>
       </div>
       <div class="metric v-gold" role="listitem">
-        <div class="metric-label">Переказано на оборону 🇺🇦</div>
-        <div class="metric-value" data-count="18640">CHF 18,640</div>
-        <div class="metric-desc">на спецрахунок НБУ та фонд «Повернись живим» цього місяця</div>
+        <div class="metric-label">Солідарна допомога 🇺🇦</div>
+        <div class="metric-value">30%</div>
+        <div class="metric-desc">фіксоване відрахування з кожного платного тарифу на перевірені рахунки оборони (НБУ / Повернись живим)</div>
       </div>
     </div>
   </div>
@@ -229,8 +238,8 @@
 
       <div class="sol-card ledger">
         <div class="ledger-head">
-          <h3>Останні транзакції — публічний Merkle-леджер</h3>
-          <span class="live"><span class="pulse-dot"></span>LIVE</span>
+          <h3>Публічний Merkle-леджер транзакцій</h3>
+          <span class="live"><span class="pulse-dot"></span>ПРОТОКОЛ АКТИВНИЙ</span>
         </div>
         <div class="table-wrap">
           <table class="ledger-table">
@@ -240,67 +249,22 @@
                 <th>Одержувач</th>
                 <th style="text-align:right">Сума</th>
                 <th>Merkle Leaf</th>
-                <th></th>
+                <th>Аудит</th>
               </tr>
             </thead>
             <tbody>
-              <!-- Dynamically populated and verified by merkle_ledger.js -->
               <tr>
-                <td class="col-date">2026-09-10 08:14</td>
-                <td><span class="recipient-tag">NBU Defense Account</span></td>
-                <td class="col-amount">CHF 1'240.00</td>
-                <td class="col-hash">0x8f3c…a2d1e7</td>
-                <td><button class="pdf-btn">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  PDF
-                </button></td>
-              </tr>
-              <tr>
-                <td class="col-date">2026-09-09 22:47</td>
-                <td><span class="recipient-tag cba">Come Back Alive</span></td>
-                <td class="col-amount">CHF 890.50</td>
-                <td class="col-hash">0x2a91…7f04b3</td>
-                <td><button class="pdf-btn">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  PDF
-                </button></td>
-              </tr>
-              <tr>
-                <td class="col-date">2026-09-08 14:22</td>
-                <td><span class="recipient-tag">NBU Defense Account</span></td>
-                <td class="col-amount">CHF 2'110.30</td>
-                <td class="col-hash">0xc4e0…19b8fa</td>
-                <td><button class="pdf-btn">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  PDF
-                </button></td>
-              </tr>
-              <tr>
-                <td class="col-date">2026-09-07 09:03</td>
-                <td><span class="recipient-tag cba">Come Back Alive</span></td>
-                <td class="col-amount">CHF 654.80</td>
-                <td class="col-hash">0x6b12…3ad5c9</td>
-                <td><button class="pdf-btn">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  PDF
-                </button></td>
-              </tr>
-              <tr>
-                <td class="col-date">2026-09-06 18:31</td>
-                <td><span class="recipient-tag">NBU Defense Account</span></td>
-                <td class="col-amount">CHF 1'805.00</td>
-                <td class="col-hash">0xf07a…be82d4</td>
-                <td><button class="pdf-btn">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  PDF
-                </button></td>
+                <td colspan="5" style="text-align:center; padding: 28px 16px; color: var(--text-2); font-size: 13px; line-height: 1.6;">
+                  🛡️ <strong>Криптографічний протокол верифікації готовий до роботи.</strong><br>
+                  Транзакції фіксуватимуться та відображатимуться в режимі реального часу відразу після активації перших підписок. Жодних фіктивних записів.
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="ledger-footer">
-          <span class="ledger-root" title="Клікніть для копіювання">Root: 0x9d4f8a…2c1b7e6a</span>
-          <a class="ledger-register-link" href="#zsu">Повний публічний реєстр →</a>
+          <span class="ledger-root" title="Merkle Root Protocol">Root: Sha256(leaf_n + leaf_n+1)</span>
+          <a class="ledger-register-link" href="#pricing">Підтримати запуск через тариф →</a>
         </div>
       </div>
     </div>
@@ -354,7 +318,8 @@
           <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Калькулятор EVAM / Hospice Général</li>
           <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Доступ до бази ORP-вакансій</li>
         </ul>
-        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost price-cta btn-lg">Почати безкоштовно</a>
+        <a href="/app/?view=onboarding" class="btn btn-ghost price-cta btn-lg">Почати безкоштовно (Web App)</a>
+        <a href="https://t.me/SwissResilienceHubBot?start=reg" target="_blank" rel="noopener noreferrer" style="margin-top:8px; display:block; text-align:center; font-size:12px; color:var(--emerald); text-decoration:none; font-weight:600;">⚡ Зареєструватись у Telegram →</a>
       </div>
 
       <!-- PRO SOLIDARITY (FEATURED) -->
@@ -374,7 +339,8 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
           CHF 5.70 / міс. → ЗСУ (гарантовано, з Merkle-хешем)
         </div>
-        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary price-cta btn-lg">Оформити Pro Solidarity</a>
+        <a href="https://t.me/SwissResilienceHubBot?start=pay_pro19" target="_blank" rel="noopener noreferrer" class="btn btn-primary price-cta btn-lg">⚡ Оформити в Telegram (@SwissResilienceHubBot)</a>
+        <a href="/app/?tier=pro&view=checkout" style="margin-top:8px; display:block; text-align:center; font-size:12px; color:var(--text-2); text-decoration:none;">Оформити через браузер (Web App) →</a>
       </div>
 
       <!-- SUCCESS -->
@@ -392,9 +358,17 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
           CHF 14.70 разово → ЗСУ
         </div>
-        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost price-cta btn-lg">Замовити супровід</a>
+        <a href="https://t.me/SwissResilienceHubBot?start=pay_success49" target="_blank" rel="noopener noreferrer" class="btn btn-primary price-cta btn-lg">⚡ Замовити в Telegram (@SwissResilienceHubBot)</a>
+        <a href="/app/?tier=success&view=checkout" style="margin-top:8px; display:block; text-align:center; font-size:12px; color:var(--text-2); text-decoration:none;">Оформити через браузер (Web App) →</a>
       </div>
 
+    </div>
+
+    <div style="margin-top:24px; padding:12px 18px; background:rgba(15,23,42,0.6); border:1px solid rgba(255,255,255,0.08); border-radius:12px; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:20px; font-size:12px; color:var(--text-2); text-align:center;">
+      <span>🔒 Офіційний Merchant of Record: <strong style="color:var(--text)">Paddle Billing</strong> (Visa, MC, Apple Pay, PayPal)</span>
+      <span>⭐ <strong style="color:var(--text)">Telegram Stars</strong> (Миттєво у боті)</span>
+      <span>🏛️ <strong style="color:var(--text)">Швейцарська асоціація</strong> (Art. 60 CC, QR-Bill, TWINT)</span>
+      <span>🛡️ <strong style="color:var(--emerald)">Захист субсидій EVAM / HG</strong></span>
     </div>
   </div>
 </section>
