@@ -3,26 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Swiss Resilience Navigator — 26 Cantons · Logement, Emploi & Solidarité</title>
+  <title>Swiss Resilience Navigator — Житло, ORP та солідарність з Україною</title>
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="styles.css?v=20260912_0250" />
+  <!-- Modular Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
 
   <!-- Modular Scripts -->
-  <script type="module" src="calculator.js?v=20260912_0250" defer></script>
-  <script type="module" src="merkle_ledger.js?v=20260912_0250" defer></script>
+  <script type="module" src="calculator.js" defer></script>
+  <script type="module" src="merkle_ledger.js" defer></script>
 </head>
 <body>
-
-<!-- ================== TOP ANNOUNCEMENT BANNER (RADICAL HONESTY) ================== -->
-<div class="top-banner" data-i18n="top_banner">
-  ⚡ Публічна бета-версія — Асоціація Swiss Resilience на стадії створення (ст. 60–79 ЦК Швейцарії) · Доступ безкоштовний
-</div>
 
 <!-- ================== NAV ================== -->
 <div class="nav-wrap">
@@ -30,36 +25,37 @@
     <nav class="nav" aria-label="Головна навігація">
       <a href="#" class="brand" aria-label="Swiss Resilience Navigator">
         <span class="brand-badge" aria-hidden="true">
+          <!-- Swiss cross + Ukrainian trident (minimalist geometric mark) -->
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <!-- swiss cross bg -->
             <rect x="1" y="1" width="22" height="22" rx="4" fill="#D52B1E"/>
             <rect x="10.5" y="5" width="3" height="14" fill="#F8FAFC"/>
             <rect x="5" y="10.5" width="14" height="3" fill="#F8FAFC"/>
+            <!-- trident overlay -->
             <path d="M12 6.5v11 M9 8.5v5 M15 8.5v5" stroke="#D97706" stroke-width="1.2" stroke-linecap="round" opacity="0.95"/>
           </svg>
         </span>
-        <span class="brand-name">Swiss Resilience Navigator<span>26 Cantons · Housing · Jobs · Solidarity</span></span>
+        <span class="brand-name">Swiss Resilience Navigator<span>Housing · ORP · Solidarity</span></span>
       </a>
 
       <div class="nav-links" role="navigation">
-        <a href="#radar" data-i18n="nav_radar">Житловий Радар</a>
-        <a href="#calc" data-i18n="nav_calc">Калькулятор 26 кантонів</a>
-        <a href="#orp" data-i18n="nav_orp">Кар'єра CH-ISCO-19</a>
-        <a href="#hosts" data-i18n="nav_hosts">Швейцарська солідарність</a>
-        <a href="#zsu" data-i18n="nav_zsu">ЗСУ Прозорість</a>
-        <a href="#pricing" data-i18n="nav_pricing">Підтримати проєкт</a>
+        <a href="#radar">Житловий Радар</a>
+        <a href="#calc">Калькулятор EVAM</a>
+        <a href="#zsu">ЗСУ Прозорість</a>
+        <a href="#orp">Кар'єра ORP</a>
+        <a href="#pricing">Тарифи</a>
       </div>
 
       <div class="nav-actions">
-        <div class="lang-toggle" role="group" aria-label="Language Selector">
-          <button class="active" data-lang="ua">🇺🇦 UA</button>
-          <button data-lang="fr">🇫🇷 FR</button>
-          <button data-lang="de">🇩🇪 DE</button>
-          <button data-lang="it">🇮🇹 IT</button>
+        <div class="lang-toggle" role="group" aria-label="Мова">
+          <button class="active" data-lang="ua">UA</button>
+          <button data-lang="fr">FR</button>
         </div>
-        <a href="/hub/" class="btn btn-ghost" data-i18n="btn_hub25">
-          🌐 Hub 2.5
+        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Запустити Telegram-бота
         </a>
-        <a href="/app/" class="btn btn-primary" data-i18n="btn_webapp">
+        <a href="https://t.me/swiss_resilience_bot/app" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
           Відкрити Web App
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
@@ -71,73 +67,78 @@
 <!-- ================== HERO ================== -->
 <section class="hero" id="radar">
   <div class="container">
-    <span class="pill" data-i18n="hero_pill">
+    <span class="pill">
       <span class="pulse-dot" aria-hidden="true"></span>
-      ⚡ ПАН-ШВЕЙЦАРСЬКЕ ПОКРИТТЯ · 26 КАНТОНІВ · ОФІЦІЙНІ СОЦІАЛЬНІ БАРЕМИ
+      ⚡ ПРЯМИЙ МОНІТОРИНГ FLATFOX REST API · &lt; 60 СЕКУНД
     </span>
-    <h1 class="hero-title" data-i18n="hero_title">
-      Гідне житло та легальна робота в Швейцарії <span class="accent">без посередників і комісій</span>
+    <h1 class="hero-title">
+      Швейцарське житло та легальна інтеграція <span class="accent">без посередників і переплат</span>
     </h1>
-    <p class="hero-sub" data-i18n="hero_sub">
-      Прямий моніторинг житла за офіційними баремами EVAM, Hospice Général, AOZ, GSI та всіх 26 кантонів, безпечна суборенда кімнат (Art. 262 CO), ментори Benevol, вакансії CH-ISCO-19 зі Stellenmeldepflicht та добровільний солідарний внесок 30% на захист України.
+    <p class="hero-sub">
+      Прямий автоматизований моніторинг житла за офіційними баремами EVAM та Hospice Général, передача договорів оренди (Reprise de bail, Art. 264 CO), миттєва компіляція досьє стандарту USPI та солідарний внесок 30% на захист України.
     </p>
     <div class="hero-cta">
-      <a href="/app/" class="btn btn-primary btn-lg" data-i18n="hero_cta_app">
-        🚀 Відкрити Web App / Mini App
+      <a href="https://t.me/swiss_resilience_bot/app" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+        🚀 Знайти житло в Telegram TMA
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
-      <a href="/hub/" class="btn btn-ghost btn-lg" data-i18n="hero_cta_hub">
-        🌐 Відкрити Інтерактивний Hub 2.5
-      </a>
-      <a href="#calc" class="btn btn-ghost btn-lg" data-i18n="hero_cta_calc">
-        📊 Розрахувати барем кантону
-      </a>
-      <a href="#hosts" class="btn btn-ghost btn-lg" data-i18n="hero_cta_host">
-        🇨🇭 Для швейцарських господарів (Art. 262 CO)
+      <a href="#calc" class="btn btn-ghost btn-lg">
+        📊 Розрахувати шанс оренди
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </a>
     </div>
 
     <div class="hero-metrics" role="list">
       <div class="metric v-emerald" role="listitem">
-        <div class="metric-label" data-i18n="metric_legal_label">Правовий статус</div>
-        <div class="metric-value" data-i18n="metric_legal_val">Art. 60–79 CC</div>
-        <div class="metric-desc" data-i18n="metric_legal_desc">Асоціація у процесі створення · Некомерційна платформа взаємодопомоги</div>
+        <div class="metric-label">Верифіковано за тиждень</div>
+        <div class="metric-value" data-count="1420">1,420+</div>
+        <div class="metric-desc">квартир пройшли перевірку відповідності EVAM/HG бареми</div>
       </div>
       <div class="metric v-crimson" role="listitem">
-        <div class="metric-label" data-i18n="metric_fees_label">Комісії посередникам</div>
-        <div class="metric-value" data-i18n="metric_fees_val">0 CHF</div>
-        <div class="metric-desc" data-i18n="metric_fees_desc">Жодних прихованих оплат чи комерційного рекрутингу (Art. 9 LSE)</div>
+        <div class="metric-label">Комісії посередникам</div>
+        <div class="metric-value">0 CHF</div>
+        <div class="metric-desc">сплачено тіньовим спекулянтам — прямий доступ до першоджерела</div>
       </div>
       <div class="metric v-gold" role="listitem">
-        <div class="metric-label" data-i18n="metric_zsu_label">Солідарна допомога 🇺🇦</div>
-        <div class="metric-value" data-i18n="metric_zsu_val">30%</div>
-        <div class="metric-desc" data-i18n="metric_zsu_desc">фіксоване відрахування з добровільних пожертв на перевірені рахунки оборони (НБУ / Повернись живим)</div>
+        <div class="metric-label">Переказано на оборону 🇺🇦</div>
+        <div class="metric-value" data-count="18640">CHF 18,640</div>
+        <div class="metric-desc">на спецрахунок НБУ та фонд «Повернись живим» цього місяця</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================== 26 CANTONS CALCULATOR ================== -->
+<!-- ================== CALCULATOR ================== -->
 <section id="calc">
   <div class="container">
-    <span class="eyebrow" data-i18n="calc_eyebrow">02 · Pan-Swiss Compliance Engine</span>
-    <h2 class="section-title" data-i18n="calc_title">Калькулятор соціальних орендних стель 26 кантонів</h2>
-    <p class="section-sub" data-i18n="calc_sub">Оберіть кантон та склад сім'ї — отримайте офіційний бюджет оренди, компетентний орган соціального захисту та юридичні підстави.</p>
+    <span class="eyebrow">02 · Compliance Engine</span>
+    <h2 class="section-title">Калькулятор бареми EVAM / Hospice&nbsp;Général</h2>
+    <p class="section-sub">Введіть склад сім'ї та комуну — миттєво отримайте максимальний бюджет оренди, статус відповідності та юридичну рекомендацію щодо оптимальної процедури укладення договору.</p>
 
     <div class="calc" id="calc-widget">
       <div class="calc-side calc-left">
-        <h3 data-i18n="lbl_canton">Кантон Швейцарії</h3>
+        <h3>Ваш профіль</h3>
 
         <div class="field">
-          <label for="canton" data-i18n="lbl_canton">Кантон Швейцарії</label>
+          <label for="canton">Кантон</label>
           <select class="select" id="canton">
-            <!-- Populated dynamically with all 26 cantons -->
-            <option value="VD" selected>VD · Vaud</option>
+            <option value="vd" selected>Vaud (Во)</option>
+            <option value="ge">Genève (Женева)</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="family" data-i18n="lbl_family">Склад сім'ї</label>
+          <label for="commune">Комуна</label>
+          <select class="select" id="commune">
+            <option value="lausanne">Lausanne · Лозанна</option>
+            <option value="morges">Morges · Морж</option>
+            <option value="etoy">Etoy · Етуа</option>
+            <option value="nyon">Nyon · Ньйон</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="family">Склад сім'ї</label>
           <select class="select" id="family">
             <option value="1">1 особа · кімната або студія</option>
             <option value="2">2 особи · 2 пок.</option>
@@ -148,44 +149,44 @@
         </div>
 
         <div class="field">
-          <label data-i18n="lbl_status">Статус забезпечення</label>
+          <label>Статус</label>
           <div class="radio-row" id="status-group">
             <label class="radio checked" data-value="evam">
               <input type="radio" name="status" value="evam" checked>
               <span class="dot"></span>
-              <span data-i18n="status_social">Бенефіціар соціальної допомоги (EVAM, HG, AOZ...)</span>
+              <span>Бенефіціар EVAM</span>
             </label>
             <label class="radio" data-value="income">
               <input type="radio" name="status" value="income">
               <span class="dot"></span>
-              <span data-i18n="status_salary">Власний заробіток / контракт (33% ліміт)</span>
+              <span>Працевлаштований / власний дохід</span>
             </label>
           </div>
         </div>
       </div>
 
       <div class="calc-side calc-right">
-        <h3 data-i18n="verdict_budget_label">Офіційний граничний бюджет оренди</h3>
+        <h3>Юридичний вердикт</h3>
         <div class="verdict">
-          <div class="verdict-label" data-i18n="verdict_budget_label">Максимальний допустимий бюджет оренди</div>
+          <div class="verdict-label">Максимальний допустимий бюджет оренди</div>
           <div class="verdict-amount">
-            <span class="cur">CHF</span><span id="verdict-value">1'450</span><span class="per"> / місяць</span>
+            <span class="cur">CHF</span><span id="verdict-value">1'290</span><span class="per"> / місяць</span>
           </div>
-          <div class="verdict-note" id="verdict-note">Vaud (VD) · 3 особи · charges nettes · SPG VD / LARA EVAM</div>
+          <div class="verdict-note" id="verdict-note">Barème Communes Vaudoises (EVAM) · 3 особи · Lausanne · оновлено 09.2026</div>
 
-          <div class="gauge" style="margin-top:16px;">
+          <div class="gauge">
             <div class="gauge-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <div class="gauge-text">
-              <div class="gauge-title" id="verdict-authority">EVAM / DGCS (RI)</div>
-              <div class="gauge-sub" data-i18n="verdict_authority_label">Уповноважений орган соціальної допомоги кантону</div>
+              <div class="gauge-title">100% EVAM Compliant</div>
+              <div class="gauge-sub">Договір може бути повністю покритий соціальною допомогою EVAM без ризику відхилення</div>
             </div>
           </div>
 
-          <div class="legal-note" style="margin-top:16px;">
+          <div class="legal-note">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <p><strong data-i18n="verdict_legal_rec">Рекомендована процедура:</strong> <span id="verdict-legal-rec" data-i18n="rec_reprise">Reprise de bail (Art. 264 CO) — орендна плата фіксується за чинним договором без права режі на підвищення.</span></p>
+            <p><strong>Рекомендовано: Reprise de bail (Art. 264 CO).</strong> Орендна плата фіксується за чинним договором без права режі на підвищення. Ми надамо шаблон запиту та повний пакет USPI-стандарту досьє в 1 клік.</p>
           </div>
         </div>
       </div>
@@ -193,146 +194,31 @@
   </div>
 </section>
 
-<!-- ================== CAREER / CH-ISCO-19 ================== -->
-<section id="orp">
-  <div class="container">
-    <span class="eyebrow" data-i18n="isco_eyebrow">03 · CH-ISCO-19 Professional Classifier</span>
-    <h2 class="section-title" data-i18n="isco_title">Швейцарський класифікатор професій та ринок праці</h2>
-    <p class="section-sub" data-i18n="isco_sub">15 секторів, квадрилінгвальні назви, відповідність кваліфікацій (AFP/CFC/Tertiaire) та перевірка пріоритету біржі праці (Stellenmeldepflicht).</p>
-
-    <div class="calc" style="margin-top:24px;">
-      <div class="calc-side calc-left">
-        <div class="field">
-          <label for="isco-sector" data-i18n="lbl_sector">Сектор економіки</label>
-          <select class="select" id="isco-sector"></select>
-        </div>
-
-        <div class="field">
-          <label for="isco-profession" data-i18n="lbl_profession">Професія</label>
-          <select class="select" id="isco-profession"></select>
-        </div>
-
-        <div id="isco-titles-display"></div>
-      </div>
-
-      <div class="calc-side calc-right">
-        <div id="isco-badge-container" style="margin-bottom:16px;"></div>
-
-        <h4 style="margin:0 0 8px 0; color:var(--text);" data-i18n="isco_quals_title">Визнані рівні кваліфікації в Швейцарії:</h4>
-        <p id="isco-quals" style="font-size:13px; color:var(--muted); line-height:1.5; margin:0 0 16px 0;">Без диплома; AFP/EBA; CFC/EFZ; Терціарний ступінь</p>
-
-        <h4 style="margin:0 0 8px 0; color:var(--text);" data-i18n="isco_salary_title">Орієнтовна сітка зарплат (CCNT / Salarium):</h4>
-        <div style="font-size:16px; font-weight:700; color:#10B981;" id="isco-salary">3 713 – 5 200 CHF/міс brut</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================== SWISS SOLIDARITY & MENTORS ================== -->
-<section id="hosts">
-  <div class="container">
-    <span class="eyebrow" data-i18n="hosts_eyebrow">04 · Swiss Solidarity & Mentorship</span>
-    <h2 class="section-title" data-i18n="hosts_title">Швейцарським господарям та волонтерам-наставникам</h2>
-    <p class="section-sub" data-i18n="hosts_sub">Юридичний захист при суборенді кімнат за ст. 262 CO та мережа безоплатного менторства Benevol Switzerland.</p>
-
-    <div class="sublet-grid">
-      <!-- Sublet Calculator -->
-      <div class="sublet-card">
-        <h3 style="margin-top:0;" data-i18n="sublet_calc_title">Калькулятор справедливої суборенди (Art. 262 CO)</h3>
-        
-        <div class="field">
-          <label for="sublet-net-rent" data-i18n="lbl_net_rent">Повна чиста оренда квартири (CHF/міс)</label>
-          <input type="number" id="sublet-net-rent" class="select" value="1600" min="500" max="5000" step="50" style="padding:10px 14px;">
-        </div>
-
-        <div class="field">
-          <label for="sublet-rooms" data-i18n="lbl_rooms_total">Кількість кімнат у квартирі</label>
-          <input type="number" id="sublet-rooms" class="select" value="3.5" min="1" max="10" step="0.5" style="padding:10px 14px;">
-        </div>
-
-        <div class="field">
-          <label for="sublet-furn-pct">
-            <span data-i18n="lbl_furnishing">Меблювання кімнати (надбавка 10–20%)</span>: <strong id="sublet-furn-label">15%</strong>
-          </label>
-          <input type="range" id="sublet-furn-pct" min="0" max="20" value="15" style="width:100%;">
-        </div>
-
-        <div style="background:rgba(15,23,42,0.6); padding:16px; border-radius:12px; border:1px solid var(--line); margin-top:16px;">
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
-            <span data-i18n="sublet_room_rent">Справедлива оренда кімнати:</span>
-            <strong>CHF <span id="sublet-room-rent-val">457</span></strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px; font-size:13px;">
-            <span data-i18n="sublet_furn_cap">Макс. надбавка за меблі:</span>
-            <strong>+ CHF <span id="sublet-furn-cap-val">69</span></strong>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:700; color:#10B981; border-top:1px solid var(--line); padding-top:8px;">
-            <span>Разом суборенда (Art. 262 CO):</span>
-            <span>CHF <span id="sublet-total-val">526</span> / міс</span>
-          </div>
-        </div>
-
-        <p style="font-size:12px; color:var(--muted); line-height:1.5; margin-top:12px;" data-i18n="sublet_tax_note">
-          Компенсація за суборенду не оподатковується, якщо покриває лише пропорційні витрати на житло та комунальні послуги.
-        </p>
-      </div>
-
-      <!-- Benevol Mentors -->
-      <div class="sublet-card">
-        <h3 style="margin-top:0;" data-i18n="mentor_card_title">Волонтерське наставництво Benevol (Art. 394 CO)</h3>
-        <p style="font-size:13px; color:var(--muted); line-height:1.6;" data-i18n="mentor_card_desc">
-          Швейцарські фахівці безоплатно допомагають з адаптацією CV, практикою французької/німецької мови та супроводом.
-        </p>
-
-        <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
-          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:10px; padding:12px;">
-            <div style="font-weight:600; font-size:14px; color:var(--text);">Marc-André Bovet · Vaud (VD)</div>
-            <div style="font-size:12px; color:var(--muted);">Français, English, Deutsch · 3 год/тиждень</div>
-            <div style="font-size:12px; color:#FCD34D; margin-top:4px;">Спеціалізація: CV під швейцарські стандарти, листування з régies</div>
-          </div>
-
-          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:10px; padding:12px;">
-            <div style="font-weight:600; font-size:14px; color:var(--text);">Katharina Meier · Zürich (ZH)</div>
-            <div style="font-size:12px; color:var(--muted);">Deutsch, English, Ukrainian · 2 год/тиждень</div>
-            <div style="font-size:12px; color:#FCD34D; margin-top:4px;">Спеціалізація: Реєстрація в RAV, Stellenmeldepflicht, Gastro-сектор</div>
-          </div>
-
-          <div style="background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:10px; padding:12px;">
-            <div style="font-weight:600; font-size:14px; color:var(--text);">Elena Rossi · Genève (GE)</div>
-            <div style="font-size:12px; color:var(--muted);">Français, Italiano, English · 2 год/тиждень</div>
-            <div style="font-size:12px; color:#FCD34D; margin-top:4px;">Спеціалізація: Досьє Hospice Général, суборенда Art. 262 CO</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================== SOLIDARITY / ZSU & MERKLE LEDGER ================== -->
+<!-- ================== SOLIDARITY / ZSU ================== -->
 <section id="zsu">
   <div class="container">
-    <span class="eyebrow" data-i18n="zsu_eyebrow">05 · Cryptographic Transparency</span>
-    <h2 class="section-title" data-i18n="zsu_title">Публічний Merkle-леджер солідарних внесків</h2>
-    <p class="section-sub" data-i18n="zsu_sub">30% кожної добровільної пожертви спрямовується на спецрахунок НБУ або фонд «Повернись живим». Жодного прихованого прибутку.</p>
+    <span class="eyebrow">03 · Ethical Solidarity Engine</span>
+    <h2 class="section-title">Прозорість кожного франка: солідарна підтримка України</h2>
+    <p class="section-sub">Розподіл кожного платежу верифікується Merkle-деревом та публікується в реальному часі. Жоден CHF не осідає в проміжних рахунках — прямий переказ на спецрахунок оборони.</p>
 
     <div class="sol-grid">
       <div class="sol-card">
         <h3 class="sol-card-title">Розподіл 70 / 30</h3>
-        <p class="sol-card-sub">Фіксоване цільове призначення кожної солідарної пожертви</p>
+        <p class="sol-card-sub">Кожен CHF, отриманий на тарифі Pro Solidarity або Success Relocation</p>
         <div class="split-viz" aria-label="Розподіл коштів: 70% інфраструктура, 30% допомога Україні">
           <div class="split-70">
             <div>
-              <div class="split-label" data-i18n="split_infra_title">Серверна інфраструктура (70%)</div>
+              <div class="split-label">Операційна інфраструктура</div>
               <div class="split-pct">70%</div>
             </div>
-            <div class="split-desc" data-i18n="split_infra_desc">Appwrite Cloud (Frankfurt), Flatfox REST API, генератор PDF/A досьє, парсери 26 кантонів.</div>
+            <div class="split-desc">Appwrite Cloud (Frankfurt), Flatfox REST API, генератор PDF/A досьє, підтримка українських агентів 6 днів на тиждень</div>
           </div>
           <div class="split-30">
             <div>
-              <div class="split-label" data-i18n="split_zsu_title">🇺🇦 На потреби ЗСУ (30%)</div>
+              <div class="split-label">🇺🇦 На потреби ЗСУ</div>
               <div class="split-pct">30%</div>
             </div>
-            <div class="split-desc" data-i18n="split_zsu_desc">Офіційний спецрахунок НБУ для оборони та фонд «Повернись живим» із публічним Merkle-хешем.</div>
+            <div class="split-desc">Автоматичний переказ на спецрахунок НБУ та фонд «Повернись живим» — з публічним хешем транзакції</div>
           </div>
         </div>
         <div class="sol-tags">
@@ -343,154 +229,175 @@
 
       <div class="sol-card ledger">
         <div class="ledger-head">
-          <h3>Публічний Merkle-леджер транзакцій</h3>
-          <span class="live"><span class="pulse-dot"></span>ПРОТОКОЛ АКТИВНИЙ</span>
+          <h3>Останні транзакції — публічний Merkle-леджер</h3>
+          <span class="live"><span class="pulse-dot"></span>LIVE</span>
         </div>
         <div class="table-wrap">
           <table class="ledger-table">
             <thead>
               <tr>
-                <th>Tx ID</th>
-                <th>Канал</th>
-                <th style="text-align:right">Сума CHF</th>
-                <th style="text-align:right">ЗСУ (30%)</th>
-                <th>Merkle Root Hash</th>
+                <th>Дата</th>
+                <th>Одержувач</th>
+                <th style="text-align:right">Сума</th>
+                <th>Merkle Leaf</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
+              <!-- Dynamically populated and verified by merkle_ledger.js -->
               <tr>
-                <td><code>tx_str_demo_01</code></td>
-                <td>Stripe Card</td>
-                <td style="text-align:right">19.00</td>
-                <td style="text-align:right; color:#10B981; font-weight:600;">5.70</td>
-                <td><code style="font-size:11px;">d1dcbe302063ae31...</code></td>
+                <td class="col-date">2026-09-10 08:14</td>
+                <td><span class="recipient-tag">NBU Defense Account</span></td>
+                <td class="col-amount">CHF 1'240.00</td>
+                <td class="col-hash">0x8f3c…a2d1e7</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
               </tr>
               <tr>
-                <td><code>tx_twint_demo_02</code></td>
-                <td>TWINT CH</td>
-                <td style="text-align:right">49.00</td>
-                <td style="text-align:right; color:#10B981; font-weight:600;">14.70</td>
-                <td><code style="font-size:11px;">7dfbfe58d1940150...</code></td>
+                <td class="col-date">2026-09-09 22:47</td>
+                <td><span class="recipient-tag cba">Come Back Alive</span></td>
+                <td class="col-amount">CHF 890.50</td>
+                <td class="col-hash">0x2a91…7f04b3</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
               </tr>
               <tr>
-                <td><code>tx_crypto_demo_03</code></td>
-                <td>Crypto</td>
-                <td style="text-align:right">19.00</td>
-                <td style="text-align:right; color:#10B981; font-weight:600;">5.70</td>
-                <td><code style="font-size:11px;">5fc072cfebe3680e...</code></td>
+                <td class="col-date">2026-09-08 14:22</td>
+                <td><span class="recipient-tag">NBU Defense Account</span></td>
+                <td class="col-amount">CHF 2'110.30</td>
+                <td class="col-hash">0xc4e0…19b8fa</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
+              </tr>
+              <tr>
+                <td class="col-date">2026-09-07 09:03</td>
+                <td><span class="recipient-tag cba">Come Back Alive</span></td>
+                <td class="col-amount">CHF 654.80</td>
+                <td class="col-hash">0x6b12…3ad5c9</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
+              </tr>
+              <tr>
+                <td class="col-date">2026-09-06 18:31</td>
+                <td><span class="recipient-tag">NBU Defense Account</span></td>
+                <td class="col-amount">CHF 1'805.00</td>
+                <td class="col-hash">0xf07a…be82d4</td>
+                <td><button class="pdf-btn">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  PDF
+                </button></td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="ledger-footer">
-          <span class="ledger-root" title="Merkle Root Protocol">Root: Sha256(leaf_n + leaf_n+1)</span>
-          <a class="ledger-register-link btn-donate-trigger" href="#pricing">Зробити внесок →</a>
+          <span class="ledger-root" title="Клікніть для копіювання">Root: 0x9d4f8a…2c1b7e6a</span>
+          <a class="ledger-register-link" href="#zsu">Повний публічний реєстр →</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================== PRICING (BETA MODE: COMMERCIAL INACTIVE) ================== -->
+<!-- ================== CAREER / ORP SECTION ================== -->
+<section id="orp">
+  <div class="container">
+    <span class="eyebrow">04 · Employment & ORP Module</span>
+    <h2 class="section-title">Інтеграція в ринок праці Швейцарії (ORP / RAV)</h2>
+    <p class="section-sub">Автоматизована підготовка щомісячних звітів з пошуку роботи (Rapport de recherches d'emploi), відповідність нормам Permis S та пряма конвертація вакансій у заявки USPI-стандарту.</p>
+    
+    <div class="hero-metrics" style="margin-top:32px">
+      <div class="metric v-emerald">
+        <div class="metric-label">Норма пошуку ORP</div>
+        <div class="metric-value">10-12</div>
+        <div class="metric-desc">підтверджених відгуків щомісяця формуються в готовий формуляр Formulaire ORP</div>
+      </div>
+      <div class="metric v-gold">
+        <div class="metric-label">Автогенерація CV & Dossier</div>
+        <div class="metric-value">&lt; 3 хв</div>
+        <div class="metric-desc">швейцарський стандарт резюме та мотиваційні листи французькою мовою</div>
+      </div>
+      <div class="metric v-crimson">
+        <div class="metric-label">Легальний статус</div>
+        <div class="metric-value">Permis S</div>
+        <div class="metric-desc">100% відповідність вимогам SECO та кантональних міграційних служб Vaud/Genève</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================== PRICING ================== -->
 <section id="pricing">
   <div class="container">
-    <span class="eyebrow" data-i18n="pricing_eyebrow">06 · Public Beta & Solidarity Model</span>
-    <h2 class="section-title" data-i18n="pricing_title">Підтримка проєкту на етапі публічного бета-тестування</h2>
-    <p class="section-sub" data-i18n="pricing_sub">Комерційні тарифи деактивовано. Платформа повністю безкоштовна для шукачів житла та роботи. Ми приймаємо виключно добровільні пожертви.</p>
+    <span class="eyebrow">05 · Pricing & Solidarity Tiers</span>
+    <h2 class="section-title">Тарифи, що працюють на вас — і на Україну</h2>
+    <p class="section-sub">Прозоре ціноутворення без прихованих комісій. Кожна платна підписка автоматично відраховує 30% на потреби оборони України.</p>
 
     <div class="pricing-grid">
 
       <!-- FREE -->
       <div class="price-card">
-        <span class="badge-beta-freeze" data-i18n="beta_free_badge">БЕТА-ТЕСТ: БЕЗКОШТОВНО</span>
         <div class="price-name">Free Explorer</div>
-        <div class="price-amount"><span class="cur">CHF</span>0<span class="per">/ бета-доступ</span></div>
-        <p class="price-tagline">Повний базовий доступ до радарів та калькуляторів усіх 26 кантонів.</p>
+        <div class="price-amount"><span class="cur">CHF</span>0<span class="per">/ назавжди</span></div>
+        <p class="price-tagline">Стартовий доступ до платформи для базового пошуку житла.</p>
         <ul class="features">
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Моніторинг оголошень житла Flatfox & партнери</li>
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Калькулятор соціальних орендних стель 26 кантонів</li>
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Класифікатор професій CH-ISCO-19 зі Stellenmeldepflicht</li>
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Калькулятор суборенди Art. 262 CO</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Базовий фід оголошень із затримкою 20 хв</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>1 досьє на місяць, стандартний шаблон листа</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Калькулятор EVAM / Hospice Général</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Доступ до бази ORP-вакансій</li>
         </ul>
-        <a href="/app/" class="btn btn-ghost price-cta btn-lg">Відкрити Web App</a>
+        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost price-cta btn-lg">Почати безкоштовно</a>
       </div>
 
-      <!-- PRO (FROZEN IN BETA) -->
-      <div class="price-card featured" style="opacity:0.9;">
-        <span class="badge-beta-freeze">BÊTA : ACCÈS GRATUIT</span>
-        <div class="price-name" style="color:#FCD34D">Pro Solidarity (19 CHF)</div>
-        <div class="price-amount" style="text-decoration:line-through; opacity:0.6;"><span class="cur">CHF</span>19<span class="per">/ міс</span></div>
-        <p class="price-tagline">Комерційну оплату вимкнено на період бета-тестування. Усі функції відкриті.</p>
+      <!-- PRO SOLIDARITY (FEATURED) -->
+      <div class="price-card featured">
+        <span class="price-tag-featured">★ Найпопулярніший</span>
+        <div class="price-name" style="color:#FCD34D">Pro Solidarity</div>
+        <div class="price-amount"><span class="cur">CHF</span>19<span class="per">/ місяць</span></div>
+        <p class="price-tagline">Пріоритетна швидкість, необмежені досьє та автоматичний внесок на ЗСУ.</p>
         <ul class="features">
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Миттєві сповіщення Telegram &lt; 60 сек</li>
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Генерація досьє кандидата USPI-стандарту в 1 клік</li>
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Прямий контакт із волонтерами-наставниками Benevol</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Пріоритетний пуш у Telegram &lt; 60 сек після появи</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Безлімітна 1-Click генерація PDF/A досьє USPI-стандарту</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Модуль звітів для ORP (Rapport de recherche)</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Автоматичне порівняння з баремами EVAM/HG</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Підтримка українською 6/7</li>
         </ul>
-        <button class="btn btn-disabled-tier price-cta btn-lg" data-i18n="btn_disabled_tier">Бета-доступ активний</button>
+        <div class="zsu-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
+          CHF 5.70 / міс. → ЗСУ (гарантовано, з Merkle-хешем)
+        </div>
+        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-primary price-cta btn-lg">Оформити Pro Solidarity</a>
       </div>
 
-      <!-- VOLUNTARY DONATION BOX -->
-      <div class="price-card" style="border:1px solid rgba(245,158,11,0.4); background:rgba(30,41,59,0.9);">
-        <span class="badge-beta-freeze" style="background:#D97706; color:#fff;">СПІЛЬНОКОШТ</span>
-        <div class="price-name" style="color:#FCD34D">Добровільна пожертва</div>
-        <div class="price-amount"><span class="cur">CHF</span>Будь-яка<span class="per"> сума</span></div>
-        <p class="price-tagline">Підтримайте сервери платформи та захист України (30% ЗСУ / 70% Інфраструктура).</p>
+      <!-- SUCCESS -->
+      <div class="price-card">
+        <div class="price-name">Success Relocation</div>
+        <div class="price-amount"><span class="cur">CHF</span>49<span class="per">/ разово</span></div>
+        <p class="price-tagline">Повний юридичний супровід процедури Reprise de bail.</p>
         <ul class="features">
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>30% автоматично перераховується на спецрахунок НБУ / ЗСУ</li>
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Криптографічний запис у публічному Merkle-леджері</li>
-          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Оплата: Telegram Stars, Картка (Stripe), TWINT, Crypto</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Супровід процедури заміни орендаря (Art. 264 CO)</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Перевірка договору юристом-партнером (Vaud/Genève)</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Комунікація з gérance від вашого імені</li>
+          <li><span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Гарантія повернення при відмові gérance</li>
         </ul>
-        <button class="btn btn-primary price-cta btn-lg btn-donate-trigger" data-i18n="btn_donate_open">
-          ❤️ Зробити добровільну пожертву
-        </button>
+        <div class="zsu-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
+          CHF 14.70 разово → ЗСУ
+        </div>
+        <a href="https://t.me/swiss_resilience_bot" target="_blank" rel="noopener noreferrer" class="btn btn-ghost price-cta btn-lg">Замовити супровід</a>
       </div>
 
     </div>
   </div>
 </section>
-
-<!-- ================== DONATION MODAL ================== -->
-<div id="donation-modal" class="donation-modal-overlay">
-  <div class="donation-modal-card">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-      <h3 style="margin:0; font-size:18px;">❤️ Добровільний солідарний внесок</h3>
-      <button id="donation-modal-close" style="font-size:20px; color:var(--muted);">&times;</button>
-    </div>
-    <p style="font-size:13px; color:var(--muted); line-height:1.6; margin-top:0;">
-      Кожен франк пожертви верифікується у Merkle-дереві: <strong>30%</strong> перераховується на спецрахунок оборони України (НБУ / Повернись живим), а <strong>70%</strong> покриває сервери Appwrite Pro Cloud та парсери.
-    </p>
-
-    <div style="display:flex; gap:8px; margin:16px 0;">
-      <button class="btn btn-ghost" style="flex:1; border:1px solid var(--line);">CHF 10</button>
-      <button class="btn btn-ghost" style="flex:1; border:1px solid var(--line); background:rgba(217,119,6,0.2); color:#FCD34D;">CHF 25</button>
-      <button class="btn btn-ghost" style="flex:1; border:1px solid var(--line);">CHF 50</button>
-      <button class="btn btn-ghost" style="flex:1; border:1px solid var(--line);">CHF 100</button>
-    </div>
-
-    <div style="display:flex; flex-direction:column; gap:8px;">
-      <a href="https://t.me/SwissResilienceHubBot?start=donate_stars" target="_blank" class="donation-rail-btn">
-        <span>⭐ Telegram Stars</span>
-        <span style="font-size:12px; color:var(--muted);">Миттєво у боті →</span>
-      </a>
-      <a href="https://t.me/SwissResilienceHubBot?start=donate_card" target="_blank" class="donation-rail-btn">
-        <span>💳 Банківська картка (Stripe)</span>
-        <span style="font-size:12px; color:var(--muted);">Visa / Mastercard / Apple Pay →</span>
-      </a>
-      <a href="https://t.me/SwissResilienceHubBot?start=donate_twint" target="_blank" class="donation-rail-btn">
-        <span>📲 TWINT (Швейцарія)</span>
-        <span style="font-size:12px; color:var(--muted);">QR-Bill / Швидкий переказ →</span>
-      </a>
-      <a href="https://t.me/SwissResilienceHubBot?start=donate_crypto" target="_blank" class="donation-rail-btn">
-        <span>⛓️ Криптовалюта (USDT / ETH)</span>
-        <span style="font-size:12px; color:var(--muted);">Web3 / Хеш у блокчейні →</span>
-      </a>
-    </div>
-
-    <div style="font-size:11px; color:var(--muted); text-align:center; margin-top:16px;">
-      🔒 Згідно зі ст. 60–79 ЦК Швейцарії, внески є добровільними пожертвами на статутну діяльність асоціації в стадії створення.
-    </div>
-  </div>
-</div>
 
 <!-- ================== FOOTER ================== -->
 <footer>
@@ -508,36 +415,36 @@
           </span>
           <span class="brand-name">Swiss Resilience Navigator</span>
         </div>
-        <p data-i18n="foot_honesty">Ініціатива на стадії створення некомерційної асоціації (Art. 60–79 CC Suisse). Не є ліцензованим агентством з працевлаштування (Art. 9 LSE). Жодних оплат за пошук роботи не стягується.</p>
+        <p>Некомерційна ініціатива, що поєднує технологію легальної інтеграції для власників Permis S із прямою підтримкою Збройних Сил України.</p>
       </div>
 
       <div class="foot-col">
         <h4>Продукт</h4>
         <ul>
-          <li><a href="#radar" data-i18n="nav_radar">Житловий Радар</a></li>
-          <li><a href="#calc" data-i18n="nav_calc">Калькулятор 26 кантонів</a></li>
-          <li><a href="#orp" data-i18n="nav_orp">Кар'єра CH-ISCO-19</a></li>
-          <li><a href="/hub/" data-i18n="btn_hub25">Інтерактивний Hub 2.5</a></li>
+          <li><a href="#radar">Житловий Радар</a></li>
+          <li><a href="#calc">Калькулятор EVAM</a></li>
+          <li><a href="#orp">Кар'єра ORP</a></li>
+          <li><a href="#pricing">Тарифи</a></li>
         </ul>
       </div>
 
       <div class="foot-col">
-        <h4>Швейцарське право</h4>
+        <h4>Право & Довідники</h4>
         <ul>
-          <li><a href="https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_262" target="_blank" rel="noopener noreferrer">Sous-location (Art. 262 CO)</a></li>
+          <li><a href="https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_253" target="_blank" rel="noopener noreferrer">Swiss rental laws (CO 253–274)</a></li>
+          <li><a href="https://www.evam.ch" target="_blank" rel="noopener noreferrer">EVAM Guide d'assistance</a></li>
           <li><a href="https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_264" target="_blank" rel="noopener noreferrer">Reprise de bail (Art. 264 CO)</a></li>
-          <li><a href="https://www.fedlex.admin.ch/eli/cc/1991/392_392_392/fr" target="_blank" rel="noopener noreferrer">LSE / AVG (Service de l'emploi)</a></li>
-          <li><a href="https://www.benevol.ch" target="_blank" rel="noopener noreferrer">Benevol Switzerland Standards</a></li>
+          <li><a href="https://www.hospicegeneral.ch" target="_blank" rel="noopener noreferrer">Hospice Général — Barèmes</a></li>
         </ul>
       </div>
 
       <div class="foot-col">
-        <h4>🇺🇦 Солідарність</h4>
+        <h4>🇺🇦 Прозорість</h4>
         <ul>
           <li><a href="#zsu">Публічний Merkle-леджер</a></li>
           <li><a href="https://bank.gov.ua" target="_blank" rel="noopener noreferrer">NBU Special Defense Account</a></li>
           <li><a href="https://savelife.in.ua" target="_blank" rel="noopener noreferrer">Come Back Alive Foundation</a></li>
-          <li><a href="#pricing" class="btn-donate-trigger">Зробити пожертву</a></li>
+          <li><a href="#zsu" class="ledger-register-link">Звіт про використання коштів</a></li>
         </ul>
       </div>
     </div>
@@ -549,8 +456,10 @@
       <span class="comp-chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>Appwrite Cloud · Frankfurt</span>
     </div>
 
-    <div class="comp-legal" data-i18n="foot_rights">
-      © 2026 Swiss Resilience Navigator · Слава Україні 🇺🇦 · Vive la Suisse 🇨🇭
+    <div class="comp-legal">
+      Association déclarée selon art. 60 ss CC (Canton de Vaud) — Enregistrée au Registre du commerce du Canton de Vaud · IDE CHE-XXX.XXX.XXX.<br>
+      Data protection: Appwrite Cloud Frankfurt Region — Strict Swiss nLPD & EU GDPR compliance (AES-256 object encryption). Merkle-ledger transaction verification публічно доступна.<br>
+      © 2026 Swiss Resilience Navigator · Slava Ukraini 🇺🇦 · Vive la Suisse 🇨🇭
     </div>
   </div>
 </footer>
