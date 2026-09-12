@@ -28,7 +28,8 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; max-width: 100%; overflow-x: hidden; }
+html { scroll-behavior: smooth; }
 body {
   background: var(--navy);
   color: var(--white);
@@ -101,6 +102,9 @@ input, select { font-family: inherit; }
 }
 .nav-link-btn:hover { background: rgba(255,255,255,0.06); color: #fff; }
 .nav-link-btn.active-side { color: #FEF3C7; background: rgba(255,255,255,0.06); border-color: rgba(245,158,11,0.35); }
+
+/* ---------- NAV ACTIONS ---------- */
+.nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
 /* ---------- LANG DROPDOWN (Sandwich Dropdown) ---------- */
 .lang-dropdown-container { position: relative; display: inline-block; }
@@ -237,6 +241,103 @@ input, select { font-family: inherit; }
   margin-top: 16px; text-align: center; font-size: 11px; color: var(--muted-2); line-height: 1.4;
 }
 
+/* ---------- PAN-SWISS SERVICE SWITCHER BAR ---------- */
+.service-banner {
+  margin-top: 8px;
+  background: rgba(11, 18, 32, 0.82);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  backdrop-filter: blur(16px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.service-banner::-webkit-scrollbar { display: none; }
+.service-banner-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  padding: 6px 8px;
+}
+.service-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  border-radius: 9px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  flex: 1 1 0;
+  min-width: 140px;
+  text-align: left;
+}
+.service-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--line-2);
+}
+.service-btn.active {
+  background: rgba(213, 43, 30, 0.14);
+  border-color: rgba(213, 43, 30, 0.45);
+  box-shadow: 0 0 16px -4px rgba(213, 43, 30, 0.35);
+}
+.service-btn.active.side-b {
+  background: rgba(37, 99, 235, 0.14);
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: 0 0 16px -4px rgba(37, 99, 235, 0.35);
+}
+.svc-top-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+.service-btn .svc-num {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.service-btn.active .svc-num { color: var(--gold-2); }
+.service-btn.active.side-b .svc-num { color: #93C5FD; }
+.svc-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+.svc-badge.badge-a { background: rgba(213, 43, 30, 0.2); color: #FCA5A5; }
+.svc-badge.badge-b { background: rgba(37, 99, 235, 0.2); color: #BFDBFE; }
+.svc-badge.badge-free { background: rgba(5, 150, 105, 0.2); color: #6EE7B7; }
+.svc-label-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.svc-icon {
+  display: grid;
+  place-items: center;
+  color: var(--gold-2);
+  font-size: 13px;
+}
+.service-btn.active.side-b .svc-icon { color: #93C5FD; }
+.service-btn .svc-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #F8FAFC;
+  line-height: 1.2;
+}
+
 @media (max-width: 1080px) {
   .nav-links { display: none; }
   .nav { grid-template-columns: auto auto; justify-content: space-between; }
@@ -250,14 +351,21 @@ input, select { font-family: inherit; }
   .brand-name span { display: none; }
   .nav-actions { gap: 6px; }
   .nav-actions .nav-bot-link { display: none; }
-  .lang-select-btn { padding: 6px 8px; font-size: 12px; }
+  .lang-select-btn { padding: 6px 8px; font-size: 12px; min-height: 36px; }
   .lang-select-btn .lang-code { display: none; }
-  .btn { min-height: 34px; padding: 6px 12px; font-size: 12.5px; border-radius: 9px; }
+  .btn { min-height: 36px; padding: 6px 12px; font-size: 12.5px; border-radius: 9px; }
   .top-banner { padding: 6px 0; }
   .top-banner-full { font-size: 11px; }
+  .service-banner { margin-top: 6px; }
+  .service-btn { min-width: 128px; padding: 6px 9px; }
+  .service-btn .svc-label { font-size: 11.5px; }
 }
-@media (max-width: 440px) {
-  .brand-name { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 480px) {
+  .nav-donate-btn span { display: none; }
+  .nav-donate-btn { min-width: 38px; height: 38px; padding: 0 10px; }
+}
+@media (max-width: 400px) {
+  .brand-name { max-width: 115px; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 
 /* ---------- BUTTONS ---------- */

@@ -66,7 +66,7 @@ function BetaPricing({ t, onDonate }) {
 // ============================================================
 // DONATION MODAL — Merkle Ledger + Operational Payment rails
 // ============================================================
-function DonationModal({ t, onClose }) {
+function DonationModal({ t, lang, onClose }) {
   const [rail, setRail] = uSD("stars"); // stars | card | qr | crypto
   const [amount, setAmount] = uSD(250);
   const [customOn, setCustomOn] = uSD(false);
@@ -99,13 +99,15 @@ function DonationModal({ t, onClose }) {
     }
   };
 
+  const copyLabel = lang==='uk' ? '✓ Скопійовано !' : lang==='de' ? '✓ Kopiert !' : lang==='it' ? '✓ Copiato !' : '✓ Copié !';
+
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal" onClick={e=>e.stopPropagation()} role="dialog" aria-modal="true">
         <div className="modal-header">
           <div>
-            <h2>{t.donation.title}</h2>
-            <p style={{margin:0, color:'var(--muted)', fontSize: 13.5}}>Association Swiss Resilience · Bêta publique</p>
+            <h2>{t.donation?.title || "Don de soutien — Registre public Merkle"}</h2>
+            <p style={{margin:0, color:'var(--muted)', fontSize: 13.5}}>Association Swiss Resilience · Art. 60–79 CC · Bêta publique</p>
           </div>
           <button className="modal-close" onClick={onClose} aria-label="Close"><I.x/></button>
         </div>
@@ -114,35 +116,35 @@ function DonationModal({ t, onClose }) {
         <div className="split-viz" aria-label="Fund allocation">
           <div className="split-70">
             <div className="split-pct">70%</div>
-            <div style={{fontWeight:700, fontSize:13, marginBottom:4}}>Infrastructure</div>
-            <div className="split-desc">{t.donation.split70}</div>
+            <div style={{fontWeight:700, fontSize:13, marginBottom:4}}>Infrastructure & APIs</div>
+            <div className="split-desc">{t.donation?.split70 || "70% — Hébergement, serveurs, scanners d'offres et coûts d'API"}</div>
           </div>
           <div className="split-30">
             <div className="split-pct">30%</div>
-            <div style={{fontWeight:700, fontSize:13, marginBottom:4, color:'#FEF3C7'}}>🇺🇦 ZSU</div>
-            <div className="split-desc">{t.donation.split30}</div>
+            <div style={{fontWeight:700, fontSize:13, marginBottom:4, color:'#FEF3C7'}}>🇺🇦 ZSU Solidarity</div>
+            <div className="split-desc">{t.donation?.split30 || "30% — Soutien humanitaire et matériel pour l'Ukraine"}</div>
           </div>
         </div>
 
         {/* Payment rails */}
         <div className="pay-row">
           <button className="pay-card stars" style={{borderColor: rail==='stars' ? 'rgba(59,130,246,0.9)' : ''}} onClick={()=>{setRail('stars'); setAmount(250); setCustomOn(false);}}>
-            <div className="head"><span className="icon"><I.star/></span><span className="title">Telegram Stars (XTR)</span></div>
-            <div className="hint">1-Clic instantané dans Telegram · 0% commission</div>
+            <div className="head"><span className="icon"><I.star/></span><span className="title">{t.donation?.stars || "Telegram Stars (XTR)"}</span></div>
+            <div className="hint">{t.donation?.starsHint || "1-Clic instantané dans Telegram · 0% commission"}</div>
           </button>
           <button className="pay-card card" style={{borderColor: rail==='card' ? 'rgba(16,185,129,0.9)' : ''}} onClick={()=>{setRail('card'); setAmount(25); setCustomOn(false);}}>
-            <div className="head"><span className="icon"><I.lock/></span><span className="title">Carte / Apple & Google Pay</span></div>
-            <div className="hint">Paiement sécurisé Visa, MC, Apple Pay</div>
+            <div className="head"><span className="icon"><I.lock/></span><span className="title">{t.donation?.card || "Carte / Apple & Google Pay"}</span></div>
+            <div className="hint">{t.donation?.cardHint || "Paiement sécurisé Visa, MC, Apple Pay"}</div>
           </button>
         </div>
         <div className="pay-row" style={{gridTemplateColumns:'1fr 1fr', marginTop: 10}}>
           <button className="pay-card qr" style={{borderColor: rail==='qr' ? 'rgba(213,43,30,0.9)' : ''}} onClick={()=>{setRail('qr'); setCustomOn(false);}}>
-            <div className="head"><span className="icon"><I.hash/></span><span className="title">QR-Facture & IBAN CH</span></div>
-            <div className="hint">Virement bancaire suisse direct</div>
+            <div className="head"><span className="icon"><I.hash/></span><span className="title">{t.donation?.qr || "QR-Facture & IBAN CH"}</span></div>
+            <div className="hint">{t.donation?.qrHint || "Virement bancaire suisse direct"}</div>
           </button>
           <button className="pay-card crypto" style={{borderColor: rail==='crypto' ? 'rgba(217,119,6,0.9)' : ''}} onClick={()=>{setRail('crypto'); setCustomOn(false);}}>
-            <div className="head"><span className="icon"><I.shield/></span><span className="title">Crypto (USDT / ETH)</span></div>
-            <div className="hint">USDT TRC20 & ERC20 avec reçu</div>
+            <div className="head"><span className="icon"><I.shield/></span><span className="title">Crypto (USDT TRC20/ERC20)</span></div>
+            <div className="hint">{lang==='uk'?'USDT TRC20 та ERC20 з чеком у боті':lang==='de'?'USDT TRC20 & ERC20 mit Quittung':lang==='it'?'USDT TRC20 & ERC20 con ricevuta':'USDT TRC20 & ERC20 avec reçu'}</div>
           </button>
         </div>
 
@@ -177,7 +179,7 @@ function DonationModal({ t, onClose }) {
               <div style={{display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap'}}>
                 <strong>IBAN :</strong> <span className="mono" style={{color: '#FCD34D'}}>CH74 0900 0000 1234 5678 9</span>
                 <button className="btn btn-ghost" style={{padding: '4px 8px', minHeight: 28, fontSize: 11}} onClick={()=>handleCopy('CH7409000000123456789')}>
-                  {copied ? '✓ Copié !' : 'Copier'}
+                  {copied ? copyLabel : (lang==='uk'?'Копіювати IBAN':lang==='de'?'IBAN kopieren':lang==='it'?'Copia IBAN':'Copier l\'IBAN')}
                 </button>
               </div>
               <div><strong>Motif :</strong> Don solidarité Bêta (70% Infra / 30% ZSU)</div>
@@ -188,14 +190,16 @@ function DonationModal({ t, onClose }) {
         {/* Details for Crypto */}
         {rail === 'crypto' && (
           <div style={{marginTop: 18, padding: 16, background: 'rgba(15,23,42,0.85)', border: '1px solid var(--line-2)', borderRadius: 12}}>
-            <div style={{fontSize: 13, fontWeight: 700, color: '#F8FAFC', marginBottom: 8}}>Adresses cryptographiques officielles (USDT)</div>
+            <div style={{fontSize: 13, fontWeight: 700, color: '#F8FAFC', marginBottom: 8}}>
+              {lang==='uk'?'Офіційні криптовалютні адреси (USDT)':lang==='de'?'Offizielle Krypto-Adressen (USDT)':lang==='it'?'Indirizzi crypto ufficiali (USDT)':'Adresses cryptographiques officielles (USDT)'}
+            </div>
             <div style={{fontSize: 12.5, color: '#CBD5E1', display: 'flex', flexDirection: 'column', gap: 8}}>
               <div>
                 <span style={{fontSize: 11, color: 'var(--muted)', display: 'block'}}>USDT (TRC-20 Tron) :</span>
                 <div style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 2}}>
                   <span className="mono" style={{fontSize: 12, color: '#FEF3C7', wordBreak: 'break-all'}}>TX7yK9L3mV2Z5h8Qp1nR4s6t9u2w4y6z8a</span>
                   <button className="btn btn-ghost" style={{padding: '4px 8px', minHeight: 28, fontSize: 11}} onClick={()=>handleCopy('TX7yK9L3mV2Z5h8Qp1nR4s6t9u2w4y6z8a')}>
-                    {copied ? '✓ Copié !' : 'Copier'}
+                    {copied ? copyLabel : (lang==='uk'?'Копіювати':lang==='de'?'Kopieren':lang==='it'?'Copia':'Copier')}
                   </button>
                 </div>
               </div>
@@ -204,7 +208,7 @@ function DonationModal({ t, onClose }) {
                 <div style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 2}}>
                   <span className="mono" style={{fontSize: 12, color: '#FEF3C7', wordBreak: 'break-all'}}>0x4E8b7a129d2fC7c47d3B6c21A77E8b3F13D75a9B</span>
                   <button className="btn btn-ghost" style={{padding: '4px 8px', minHeight: 28, fontSize: 11}} onClick={()=>handleCopy('0x4E8b7a129d2fC7c47d3B6c21A77E8b3F13D75a9B')}>
-                    {copied ? '✓ Copié !' : 'Copier'}
+                    {copied ? copyLabel : (lang==='uk'?'Копіювати':lang==='de'?'Kopieren':lang==='it'?'Copia':'Copier')}
                   </button>
                 </div>
               </div>
@@ -214,13 +218,13 @@ function DonationModal({ t, onClose }) {
 
         {/* Merkle strip */}
         <div className="merkle-strip">
-          <span className="label">{t.donation.merkleRoot}</span>
+          <span className="label">{t.donation?.merkleRoot || "Merkle Root SHA-256"}</span>
           <span className="hash">{merkleRoot.slice(0, 42)}…</span>
-          <a href="https://github.com/maxfraieho/swiss-job-hunter" target="_blank" rel="noopener noreferrer">{t.donation.verifyBtn} →</a>
+          <a href="https://github.com/maxfraieho/swiss-job-hunter" target="_blank" rel="noopener noreferrer">{t.donation?.verifyBtn || "GitHub Audit"} →</a>
         </div>
 
         <div className="modal-actions">
-          <button className="btn btn-ghost" onClick={onClose}>{t.donation.close}</button>
+          <button className="btn btn-ghost" onClick={onClose}>{t.donation?.close || "Fermer"}</button>
           {rail === 'stars' ? (
             <a 
               href={`https://t.me/SwissResilienceHubBot?start=donate_${amount}`}
@@ -238,7 +242,7 @@ function DonationModal({ t, onClose }) {
               rel="noopener noreferrer" 
               className="btn btn-primary btn-lg"
             >
-              <I.heart/> Payer {amount} CHF (Carte / Apple Pay)
+              <I.heart/> {lang==='uk'?`Підтримати ${amount} CHF (Картка / Apple Pay)`:lang==='de'?`Unterstützen ${amount} CHF (Karte / Apple Pay)`:lang==='it'?`Dona ${amount} CHF (Carta / Apple Pay)`:`Payer ${amount} CHF (Carte / Apple Pay)`}
             </a>
           ) : rail === 'qr' ? (
             <a 
@@ -247,11 +251,11 @@ function DonationModal({ t, onClose }) {
               rel="noopener noreferrer" 
               className="btn btn-primary btn-lg"
             >
-              <I.hash/> Recevoir la QR-facture PDF
+              <I.hash/> {lang==='uk'?'Отримати QR-рахунок у боті':lang==='de'?'QR-Rechnung im Bot erhalten':lang==='it'?'Ricevi fattura QR nel bot':'Recevoir la QR-facture PDF'}
             </a>
           ) : (
             <button className="btn btn-primary btn-lg" onClick={()=>handleCopy('TX7yK9L3mV2Z5h8Qp1nR4s6t9u2w4y6z8a')}>
-              <I.check/> {copied ? 'Adresse copiée !' : 'Copier l\'adresse USDT'}
+              <I.check/> {copied ? copyLabel : (lang==='uk'?'Скопіювати адресу USDT TRC20':lang==='de'?'USDT TRC20 Adresse kopieren':lang==='it'?'Copia indirizzo USDT TRC20':'Copier l\'adresse USDT TRC20')}
             </button>
           )}
         </div>

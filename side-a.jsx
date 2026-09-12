@@ -140,7 +140,7 @@ function Navbar({ t, lang, onLang, side, onSide, onDonate }) {
             </a>
 
             {/* Primary Donate CTA */}
-            <button onClick={onDonate} className="btn btn-primary nav-donate-btn">
+            <button onClick={onDonate} className="btn btn-primary nav-donate-btn" aria-label="Faire un don">
               <I.heart/> <span>{lang==='de'?'Spenden':lang==='it'?'Dona':lang==='uk'?'Пожертва':'Faire un don'}</span>
             </button>
 
@@ -155,6 +155,34 @@ function Navbar({ t, lang, onLang, side, onSide, onDonate }) {
             </button>
           </div>
         </nav>
+
+        {/* Pan-Swiss Service Switcher Bar: always visible and conveniently switchable */}
+        <div className="service-banner" role="navigation" aria-label="Services Swiss Resilience">
+          <div className="service-banner-inner">
+            {servicesList.map((s, idx) => {
+              const isSideActive = (s.side === side);
+              return (
+                <button 
+                  key={s.id} 
+                  className={`service-btn ${isSideActive ? (s.side === 'b' ? 'active side-b' : 'active') : ''}`}
+                  onClick={() => navigateToService(s.side, s.id)}
+                  title={s.sub}
+                >
+                  <div className="svc-top-line">
+                    <span className="svc-num">{idx + 1}. {s.side ? (s.side === 'a' ? (lang==='uk'?'Шукачі':'Chercheurs') : (lang==='uk'?'Солідарні':'Solidaires')) : 'Bêta'}</span>
+                    <span className={`svc-badge ${s.side === 'a' ? 'badge-a' : s.side === 'b' ? 'badge-b' : 'badge-free'}`}>
+                      {s.side === 'a' ? 'Côté A' : s.side === 'b' ? 'Côté B' : '0 CHF'}
+                    </span>
+                  </div>
+                  <div className="svc-label-row">
+                    <span className="svc-icon">{s.icon}</span>
+                    <span className="svc-label">{s.label}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Mobile Drawer (Sandwich Menu) */}

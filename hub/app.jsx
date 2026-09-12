@@ -63,7 +63,7 @@ function App() {
       <BetaPricing t={t} onDonate={()=>setDonateOpen(true)}/>
       <LegalFooter t={t}/>
 
-      {donateOpen && <DonationModal t={t} onClose={()=>setDonateOpen(false)}/>}
+      {donateOpen && <DonationModal t={t} lang={lang} onClose={()=>setDonateOpen(false)}/>}
     </React.Fragment>
   );
 }
