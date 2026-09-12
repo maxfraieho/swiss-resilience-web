@@ -613,7 +613,10 @@ function MobileDrawer({
   }, ['fr', 'de', 'it', 'uk'].map(l => /*#__PURE__*/React.createElement("button", {
     key: l,
     className: `v2-lang-tile ${l === lang ? 'active' : ''}`,
-    onClick: () => setLang(l)
+    onClick: () => {
+      setLang(l);
+      onClose();
+    }
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-lang-tile-flag",
     "aria-hidden": "true"

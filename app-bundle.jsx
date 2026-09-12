@@ -364,7 +364,7 @@ function MobileDrawer({ lang, setLang, side, setSide, onClose, onOpenDonate, t }
           <div className="v2-drawer-section-title">{t.drawer.language}</div>
           <div className="v2-lang-grid">
             {['fr','de','it','uk'].map(l => (
-              <button key={l} className={`v2-lang-tile ${l === lang ? 'active' : ''}`} onClick={() => setLang(l)}>
+              <button key={l} className={`v2-lang-tile ${l === lang ? 'active' : ''}`} onClick={() => { setLang(l); onClose(); }}>
                 <span className="v2-lang-tile-flag" aria-hidden="true">{FLAGS[l]}</span>
                 <span className="v2-lang-tile-name">{NAMES[l]}</span>
               </button>
