@@ -258,7 +258,8 @@ button {
 
 @media (max-width: 960px) {
   .nav {
-    grid-template-columns: auto auto;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   .nav-links {
     display: none;
@@ -268,9 +269,24 @@ button {
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 640px) {
   .nav-actions .btn-ghost {
     display: none;
+  }
+  .btn-primary {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-height: 38px;
+  }
+}
+
+@media (max-width: 440px) {
+  .brand-name {
+    font-size: 13px;
+  }
+  .brand-badge {
+    width: 30px;
+    height: 30px;
   }
 }
 

@@ -2101,6 +2101,9 @@ class ResilienceMiniApp {
     this.haptic('light');
     const modal = document.getElementById('modal-checkout');
     if (modal) modal.style.display = 'none';
+    if (this._lastCheckoutTrigger && typeof this._lastCheckoutTrigger.focus === 'function') {
+      try { this._lastCheckoutTrigger.focus(); } catch (e) {}
+    }
   }
 
   setCheckoutRailCurrency(currency) {
