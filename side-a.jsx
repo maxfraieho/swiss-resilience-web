@@ -75,10 +75,10 @@ function Navbar({ t, lang, onLang, side, onSide, onDonate }) {
       <div className="container">
         <nav className="nav" aria-label="Main navigation">
           {/* Brand */}
-          <a href="#top" className="brand" aria-label="Swiss Resilience Navigator 2.5">
+          <a href="#top" className="brand" aria-label="SwissRelief 2.6">
             <span className="brand-badge"><BrandMark size={22}/></span>
-            <span className="brand-name">Swiss Resilience Navigator
-              <span>2.5 · Pan-Swiss Bêta</span>
+            <span className="brand-name">SwissRelief
+              <span>2.6 · Pan-Swiss</span>
             </span>
           </a>
 
@@ -185,14 +185,14 @@ function Navbar({ t, lang, onLang, side, onSide, onDonate }) {
         </div>
       </div>
 
-      {/* Mobile Drawer (Sandwich Menu) */}
-      {mobileMenuOpen && (
+      {/* Mobile Drawer (Sandwich Menu) rendered via React Portal directly into document.body */}
+      {mobileMenuOpen && ReactDOM.createPortal(
         <div className="mobile-drawer-overlay" onClick={()=>setMobileMenuOpen(false)}>
           <div className="mobile-drawer" onClick={e=>e.stopPropagation()}>
             <div className="drawer-header">
               <div className="brand">
                 <span className="brand-badge"><BrandMark size={20}/></span>
-                <span className="brand-name">Swiss Resilience <span>2.5 Bêta</span></span>
+                <span className="brand-name">SwissRelief <span>2.6 · Pan-Swiss</span></span>
               </div>
               <button className="drawer-close" onClick={()=>setMobileMenuOpen(false)} aria-label="Fermer"><I.x/></button>
             </div>
@@ -249,7 +249,8 @@ function Navbar({ t, lang, onLang, side, onSide, onDonate }) {
               Association Swiss Resilience en cours de constitution (Art. 60–79 CC Suisse)
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

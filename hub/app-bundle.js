@@ -457,14 +457,14 @@ function Navbar({
   }, /*#__PURE__*/React.createElement("a", {
     href: "#top",
     className: "brand",
-    "aria-label": "Swiss Resilience Navigator 2.5"
+    "aria-label": "SwissRelief 2.6"
   }, /*#__PURE__*/React.createElement("span", {
     className: "brand-badge"
   }, /*#__PURE__*/React.createElement(BrandMark, {
     size: 22
   })), /*#__PURE__*/React.createElement("span", {
     className: "brand-name"
-  }, "Swiss Resilience Navigator", /*#__PURE__*/React.createElement("span", null, "2.5 \xB7 Pan-Swiss B\xEAta"))), /*#__PURE__*/React.createElement("div", {
+  }, "SwissRelief", /*#__PURE__*/React.createElement("span", null, "2.6 \xB7 Pan-Swiss"))), /*#__PURE__*/React.createElement("div", {
     className: "nav-links"
   }, /*#__PURE__*/React.createElement("button", {
     className: `nav-link-btn ${side === 'a' ? 'active-side' : ''}`,
@@ -557,7 +557,7 @@ function Navbar({
     }, s.icon), /*#__PURE__*/React.createElement("span", {
       className: "svc-label"
     }, s.label)));
-  })))), mobileMenuOpen && /*#__PURE__*/React.createElement("div", {
+  })))), mobileMenuOpen && ReactDOM.createPortal(/*#__PURE__*/React.createElement("div", {
     className: "mobile-drawer-overlay",
     onClick: () => setMobileMenuOpen(false)
   }, /*#__PURE__*/React.createElement("div", {
@@ -573,7 +573,7 @@ function Navbar({
     size: 20
   })), /*#__PURE__*/React.createElement("span", {
     className: "brand-name"
-  }, "Swiss Resilience ", /*#__PURE__*/React.createElement("span", null, "2.5 B\xEAta"))), /*#__PURE__*/React.createElement("button", {
+  }, "SwissRelief ", /*#__PURE__*/React.createElement("span", null, "2.6 \xB7 Pan-Swiss"))), /*#__PURE__*/React.createElement("button", {
     className: "drawer-close",
     onClick: () => setMobileMenuOpen(false),
     "aria-label": "Fermer"
@@ -632,7 +632,7 @@ function Navbar({
     }
   }, /*#__PURE__*/React.createElement(I.send, null), " @SwissResilienceHubBot")), /*#__PURE__*/React.createElement("div", {
     className: "drawer-legal"
-  }, "Association Swiss Resilience en cours de constitution (Art. 60\u201379 CC Suisse)"))));
+  }, "Association Swiss Resilience en cours de constitution (Art. 60\u201379 CC Suisse)"))), document.body));
 }
 
 // ============================================================

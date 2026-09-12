@@ -74,11 +74,13 @@ input, select { font-family: inherit; }
 @media (max-width: 720px) { .top-banner-full { font-size: 11.5px; text-align: left; } }
 
 /* ---------- NAV ---------- */
-.nav-wrap { position: sticky; top: 0; z-index: 50; padding: 12px 0; background: linear-gradient(to bottom, rgba(15,23,42,0.85), rgba(15,23,42,0.0)); backdrop-filter: blur(8px); }
+.nav-wrap { position: sticky; top: 0; z-index: 50; padding: 12px 0; background: linear-gradient(to bottom, rgba(15,23,42,0.92), rgba(15,23,42,0.0)); }
 .nav {
+  position: relative;
+  z-index: 1000;
   display: grid; grid-template-columns: auto 1fr auto;
   align-items: center; gap: 18px;
-  background: rgba(15, 23, 42, 0.72);
+  background: rgba(15, 23, 42, 0.82);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 10px 14px;
@@ -92,8 +94,8 @@ input, select { font-family: inherit; }
   border: 1px solid var(--line-2);
   display: grid; place-items: center; flex-shrink: 0;
 }
-.brand-name { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; white-space: nowrap; }
-.brand-name span { color: var(--muted); font-weight: 500; display: block; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.brand-name { font-weight: 700; font-size: 16px; letter-spacing: -0.01em; white-space: nowrap; }
+.brand-name span { color: var(--gold-2); font-weight: 600; display: block; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 1px; }
 .nav-links { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; }
 .nav-link-btn {
   font-size: 13.5px; color: #CBD5E1; padding: 7px 11px; border-radius: 8px;
@@ -106,8 +108,8 @@ input, select { font-family: inherit; }
 /* ---------- NAV ACTIONS ---------- */
 .nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-/* ---------- LANG DROPDOWN (Sandwich Dropdown) ---------- */
-.lang-dropdown-container { position: relative; display: inline-block; }
+/* ---------- LANG DROPDOWN (Desktop Dropdown) ---------- */
+.lang-dropdown-container { position: relative; z-index: 1001; display: inline-block; }
 .lang-select-btn {
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(255,255,255,0.06);
@@ -128,7 +130,7 @@ input, select { font-family: inherit; }
   padding: 6px;
   min-width: 170px;
   box-shadow: 0 20px 50px -10px rgba(0,0,0,0.85);
-  z-index: 100;
+  z-index: 1100;
   display: flex; flex-direction: column; gap: 3px;
   animation: fadeIn 0.15s ease-out;
 }
@@ -167,9 +169,10 @@ input, select { font-family: inherit; }
 /* ---------- MOBILE DRAWER ---------- */
 .mobile-drawer-overlay {
   position: fixed; inset: 0;
-  background: rgba(2, 6, 23, 0.82);
-  backdrop-filter: blur(12px);
-  z-index: 999;
+  width: 100vw; height: 100dvh;
+  background: rgba(2, 6, 23, 0.88);
+  backdrop-filter: blur(16px);
+  z-index: 99999;
   display: flex; justify-content: flex-end;
   animation: fadeIn 0.2s ease-out;
 }
@@ -243,6 +246,8 @@ input, select { font-family: inherit; }
 
 /* ---------- PAN-SWISS SERVICE SWITCHER BAR ---------- */
 .service-banner {
+  position: relative;
+  z-index: 10;
   margin-top: 8px;
   background: rgba(11, 18, 32, 0.82);
   border: 1px solid var(--line);
@@ -346,13 +351,12 @@ input, select { font-family: inherit; }
 @media (max-width: 720px) {
   .nav-wrap { padding: 6px 0; }
   .nav { padding: 6px 10px; gap: 8px; border-radius: 12px; }
-  .brand-badge { width: 32px; height: 32px; border-radius: 8px; }
-  .brand-name { font-size: 13px; }
-  .brand-name span { display: none; }
+  .brand-badge { width: 34px; height: 34px; border-radius: 8px; }
+  .brand-name { font-size: 15px; }
+  .brand-name span { display: block; font-size: 9.5px; }
   .nav-actions { gap: 6px; }
   .nav-actions .nav-bot-link { display: none; }
-  .lang-select-btn { padding: 6px 8px; font-size: 12px; min-height: 36px; }
-  .lang-select-btn .lang-code { display: none; }
+  .lang-dropdown-container { display: none; }
   .btn { min-height: 36px; padding: 6px 12px; font-size: 12.5px; border-radius: 9px; }
   .top-banner { padding: 6px 0; }
   .top-banner-full { font-size: 11px; }
@@ -365,7 +369,7 @@ input, select { font-family: inherit; }
   .nav-donate-btn { min-width: 38px; height: 38px; padding: 0 10px; }
 }
 @media (max-width: 400px) {
-  .brand-name { max-width: 115px; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .brand-name { font-size: 14px; }
 }
 
 /* ---------- BUTTONS ---------- */
@@ -506,6 +510,14 @@ section { padding: 84px 0; }
   padding: 16px 18px;
   display: flex; gap: 14px; align-items: flex-start;
   margin-top: 18px;
+}
+@media (max-width: 720px) {
+  .stellen-alert {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+  }
 }
 .stellen-alert .badge { padding: 4px 10px; background: var(--gold); color: #fff; border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
 .stellen-alert .title { font-weight: 700; font-size: 14.5px; color: #FEF3C7; margin-bottom: 6px; }
