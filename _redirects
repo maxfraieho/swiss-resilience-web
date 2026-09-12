@@ -1,5 +1,7 @@
-/tma        /app/index.html   200
-/bot        /app/index.html   200
-/interview  /app/index.html   200
-/hub        /hub/index.html   200
-/v25        /hub/index.html   200
+/tma        /app/index.html        200
+/bot        /app/index.html        200
+/interview  /app/index.html        200
+/hub        /hub/index.html        200
+/v25        /hub/index.html        200
+/app        /app/index.html        200
+/mini-app   /mini-app/index.html   200
