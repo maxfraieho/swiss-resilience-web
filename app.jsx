@@ -1,15 +1,16 @@
-// Swiss Resilience Navigator 2.5 — App root
-const { useState: uApp, useEffect: eApp } = React;
+// SwissRelief 2.6 — App Root Component
+// Implements ADR-016 safe storage, Telegram WebApp stabilization, and quad-lingual i18n routing.
 
-// Safe storage helper resilient to Telegram in-app browser and private mode storage blocks
+// Safe storage helper resilient to Telegram in-app browser and private mode storage blocks (ADR-016)
 const _memStore = {};
-function safeStorageGet(key) {
+function safeStorageGet(key, def = null) {
   try {
-    return window.localStorage ? window.localStorage.getItem(key) : _memStore[key];
+    return window.localStorage ? (window.localStorage.getItem(key) || def) : (_memStore[key] || def);
   } catch (e) {
-    return _memStore[key] || null;
+    return _memStore[key] || def;
   }
 }
+
 function safeStorageSet(key, val) {
   try {
     if (window.localStorage) window.localStorage.setItem(key, val);
@@ -19,71 +20,115 @@ function safeStorageSet(key, val) {
 }
 
 function App() {
-  const [lang, setLang] = uApp(() => {
-    // Check URL params first, then localStorage, then default to 'fr'
-    const urlParams = new URLSearchParams(window.location.search);
-    const paramLang = urlParams.get('lang');
-    if (paramLang && window.I18N && window.I18N[paramLang]) return paramLang;
-    return safeStorageGet('srn-lang') || 'fr';
+  const [lang, setLang] = React.useState(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramLang = urlParams.get('lang');
+      if (paramLang && ['fr', 'de', 'it', 'uk'].includes(paramLang)) return paramLang;
+    } catch (e) {}
+    return safeStorageGet('sr-v2-lang', 'fr');
   });
 
-  const [side, setSide] = uApp(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const paramSide = urlParams.get('side');
-    if (paramSide === 'a' || paramSide === 'b') return paramSide;
-    return safeStorageGet('srn-side') || 'a';
+  const [side, setSide] = React.useState(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramSide = urlParams.get('side');
+      if (paramSide === 'a' || paramSide === 'b') return paramSide;
+    } catch (e) {}
+    return safeStorageGet('sr-v2-side', 'a');
   });
 
-  const [donateOpen, setDonateOpen] = uApp(false);
+  const [service, setService] = React.useState('calc');
+  const [drawerOpen, setDrawer] = React.useState(false);
+  const [donateOpen, setDonate] = React.useState(false);
 
-  eApp(() => { safeStorageSet('srn-lang', lang); }, [lang]);
-  eApp(() => { safeStorageSet('srn-side', side); }, [side]);
+  React.useEffect(() => { safeStorageSet('sr-v2-lang', lang); }, [lang]);
+  React.useEffect(() => { safeStorageSet('sr-v2-side', side); }, [side]);
 
-  // Support Telegram WebApp auto-theme and expand if inside TMA
-  eApp(() => {
+  // Early Telegram WebApp initialization and stabilization
+  React.useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       try {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
+        if (window.Telegram.WebApp.enableClosingConfirmation) {
+          window.Telegram.WebApp.enableClosingConfirmation();
+        }
       } catch (e) {
         console.warn('Telegram WebApp init warning:', e);
       }
     }
   }, []);
 
-  const t = (window.I18N && window.I18N[lang]) ? window.I18N[lang] : (window.I18N ? window.I18N['fr'] : {});
+  const t = (window.SR_I18N && window.SR_I18N[lang])
+    ? window.SR_I18N[lang]
+    : (window.SR_I18N ? window.SR_I18N.fr : {});
+
+  const pickService = (id, s) => {
+    setService(id);
+    if (s) setSide(s);
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 40);
+  };
 
   if (!t || !t.banner) {
-    return <div style={{padding: 40, textAlign: 'center', color: '#CBD5E1'}}>Chargement du Swiss Resilience Navigator 2.5...</div>;
+    return (
+      <div style={{ padding: 40, textAlign: 'center', color: '#CBD5E1', fontFamily: 'Inter, sans-serif' }}>
+        Chargement de l'environnement SwissRelief 2.6...
+      </div>
+    );
   }
 
   return (
     <React.Fragment>
-      <TopBanner t={t}/>
-      <Navbar t={t} lang={lang} onLang={setLang} side={side} onSide={setSide} onDonate={()=>setDonateOpen(true)}/>
-      <Hero t={t} side={side} onSide={setSide}/>
-
-      <div className="fade-in" key={side}>
+      <TopBannerV2 t={t}/>
+      <NavV2
+        lang={lang}
+        setLang={setLang}
+        side={side}
+        setSide={setSide}
+        onOpenDrawer={() => setDrawer(true)}
+        onOpenDonate={() => setDonate(true)}
+        t={t}
+      />
+      <ServiceSwitcher activeId={service} onPick={pickService} t={t}/>
+      <main>
+        <HeroV2 side={side} setSide={setSide} t={t}/>
         {side === 'a' ? (
           <React.Fragment>
-            <CantonCalculator t={t} lang={lang}/>
+            <CantonCalculatorV2 t={t} lang={lang}/>
             <ProfessionSelector t={t} lang={lang}/>
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <HostSubleaseWizard t={t} lang={lang}/>
-            <BenevolMentors t={t} lang={lang}/>
+            <SubleaseWizard t={t}/>
+            <BenevolMentors t={t}/>
           </React.Fragment>
         )}
-      </div>
+        <BetaSection onOpenDonate={() => setDonate(true)} t={t}/>
+      </main>
+      <FooterV2 t={t}/>
 
-      <BetaPricing t={t} onDonate={()=>setDonateOpen(true)}/>
-      <LegalFooter t={t}/>
-
-      {donateOpen && <DonationModal t={t} lang={lang} onClose={()=>setDonateOpen(false)}/>}
+      {drawerOpen && (
+        <MobileDrawer
+          lang={lang}
+          setLang={setLang}
+          side={side}
+          setSide={setSide}
+          onClose={() => setDrawer(false)}
+          onOpenDonate={() => setDonate(true)}
+          t={t}
+        />
+      )}
+      {donateOpen && <DonationModal onClose={() => setDonate(false)} t={t}/>}
     </React.Fragment>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App/>);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(<App/>);
+}

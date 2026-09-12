@@ -1,0 +1,254 @@
+/* ============================================================
+   SWISSRELIEF DESIGN SYSTEM — Colors & Typography
+   Extracted from the SwissRelief Pan-Swiss 2.6 codebase
+   (violin-integration.works / swiss-resilience-web.pages.dev)
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+:root {
+  /* -------------------- Base neutrals -------------------- */
+  --navy:      #0F172A;   /* app background */
+  --navy-2:    #0B1220;   /* deep panels, footer */
+  --navy-3:    #111a2e;   /* lifted panel */
+  --white:     #F8FAFC;   /* primary text on dark */
+  --slate-100: #E2E8F0;   /* body text on dark */
+  --slate-200: #CBD5E1;   /* secondary text on dark */
+  --muted:     #94A3B8;   /* labels, meta */
+  --muted-2:   #64748B;   /* footnotes */
+
+  /* Hairlines on translucent glass */
+  --line:      rgba(255, 255, 255, 0.08);
+  --line-2:    rgba(255, 255, 255, 0.14);
+  --line-3:    rgba(255, 255, 255, 0.22);
+
+  /* Translucent panel fills */
+  --panel:     rgba(30, 41, 59, 0.70);
+  --panel-2:   rgba(30, 41, 59, 0.55);
+  --panel-3:   rgba(30, 41, 59, 0.35);
+
+  /* -------------------- Brand accents -------------------- */
+  --crimson:   #D52B1E;   /* Swiss flag red — Side A / seekers / donate */
+  --crimson-2: #B71D12;   /* pressed / hover */
+  --crimson-soft-fg: #FCA5A5;
+
+  --gold:      #D97706;   /* Compass / Swiss warmth accent */
+  --gold-2:    #F59E0B;   /* eyebrows, section tags, highlight */
+  --gold-soft-fg: #FCD34D;
+  --gold-cream: #FEF3C7;
+
+  --blue:      #2563EB;   /* Side B / solidarity / hosts */
+  --blue-2:    #3B82F6;
+  --blue-soft-fg: #93C5FD;
+  --blue-cream: #DBEAFE;
+
+  --emerald:   #059669;   /* Success / compliance ok */
+  --emerald-2: #10B981;
+  --emerald-soft-fg: #6EE7B7;
+
+  /* -------------------- Semantic aliases -------------------- */
+  --bg:            var(--navy);
+  --bg-elevated:   var(--panel);
+  --fg:            var(--white);
+  --fg-1:          var(--white);
+  --fg-2:          var(--slate-100);
+  --fg-3:          var(--slate-200);
+  --fg-muted:      var(--muted);
+  --fg-faint:      var(--muted-2);
+
+  --brand:         var(--crimson);
+  --brand-warm:    var(--gold-2);
+  --brand-cool:    var(--blue);
+  --success:       var(--emerald-2);
+  --warning:       var(--gold-2);
+  --danger:        var(--crimson);
+
+  /* Signature ambient hero background: three radial glows over navy */
+  --bg-ambient:
+    radial-gradient(1200px 600px at 85% -10%, rgba(213, 43, 30, 0.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(5, 150, 105, 0.08), transparent 60%),
+    radial-gradient(700px 500px at 50% 110%, rgba(217, 119, 6, 0.06), transparent 60%),
+    var(--navy);
+
+  /* -------------------- v2 additions (ADR-017 refresh) -------------------- */
+  --bg-core:          #070B12;                       /* deeper than navy for outer shell */
+  --bg-surface:       var(--navy);                    /* alias */
+  --bg-surface-glass: rgba(15, 23, 42, 0.78);
+  --bg-card:          rgba(26, 37, 66, 0.45);
+  --swiss-red:        var(--crimson);                 /* alias — federal red pantone 485C */
+  --swiss-red-glow:   rgba(213, 43, 30, 0.35);
+  --swiss-red-subtle: rgba(213, 43, 30, 0.14);
+  --gold-alert:       var(--gold-2);                  /* alias — federal gold / Art. 21a LEI */
+  --gold-glow:        rgba(245, 158, 11, 0.28);
+  --emerald-success:  var(--emerald-2);               /* alias */
+  --cyan-accent:      #06B6D4;                        /* NEW — cryptography / ZK proof */
+  --cyan-glow:        rgba(6, 182, 212, 0.28);
+  --border-subtle:    var(--line);                    /* alias */
+  --border-active:    rgba(255, 255, 255, 0.18);      /* between line-2 and line-3 */
+
+  /* -------------------- Radii -------------------- */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 14px;                                  /* NEW — v2 mid */
+  --radius:    16px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* -------------------- Shadows -------------------- */
+  --shadow-nav:    0 10px 40px -20px rgba(0, 0, 0, 0.7);
+  --shadow-card:   0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  --shadow-modal:  0 40px 100px -20px rgba(0, 0, 0, 0.9);
+  --shadow-cta-red:  0 10px 30px -10px rgba(213, 43, 30, 0.55);
+  --shadow-cta-blue: 0 8px 24px -8px rgba(37, 99, 235, 0.5);
+  --glow-red:  0 0 16px -4px rgba(213, 43, 30, 0.35);
+  --glow-blue: 0 0 16px -4px rgba(37, 99, 235, 0.35);
+
+  /* -------------------- Spacing scale -------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-14: 56px;
+  --space-20: 84px;
+
+  /* -------------------- Typography -------------------- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif-pdf: 'Georgia', 'Times New Roman', serif;
+
+  /* Type ramp (px on 1440+; hero titles use clamp() at usage sites) */
+  --fs-hero:      clamp(34px, 5.5vw, 62px);   /* Hero H1 */
+  --fs-section:   clamp(28px, 4vw, 42px);      /* Section H2 */
+  --fs-h3:        20px;                        /* Card / block title */
+  --fs-h4:        16px;                        /* Nav brand / sidebar title */
+  --fs-lg:        17px;                        /* Hero sub */
+  --fs-body:      15.5px;                      /* Body copy */
+  --fs-body-2:    14px;                        /* Standard body */
+  --fs-sm:        13px;                        /* Compact UI */
+  --fs-xs:        12px;                        /* Fine print */
+  --fs-eyebrow:   11.5px;                      /* Uppercase eyebrows */
+  --fs-mono-label:10.5px;                      /* Mono labels */
+  --fs-num-lg:    56px;                        /* Verdict amounts */
+  --fs-num-md:    44px;                        /* Pricing amounts */
+  --fs-metric:    26px;                        /* Metric tiles */
+
+  --lh-tight: 1.05;
+  --lh-snug:  1.2;
+  --lh-body:  1.55;
+  --lh-relaxed: 1.6;
+
+  /* -------------------- Motion -------------------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 350ms;
+}
+
+/* -------------------- Semantic element defaults -------------------- */
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg-ambient);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body-2);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono, code, kbd { font-family: var(--font-mono); }
+
+/* Hero H1 — highest emphasis, bold, tight, balanced */
+h1, .h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-hero);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: var(--lh-tight);
+  text-wrap: balance;
+  margin: 0 0 18px;
+}
+
+/* Section H2 */
+h2, .h2 {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin: 18px 0 10px;
+}
+
+/* Card / block title */
+h3, .h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin: 0 0 6px;
+}
+
+h4, .h4 {
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+/* Body */
+p { margin: 0 0 12px; color: var(--fg-3); text-wrap: pretty; }
+.p-lede { font-size: var(--fs-lg); line-height: var(--lh-relaxed); color: var(--slate-200); }
+.p-section-sub { color: var(--muted); max-width: 780px; font-size: var(--fs-body); }
+
+/* Eyebrow / uppercase micro-label — the signature mono tag */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-2);
+  padding: 5px 10px;
+  background: rgba(217, 119, 6, 0.10);
+  border: 1px solid rgba(217, 119, 6, 0.30);
+  border-radius: var(--radius-pill);
+}
+
+/* Label above form fields */
+.label-cap {
+  font-family: var(--font-mono);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Mono metric label */
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-label);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Verdict / amount typography */
+.num-hero {
+  font-size: var(--fs-num-lg);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-family: var(--font-mono);
+}
+.num-lg {
+  font-size: var(--fs-num-md);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-family: var(--font-mono);
+}
+
+a { color: inherit; text-decoration: none; }

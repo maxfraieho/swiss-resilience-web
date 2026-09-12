@@ -7,12 +7,19 @@ const https = require('https');
 
 const rootDir = __dirname;
 const files = [
-  'shared.jsx',
-  'side-a.jsx',
-  'side-b.jsx',
-  'beta-donation.jsx',
+  'Nav.jsx',
+  'ServiceSwitcher.jsx',
+  'MobileDrawer.jsx',
+  'Hero.jsx',
+  'CantonCalculator.jsx',
+  'ProfessionSelector.jsx',
+  'Sublease.jsx',
+  'BenevolMentors.jsx',
+  'BetaDonation.jsx',
+  'Footer.jsx',
   'app.jsx'
 ];
+
 
 async function ensureBabel() {
   const babelPath = '/tmp/babel.min.js';

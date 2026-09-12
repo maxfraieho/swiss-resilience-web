@@ -2,13 +2,15 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
-  <title>SwissRelief 2.6 — Mobile & TMA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>SwissRelief 2.6 — Pan-Swiss · 4 langues</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="/colors_and_type.css"/>
+  <link rel="stylesheet" href="/kit-v2.css"/>
   <link rel="stylesheet" href="/styles.css"/>
 
   <!-- Telegram WebApp SDK -->
@@ -34,7 +36,7 @@
 </head>
 <body>
   <div id="root">
-    <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0B0F17; color: #F8FAFC; font-family: 'Inter', sans-serif; text-align: center; padding: 24px;">
+    <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #070B12; color: #F8FAFC; font-family: 'Inter', sans-serif; text-align: center; padding: 24px;">
       <div style="width: 48px; height: 48px; border-radius: 8px; background: #D52B1E; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 0 20px rgba(213,43,30,0.35);">
         <span style="font-size: 24px; line-height: 1; color: white;">+</span>
       </div>
@@ -43,8 +45,9 @@
     </div>
   </div>
 
-  <!-- Data layer first -->
+  <!-- Data layer & i18n -->
   <script src="/data.js"></script>
+  <script src="/i18n.js"></script>
 
   <!-- Pre-compiled high-performance production bundle (Zero in-browser Babel overhead) -->
   <script src="/app-bundle.js"></script>
