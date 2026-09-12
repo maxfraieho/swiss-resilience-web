@@ -1,26 +1,43 @@
 // Swiss Resilience Navigator 2.5 — App root
 const { useState: uApp, useEffect: eApp } = React;
 
+// Safe storage helper resilient to Telegram in-app browser and private mode storage blocks
+const _memStore = {};
+function safeStorageGet(key) {
+  try {
+    return window.localStorage ? window.localStorage.getItem(key) : _memStore[key];
+  } catch (e) {
+    return _memStore[key] || null;
+  }
+}
+function safeStorageSet(key, val) {
+  try {
+    if (window.localStorage) window.localStorage.setItem(key, val);
+  } catch (e) {
+    _memStore[key] = val;
+  }
+}
+
 function App() {
   const [lang, setLang] = uApp(() => {
     // Check URL params first, then localStorage, then default to 'fr'
     const urlParams = new URLSearchParams(window.location.search);
     const paramLang = urlParams.get('lang');
     if (paramLang && window.I18N && window.I18N[paramLang]) return paramLang;
-    return localStorage.getItem('srn-lang') || 'fr';
+    return safeStorageGet('srn-lang') || 'fr';
   });
 
   const [side, setSide] = uApp(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const paramSide = urlParams.get('side');
     if (paramSide === 'a' || paramSide === 'b') return paramSide;
-    return localStorage.getItem('srn-side') || 'a';
+    return safeStorageGet('srn-side') || 'a';
   });
 
   const [donateOpen, setDonateOpen] = uApp(false);
 
-  eApp(() => { localStorage.setItem('srn-lang', lang); }, [lang]);
-  eApp(() => { localStorage.setItem('srn-side', side); }, [side]);
+  eApp(() => { safeStorageSet('srn-lang', lang); }, [lang]);
+  eApp(() => { safeStorageSet('srn-side', side); }, [side]);
 
   // Support Telegram WebApp auto-theme and expand if inside TMA
   eApp(() => {

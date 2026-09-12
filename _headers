@@ -1,21 +1,14 @@
 /*
-  X-Frame-Options: ALLOWALL
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, POST, OPTIONS
   Access-Control-Allow-Headers: DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization
-  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
+  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; frame-ancestors 'self' https://web.telegram.org https://*.telegram.org https://telegram.org telegram: *;
 
-/*.jsx
-  Content-Type: text/javascript; charset=utf-8
+/data.js
+  Cache-Control: public, max-age=300, must-revalidate
 
-/app/*
-  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
-  X-Frame-Options: ALLOWALL
+/app-bundle.js
+  Cache-Control: public, max-age=300, must-revalidate
 
-/mini-app/*
-  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
-  X-Frame-Options: ALLOWALL
-
-/hub/*
-  Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;
-  X-Frame-Options: ALLOWALL
+/styles.css
+  Cache-Control: public, max-age=300, must-revalidate

@@ -4,6 +4,6 @@
   "type": "module",
   "description": "Swiss Resilience Navigator & Telegram Mini App Web Portal",
   "scripts": {
-    "build": "echo \"Static assets ready\""
+    "build": "node build.cjs"
   }
 }

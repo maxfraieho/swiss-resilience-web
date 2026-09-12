@@ -14,21 +14,39 @@
   <!-- Telegram WebApp SDK -->
   <script data-cfasync="false" src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <!-- React 18 Production UMD -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+  <script>
+    // Early Telegram WebApp initialization
+    (function() {
+      try {
+        if (window.Telegram && window.Telegram.WebApp) {
+          window.Telegram.WebApp.ready();
+          window.Telegram.WebApp.expand();
+        }
+      } catch (e) {
+        console.warn('Telegram WebApp early init error:', e);
+      }
+    })();
+  </script>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #0B0F17; color: #F8FAFC; font-family: 'Inter', sans-serif; text-align: center; padding: 24px;">
+      <div style="width: 48px; height: 48px; border-radius: 8px; background: #D52B1E; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 0 20px rgba(213,43,30,0.35);">
+        <span style="font-size: 24px; line-height: 1; color: white;">+</span>
+      </div>
+      <div style="font-weight: 700; font-size: 16px; margin-bottom: 8px; letter-spacing: -0.01em;">Swiss Resilience Navigator 2.5</div>
+      <div style="font-size: 13px; color: #94A3B8; max-width: 260px;">Chargement de l'environnement sécurisé...</div>
+    </div>
+  </div>
 
   <!-- Data layer first -->
   <script src="/data.js"></script>
 
-  <!-- Shared atoms + component modules (order matters) -->
-  <script type="text/babel" src="/shared.jsx"></script>
-  <script type="text/babel" src="/side-a.jsx"></script>
-  <script type="text/babel" src="/side-b.jsx"></script>
-  <script type="text/babel" src="/beta-donation.jsx"></script>
-  <script type="text/babel" src="/app.jsx"></script>
+  <!-- Pre-compiled high-performance production bundle (Zero in-browser Babel overhead) -->
+  <script src="/app-bundle.js"></script>
 </body>
 </html>
