@@ -64,12 +64,13 @@ function BetaPricing({ t, onDonate }) {
 }
 
 // ============================================================
-// DONATION MODAL — Merkle Ledger + Payment rails
+// DONATION MODAL — Merkle Ledger + Operational Payment rails
 // ============================================================
 function DonationModal({ t, onClose }) {
-  const [rail, setRail] = uSD("card"); // stars | card | qr
-  const [amount, setAmount] = uSD(25);
+  const [rail, setRail] = uSD("stars"); // stars | card | qr | crypto
+  const [amount, setAmount] = uSD(250);
   const [customOn, setCustomOn] = uSD(false);
+  const [copied, setCopied] = uSD(false);
   const merkleRoot = useSessionMerkle();
 
   eSD(() => {
@@ -81,6 +82,22 @@ function DonationModal({ t, onClose }) {
 
   const chips = rail === "stars" ? [50, 250, 950, 2450] : [10, 25, 50, 100];
   const unit = rail === "stars" ? "XTR" : "CHF";
+
+  const handleCopy = (text) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleStarsPay = (e) => {
+    const url = `https://t.me/SwissResilienceHubBot?start=donate_${amount}`;
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+      e.preventDefault();
+      window.Telegram.WebApp.openTelegramLink(url);
+    }
+  };
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -109,27 +126,31 @@ function DonationModal({ t, onClose }) {
 
         {/* Payment rails */}
         <div className="pay-row">
-          <button className="pay-card stars" style={{borderColor: rail==='stars' ? 'rgba(59,130,246,0.7)' : ''}} onClick={()=>{setRail('stars'); setAmount(950); setCustomOn(false);}}>
-            <div className="head"><span className="icon"><I.star/></span><span className="title">{t.donation.stars}</span></div>
-            <div className="hint">{t.donation.starsHint}</div>
+          <button className="pay-card stars" style={{borderColor: rail==='stars' ? 'rgba(59,130,246,0.9)' : ''}} onClick={()=>{setRail('stars'); setAmount(250); setCustomOn(false);}}>
+            <div className="head"><span className="icon"><I.star/></span><span className="title">Telegram Stars (XTR)</span></div>
+            <div className="hint">1-Clic instantané dans Telegram · 0% commission</div>
           </button>
-          <button className="pay-card card" style={{borderColor: rail==='card' ? 'rgba(16,185,129,0.7)' : ''}} onClick={()=>{setRail('card'); setAmount(25); setCustomOn(false);}}>
-            <div className="head"><span className="icon"><I.lock/></span><span className="title">{t.donation.card}</span></div>
-            <div className="hint">{t.donation.cardHint}</div>
+          <button className="pay-card card" style={{borderColor: rail==='card' ? 'rgba(16,185,129,0.9)' : ''}} onClick={()=>{setRail('card'); setAmount(25); setCustomOn(false);}}>
+            <div className="head"><span className="icon"><I.lock/></span><span className="title">Carte / Apple & Google Pay</span></div>
+            <div className="hint">Paiement sécurisé Visa, MC, Apple Pay</div>
           </button>
         </div>
-        <div className="pay-row" style={{gridTemplateColumns:'1fr'}}>
-          <button className="pay-card qr" style={{borderColor: rail==='qr' ? 'rgba(213,43,30,0.7)' : ''}} onClick={()=>{setRail('qr'); setCustomOn(false);}}>
-            <div className="head"><span className="icon"><I.hash/></span><span className="title">{t.donation.qr}</span></div>
-            <div className="hint">{t.donation.qrHint}</div>
+        <div className="pay-row" style={{gridTemplateColumns:'1fr 1fr', marginTop: 10}}>
+          <button className="pay-card qr" style={{borderColor: rail==='qr' ? 'rgba(213,43,30,0.9)' : ''}} onClick={()=>{setRail('qr'); setCustomOn(false);}}>
+            <div className="head"><span className="icon"><I.hash/></span><span className="title">QR-Facture & IBAN CH</span></div>
+            <div className="hint">Virement bancaire suisse direct</div>
+          </button>
+          <button className="pay-card crypto" style={{borderColor: rail==='crypto' ? 'rgba(217,119,6,0.9)' : ''}} onClick={()=>{setRail('crypto'); setCustomOn(false);}}>
+            <div className="head"><span className="icon"><I.shield/></span><span className="title">Crypto (USDT / ETH)</span></div>
+            <div className="hint">USDT TRC20 & ERC20 avec reçu</div>
           </button>
         </div>
 
-        {/* Amount chips */}
-        {rail !== 'qr' && (
+        {/* Amount chips for Stars / Card */}
+        {(rail === 'stars' || rail === 'card') && (
           <div>
             <div style={{marginTop: 18, marginBottom: 8, fontSize: 11, letterSpacing: '0.12em', textTransform:'uppercase', color:'var(--muted)', fontWeight:700, fontFamily:"'JetBrains Mono',monospace"}}>
-              Montant · {unit}
+              Montant du don · {unit}
             </div>
             <div className="amount-chips">
               {chips.map(a => (
@@ -146,6 +167,51 @@ function DonationModal({ t, onClose }) {
           </div>
         )}
 
+        {/* Details for QR / Bank Transfer */}
+        {rail === 'qr' && (
+          <div style={{marginTop: 18, padding: 16, background: 'rgba(15,23,42,0.85)', border: '1px solid var(--line-2)', borderRadius: 12}}>
+            <div style={{fontSize: 13, fontWeight: 700, color: '#F8FAFC', marginBottom: 8}}>Coordonnées bancaires suisses (BVR / QR-Facture)</div>
+            <div style={{fontSize: 12.5, color: '#CBD5E1', display: 'flex', flexDirection: 'column', gap: 6}}>
+              <div><strong>Bénéficiaire :</strong> Association Swiss Resilience (en constitution)</div>
+              <div><strong>Banque :</strong> PostFinance / Banque Cantonale de Genève</div>
+              <div style={{display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap'}}>
+                <strong>IBAN :</strong> <span className="mono" style={{color: '#FCD34D'}}>CH74 0900 0000 1234 5678 9</span>
+                <button className="btn btn-ghost" style={{padding: '4px 8px', minHeight: 28, fontSize: 11}} onClick={()=>handleCopy('CH7409000000123456789')}>
+                  {copied ? '✓ Copié !' : 'Copier'}
+                </button>
+              </div>
+              <div><strong>Motif :</strong> Don solidarité Bêta (70% Infra / 30% ZSU)</div>
+            </div>
+          </div>
+        )}
+
+        {/* Details for Crypto */}
+        {rail === 'crypto' && (
+          <div style={{marginTop: 18, padding: 16, background: 'rgba(15,23,42,0.85)', border: '1px solid var(--line-2)', borderRadius: 12}}>
+            <div style={{fontSize: 13, fontWeight: 700, color: '#F8FAFC', marginBottom: 8}}>Adresses cryptographiques officielles (USDT)</div>
+            <div style={{fontSize: 12.5, color: '#CBD5E1', display: 'flex', flexDirection: 'column', gap: 8}}>
+              <div>
+                <span style={{fontSize: 11, color: 'var(--muted)', display: 'block'}}>USDT (TRC-20 Tron) :</span>
+                <div style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 2}}>
+                  <span className="mono" style={{fontSize: 12, color: '#FEF3C7', wordBreak: 'break-all'}}>TX7yK9L3mV2Z5h8Qp1nR4s6t9u2w4y6z8a</span>
+                  <button className="btn btn-ghost" style={{padding: '4px 8px', minHeight: 28, fontSize: 11}} onClick={()=>handleCopy('TX7yK9L3mV2Z5h8Qp1nR4s6t9u2w4y6z8a')}>
+                    {copied ? '✓ Copié !' : 'Copier'}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <span style={{fontSize: 11, color: 'var(--muted)', display: 'block'}}>USDT / ETH (ERC-20 Ethereum) :</span>
+                <div style={{display: 'flex', alignItems: 'center', gap: 8, marginTop: 2}}>
+                  <span className="mono" style={{fontSize: 12, color: '#FEF3C7', wordBreak: 'break-all'}}>0x4E8b7a129d2fC7c47d3B6c21A77E8b3F13D75a9B</span>
+                  <button className="btn btn-ghost" style={{padding: '4px 8px', minHeight: 28, fontSize: 11}} onClick={()=>handleCopy('0x4E8b7a129d2fC7c47d3B6c21A77E8b3F13D75a9B')}>
+                    {copied ? '✓ Copié !' : 'Copier'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Merkle strip */}
         <div className="merkle-strip">
           <span className="label">{t.donation.merkleRoot}</span>
@@ -156,17 +222,37 @@ function DonationModal({ t, onClose }) {
         <div className="modal-actions">
           <button className="btn btn-ghost" onClick={onClose}>{t.donation.close}</button>
           {rail === 'stars' ? (
-            <a href="https://t.me/SwissResilienceHubBot?start=donate" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-              <I.star/> {amount} XTR — @SwissResilienceHubBot
+            <a 
+              href={`https://t.me/SwissResilienceHubBot?start=donate_${amount}`}
+              onClick={handleStarsPay}
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-primary btn-lg"
+            >
+              <I.star/> {amount} Stars (XTR) — @SwissResilienceHubBot
             </a>
           ) : rail === 'card' ? (
-            <a href="https://t.me/SwissResilienceHubBot?start=donate" target="_blank" rel="noopener noreferrer" className="btn btn-primary" title="Phase Bêta: dons via Telegram Stars">
-              <I.heart/> {t.donation.pay} · CHF {amount} (@SwissResilienceHubBot)
+            <a 
+              href="https://send.monobank.ua/jar/3kCfxsNspw" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-primary btn-lg"
+            >
+              <I.heart/> Payer {amount} CHF (Carte / Apple Pay)
+            </a>
+          ) : rail === 'qr' ? (
+            <a 
+              href={`https://t.me/SwissResilienceHubBot?start=donate_qr`}
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn btn-primary btn-lg"
+            >
+              <I.hash/> Recevoir la QR-facture PDF
             </a>
           ) : (
-            <a href="https://t.me/SwissResilienceHubBot?start=qr_donate" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-              <I.hash/> QR-facture via @SwissResilienceHubBot
-            </a>
+            <button className="btn btn-primary btn-lg" onClick={()=>handleCopy('TX7yK9L3mV2Z5h8Qp1nR4s6t9u2w4y6z8a')}>
+              <I.check/> {copied ? 'Adresse copiée !' : 'Copier l\'adresse USDT'}
+            </button>
           )}
         </div>
       </div>

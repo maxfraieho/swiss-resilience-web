@@ -43,7 +43,7 @@ function App() {
   return (
     <React.Fragment>
       <TopBanner t={t}/>
-      <Navbar t={t} lang={lang} onLang={setLang} onDonate={()=>setDonateOpen(true)}/>
+      <Navbar t={t} lang={lang} onLang={setLang} side={side} onSide={setSide} onDonate={()=>setDonateOpen(true)}/>
       <Hero t={t} side={side} onSide={setSide}/>
 
       <div className="fade-in" key={side}>

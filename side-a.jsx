@@ -18,11 +18,63 @@ function TopBanner({ t }) {
 // ============================================================
 // NAVBAR
 // ============================================================
-function Navbar({ t, lang, onLang, onDonate }) {
+// NAVBAR (Sandwich Mobile Drawer & Dropdown Language Switcher)
+// ============================================================
+function Navbar({ t, lang, onLang, side, onSide, onDonate }) {
+  const [langOpen, setLangOpen] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
+  // Close dropdown on outside click or escape
+  React.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('.lang-dropdown-container')) setLangOpen(false);
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setLangOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Lock body scroll when mobile menu is active
+  React.useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
+
+  const navigateToService = (targetSide, sectionId) => {
+    if (targetSide && onSide) onSide(targetSide);
+    setMobileMenuOpen(false);
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 60);
+  };
+
+  const servicesList = [
+    { id: 'calc', side: 'a', icon: <I.house/>, label: t.nav?.calc || "Barèmes 26 Cantons", sub: "EVAM · Hospice · AOZ · 26 Cantons" },
+    { id: 'prof', side: 'a', icon: <I.chart/>, label: t.nav?.profession || "Métiers CH-ISCO", sub: "Art. 21a LEI · CH-ISCO-19" },
+    { id: 'sublease', side: 'b', icon: <I.shield/>, label: lang==='uk'?'Суборенда (ст. 262 CO)':lang==='de'?'Untermiete (Art. 262 OR)':lang==='it'?'Sublocazione (Art. 262 CO)':'Sous-location (Art. 262 CO)', sub: "10–20% Möblierung · ASLOCA" },
+    { id: 'mentors', side: 'b', icon: <I.users/>, label: lang==='uk'?'Ментори (Benevol)':lang==='de'?'Mentoren (Benevol)':lang==='it'?'Mentori (Benevol)':'Mentors (Benevol)', sub: "Art. 394 CO · Mandat bénévole" },
+    { id: 'beta', side: null, icon: <I.lock/>, label: lang==='uk'?'Бета-тарифи':lang==='de'?'Beta-Tarife':lang==='it'?'Tariffe Beta':'Tarifs Bêta (Gratuit)', sub: "0 CHF · Inactif en Bêta" },
+  ];
+
   return (
     <div className="nav-wrap">
       <div className="container">
         <nav className="nav" aria-label="Main navigation">
+          {/* Brand */}
           <a href="#top" className="brand" aria-label="Swiss Resilience Navigator 2.5">
             <span className="brand-badge"><BrandMark size={22}/></span>
             <span className="brand-name">Swiss Resilience Navigator
@@ -30,30 +82,147 @@ function Navbar({ t, lang, onLang, onDonate }) {
             </span>
           </a>
 
+          {/* Desktop Navigation Links - Quick Service Switching */}
           <div className="nav-links">
-            <a href="#calc">{t.nav.calc}</a>
-            <a href="#prof">{t.nav.profession}</a>
-            <a href="#sublease">{t.nav.solidarity}</a>
-            <a href="#beta">{t.nav.transparency}</a>
+            <button className={`nav-link-btn ${side==='a'?'active-side':''}`} onClick={()=>navigateToService('a','calc')}>
+              {t.nav?.calc || "Barèmes"}
+            </button>
+            <button className={`nav-link-btn ${side==='a'?'active-side':''}`} onClick={()=>navigateToService('a','prof')}>
+              {t.nav?.profession || "CH-ISCO"}
+            </button>
+            <button className={`nav-link-btn ${side==='b'?'active-side':''}`} onClick={()=>navigateToService('b','sublease')}>
+              {lang==='uk'?'Суборенда 262':lang==='de'?'Untermiete 262':lang==='it'?'Sublocazione 262':'Sous-location 262'}
+            </button>
+            <button className={`nav-link-btn ${side==='b'?'active-side':''}`} onClick={()=>navigateToService('b','mentors')}>
+              {lang==='uk'?'Ментори':lang==='de'?'Mentoren':lang==='it'?'Mentori':'Mentors'}
+            </button>
+            <button className="nav-link-btn" onClick={()=>navigateToService(null,'beta')}>
+              {t.nav?.transparency || "Transparence"}
+            </button>
           </div>
 
+          {/* Actions */}
           <div className="nav-actions">
-            <div className="lang-toggle" role="group" aria-label="Language">
-              {['fr','de','it','uk'].map(l => (
-                <button key={l} className={l===lang ? 'active' : ''} onClick={() => onLang(l)} title={window.I18N?.[l]?.lang || l}>
-                  {LANG_FLAGS[l]} <span className="lang-code">{LANG_LABEL[l]}</span>
-                </button>
-              ))}
+            {/* Language Dropdown (Sandwich dropdown, not a flat row) */}
+            <div className="lang-dropdown-container">
+              <button 
+                className="lang-select-btn" 
+                onClick={(e)=>{ e.stopPropagation(); setLangOpen(!langOpen); }}
+                aria-expanded={langOpen}
+                aria-label="Sélectionner la langue"
+              >
+                <span>{LANG_FLAGS[lang]}</span>
+                <span className="lang-code">{LANG_LABEL[lang]}</span>
+                <I.chevron style={{transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform .18s'}}/>
+              </button>
+
+              {langOpen && (
+                <div className="lang-dropdown-menu" role="menu">
+                  {['fr','de','it','uk'].map(l => (
+                    <button 
+                      key={l} 
+                      className={`lang-dropdown-item ${l===lang?'active':''}`}
+                      onClick={()=>{ onLang(l); setLangOpen(false); }}
+                      role="menuitem"
+                    >
+                      <span className="flag">{LANG_FLAGS[l]}</span>
+                      <span className="name">{window.I18N?.[l]?.lang || l.toUpperCase()}</span>
+                      {l===lang && <span className="check"><I.check/></span>}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* Telegram Bot Link (desktop) */}
             <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" className="btn btn-ghost nav-bot-link">
               <I.send/> <span>@SwissResilienceHubBot</span>
             </a>
+
+            {/* Primary Donate CTA */}
             <button onClick={onDonate} className="btn btn-primary nav-donate-btn">
               <I.heart/> <span>{lang==='de'?'Spenden':lang==='it'?'Dona':lang==='uk'?'Пожертва':'Faire un don'}</span>
+            </button>
+
+            {/* Mobile Hamburger (Sandwich) Button */}
+            <button 
+              className="hamburger-btn" 
+              onClick={()=>setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Menu principal"
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <I.x/> : <I.menu/>}
             </button>
           </div>
         </nav>
       </div>
+
+      {/* Mobile Drawer (Sandwich Menu) */}
+      {mobileMenuOpen && (
+        <div className="mobile-drawer-overlay" onClick={()=>setMobileMenuOpen(false)}>
+          <div className="mobile-drawer" onClick={e=>e.stopPropagation()}>
+            <div className="drawer-header">
+              <div className="brand">
+                <span className="brand-badge"><BrandMark size={20}/></span>
+                <span className="brand-name">Swiss Resilience <span>2.5 Bêta</span></span>
+              </div>
+              <button className="drawer-close" onClick={()=>setMobileMenuOpen(false)} aria-label="Fermer"><I.x/></button>
+            </div>
+
+            {/* Language Selector inside Drawer */}
+            <div className="drawer-section">
+              <div className="drawer-section-title">{lang==='uk'?'Мова інтерфейсу':lang==='de'?'Sprache':lang==='it'?'Lingua':'Langue'}</div>
+              <div className="drawer-lang-grid">
+                {['fr','de','it','uk'].map(l => (
+                  <button 
+                    key={l} 
+                    className={`drawer-lang-btn ${l===lang?'active':''}`}
+                    onClick={()=>{ onLang(l); setMobileMenuOpen(false); }}
+                  >
+                    <span className="flag">{LANG_FLAGS[l]}</span>
+                    <span>{window.I18N?.[l]?.lang || l.toUpperCase()}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Services List inside Drawer */}
+            <div className="drawer-section">
+              <div className="drawer-section-title">{lang==='uk'?'Усі сервіси':lang==='de'?'Alle Dienste':lang==='it'?'Tutti i servizi':'Tous les services'}</div>
+              <div className="drawer-services-list">
+                {servicesList.map(s => (
+                  <button 
+                    key={s.id} 
+                    className="drawer-service-item"
+                    onClick={()=>navigateToService(s.side, s.id)}
+                  >
+                    <div className="service-icon">{s.icon}</div>
+                    <div className="service-info">
+                      <div className="service-label">{s.label}</div>
+                      <div className="service-sub">{s.sub}</div>
+                    </div>
+                    <I.arrow/>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Drawer Actions */}
+            <div className="drawer-actions">
+              <button onClick={()=>{ setMobileMenuOpen(false); onDonate(); }} className="btn btn-primary btn-lg" style={{width:'100%'}}>
+                <I.heart/> {lang==='de'?'Spenden':lang==='it'?'Dona':lang==='uk'?'Пожертва':'Faire un don de soutien'}
+              </button>
+              <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-lg" style={{width:'100%', marginTop: 8}}>
+                <I.send/> @SwissResilienceHubBot
+              </a>
+            </div>
+
+            <div className="drawer-legal">
+              Association Swiss Resilience en cours de constitution (Art. 60–79 CC Suisse)
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
