@@ -47,13 +47,13 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
         <div className="v2-nav-actions">
           {/* Direct Telegram Bot Link */}
           <a
-            href="https://t.me/swiss_relief_bot?start=web_hero"
+            href="https://t.me/SwissResilienceHubBot?start=web_nav"
             target="_blank" rel="noopener noreferrer"
             className="v2-btn v2-btn-tg v2-desktop-only"
             style={{ padding: '6px 12px', fontSize: 13, gap: 6 }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            @swiss_relief_bot
+            @SwissResilienceHubBot
           </a>
 
           {/* Desktop language dropdown — MOBILE HIDDEN via CSS */}
@@ -93,15 +93,16 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
             )}
           </div>
 
-          <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" className="v2-btn v2-btn-ghost v2-desktop-only">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>Bot Telegram</span>
-          </a>
-
-          <button className="v2-btn v2-btn-primary v2-donate" onClick={onOpenDonate} aria-label={t.donate}>
+          <a
+            href="https://t.me/SwissResilienceHubBot?start=donate"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="v2-btn v2-btn-primary v2-donate"
+            aria-label={t.donate}
+          >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.79 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             <span className="v2-donate-label">{t.donate}</span>
-          </button>
+          </a>
 
           {/* Mobile active language badge */}
           <button

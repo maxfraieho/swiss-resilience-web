@@ -511,7 +511,7 @@ function NavV2({
   }, "26 CANTONS \xB7 4 LANGUES \xB7 ART. 60\u201379 CC")), /*#__PURE__*/React.createElement("div", {
     className: "v2-nav-actions"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "https://t.me/swiss_relief_bot?start=web_hero",
+    href: "https://t.me/SwissResilienceHubBot?start=web_nav",
     target: "_blank",
     rel: "noopener noreferrer",
     className: "v2-btn v2-btn-tg v2-desktop-only",
@@ -536,7 +536,7 @@ function NavV2({
     y2: "13"
   }), /*#__PURE__*/React.createElement("polygon", {
     points: "22 2 15 22 11 13 2 9 22 2"
-  })), "@swiss_relief_bot"), /*#__PURE__*/React.createElement("div", {
+  })), "@SwissResilienceHubBot"), /*#__PURE__*/React.createElement("div", {
     className: "v2-lang-dropdown v2-desktop-only"
   }, /*#__PURE__*/React.createElement("button", {
     className: "v2-lang-btn",
@@ -593,29 +593,10 @@ function NavV2({
   }, /*#__PURE__*/React.createElement("polyline", {
     points: "20 6 9 17 4 12"
   })))))), /*#__PURE__*/React.createElement("a", {
-    href: "https://t.me/SwissResilienceHubBot",
+    href: "https://t.me/SwissResilienceHubBot?start=donate",
     target: "_blank",
     rel: "noopener noreferrer",
-    className: "v2-btn v2-btn-ghost v2-desktop-only"
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "14",
-    height: "14",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("line", {
-    x1: "22",
-    y1: "2",
-    x2: "11",
-    y2: "13"
-  }), /*#__PURE__*/React.createElement("polygon", {
-    points: "22 2 15 22 11 13 2 9 22 2"
-  })), /*#__PURE__*/React.createElement("span", null, "Bot Telegram")), /*#__PURE__*/React.createElement("button", {
     className: "v2-btn v2-btn-primary v2-donate",
-    onClick: onOpenDonate,
     "aria-label": t.donate
   }, /*#__PURE__*/React.createElement("svg", {
     width: "14",
@@ -1007,18 +988,22 @@ function MobileDrawer({
   }))))), /*#__PURE__*/React.createElement("div", {
     className: "drawer-actions"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "https://t.me/swiss_relief_bot?start=web_hero",
+    href: "https://t.me/SwissResilienceHubBot?start=web_drawer",
     target: "_blank",
     rel: "noopener noreferrer",
     className: "btn tg lg block",
     onClick: onClose
-  }, /*#__PURE__*/React.createElement(Ico.send, null), " Ouvrir @swiss_relief_bot"), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement(Ico.send, null), " Ouvrir @SwissResilienceHubBot"), /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/SwissResilienceHubBot?start=donate",
+    target: "_blank",
+    rel: "noopener noreferrer",
     className: "btn ghost lg block",
-    onClick: () => {
-      onClose();
-      onDonate();
-    }
-  }, /*#__PURE__*/React.createElement(Ico.heart, null), " ", t.beta.donateBtn)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textDecoration: 'none',
+      textAlign: 'center'
+    },
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement(Ico.heart, null), " ", t.beta?.donateBtn || "Soutenir via Telegram")), /*#__PURE__*/React.createElement("div", {
     className: "drawer-legal"
   }, "Association Swiss Resilience en cours de constitution", /*#__PURE__*/React.createElement("br", null), "(Art. 60\u201379 CC Suisse) \xB7 Merkle SHA-256")));
   return ReactDOM.createPortal(drawer, document.body);
@@ -1055,7 +1040,7 @@ function HeroV2({
   }, t.hero.lede), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-cta-group hero-ctas"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "https://t.me/swiss_relief_bot?start=web_hero",
+    href: "https://t.me/SwissResilienceHubBot?start=web_hero",
     target: "_blank",
     rel: "noopener noreferrer",
     className: "v2-btn v2-btn-primary v2-btn-tg btn tg lg"
@@ -1076,7 +1061,7 @@ function HeroV2({
     y2: "13"
   }), /*#__PURE__*/React.createElement("polygon", {
     points: "22 2 15 22 11 13 2 9 22 2"
-  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaBot || "Ouvrir @swiss_relief_bot")), /*#__PURE__*/React.createElement("a", {
+  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaBot || "Ouvrir @SwissResilienceHubBot")), /*#__PURE__*/React.createElement("a", {
     href: "/app/",
     className: "v2-btn v2-btn-secondary btn primary lg"
   }, /*#__PURE__*/React.createElement("svg", {
@@ -2500,13 +2485,17 @@ function BetaSection({
     className: "v2-split-pct"
   }, "30%"), /*#__PURE__*/React.createElement("div", {
     className: "v2-split-desc"
-  }, "D\xE9fense & humanitaire Ukraine"))), /*#__PURE__*/React.createElement("button", {
+  }, "D\xE9fense & humanitaire Ukraine"))), /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/SwissResilienceHubBot?start=donate",
+    target: "_blank",
+    rel: "noopener noreferrer",
     className: "v2-btn v2-btn-primary",
     style: {
       width: '100%',
-      marginTop: 16
-    },
-    onClick: onOpenDonate
+      marginTop: 16,
+      textDecoration: 'none',
+      justifyContent: 'center'
+    }
   }, /*#__PURE__*/React.createElement("svg", {
     width: "14",
     height: "14",
@@ -2518,7 +2507,7 @@ function BetaSection({
     strokeLinejoin: "round"
   }, /*#__PURE__*/React.createElement("path", {
     d: "M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.79 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-  })), t.donate || "Faire un don libre")), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("span", null, t.donate || "Soutenir via Telegram Bot"))), /*#__PURE__*/React.createElement("div", {
     className: "v2-price-card frozen"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-frozen-tag"
@@ -2881,7 +2870,6 @@ Object.assign(window, {
 // SwissRelief 2.6 — App Root Component
 // Implements ADR-016 safe storage, Telegram WebApp stabilization, and quad-lingual i18n routing.
 
-// Safe storage helper resilient to Telegram in-app browser and private mode storage blocks (ADR-016)
 const _appMemStore = {};
 function safeStorageGet(key, def = null) {
   try {
@@ -2897,11 +2885,19 @@ function safeStorageSet(key, val) {
     _appMemStore[key] = val;
   }
 }
-
-// Global aliases for components that call window.safeGet / window.safeSet
 window.safeGet = safeStorageGet;
 window.safeSet = safeStorageSet;
 function App() {
+  const isTMA = (() => {
+    try {
+      const p = window.location.pathname;
+      if (p.includes('/app') || p.includes('/mini-app')) return true;
+      if (window.Telegram?.WebApp?.initData) return true;
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('mode') === 'tma' || params.get('tma') === '1') return true;
+    } catch (e) {}
+    return false;
+  })();
   const [lang, setLang] = React.useState(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -2918,12 +2914,19 @@ function App() {
     } catch (e) {}
     return safeStorageGet('sr26-side', safeStorageGet('sr-v2-side', 'a'));
   });
-  const [service, setService] = React.useState('calc');
+  const [service, setService] = React.useState(() => {
+    try {
+      const h = window.location.hash.replace('#', '');
+      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
+        return h;
+      }
+    } catch (e) {}
+    return 'housing';
+  });
   const [canton, setCanton] = React.useState(() => safeStorageGet('sr26-canton', 'VD'));
   const [status, setStatus] = React.useState(() => safeStorageGet('sr26-status', 'evam')); // evam | salary
   const [income, setIncome] = React.useState(() => Number(safeStorageGet('sr26-income', 4800)) || 4800);
   const [drawerOpen, setDrawer] = React.useState(false);
-  const [donateOpen, setDonate] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
 
   // Persistence
@@ -2959,10 +2962,10 @@ function App() {
           tg.MainButton.setText("🏠 EXPLORER LE LOGEMENT EN ROMANDIE");
           tg.MainButton.show();
           tg.MainButton.onClick(() => {
+            setService('housing');
             window.location.hash = "#housing";
             document.getElementById('housing')?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
+              behavior: 'smooth'
             });
           });
         }
@@ -3012,6 +3015,13 @@ function App() {
       });
     }, 100);
   };
+  const openTelegramDonate = () => {
+    if (window.Telegram?.WebApp && window.Telegram.WebApp.openTelegramLink) {
+      window.Telegram.WebApp.openTelegramLink('https://t.me/SwissResilienceHubBot?start=donate');
+    } else {
+      window.open('https://t.me/SwissResilienceHubBot?start=donate', '_blank');
+    }
+  };
   if (!t || !t.banner) {
     return /*#__PURE__*/React.createElement("div", {
       style: {
@@ -3022,6 +3032,161 @@ function App() {
       }
     }, "Chargement de l'environnement SwissRelief 2.6...");
   }
+
+  // Dedicated Native-like Mini App mode
+  if (isTMA) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "tma-app-root"
+    }, /*#__PURE__*/React.createElement("header", {
+      className: "tma-header"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "tma-brand"
+    }, /*#__PURE__*/React.createElement(BrandMark, {
+      size: 22
+    }), /*#__PURE__*/React.createElement("span", {
+      className: "tma-title"
+    }, "SwissRelief"), /*#__PURE__*/React.createElement("span", {
+      className: "tma-badge"
+    }, "Mini App")), /*#__PURE__*/React.createElement("div", {
+      className: "tma-header-actions"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "tma-side-toggle"
+    }, /*#__PURE__*/React.createElement("button", {
+      className: side === 'a' ? 'active' : '',
+      onClick: () => setSide('a')
+    }, "Permis S"), /*#__PURE__*/React.createElement("button", {
+      className: side === 'b' ? 'active' : '',
+      onClick: () => setSide('b')
+    }, "H\xF4te")), /*#__PURE__*/React.createElement("div", {
+      className: "tma-lang-picker"
+    }, ['fr', 'de', 'it', 'uk'].map(l => /*#__PURE__*/React.createElement("button", {
+      key: l,
+      className: `tma-lang-pill ${lang === l ? 'active' : ''}`,
+      onClick: () => setLang(l),
+      title: l.toUpperCase()
+    }, LANG_FLAGS[l]))))), /*#__PURE__*/React.createElement(ServiceSwitcher, {
+      activeId: service,
+      onPick: pickService,
+      t: t
+    }), /*#__PURE__*/React.createElement("main", {
+      className: "tma-main"
+    }, (service === 'calc' || service === 'housing') && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(CantonCalculatorV2, {
+      t: t,
+      lang: lang,
+      canton: canton,
+      setCanton: setCanton,
+      status: status,
+      income: income
+    }), /*#__PURE__*/React.createElement(HousingSection, {
+      t: t,
+      lang: lang,
+      canton: canton,
+      onGenerate: handleGenerate
+    })), service === 'dossier' && /*#__PURE__*/React.createElement(DossierGenerator, {
+      t: t,
+      lang: lang,
+      prefill: dossierPrefill
+    }), service === 'prof' && /*#__PURE__*/React.createElement(ProfessionSelector, {
+      t: t,
+      lang: lang
+    }), service === 'sublease' && /*#__PURE__*/React.createElement(SubleaseWizard, {
+      t: t
+    }), service === 'mentors' && /*#__PURE__*/React.createElement(BenevolMentors, {
+      t: t
+    }), service === 'beta' && /*#__PURE__*/React.createElement(BetaSection, {
+      onOpenDonate: openTelegramDonate,
+      t: t
+    })), /*#__PURE__*/React.createElement("nav", {
+      className: "tma-bottom-bar",
+      "aria-label": "Navigation Mini App"
+    }, /*#__PURE__*/React.createElement("button", {
+      className: service === 'calc' || service === 'housing' ? 'active' : '',
+      onClick: () => {
+        setSide('a');
+        pickService('calc');
+      }
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M3 12 12 3l9 9M5 10v10h14V10"
+    })), /*#__PURE__*/React.createElement("span", null, t.nav?.housing || "Logement")), /*#__PURE__*/React.createElement("button", {
+      className: service === 'dossier' ? 'active' : '',
+      onClick: () => {
+        setSide('a');
+        pickService('dossier');
+      }
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M14 2v6h6"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M8 13h8M8 17h5"
+    })), /*#__PURE__*/React.createElement("span", null, t.nav?.dossier || "Dossier")), /*#__PURE__*/React.createElement("button", {
+      className: service === 'prof' ? 'active' : '',
+      onClick: () => {
+        setSide('a');
+        pickService('prof');
+      }
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M3 3v18h18"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M7 15l4-4 3 3 5-6"
+    })), /*#__PURE__*/React.createElement("span", null, t.svc?.prof || "Emploi")), /*#__PURE__*/React.createElement("button", {
+      className: service === 'sublease' || service === 'mentors' ? 'active' : '',
+      onClick: () => {
+        setSide('b');
+        pickService(service === 'mentors' ? 'mentors' : 'sublease', 'b');
+      }
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+    })), /*#__PURE__*/React.createElement("span", null, side === 'b' ? t.svc?.mentors || "Mentors" : t.svc?.sublease || "Sous-location")), /*#__PURE__*/React.createElement("button", {
+      className: service === 'beta' ? 'active' : '',
+      onClick: () => pickService('beta')
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "currentColor"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"
+    })), /*#__PURE__*/React.createElement("span", null, t.nav?.donate || "Soutenir"))));
+  }
+
+  // Regular Desktop Landing Page
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(TopBannerV2, {
     t: t
   }), /*#__PURE__*/React.createElement(NavV2, {
@@ -3030,7 +3195,7 @@ function App() {
     side: side,
     setSide: setSide,
     onOpenDrawer: () => setDrawer(true),
-    onOpenDonate: () => setDonate(true),
+    onOpenDonate: openTelegramDonate,
     t: t
   }), /*#__PURE__*/React.createElement(ServiceSwitcher, {
     activeId: service,
@@ -3064,7 +3229,7 @@ function App() {
   }), /*#__PURE__*/React.createElement(BenevolMentors, {
     t: t
   })), /*#__PURE__*/React.createElement(BetaSection, {
-    onOpenDonate: () => setDonate(true),
+    onOpenDonate: openTelegramDonate,
     t: t
   })), /*#__PURE__*/React.createElement(FooterV2, {
     t: t
@@ -3076,11 +3241,8 @@ function App() {
     service: service,
     setService: setService,
     onClose: () => setDrawer(false),
-    onOpenDonate: () => setDonate(true),
-    onDonate: () => setDonate(true),
-    t: t
-  }), donateOpen && /*#__PURE__*/React.createElement(DonationModal, {
-    onClose: () => setDonate(false),
+    onOpenDonate: openTelegramDonate,
+    onDonate: openTelegramDonate,
     t: t
   }));
 }

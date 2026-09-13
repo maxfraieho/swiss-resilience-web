@@ -691,7 +691,7 @@ const SR_I18N = {
       title2: "logement régie",
       title3: " & emploi dans les 26 cantons.",
       lede: "Plateforme souveraine d'intelligence territoriale. Estimations mobilité SBB, plafonds EVAM, dossier régie 1-clic — 100% gratuit en bêta publique.",
-      ctaBot: "Ouvrir @swiss_relief_bot",
+      ctaBot: "Ouvrir @SwissResilienceHubBot",
       ctaApp: "Lancer la Mini App"
     },
     tabs: {
@@ -783,7 +783,7 @@ const SR_I18N = {
       eyebrow: "26 KANTONE · 4 SPRACHEN · S-AUSWEIS · MERKLE",
       title1: "Sozialhilfe-Ansätze, ", title2: "Wohnen bei Verwaltungen", title3: " & Arbeit in 26 Kantonen.",
       lede: "Souveräne Plattform für territoriale Intelligenz. SBB-Mobilitätsschätzungen, EVAM-Obergrenzen, 1-Klick-Bewerbungsdossier — kostenlos in der öffentlichen Beta.",
-      ctaBot: "@swiss_relief_bot öffnen",
+      ctaBot: "@SwissResilienceHubBot öffnen",
       ctaApp: "Mini App starten"
     },
     tabs: {
@@ -857,7 +857,7 @@ const SR_I18N = {
       eyebrow: "26 CANTONI · 4 LINGUE · PERMESSO S · MERKLE",
       title1: "Parametri sociali, ", title2: "alloggio regia", title3: " e lavoro nei 26 cantoni.",
       lede: "Piattaforma sovrana di intelligenza territoriale. Stime SBB, plafond EVAM, dossier 1-clic — gratis in beta pubblica.",
-      ctaBot: "Apri @swiss_relief_bot", ctaApp: "Avvia la Mini App"
+      ctaBot: "Apri @SwissResilienceHubBot", ctaApp: "Avvia la Mini App"
     },
     tabs: {
       seekers: "Candidati Permesso S", seekersSub: "Parametri · Alloggio · Mestieri",
@@ -929,7 +929,7 @@ const SR_I18N = {
       eyebrow: "26 КАНТОНІВ · 4 МОВИ · ДОЗВІЛ S · MERKLE",
       title1: "Соціальні стандарти, ", title2: "житло від режі", title3: " та робота у 26 кантонах.",
       lede: "Суверенна платформа територіальної інтелігенції. Оцінки SBB, ліміти EVAM, досьє в 1 клік — безкоштовно у публічній беті.",
-      ctaBot: "Відкрити @swiss_relief_bot", ctaApp: "Запустити Mini App"
+      ctaBot: "Відкрити @SwissResilienceHubBot", ctaApp: "Запустити Mini App"
     },
     tabs: {
       seekers: "Кандидати Дозвіл S", seekersSub: "Стандарти · Житло · Професії",

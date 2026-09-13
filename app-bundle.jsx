@@ -126,13 +126,13 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
         <div className="v2-nav-actions">
           {/* Direct Telegram Bot Link */}
           <a
-            href="https://t.me/swiss_relief_bot?start=web_hero"
+            href="https://t.me/SwissResilienceHubBot?start=web_nav"
             target="_blank" rel="noopener noreferrer"
             className="v2-btn v2-btn-tg v2-desktop-only"
             style={{ padding: '6px 12px', fontSize: 13, gap: 6 }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            @swiss_relief_bot
+            @SwissResilienceHubBot
           </a>
 
           {/* Desktop language dropdown — MOBILE HIDDEN via CSS */}
@@ -172,15 +172,16 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
             )}
           </div>
 
-          <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener noreferrer" className="v2-btn v2-btn-ghost v2-desktop-only">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>Bot Telegram</span>
-          </a>
-
-          <button className="v2-btn v2-btn-primary v2-donate" onClick={onOpenDonate} aria-label={t.donate}>
+          <a
+            href="https://t.me/SwissResilienceHubBot?start=donate"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="v2-btn v2-btn-primary v2-donate"
+            aria-label={t.donate}
+          >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.79 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             <span className="v2-donate-label">{t.donate}</span>
-          </button>
+          </a>
 
           {/* Mobile active language badge */}
           <button
@@ -458,16 +459,22 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
         {/* Actions */}
         <div className="drawer-actions">
           <a
-            href="https://t.me/swiss_relief_bot?start=web_hero"
+            href="https://t.me/SwissResilienceHubBot?start=web_drawer"
             target="_blank" rel="noopener noreferrer"
             className="btn tg lg block"
             onClick={onClose}
           >
-            <Ico.send/> Ouvrir @swiss_relief_bot
+            <Ico.send/> Ouvrir @SwissResilienceHubBot
           </a>
-          <button className="btn ghost lg block" onClick={() => { onClose(); onDonate(); }}>
-            <Ico.heart/> {t.beta.donateBtn}
-          </button>
+          <a
+            href="https://t.me/SwissResilienceHubBot?start=donate"
+            target="_blank" rel="noopener noreferrer"
+            className="btn ghost lg block"
+            style={{ textDecoration: 'none', textAlign: 'center' }}
+            onClick={onClose}
+          >
+            <Ico.heart/> {t.beta?.donateBtn || "Soutenir via Telegram"}
+          </a>
         </div>
 
         <div className="drawer-legal">
@@ -506,13 +513,13 @@ function HeroV2({ side, setSide, t }) {
 
         <div className="v2-hero-cta-group hero-ctas">
           <a
-            href="https://t.me/swiss_relief_bot?start=web_hero"
+            href="https://t.me/SwissResilienceHubBot?start=web_hero"
             target="_blank"
             rel="noopener noreferrer"
             className="v2-btn v2-btn-primary v2-btn-tg btn tg lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>{t.hero?.ctaBot || "Ouvrir @swiss_relief_bot"}</span>
+            <span>{t.hero?.ctaBot || "Ouvrir @SwissResilienceHubBot"}</span>
           </a>
           <a
             href="/app/"
@@ -1566,12 +1573,18 @@ function BetaSection({ onOpenDonate, t }) {
                 <div className="v2-split-desc">Défense &amp; humanitaire Ukraine</div>
               </div>
             </div>
-            <button className="v2-btn v2-btn-primary" style={{ width: '100%', marginTop: 16 }} onClick={onOpenDonate}>
+            <a
+              href="https://t.me/SwissResilienceHubBot?start=donate"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="v2-btn v2-btn-primary"
+              style={{ width: '100%', marginTop: 16, textDecoration: 'none', justifyContent: 'center' }}
+            >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.79 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
-              {t.donate || "Faire un don libre"}
-            </button>
+              <span>{t.donate || "Soutenir via Telegram Bot"}</span>
+            </a>
           </div>
 
           <div className="v2-price-card frozen">
@@ -1901,7 +1914,6 @@ Object.assign(window, { FooterV2 });
 // SwissRelief 2.6 — App Root Component
 // Implements ADR-016 safe storage, Telegram WebApp stabilization, and quad-lingual i18n routing.
 
-// Safe storage helper resilient to Telegram in-app browser and private mode storage blocks (ADR-016)
 const _appMemStore = {};
 function safeStorageGet(key, def = null) {
   try {
@@ -1919,11 +1931,21 @@ function safeStorageSet(key, val) {
   }
 }
 
-// Global aliases for components that call window.safeGet / window.safeSet
 window.safeGet = safeStorageGet;
 window.safeSet = safeStorageSet;
 
 function App() {
+  const isTMA = (() => {
+    try {
+      const p = window.location.pathname;
+      if (p.includes('/app') || p.includes('/mini-app')) return true;
+      if (window.Telegram?.WebApp?.initData) return true;
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('mode') === 'tma' || params.get('tma') === '1') return true;
+    } catch (e) {}
+    return false;
+  })();
+
   const [lang, setLang] = React.useState(() => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -1942,12 +1964,20 @@ function App() {
     return safeStorageGet('sr26-side', safeStorageGet('sr-v2-side', 'a'));
   });
 
-  const [service, setService] = React.useState('calc');
+  const [service, setService] = React.useState(() => {
+    try {
+      const h = window.location.hash.replace('#', '');
+      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
+        return h;
+      }
+    } catch (e) {}
+    return 'housing';
+  });
+
   const [canton, setCanton] = React.useState(() => safeStorageGet('sr26-canton', 'VD'));
   const [status, setStatus] = React.useState(() => safeStorageGet('sr26-status', 'evam')); // evam | salary
   const [income, setIncome] = React.useState(() => Number(safeStorageGet('sr26-income', 4800)) || 4800);
   const [drawerOpen, setDrawer] = React.useState(false);
-  const [donateOpen, setDonate] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
 
   // Persistence
@@ -1979,8 +2009,9 @@ function App() {
           tg.MainButton.setText("🏠 EXPLORER LE LOGEMENT EN ROMANDIE");
           tg.MainButton.show();
           tg.MainButton.onClick(() => {
+            setService('housing');
             window.location.hash = "#housing";
-            document.getElementById('housing')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('housing')?.scrollIntoView({ behavior: 'smooth' });
           });
         }
       } catch (e) {
@@ -2026,6 +2057,14 @@ function App() {
     }, 100);
   };
 
+  const openTelegramDonate = () => {
+    if (window.Telegram?.WebApp && window.Telegram.WebApp.openTelegramLink) {
+      window.Telegram.WebApp.openTelegramLink('https://t.me/SwissResilienceHubBot?start=donate');
+    } else {
+      window.open('https://t.me/SwissResilienceHubBot?start=donate', '_blank');
+    }
+  };
+
   if (!t || !t.banner) {
     return (
       <div style={{ padding: 40, textAlign: 'center', color: '#CBD5E1', fontFamily: 'Inter, sans-serif' }}>
@@ -2034,6 +2073,135 @@ function App() {
     );
   }
 
+  // Dedicated Native-like Mini App mode
+  if (isTMA) {
+    return (
+      <div className="tma-app-root">
+        <header className="tma-header">
+          <div className="tma-brand">
+            <BrandMark size={22}/>
+            <span className="tma-title">SwissRelief</span>
+            <span className="tma-badge">Mini App</span>
+          </div>
+          <div className="tma-header-actions">
+            <div className="tma-side-toggle">
+              <button
+                className={side === 'a' ? 'active' : ''}
+                onClick={() => setSide('a')}
+              >
+                Permis S
+              </button>
+              <button
+                className={side === 'b' ? 'active' : ''}
+                onClick={() => setSide('b')}
+              >
+                Hôte
+              </button>
+            </div>
+            <div className="tma-lang-picker">
+              {['fr', 'de', 'it', 'uk'].map(l => (
+                <button
+                  key={l}
+                  className={`tma-lang-pill ${lang === l ? 'active' : ''}`}
+                  onClick={() => setLang(l)}
+                  title={l.toUpperCase()}
+                >
+                  {LANG_FLAGS[l]}
+                </button>
+              ))}
+            </div>
+          </div>
+        </header>
+
+        <ServiceSwitcher activeId={service} onPick={pickService} t={t}/>
+
+        <main className="tma-main">
+          {(service === 'calc' || service === 'housing') && (
+            <React.Fragment>
+              <CantonCalculatorV2
+                t={t}
+                lang={lang}
+                canton={canton}
+                setCanton={setCanton}
+                status={status}
+                income={income}
+              />
+              <HousingSection
+                t={t}
+                lang={lang}
+                canton={canton}
+                onGenerate={handleGenerate}
+              />
+            </React.Fragment>
+          )}
+
+          {service === 'dossier' && (
+            <DossierGenerator
+              t={t}
+              lang={lang}
+              prefill={dossierPrefill}
+            />
+          )}
+
+          {service === 'prof' && (
+            <ProfessionSelector t={t} lang={lang}/>
+          )}
+
+          {service === 'sublease' && (
+            <SubleaseWizard t={t}/>
+          )}
+
+          {service === 'mentors' && (
+            <BenevolMentors t={t}/>
+          )}
+
+          {service === 'beta' && (
+            <BetaSection onOpenDonate={openTelegramDonate} t={t}/>
+          )}
+        </main>
+
+        <nav className="tma-bottom-bar" aria-label="Navigation Mini App">
+          <button
+            className={service === 'calc' || service === 'housing' ? 'active' : ''}
+            onClick={() => { setSide('a'); pickService('calc'); }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
+            <span>{t.nav?.housing || "Logement"}</span>
+          </button>
+          <button
+            className={service === 'dossier' ? 'active' : ''}
+            onClick={() => { setSide('a'); pickService('dossier'); }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+            <span>{t.nav?.dossier || "Dossier"}</span>
+          </button>
+          <button
+            className={service === 'prof' ? 'active' : ''}
+            onClick={() => { setSide('a'); pickService('prof'); }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+            <span>{t.svc?.prof || "Emploi"}</span>
+          </button>
+          <button
+            className={service === 'sublease' || service === 'mentors' ? 'active' : ''}
+            onClick={() => { setSide('b'); pickService(service === 'mentors' ? 'mentors' : 'sublease', 'b'); }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>{side === 'b' ? (t.svc?.mentors || "Mentors") : (t.svc?.sublease || "Sous-location")}</span>
+          </button>
+          <button
+            className={service === 'beta' ? 'active' : ''}
+            onClick={() => pickService('beta')}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
+            <span>{t.nav?.donate || "Soutenir"}</span>
+          </button>
+        </nav>
+      </div>
+    );
+  }
+
+  // Regular Desktop Landing Page
   return (
     <React.Fragment>
       <TopBannerV2 t={t}/>
@@ -2043,7 +2211,7 @@ function App() {
         side={side}
         setSide={setSide}
         onOpenDrawer={() => setDrawer(true)}
-        onOpenDonate={() => setDonate(true)}
+        onOpenDonate={openTelegramDonate}
         t={t}
       />
       <ServiceSwitcher activeId={service} onPick={pickService} t={t}/>
@@ -2078,7 +2246,7 @@ function App() {
             <BenevolMentors t={t}/>
           </React.Fragment>
         )}
-        <BetaSection onOpenDonate={() => setDonate(true)} t={t}/>
+        <BetaSection onOpenDonate={openTelegramDonate} t={t}/>
       </main>
       <FooterV2 t={t}/>
 
@@ -2091,12 +2259,11 @@ function App() {
           service={service}
           setService={setService}
           onClose={() => setDrawer(false)}
-          onOpenDonate={() => setDonate(true)}
-          onDonate={() => setDonate(true)}
+          onOpenDonate={openTelegramDonate}
+          onDonate={openTelegramDonate}
           t={t}
         />
       )}
-      {donateOpen && <DonationModal onClose={() => setDonate(false)} t={t}/>}
     </React.Fragment>
   );
 }

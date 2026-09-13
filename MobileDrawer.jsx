@@ -126,16 +126,22 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
         {/* Actions */}
         <div className="drawer-actions">
           <a
-            href="https://t.me/swiss_relief_bot?start=web_hero"
+            href="https://t.me/SwissResilienceHubBot?start=web_drawer"
             target="_blank" rel="noopener noreferrer"
             className="btn tg lg block"
             onClick={onClose}
           >
-            <Ico.send/> Ouvrir @swiss_relief_bot
+            <Ico.send/> Ouvrir @SwissResilienceHubBot
           </a>
-          <button className="btn ghost lg block" onClick={() => { onClose(); onDonate(); }}>
-            <Ico.heart/> {t.beta.donateBtn}
-          </button>
+          <a
+            href="https://t.me/SwissResilienceHubBot?start=donate"
+            target="_blank" rel="noopener noreferrer"
+            className="btn ghost lg block"
+            style={{ textDecoration: 'none', textAlign: 'center' }}
+            onClick={onClose}
+          >
+            <Ico.heart/> {t.beta?.donateBtn || "Soutenir via Telegram"}
+          </a>
         </div>
 
         <div className="drawer-legal">
