@@ -14,8 +14,10 @@ const CANTONS_FALLBACK = [
 const chfV2 = (n) => new Intl.NumberFormat('de-CH', { maximumFractionDigits: 0 })
   .format(Math.round(n)).replace(/,/g, "'");
 
-function CantonCalculatorV2({ t, lang = 'fr' }) {
-  const [canton, setCanton] = React.useState("VD");
+function CantonCalculatorV2({ t, lang = 'fr', canton: propCanton, setCanton: propSetCanton, status = 'evam', income = 0 }) {
+  const [localCanton, setLocalCanton] = React.useState("VD");
+  const canton = propCanton || localCanton;
+  const setCanton = propSetCanton || setLocalCanton;
   const [size, setSize] = React.useState(3);
   const [rentType, setRentType] = React.useState("brut");
   const [testRent, setTestRent] = React.useState(1400);
@@ -28,8 +30,11 @@ function CantonCalculatorV2({ t, lang = 'fr' }) {
   const ceilings = c.ceilings || { 1: 1000, 2: 1200, 3: 1400, 4: 1600, 5: 1800 };
   const raw = ceilings[size] || ceilings[5] || 1200;
 
-  const displayCeiling = (c.basis === rentType) ? raw
+  const rawDisplayCeiling = (c.basis === rentType) ? raw
     : (c.basis === "brut" ? Math.round(raw * 0.85) : Math.round(raw / 0.85));
+
+  const rule33 = (income && Number(income) > 0) ? Math.round(Number(income) * 0.33) : null;
+  const displayCeiling = status === 'salary' && rule33 ? Math.min(rawDisplayCeiling, rule33) : rawDisplayCeiling;
 
   const over = testRent - displayCeiling;
   const compliant = over <= 0;

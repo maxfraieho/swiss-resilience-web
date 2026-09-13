@@ -19,7 +19,7 @@ function BetaSection({ onOpenDonate, t }) {
             </div>
             <p className="v2-price-tag">Filtres USPI · Alertes ORP prioritaires · Dossier de candidature PDF/A packagé.</p>
             <ul className="v2-features">
-              <li><span className="check">✓</span> Filtres avancés Flatfox / Job-Room</li>
+              <li><span className="check">✓</span> Recherche source-agnostique · attribution factuelle régie</li>
               <li><span className="check">✓</span> Alertes push 5 jours priorité</li>
               <li><span className="check">✓</span> Dossier USPI signé PDF/A</li>
             </ul>

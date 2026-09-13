@@ -59,7 +59,7 @@ function FooterV2({ t }) {
         <div className="v2-foot-legal">
           © 2026 SwissRelief — Association en création · Genève / Vaud · Art. 60–79 CC Suisse.
           <br/>
-          Aucun abonnement commercial pendant la Bêta. Toutes les données proviennent des sources officielles (SKOS, cantons, SECO, Job-Room, Tribunal fédéral).
+          Plateforme souveraine d'intelligence territoriale. Données officielles (SKOS, cantons, SECO, régies officielles mandatées, Tribunal fédéral) · Conformité LCD/UWG Art. 5 & ADR-018 Source-Agnostique.
         </div>
       </div>
     </footer>

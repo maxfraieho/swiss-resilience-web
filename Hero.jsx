@@ -14,6 +14,25 @@ function HeroV2({ side, setSide, t }) {
         </h1>
         <p className="v2-hero-sub">{t.hero.lede}</p>
 
+        <div className="v2-hero-cta-group hero-ctas">
+          <a
+            href="https://t.me/swiss_relief_bot?start=web_hero"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="v2-btn v2-btn-primary v2-btn-tg btn tg lg"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <span>{t.hero?.ctaBot || "Ouvrir @swiss_relief_bot"}</span>
+          </a>
+          <a
+            href="/app/"
+            className="v2-btn v2-btn-secondary btn primary lg"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
+            <span>{t.hero?.ctaApp || "Lancer la Mini App"}</span>
+          </a>
+        </div>
+
         <div className="v2-hero-tabs" role="tablist" aria-label="Public cible">
           <button
             className={`v2-hero-tab tab-a ${side === 'a' ? 'active' : ''}`}

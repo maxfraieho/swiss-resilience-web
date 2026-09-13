@@ -55,6 +55,17 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
         </div>
 
         <div className="v2-nav-actions">
+          {/* Direct Telegram Bot Link */}
+          <a
+            href="https://t.me/swiss_relief_bot?start=web_hero"
+            target="_blank" rel="noopener noreferrer"
+            className="v2-btn v2-btn-tg v2-desktop-only"
+            style={{ padding: '6px 12px', fontSize: 13, gap: 6 }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            @swiss_relief_bot
+          </a>
+
           {/* Desktop language dropdown — MOBILE HIDDEN via CSS */}
           <div className="v2-lang-dropdown v2-desktop-only">
             <button
