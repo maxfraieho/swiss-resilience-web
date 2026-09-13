@@ -12,6 +12,8 @@ const files = [
   'MobileDrawer.jsx',
   'Hero.jsx',
   'CantonCalculator.jsx',
+  'HousingCards.jsx',
+  'DossierGenerator.jsx',
   'ProfessionSelector.jsx',
   'Sublease.jsx',
   'BenevolMentors.jsx',
@@ -42,7 +44,7 @@ async function ensureBabel() {
 
 async function build() {
   console.log('1. Reading JSX sources in strict dependency order...');
-  let combinedJsx = '/* Swiss Resilience Navigator 2.5 — Consolidated Bundle */\n';
+  let combinedJsx = '/* Swiss Resilience Navigator 2.6 — Consolidated Bundle */\n';
   
   for (const f of files) {
     const filePath = path.join(rootDir, f);
@@ -76,11 +78,14 @@ async function build() {
   fs.writeFileSync(bundlePath, bundleJs, 'utf8');
   console.log(`3. Generated ${bundlePath} (${(bundleJs.length / 1024).toFixed(1)} KB)`);
 
-  // Also sync to hub/app-bundle.js
-  const hubBundlePath = path.join(rootDir, 'hub', 'app-bundle.js');
-  if (fs.existsSync(path.dirname(hubBundlePath))) {
-    fs.writeFileSync(hubBundlePath, bundleJs, 'utf8');
-    console.log(`   Synced to ${hubBundlePath}`);
+  // Also sync to hub, app, and mini-app subdirectories
+  const syncDirs = ['hub', 'app', 'mini-app'];
+  for (const dir of syncDirs) {
+    const dirBundlePath = path.join(rootDir, dir, 'app-bundle.js');
+    if (fs.existsSync(path.dirname(dirBundlePath))) {
+      fs.writeFileSync(dirBundlePath, bundleJs, 'utf8');
+      console.log(`   Synced to ${dirBundlePath}`);
+    }
   }
 
   console.log('✅ Build complete!');
