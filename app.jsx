@@ -47,12 +47,25 @@ function App() {
       const urlParams = new URLSearchParams(window.location.search);
       const paramSide = urlParams.get('side');
       if (paramSide === 'a' || paramSide === 'b') return paramSide;
+      const viewParam = urlParams.get('view') || urlParams.get('service') || urlParams.get('tab');
+      if (viewParam === 'sublease' || viewParam === 'mentors') return 'b';
+      if (['prof', 'jobs', 'calc', 'housing', 'dossier'].includes(viewParam)) return 'a';
     } catch (e) {}
     return safeStorageGet('sr26-side', safeStorageGet('sr-v2-side', 'a'));
   });
 
   const [service, setService] = React.useState(() => {
     try {
+      const params = new URLSearchParams(window.location.search);
+      const viewParam = params.get('view') || params.get('service') || params.get('tab');
+      if (viewParam) {
+        if (['prof', 'jobs', 'job', 'emplois'].includes(viewParam)) return 'prof';
+        if (['housing', 'calc', 'dossier', 'beta', 'sublease', 'mentors'].includes(viewParam)) return viewParam;
+        if (viewParam === 'checkout' || viewParam === 'donate') return 'beta';
+      }
+      if (params.get('job')) return 'prof';
+      if (params.get('housing') || params.get('item')) return 'housing';
+
       const h = window.location.hash.replace('#', '');
       if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
         return h;
@@ -92,14 +105,9 @@ function App() {
         if (tg.enableClosingConfirmation) {
           tg.enableClosingConfirmation();
         }
+        // In TMA mode, let the native bottom tab bar handle navigation smoothly
         if (tg.MainButton) {
-          tg.MainButton.setText("🏠 EXPLORER LE LOGEMENT EN ROMANDIE");
-          tg.MainButton.show();
-          tg.MainButton.onClick(() => {
-            setService('housing');
-            window.location.hash = "#housing";
-            document.getElementById('housing')?.scrollIntoView({ behavior: 'smooth' });
-          });
+          tg.MainButton.hide();
         }
       } catch (e) {
         console.warn('Telegram WebApp init warning:', e);
@@ -107,20 +115,48 @@ function App() {
     }
   }, []);
 
-  // Hash routing (#housing, #dossier, #calc, #beta, etc.)
+  // Hash & query routing (#housing, #dossier, #prof, ?view=prof, etc.)
   React.useEffect(() => {
-    const applyHash = () => {
-      const h = window.location.hash.replace('#', '');
-      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
-        setService(h);
-        setTimeout(() => {
-          document.getElementById(h)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
+    const checkDeepLink = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const viewParam = params.get('view') || params.get('service') || params.get('tab');
+        let target = null;
+        if (viewParam) {
+          if (['prof', 'jobs', 'job', 'emplois'].includes(viewParam)) {
+            target = 'prof';
+            setSide('a');
+          } else if (['housing', 'calc', 'dossier', 'beta', 'sublease', 'mentors'].includes(viewParam)) {
+            target = viewParam;
+            if (viewParam === 'mentors' || viewParam === 'sublease') setSide('b');
+            else if (viewParam !== 'beta') setSide('a');
+          } else if (viewParam === 'checkout' || viewParam === 'donate') {
+            target = 'beta';
+          }
+        } else if (params.get('job')) {
+          target = 'prof';
+          setSide('a');
+        }
+
+        const h = window.location.hash.replace('#', '');
+        if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
+          target = h;
+          if (h === 'mentors' || h === 'sublease') setSide('b');
+        }
+
+        if (target) {
+          setService(target);
+          setTimeout(() => {
+            const el = document.getElementById(target);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 150);
+        }
+      } catch (e) {}
     };
-    applyHash();
-    window.addEventListener('hashchange', applyHash);
-    return () => window.removeEventListener('hashchange', applyHash);
+
+    checkDeepLink();
+    window.addEventListener('hashchange', checkDeepLink);
+    return () => window.removeEventListener('hashchange', checkDeepLink);
   }, []);
 
   const t = (window.SR_I18N && window.SR_I18N[lang])

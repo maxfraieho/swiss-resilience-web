@@ -879,6 +879,12 @@ function MobileDrawer({
     label: t.housing.eyebrow.split(' · ')[0],
     sub: "Régies · SBB · EVAM"
   }, {
+    id: 'prof',
+    side: 'a',
+    icon: /*#__PURE__*/React.createElement(Ico.chart, null),
+    label: t.nav?.jobs || "Emploi",
+    sub: "Offres · Art. 21a LEI"
+  }, {
     id: 'dossier',
     side: 'a',
     icon: /*#__PURE__*/React.createElement(Ico.file, null),
@@ -1853,9 +1859,397 @@ Object.assign(window, {
 });
 
 // ==================== [Module: ProfessionSelector.jsx] ====================
-// SwissRelief 2.6 — CH-ISCO profession radar (Side A)
-// Connected to all 15 sectors from window.SECTORS with localized titles, salaries, and Art. 21a LEI tags.
-// Fixed stellen-alert stacking: column on mobile, row on desktop (ADR-017 anomaly #3).
+// SwissRelief 2.6 / 2.7 — Emploi & Métiers CH-ISCO + Offres d'emploi vérifiées
+// Intègre les 63 offres d'emploi en direct, la détection Art. 21a LEI, et l'assistant de lettre de motivation en français.
+
+function JobLetterModal({
+  job,
+  onClose,
+  lang = 'fr',
+  t
+}) {
+  const [name, setName] = React.useState(() => window.safeGet ? window.safeGet('sr-cand-name', '') : '');
+  const [phone, setPhone] = React.useState(() => window.safeGet ? window.safeGet('sr-cand-phone', '') : '');
+  const [email, setEmail] = React.useState(() => window.safeGet ? window.safeGet('sr-cand-email', '') : '');
+  const [residence, setResidence] = React.useState(() => window.safeGet ? window.safeGet('sr-cand-city', 'Morges (VD)') : 'Morges (VD)');
+  const [permis, setPermis] = React.useState(() => window.safeGet ? window.safeGet('sr-cand-permis', 'S-VD-2026') : 'S-VD-2026');
+  const [frenchLevel, setFrenchLevel] = React.useState('B1');
+  const [copied, setCopied] = React.useState(false);
+  React.useEffect(() => {
+    if (window.safeSet) {
+      if (name) window.safeSet('sr-cand-name', name);
+      if (phone) window.safeSet('sr-cand-phone', phone);
+      if (email) window.safeSet('sr-cand-email', email);
+      if (residence) window.safeSet('sr-cand-city', residence);
+      if (permis) window.safeSet('sr-cand-permis', permis);
+    }
+  }, [name, phone, email, residence, permis]);
+  const todayStr = React.useMemo(() => {
+    const d = new Date();
+    return d.toLocaleDateString('fr-CH', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  }, []);
+  const generatedLetter = React.useMemo(() => {
+    const candidateDisp = name.trim() || '[Votre Prénom et Nom]';
+    const phoneDisp = phone.trim() || '+41 79 000 00 00';
+    const emailDisp = email.trim() || 'candidat.suisse@email.ch';
+    const resDisp = residence.trim() || 'Morges (VD)';
+    const permisDisp = permis.trim() || 'Permis S · Canton de Vaud';
+    const compDisp = job.company || 'Entreprise suisse';
+    const cityDisp = job.city || 'Suisse';
+    const titleDisp = job.title || 'Poste proposé';
+    const sbbDisp = job.sbb_min ? `${job.sbb_min} minutes` : '15 minutes';
+    return `${candidateDisp}
+${resDisp}
+Tél. : ${phoneDisp} | Email : ${emailDisp}
+Statut : Titulaire du Permis S (${permisDisp}) — Droit de travail immédiat
+
+À l'attention du Service des Ressources Humaines
+${compDisp}
+${cityDisp}, Suisse
+
+${cityDisp}, le ${todayStr}
+
+Objet : Candidature au poste de : ${titleDisp}
+
+Madame, Monsieur,
+
+C'est avec un vif intérêt et une grande motivation que je vous soumets ma candidature pour le poste de ${titleDisp} au sein de votre établissement ${compDisp} à ${cityDisp}.
+
+Actuellement domicilié(e) à ${resDisp}, je dispose d'une accessibilité directe et rapide à votre site (environ ${sbbDisp} via le réseau CFF), ce qui me garantit une parfaite ponctualité, une disponibilité rapide et une grande flexibilité opérationnelle.
+
+Sur le plan administratif, je suis titulaire du statut de protection S (Permis S), lequel m'accorde l'autorisation d'exercer une activité lucrative immédiate en Suisse. L'engagement s'effectue selon la procédure cantonale simplifiée de simple déclaration préalable, sans contingentement, sans taxe pour l'employeur, et sans délai d'attente administratif (conformément aux directives SEM et à la législation fédérale LEI).
+
+Rigoureux(se), volontaire et doté(e) d'une grande conscience professionnelle, j'ai à cœur de m'intégrer rapidement au sein de votre équipe. Je possède un niveau de français opérationnel (${frenchLevel}) me permettant de communiquer efficacement au quotidien et de respecter strictement l'ensemble de vos consignes opérationnelles et de sécurité.
+
+Convaincu(e) de pouvoir apporter une contribution constructive et fiable à ${compDisp}, je me tiens à votre entière disposition pour un entretien à votre convenance.
+
+Je vous remercie chaleureusement de l'attention que vous porterez à ma candidature et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.
+
+
+${candidateDisp}`;
+  }, [name, phone, email, residence, permis, frenchLevel, job, todayStr]);
+  const handleCopy = () => {
+    try {
+      navigator.clipboard.writeText(generatedLetter);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch (e) {
+      console.warn('Copy failed:', e);
+    }
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "modal-backdrop",
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "modal",
+    style: {
+      maxWidth: 780
+    },
+    onClick: e => e.stopPropagation()
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "modal-header"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", null, "\uD83D\uDCC4 Assistant Lettre de Motivation Suisse"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: 0,
+      fontSize: 13,
+      color: 'var(--muted)'
+    }
+  }, "Candidature cibl\xE9e pour ", /*#__PURE__*/React.createElement("strong", null, job.company), " \xB7 ", job.title)), /*#__PURE__*/React.createElement("button", {
+    className: "modal-close",
+    onClick: onClose,
+    "aria-label": "Fermer"
+  }, "\u2715")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+      gap: 12,
+      marginBottom: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      display: 'block',
+      marginBottom: 4
+    }
+  }, "Nom & Pr\xE9nom"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: name,
+    onChange: e => setName(e.target.value),
+    placeholder: "ex. Olena Petrenko",
+    style: {
+      width: '100%',
+      padding: '8px 12px',
+      borderRadius: 8,
+      background: 'rgba(2,6,15,.6)',
+      border: '1px solid var(--line-2)',
+      color: '#fff',
+      fontSize: 13
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      display: 'block',
+      marginBottom: 4
+    }
+  }, "T\xE9l\xE9phone"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: phone,
+    onChange: e => setPhone(e.target.value),
+    placeholder: "+41 79 123 45 67",
+    style: {
+      width: '100%',
+      padding: '8px 12px',
+      borderRadius: 8,
+      background: 'rgba(2,6,15,.6)',
+      border: '1px solid var(--line-2)',
+      color: '#fff',
+      fontSize: 13
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      display: 'block',
+      marginBottom: 4
+    }
+  }, "Email"), /*#__PURE__*/React.createElement("input", {
+    type: "email",
+    value: email,
+    onChange: e => setEmail(e.target.value),
+    placeholder: "votre.email@domaine.ch",
+    style: {
+      width: '100%',
+      padding: '8px 12px',
+      borderRadius: 8,
+      background: 'rgba(2,6,15,.6)',
+      border: '1px solid var(--line-2)',
+      color: '#fff',
+      fontSize: 13
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      display: 'block',
+      marginBottom: 4
+    }
+  }, "Lieu de r\xE9sidence actuel"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: residence,
+    onChange: e => setResidence(e.target.value),
+    placeholder: "ex. Morges (VD)",
+    style: {
+      width: '100%',
+      padding: '8px 12px',
+      borderRadius: 8,
+      background: 'rgba(2,6,15,.6)',
+      border: '1px solid var(--line-2)',
+      color: '#fff',
+      fontSize: 13
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      display: 'block',
+      marginBottom: 4
+    }
+  }, "N\xB0 Dossier Permis S"), /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: permis,
+    onChange: e => setPermis(e.target.value),
+    placeholder: "S-VD-...",
+    style: {
+      width: '100%',
+      padding: '8px 12px',
+      borderRadius: 8,
+      background: 'rgba(2,6,15,.6)',
+      border: '1px solid var(--line-2)',
+      color: '#fff',
+      fontSize: 13
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      display: 'block',
+      marginBottom: 4
+    }
+  }, "Niveau de fran\xE7ais"), /*#__PURE__*/React.createElement("select", {
+    value: frenchLevel,
+    onChange: e => setFrenchLevel(e.target.value),
+    style: {
+      width: '100%',
+      padding: '8px 12px',
+      borderRadius: 8,
+      background: 'rgba(2,6,15,.6)',
+      border: '1px solid var(--line-2)',
+      color: '#fff',
+      fontSize: 13
+    }
+  }, /*#__PURE__*/React.createElement("option", {
+    value: "A2 (notions solides)"
+  }, "A2 (notions solides)"), /*#__PURE__*/React.createElement("option", {
+    value: "B1 (op\xE9rationnel)"
+  }, "B1 (op\xE9rationnel)"), /*#__PURE__*/React.createElement("option", {
+    value: "B2 (courant)"
+  }, "B2 (courant)"), /*#__PURE__*/React.createElement("option", {
+    value: "C1 (autonome)"
+  }, "C1 (autonome)")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#0B1220',
+      border: '1px solid var(--line-2)',
+      borderRadius: 12,
+      padding: 18,
+      maxHeight: '380px',
+      overflowY: 'auto',
+      fontFamily: 'var(--f-mono)',
+      fontSize: 12.5,
+      lineHeight: 1.6,
+      color: '#E2E8F0',
+      whiteSpace: 'pre-wrap',
+      marginBottom: 20
+    }
+  }, generatedLetter), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 10,
+      justifyContent: 'flex-end',
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost",
+    onClick: onClose,
+    style: {
+      padding: '8px 16px',
+      fontSize: 13
+    }
+  }, "Fermer"), /*#__PURE__*/React.createElement("button", {
+    className: "btn primary",
+    onClick: handleCopy,
+    style: {
+      padding: '8px 20px',
+      fontSize: 13,
+      background: copied ? 'var(--emerald-2)' : undefined
+    }
+  }, copied ? '✓ Copié dans le presse-papier !' : '📋 Copier la lettre'))));
+}
+function JobCard({
+  job,
+  t,
+  lang,
+  onOpenLetter
+}) {
+  const isStellen = !!job.stellen;
+  const salaryStr = job.salary_min && job.salary_max ? `CHF ${window.chf ? window.chf(job.salary_min) : job.salary_min} – ${window.chf ? window.chf(job.salary_max) : job.salary_max}` : 'Selon CCT / Barème';
+  return /*#__PURE__*/React.createElement("article", {
+    className: "h-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '16px 16px 8px',
+      borderBottom: '1px solid var(--line-1)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 8,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "regie-badge"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "dot",
+    "aria-hidden": "true"
+  }), job.company), /*#__PURE__*/React.createElement("span", {
+    className: `compliance-badge ${isStellen ? 'warn' : ''}`
+  }, isStellen ? '⏳ Art. 21a LEI (délai ORP)' : '✓ Libre marché')), /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontSize: 15,
+      fontWeight: 700,
+      color: 'var(--ink-0)',
+      margin: '4px 0 6px',
+      lineHeight: 1.35
+    }
+  }, job.title), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      color: 'var(--ink-2)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCCD ", job.city), /*#__PURE__*/React.createElement("span", {
+    className: "v2-mono-tag"
+  }, job.canton), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--muted)',
+      fontSize: 11.5
+    }
+  }, "\xB7 ", job.workload_min, "%\u2013", job.workload_max, "%"))), /*#__PURE__*/React.createElement("div", {
+    className: "h-body",
+    style: {
+      padding: '12px 16px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "h-price-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "h-price",
+    style: {
+      fontSize: 18
+    }
+  }, salaryStr, /*#__PURE__*/React.createElement("span", {
+    className: "per"
+  }, "/ ", lang === 'de' ? 'Monat' : lang === 'it' ? 'mese' : lang === 'uk' ? 'міс.' : 'mois'))), /*#__PURE__*/React.createElement("div", {
+    className: "sbb-pill",
+    style: {
+      margin: '4px 0'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ico"
+  }, /*#__PURE__*/React.createElement(Ico.train, null)), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
+    className: "min"
+  }, job.sbb_min || 12), " min de Morges / Lausanne (CFF)")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      padding: '6px 10px',
+      background: 'rgba(16,185,129,.06)',
+      border: '1px solid rgba(16,185,129,.20)',
+      borderRadius: 6,
+      lineHeight: 1.4
+    }
+  }, "\uD83D\uDFE2 ", /*#__PURE__*/React.createElement("strong", null, "Permis S :"), " Autorisation d'embauche imm\xE9diate sans contingent ni taxe employeur.")), /*#__PURE__*/React.createElement("div", {
+    className: "h-actions",
+    style: {
+      padding: '10px 16px 14px'
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn primary",
+    onClick: () => onOpenLetter(job),
+    style: {
+      flex: '1 1 140px',
+      minHeight: 38,
+      fontSize: 12.5
+    }
+  }, /*#__PURE__*/React.createElement(Ico.file, null), " \uD83D\uDCC4 Lettre de motivation"), /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost",
+    onClick: () => window.open(job.url || 'https://www.job-room.ch', '_blank'),
+    style: {
+      flex: '1 1 110px',
+      minHeight: 38,
+      fontSize: 12.5
+    }
+  }, /*#__PURE__*/React.createElement(Ico.external, null), " Voir l'offre")));
+}
 const SECTORS_FALLBACK = [{
   id: 'HOSP',
   label: 'Hôtellerie & Restauration',
@@ -1961,6 +2355,49 @@ function ProfessionSelector({
   t,
   lang = 'fr'
 }) {
+  const [subTab, setSubTab] = React.useState('offers'); // 'offers' | 'radar'
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [selectedCanton, setSelectedCanton] = React.useState('ALL');
+  const [selectedStatus, setSelectedStatus] = React.useState('ALL'); // 'ALL' | 'FREE' | 'STELLEN'
+  const [limit, setLimit] = React.useState(9);
+  const [activeLetterJob, setActiveLetterJob] = React.useState(null);
+
+  // Load verified job listings from data layer
+  const rawJobs = React.useMemo(() => {
+    return window.JOB_LISTINGS || window.SR_JOBS || [];
+  }, []);
+
+  // Filtered live jobs
+  const filteredJobs = React.useMemo(() => {
+    return rawJobs.filter(j => {
+      if (selectedCanton !== 'ALL' && j.canton !== selectedCanton) return false;
+      if (selectedStatus === 'FREE' && j.stellen) return false;
+      if (selectedStatus === 'STELLEN' && !j.stellen) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const match = j.title && j.title.toLowerCase().includes(q) || j.company && j.company.toLowerCase().includes(q) || j.city && j.city.toLowerCase().includes(q);
+        if (!match) return false;
+      }
+      return true;
+    });
+  }, [rawJobs, selectedCanton, selectedStatus, searchQuery]);
+
+  // Deep-link check: if URL has ?job=<id>, auto-open letter modal for that job
+  React.useEffect(() => {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const targetJobId = p.get('job');
+      if (targetJobId && rawJobs.length > 0) {
+        const found = rawJobs.find(j => j.id === targetJobId);
+        if (found) {
+          setActiveLetterJob(found);
+          setSubTab('offers');
+        }
+      }
+    } catch (e) {}
+  }, [rawJobs]);
+
+  // CH-ISCO Radar sectors
   const rawSectors = typeof window !== 'undefined' && Array.isArray(window.SECTORS) && window.SECTORS.length > 0 ? window.SECTORS : null;
   const sectors = React.useMemo(() => {
     if (!rawSectors) return SECTORS_FALLBACK;
@@ -1989,18 +2426,139 @@ function ProfessionSelector({
   const anyStellen = sector && sector.jobs && sector.jobs.some(j => j.stellen);
   return /*#__PURE__*/React.createElement("section", {
     id: "prof",
-    className: "v2-section"
+    className: "v2-section",
+    style: {
+      background: 'rgba(15,23,42,.35)'
+    }
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-container"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "v2-section-head"
+    className: "v2-section-head",
+    style: {
+      marginBottom: 20
+    }
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-eyebrow"
-  }, t.prof.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, t.prof?.eyebrow || "MODULE 02 · EMPLOI & INSERTION"), /*#__PURE__*/React.createElement("h2", {
     className: "v2-section-title"
-  }, t.prof.title), /*#__PURE__*/React.createElement("p", {
+  }, lang === 'uk' ? 'Каталог вакансій та професії CH-ISCO' : lang === 'de' ? 'Stellenkatalog & CH-ISCO Berufe' : lang === 'it' ? 'Catalogo offerte & Professioni CH-ISCO' : "Offres d'emploi vérifiées & Métiers CH-ISCO"), /*#__PURE__*/React.createElement("p", {
     className: "v2-section-sub"
-  }, t.prof.lede)), /*#__PURE__*/React.createElement("div", {
+  }, lang === 'uk' ? 'Офіційні пропозиції роботи в Romandie, помічник складання мотиваційних листів за нормами Швейцарії та радар зарплат.' : lang === 'de' ? 'Verifizierte Stellen in der Westschweiz, Schweizer Bewerbungsschreiben-Assistent und Lohn-Radar.' : lang === 'it' ? 'Offerte verificate in Romandia, generatore di lettere di motivazione e radar salariale.' : "Offres réelles en Suisse romande, assistant de lettre de motivation selon les normes RH suisses, et radar des salaires CCNT.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 10,
+      marginBottom: 24,
+      borderBottom: '1px solid var(--line-2)',
+      paddingBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: `btn ${subTab === 'offers' ? 'primary' : 'ghost'}`,
+    onClick: () => setSubTab('offers'),
+    style: {
+      padding: '8px 18px',
+      fontSize: 13.5,
+      fontWeight: 700
+    }
+  }, "\uD83D\uDCBC ", lang === 'uk' ? `Вакансії (${rawJobs.length})` : lang === 'de' ? `Stellen (${rawJobs.length})` : `Offres d'emploi (${rawJobs.length})`), /*#__PURE__*/React.createElement("button", {
+    className: `btn ${subTab === 'radar' ? 'primary' : 'ghost'}`,
+    onClick: () => setSubTab('radar'),
+    style: {
+      padding: '8px 18px',
+      fontSize: 13.5,
+      fontWeight: 700
+    }
+  }, "\uD83D\uDCCA ", lang === 'uk' ? 'Тарифна сітка CH-ISCO' : lang === 'de' ? 'Lohntabelle CH-ISCO' : 'Grille salariale CH-ISCO')), subTab === 'offers' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 10,
+      alignItems: 'center',
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    value: searchQuery,
+    onChange: e => setSearchQuery(e.target.value),
+    placeholder: lang === 'uk' ? 'Пошук посади, компанії чи міста...' : "Rechercher un poste, employeur ou ville...",
+    style: {
+      flex: '1 1 240px',
+      padding: '9px 14px',
+      borderRadius: 10,
+      background: 'rgba(2,6,15,.6)',
+      border: '1px solid var(--line-2)',
+      color: '#fff',
+      fontSize: 13.5
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      flexWrap: 'wrap'
+    }
+  }, ['ALL', 'VD', 'BE', 'BS', 'ZH'].map(c => /*#__PURE__*/React.createElement("button", {
+    key: c,
+    className: `amount-chip ${selectedCanton === c ? 'active' : ''}`,
+    onClick: () => setSelectedCanton(c),
+    style: {
+      fontSize: 12,
+      padding: '6px 12px'
+    }
+  }, c === 'ALL' ? lang === 'uk' ? 'Усі кантони' : 'Tous cantons' : c))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: `amount-chip ${selectedStatus === 'ALL' ? 'active' : ''}`,
+    onClick: () => setSelectedStatus('ALL'),
+    style: {
+      fontSize: 12,
+      padding: '6px 12px'
+    }
+  }, lang === 'uk' ? 'Усі статуси' : 'Tous statuts'), /*#__PURE__*/React.createElement("button", {
+    className: `amount-chip ${selectedStatus === 'FREE' ? 'active' : ''}`,
+    onClick: () => setSelectedStatus('FREE'),
+    style: {
+      fontSize: 12,
+      padding: '6px 12px'
+    }
+  }, "\u2713 ", lang === 'uk' ? 'Вільні' : 'Libre marché'), /*#__PURE__*/React.createElement("button", {
+    className: `amount-chip ${selectedStatus === 'STELLEN' ? 'active' : ''}`,
+    onClick: () => setSelectedStatus('STELLEN'),
+    style: {
+      fontSize: 12,
+      padding: '6px 12px'
+    }
+  }, "\u23F3 Art. 21a LEI"))), /*#__PURE__*/React.createElement("div", {
+    className: "housing-list"
+  }, filteredJobs.slice(0, limit).map(j => /*#__PURE__*/React.createElement(JobCard, {
+    key: j.id,
+    job: j,
+    t: t,
+    lang: lang,
+    onOpenLetter: item => setActiveLetterJob(item)
+  }))), filteredJobs.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 40,
+      textAlign: 'center',
+      color: 'var(--muted)',
+      fontSize: 14
+    }
+  }, lang === 'uk' ? 'Жодної вакансії не знайдено за заданими фільтрами.' : "Aucune offre ne correspond aux critères sélectionnés."), limit < filteredJobs.length && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      marginTop: 32
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost",
+    style: {
+      padding: '12px 28px',
+      fontSize: 14,
+      fontWeight: 600
+    },
+    onClick: () => setLimit(prev => prev + 9)
+  }, lang === 'uk' ? `Показати більше вакансій (ще ${filteredJobs.length - limit}) ↓` : `Afficher plus d'offres (encore ${filteredJobs.length - limit}) ↓`))), subTab === 'radar' && /*#__PURE__*/React.createElement("div", {
     className: "v2-card v2-prof-card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-prof-tabs",
@@ -2021,17 +2579,17 @@ function ProfessionSelector({
     className: "v2-stellen-body"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-stellen-title"
-  }, t.prof.stellenTitle), /*#__PURE__*/React.createElement("div", {
+  }, t.prof?.stellenTitle || "Profession soumise à l'obligation d'annoncer (Art. 21a LEI)"), /*#__PURE__*/React.createElement("div", {
     className: "v2-stellen-text"
-  }, t.prof.stellenBody))), /*#__PURE__*/React.createElement("div", {
+  }, t.prof?.stellenBody || "Taux de chômage national ≥ 5%. Le poste doit être réservé aux inscrits ORP pendant 5 jours ouvrables."))), /*#__PURE__*/React.createElement("div", {
     className: "v2-prof-table-wrap"
   }, /*#__PURE__*/React.createElement("table", {
     className: "v2-prof-table"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "ISCO"), /*#__PURE__*/React.createElement("th", null, t.prof.titleCol), /*#__PURE__*/React.createElement("th", null, t.prof.qualif), /*#__PURE__*/React.createElement("th", {
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "ISCO"), /*#__PURE__*/React.createElement("th", null, t.prof?.titleCol || "Intitulé du poste"), /*#__PURE__*/React.createElement("th", null, t.prof?.qualif || "Qualification"), /*#__PURE__*/React.createElement("th", {
     style: {
       textAlign: 'right'
     }
-  }, t.prof.salary), /*#__PURE__*/React.createElement("th", null, t.prof.stellenCol))), /*#__PURE__*/React.createElement("tbody", null, sector.jobs.map((j, i) => /*#__PURE__*/React.createElement("tr", {
+  }, t.prof?.salary || "Fourchette CCNT"), /*#__PURE__*/React.createElement("th", null, t.prof?.stellenCol || "Statut"))), /*#__PURE__*/React.createElement("tbody", null, sector.jobs.map((j, i) => /*#__PURE__*/React.createElement("tr", {
     key: j.isco + '-' + i
   }, /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
     className: "v2-mono-tag"
@@ -2047,16 +2605,23 @@ function ProfessionSelector({
     }
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-salary-range"
-  }, "CHF ", chfV2(j.salary[0]), " \u2013 ", chfV2(j.salary[1]))), /*#__PURE__*/React.createElement("td", null, j.stellen ? /*#__PURE__*/React.createElement("span", {
+  }, "CHF ", window.chf ? window.chf(j.salary[0]) : j.salary[0], " \u2013 ", window.chf ? window.chf(j.salary[1]) : j.salary[1])), /*#__PURE__*/React.createElement("td", null, j.stellen ? /*#__PURE__*/React.createElement("span", {
     className: "v2-status-pill warn",
     title: "Priorit\xE9 ORP / RAV 5 jours"
   }, "\u25CF Art. 21a LEI") : /*#__PURE__*/React.createElement("span", {
     className: "v2-status-pill free",
     title: "March\xE9 libre"
-  }, "Libre"))))))))));
+  }, "Libre")))))))), activeLetterJob && /*#__PURE__*/React.createElement(JobLetterModal, {
+    job: activeLetterJob,
+    onClose: () => setActiveLetterJob(null),
+    lang: lang,
+    t: t
+  })));
 }
 Object.assign(window, {
-  ProfessionSelector
+  ProfessionSelector,
+  JobCard,
+  JobLetterModal
 });
 
 // ==================== [Module: Sublease.jsx] ====================
@@ -2964,11 +3529,23 @@ function App() {
       const urlParams = new URLSearchParams(window.location.search);
       const paramSide = urlParams.get('side');
       if (paramSide === 'a' || paramSide === 'b') return paramSide;
+      const viewParam = urlParams.get('view') || urlParams.get('service') || urlParams.get('tab');
+      if (viewParam === 'sublease' || viewParam === 'mentors') return 'b';
+      if (['prof', 'jobs', 'calc', 'housing', 'dossier'].includes(viewParam)) return 'a';
     } catch (e) {}
     return safeStorageGet('sr26-side', safeStorageGet('sr-v2-side', 'a'));
   });
   const [service, setService] = React.useState(() => {
     try {
+      const params = new URLSearchParams(window.location.search);
+      const viewParam = params.get('view') || params.get('service') || params.get('tab');
+      if (viewParam) {
+        if (['prof', 'jobs', 'job', 'emplois'].includes(viewParam)) return 'prof';
+        if (['housing', 'calc', 'dossier', 'beta', 'sublease', 'mentors'].includes(viewParam)) return viewParam;
+        if (viewParam === 'checkout' || viewParam === 'donate') return 'beta';
+      }
+      if (params.get('job')) return 'prof';
+      if (params.get('housing') || params.get('item')) return 'housing';
       const h = window.location.hash.replace('#', '');
       if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
         return h;
@@ -3011,16 +3588,9 @@ function App() {
         if (tg.enableClosingConfirmation) {
           tg.enableClosingConfirmation();
         }
+        // In TMA mode, let the native bottom tab bar handle navigation smoothly
         if (tg.MainButton) {
-          tg.MainButton.setText("🏠 EXPLORER LE LOGEMENT EN ROMANDIE");
-          tg.MainButton.show();
-          tg.MainButton.onClick(() => {
-            setService('housing');
-            window.location.hash = "#housing";
-            document.getElementById('housing')?.scrollIntoView({
-              behavior: 'smooth'
-            });
-          });
+          tg.MainButton.hide();
         }
       } catch (e) {
         console.warn('Telegram WebApp init warning:', e);
@@ -3028,23 +3598,47 @@ function App() {
     }
   }, []);
 
-  // Hash routing (#housing, #dossier, #calc, #beta, etc.)
+  // Hash & query routing (#housing, #dossier, #prof, ?view=prof, etc.)
   React.useEffect(() => {
-    const applyHash = () => {
-      const h = window.location.hash.replace('#', '');
-      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
-        setService(h);
-        setTimeout(() => {
-          document.getElementById(h)?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }, 100);
-      }
+    const checkDeepLink = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const viewParam = params.get('view') || params.get('service') || params.get('tab');
+        let target = null;
+        if (viewParam) {
+          if (['prof', 'jobs', 'job', 'emplois'].includes(viewParam)) {
+            target = 'prof';
+            setSide('a');
+          } else if (['housing', 'calc', 'dossier', 'beta', 'sublease', 'mentors'].includes(viewParam)) {
+            target = viewParam;
+            if (viewParam === 'mentors' || viewParam === 'sublease') setSide('b');else if (viewParam !== 'beta') setSide('a');
+          } else if (viewParam === 'checkout' || viewParam === 'donate') {
+            target = 'beta';
+          }
+        } else if (params.get('job')) {
+          target = 'prof';
+          setSide('a');
+        }
+        const h = window.location.hash.replace('#', '');
+        if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
+          target = h;
+          if (h === 'mentors' || h === 'sublease') setSide('b');
+        }
+        if (target) {
+          setService(target);
+          setTimeout(() => {
+            const el = document.getElementById(target);
+            if (el) el.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }, 150);
+        }
+      } catch (e) {}
     };
-    applyHash();
-    window.addEventListener('hashchange', applyHash);
-    return () => window.removeEventListener('hashchange', applyHash);
+    checkDeepLink();
+    window.addEventListener('hashchange', checkDeepLink);
+    return () => window.removeEventListener('hashchange', checkDeepLink);
   }, []);
   const t = window.SR_I18N && window.SR_I18N[lang] ? window.SR_I18N[lang] : window.SR_I18N ? window.SR_I18N.fr : {};
   const pickService = (id, s) => {

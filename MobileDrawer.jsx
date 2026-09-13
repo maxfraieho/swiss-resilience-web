@@ -34,6 +34,7 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
   const services = [
     { id: 'calc',    side: 'a', icon: <Ico.house/>, label: t.nav.housing,    sub: "Barèmes EVAM · 26 Cantons" },
     { id: 'housing', side: 'a', icon: <Ico.house/>, label: t.housing.eyebrow.split(' · ')[0], sub: "Régies · SBB · EVAM" },
+    { id: 'prof',    side: 'a', icon: <Ico.chart/>, label: t.nav?.jobs || "Emploi", sub: "Offres · Art. 21a LEI" },
     { id: 'dossier', side: 'a', icon: <Ico.file/>,  label: t.nav.dossier,    sub: "Art. 253 CO · PDF/A" },
     { id: 'beta',    side: null,icon: <Ico.heart/>, label: t.nav.beta,       sub: "0 CHF · Bêta publique" }
   ];
