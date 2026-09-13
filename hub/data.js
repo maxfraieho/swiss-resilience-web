@@ -827,3 +827,32 @@ window.I18N = {
 
 // -------- MOCK MERKLE ROOT (SHA-256, updated cosmetically per session) --------
 window.MERKLE_ROOT = "0x8f3a7c9d2e5b4a1f6c8b9d0e2f4a7c1b3d5e6f8a9b0c1d2e3f4a5b6c7d8e9f0a";
+
+// =====================================================================
+// SwissRelief · Pan-Swiss 2.6 — Housing samples (attribution factuelle régies)
+// =====================================================================
+window.SR_CANTONS = window.CANTONS;
+window.HOUSING_LISTINGS = [
+  { id: "morges-1450", canton: "VD", rooms: 2.5, price: 1450,
+    city:  { fr: "Morges", de: "Morges", it: "Morges", uk: "Морж" },
+    title: { fr: "Appartement 2.5 pièces · Morges centre", de: "2.5-Zimmer-Wohnung · Morges Zentrum", it: "Appartamento 2.5 locali · Morges centro", uk: "Квартира 2.5 кімнати · центр Моржу" },
+    regie: "Gérance Immobilière Bernard Nicod", regieType: "regie",
+    sbb: { minutes: 24, city: "Morges Gare", changes: 1 },
+    compliance: { ok: true, note: { fr: "100% conforme EVAM VD (CHF 1'450 ≤ CHF 1'550)", de: "100% konform EVAM VD", it: "100% conforme EVAM VD", uk: "100% відповідає EVAM VD" } },
+    photoCaption: "Appartement 2.5 pièces" },
+  { id: "lausanne-1720", canton: "VD", rooms: 3, price: 1720,
+    city:  { fr: "Lausanne", de: "Lausanne", it: "Losanna", uk: "Лозанна" },
+    title: { fr: "Appartement 3 pièces · Lausanne Sous-Gare", de: "3-Zimmer-Wohnung · Lausanne Sous-Gare", it: "Appartamento 3 locali · Lausanne Sous-Gare", uk: "Квартира 3 кімнати · Лозанна Sous-Gare" },
+    regie: "Régie Domicim", regieType: "regie",
+    sbb: { minutes: 18, city: "Lausanne Gare", changes: 0 },
+    compliance: { ok: true, note: { fr: "Règle 33% conforme · Revenu ≥ CHF 5'160", de: "33%-Regel OK · Einkommen ≥ CHF 5'160", it: "Regola 33% OK · Reddito ≥ CHF 5'160", uk: "Правило 33% OK · Дохід ≥ CHF 5'160" } },
+    photoCaption: "Appartement 3 pièces" },
+  { id: "nyon-980", canton: "VD", rooms: 1.5, price: 980,
+    city:  { fr: "Nyon", de: "Nyon", it: "Nyon", uk: "Ньон" },
+    title: { fr: "Chambre meublée en sous-location · Nyon", de: "Möbliertes Zimmer in Untermiete · Nyon", it: "Camera arredata in sublocazione · Nyon", uk: "Мебльована кімната в суборенді · Ньон" },
+    regie: "Propriétaire Privé · Art. 262 CO", regieType: "private",
+    sbb: { minutes: 15, city: "Nyon Gare", changes: 0 },
+    compliance: { ok: true, note: { fr: "Sous-location conforme Art. 262 CO · Accord bailleur", de: "Untermiete konform Art. 262 OR", it: "Sublocazione conforme Art. 262 CO", uk: "Суборенда відповідає Ст. 262 CO" } },
+    photoCaption: "Chambre meublée · sous-location" }
+];
+window.SR_HOUSING = window.HOUSING_LISTINGS;
