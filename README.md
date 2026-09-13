@@ -9,8 +9,8 @@ Production-grade web portal and Telegram Mini App (TMA) for the Swiss Resilience
 ## Features
 - **1-Click USPI Rental Dossier Generator** (EVAM financial solvency guarantee, Morges / La Côte régie dossier)
 - **AI French Mock Interviewer** (Phase 11: Musique, IT Repair, Logistique Etoy)
-- **Housing Radar** (<60s Flatfox crawler with EVAM LARA subsidy calculator)
-- **ZSU Solidarity Merkle Ledger** (Cryptographic transparency for 10% donations)
+- **Housing Radar** (Source-agnostic radar with EVAM LARA subsidy calculator & SBB transit mobility)
+- **ZSU Solidarity Merkle Ledger** (Cryptographic transparency for 30% donations)
 - **ORP Career Radar** (Stellenmeldepflicht Art. 21a LEI compliance)
 
 Automated deployments via Cloudflare Pages on \`main\` branch pushes.

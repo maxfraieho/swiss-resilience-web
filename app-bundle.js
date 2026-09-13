@@ -1,4 +1,4 @@
-/* Swiss Resilience Navigator 2.5 — Consolidated Bundle */
+/* Swiss Resilience Navigator 2.6 — Consolidated Bundle */
 
 // ==================== [Module: Nav.jsx] ====================
 // SwissRelief 2.6 — Sticky header (NO backdrop-filter on the wrap = no containing-block trap, ADR-017)
@@ -117,7 +117,33 @@ function NavV2({
     className: "v2-mono-tag"
   }, "26 CANTONS \xB7 4 LANGUES \xB7 ART. 60\u201379 CC")), /*#__PURE__*/React.createElement("div", {
     className: "v2-nav-actions"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/swiss_relief_bot?start=web_hero",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "v2-btn v2-btn-tg v2-desktop-only",
+    style: {
+      padding: '6px 12px',
+      fontSize: 13,
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "14",
+    height: "14",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: "22",
+    y1: "2",
+    x2: "11",
+    y2: "13"
+  }), /*#__PURE__*/React.createElement("polygon", {
+    points: "22 2 15 22 11 13 2 9 22 2"
+  })), "@swiss_relief_bot"), /*#__PURE__*/React.createElement("div", {
     className: "v2-lang-dropdown v2-desktop-only"
   }, /*#__PURE__*/React.createElement("button", {
     className: "v2-lang-btn",
@@ -421,291 +447,190 @@ Object.assign(window, {
 });
 
 // ==================== [Module: MobileDrawer.jsx] ====================
-// SwissRelief 2.6 — Portal-mounted full-height drawer.
-// Uses ReactDOM.createPortal(..., document.body) to escape ANY parent containing block (ADR-017).
+// SwissRelief · Pan-Swiss 2.6 — Mobile Drawer (Anomalie 1 FIX)
+// Rendered via ReactDOM.createPortal to document.body → escapes .nav-wrap
+// containing-block trap. 100dvh, inset:0, z-index 99999.
+// Contains 2×2 language grid (Anomalie 2 FIX).
+
 function MobileDrawer({
   lang,
   setLang,
   side,
   setSide,
+  service,
+  setService,
   onClose,
-  onOpenDonate,
+  onDonate,
   t
 }) {
-  const FLAGS = {
-    fr: "🇫🇷",
-    de: "🇩🇪",
-    it: "🇮🇹",
-    uk: "🇺🇦"
-  };
-  const NAMES = {
-    fr: "Français",
-    de: "Deutsch",
-    it: "Italiano",
-    uk: "Українська"
-  };
+  // Body scroll lock
   React.useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('no-scroll');
     const onKey = e => {
       if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = prev;
+      document.body.classList.remove('no-scroll');
       document.removeEventListener('keydown', onKey);
     };
   }, [onClose]);
-  const gotoService = (targetSide, id) => {
+  const pickLang = l => {
+    setLang(l);
+    // Auto-close (per spec)
+    setTimeout(onClose, 180);
+  };
+  const goto = (targetSide, sectionId) => {
     if (targetSide) setSide(targetSide);
+    if (sectionId) setService(sectionId);
     onClose();
     setTimeout(() => {
-      const el = document.getElementById(id);
+      const el = document.getElementById(sectionId);
       if (el) el.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
-    }, 80);
+    }, 200);
   };
   const services = [{
     id: 'calc',
     side: 'a',
-    label: t.svc.calc,
-    sub: 'EVAM · Hospice · AOZ',
-    icon: /*#__PURE__*/React.createElement("svg", {
-      width: "16",
-      height: "16",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M3 12 12 3l9 9M5 10v10h14V10"
-    }))
+    icon: /*#__PURE__*/React.createElement(Ico.house, null),
+    label: t.nav.housing,
+    sub: "Barèmes EVAM · 26 Cantons"
   }, {
-    id: 'prof',
+    id: 'housing',
     side: 'a',
-    label: t.svc.prof,
-    sub: 'Art. 21a LEI · CH-ISCO',
-    icon: /*#__PURE__*/React.createElement("svg", {
-      width: "16",
-      height: "16",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M3 3v18h18"
-    }), /*#__PURE__*/React.createElement("path", {
-      d: "M7 15l4-4 3 3 5-6"
-    }))
+    icon: /*#__PURE__*/React.createElement(Ico.house, null),
+    label: t.housing.eyebrow.split(' · ')[0],
+    sub: "Régies · SBB · EVAM"
   }, {
-    id: 'sublease',
-    side: 'b',
-    label: t.svc.sublease,
-    sub: '10–20% mobilier · ASLOCA',
-    icon: /*#__PURE__*/React.createElement("svg", {
-      width: "16",
-      height: "16",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2.2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-    }))
-  }, {
-    id: 'mentors',
-    side: 'b',
-    label: t.svc.mentors,
-    sub: 'Art. 394 CO · Benevol',
-    icon: /*#__PURE__*/React.createElement("svg", {
-      width: "16",
-      height: "16",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
-    }), /*#__PURE__*/React.createElement("circle", {
-      cx: "9",
-      cy: "7",
-      r: "4"
-    }), /*#__PURE__*/React.createElement("path", {
-      d: "M23 21v-2a4 4 0 0 0-3-3.87"
-    }), /*#__PURE__*/React.createElement("path", {
-      d: "M16 3.13a4 4 0 0 1 0 7.75"
-    }))
+    id: 'dossier',
+    side: 'a',
+    icon: /*#__PURE__*/React.createElement(Ico.file, null),
+    label: t.nav.dossier,
+    sub: "Art. 253 CO · PDF/A"
   }, {
     id: 'beta',
     side: null,
-    label: t.svc.beta,
-    sub: '0 CHF · Transparence',
-    icon: /*#__PURE__*/React.createElement("svg", {
-      width: "16",
-      height: "16",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round"
-    }, /*#__PURE__*/React.createElement("rect", {
-      x: "3",
-      y: "11",
-      width: "18",
-      height: "11",
-      rx: "2"
-    }), /*#__PURE__*/React.createElement("path", {
-      d: "M7 11V7a5 5 0 0 1 10 0v4"
-    }))
+    icon: /*#__PURE__*/React.createElement(Ico.heart, null),
+    label: t.nav.beta,
+    sub: "0 CHF · Bêta publique"
   }];
-  const overlay = /*#__PURE__*/React.createElement("div", {
-    className: "v2-drawer-overlay",
-    onClick: e => {
-      if (e.target === e.currentTarget) onClose();
-    }
-  }, /*#__PURE__*/React.createElement("aside", {
-    className: "v2-drawer",
+  const drawer = /*#__PURE__*/React.createElement("div", {
+    className: "drawer-overlay",
+    onClick: onClose,
     role: "dialog",
-    "aria-label": "Menu SwissRelief",
-    "aria-modal": "true"
+    "aria-modal": "true",
+    "aria-label": "Menu principal"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "v2-drawer-head"
+    className: "drawer",
+    onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React.createElement("div", {
-    className: "v2-brand"
+    className: "drawer-head"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "brand"
   }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-brand-badge"
+    className: "brand-badge"
   }, /*#__PURE__*/React.createElement(BrandMark, {
     size: 20
   })), /*#__PURE__*/React.createElement("span", {
-    className: "v2-brand-name"
-  }, "SwissRelief", /*#__PURE__*/React.createElement("span", null, "Pan-Swiss 2.6"))), /*#__PURE__*/React.createElement("button", {
-    className: "v2-drawer-close",
+    className: "brand-name"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "primary"
+  }, "SwissRelief"), /*#__PURE__*/React.createElement("span", {
+    className: "badge"
+  }, "PAN-SWISS 2.6 \xB7 B\xCATA \uD83C\uDDE8\uD83C\uDDED\uD83C\uDDFA\uD83C\uDDE6"))), /*#__PURE__*/React.createElement("button", {
+    className: "drawer-close",
     onClick: onClose,
     "aria-label": "Fermer"
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "16",
-    height: "16",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2.4",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M18 6 6 18M6 6l12 12"
-  })))), /*#__PURE__*/React.createElement("section", {
-    className: "v2-drawer-section"
+  }, /*#__PURE__*/React.createElement(Ico.x, null))), /*#__PURE__*/React.createElement("div", {
+    className: "drawer-section"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "v2-drawer-section-title"
-  }, t.drawer.language), /*#__PURE__*/React.createElement("div", {
-    className: "v2-lang-grid"
+    className: "drawer-section-title"
+  }, lang === 'uk' ? 'Мова інтерфейсу' : lang === 'de' ? 'Sprache' : lang === 'it' ? 'Lingua' : 'Langue de l\'interface'), /*#__PURE__*/React.createElement("div", {
+    className: "lang-grid",
+    role: "radiogroup",
+    "aria-label": "Langue"
   }, ['fr', 'de', 'it', 'uk'].map(l => /*#__PURE__*/React.createElement("button", {
     key: l,
-    className: `v2-lang-tile ${l === lang ? 'active' : ''}`,
+    role: "radio",
+    "aria-checked": l === lang,
+    className: `lang-cell ${l === lang ? 'active' : ''}`,
+    onClick: () => pickLang(l)
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "flag",
+    "aria-hidden": "true"
+  }, window.LANG_FLAGS[l]), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 2,
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("span", null, window.SR_I18N[l]?.lang || l.toUpperCase()), /*#__PURE__*/React.createElement("span", {
+    className: "code"
+  }, window.LANG_CODES[l])))))), /*#__PURE__*/React.createElement("div", {
+    className: "drawer-section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "drawer-section-title"
+  }, lang === 'uk' ? 'Оберіть роль' : lang === 'de' ? 'Rolle wählen' : lang === 'it' ? 'Ruolo' : 'Choisir votre rôle'), /*#__PURE__*/React.createElement("div", {
+    className: "dossier-status-toggle"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: side === 'a' ? 'active' : '',
     onClick: () => {
-      setLang(l);
+      setSide('a');
       onClose();
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-lang-tile-flag",
-    "aria-hidden": "true"
-  }, FLAGS[l]), /*#__PURE__*/React.createElement("span", {
-    className: "v2-lang-tile-name"
-  }, NAMES[l]))))), /*#__PURE__*/React.createElement("section", {
-    className: "v2-drawer-section"
+  }, t.tabs.seekers), /*#__PURE__*/React.createElement("button", {
+    className: side === 'b' ? 'active' : '',
+    onClick: () => {
+      setSide('b');
+      onClose();
+    }
+  }, t.tabs.solidarity))), /*#__PURE__*/React.createElement("div", {
+    className: "drawer-section",
+    style: {
+      flex: 1
+    }
   }, /*#__PURE__*/React.createElement("div", {
-    className: "v2-drawer-section-title"
-  }, t.drawer.modules), /*#__PURE__*/React.createElement("div", {
-    className: "v2-drawer-services"
+    className: "drawer-section-title"
+  }, lang === 'uk' ? 'Усі сервіси' : lang === 'de' ? 'Alle Dienste' : lang === 'it' ? 'Tutti i servizi' : 'Tous les services'), /*#__PURE__*/React.createElement("div", {
+    className: "svc-list"
   }, services.map(s => /*#__PURE__*/React.createElement("button", {
     key: s.id,
-    className: "v2-drawer-service",
-    onClick: () => gotoService(s.side, s.id)
-  }, /*#__PURE__*/React.createElement("span", {
-    className: `v2-drawer-svc-icon ${s.side ? `side-${s.side}` : ''}`
-  }, s.icon), /*#__PURE__*/React.createElement("span", {
-    className: "v2-drawer-svc-body"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-drawer-svc-label"
-  }, s.label), /*#__PURE__*/React.createElement("span", {
-    className: "v2-drawer-svc-sub"
-  }, s.sub)), /*#__PURE__*/React.createElement("svg", {
-    width: "16",
-    height: "16",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-    style: {
-      opacity: 0.5
-    }
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M9 6l6 6-6 6"
-  })))))), /*#__PURE__*/React.createElement("div", {
-    className: "v2-drawer-actions"
-  }, /*#__PURE__*/React.createElement("button", {
-    className: "v2-btn v2-btn-primary",
-    style: {
-      width: '100%'
-    },
-    onClick: () => {
-      onClose();
-      onOpenDonate();
-    }
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "14",
-    height: "14",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.79 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-  })), t.donate), /*#__PURE__*/React.createElement("a", {
-    href: "https://t.me/SwissResilienceHubBot",
+    className: `svc-item ${s.side === 'b' ? 'b' : ''}`,
+    onClick: () => goto(s.side, s.id)
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "icon"
+  }, s.icon), /*#__PURE__*/React.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "label"
+  }, s.label), /*#__PURE__*/React.createElement("div", {
+    className: "sub"
+  }, s.sub)), /*#__PURE__*/React.createElement(Ico.arrow, {
+    className: "arrow"
+  }))))), /*#__PURE__*/React.createElement("div", {
+    className: "drawer-actions"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/swiss_relief_bot?start=web_hero",
     target: "_blank",
     rel: "noopener noreferrer",
-    className: "v2-btn v2-btn-ghost",
-    style: {
-      width: '100%',
-      marginTop: 10
+    className: "btn tg lg block",
+    onClick: onClose
+  }, /*#__PURE__*/React.createElement(Ico.send, null), " Ouvrir @swiss_relief_bot"), /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost lg block",
+    onClick: () => {
+      onClose();
+      onDonate();
     }
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "14",
-    height: "14",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("line", {
-    x1: "22",
-    y1: "2",
-    x2: "11",
-    y2: "13"
-  }), /*#__PURE__*/React.createElement("polygon", {
-    points: "22 2 15 22 11 13 2 9 22 2"
-  })), "@SwissResilienceHubBot"), /*#__PURE__*/React.createElement("p", {
-    className: "v2-drawer-legal"
-  }, "Association en cr\xE9ation \u2014 Art. 60\u201379 CC Suisse", /*#__PURE__*/React.createElement("br", null), "B\xEAta publique \xB7 Aucun \xE9molument \xB7 Aucun abonnement payant"))));
-  return ReactDOM.createPortal(overlay, document.body);
+  }, /*#__PURE__*/React.createElement(Ico.heart, null), " ", t.beta.donateBtn)), /*#__PURE__*/React.createElement("div", {
+    className: "drawer-legal"
+  }, "Association Swiss Resilience en cours de constitution", /*#__PURE__*/React.createElement("br", null), "(Art. 60\u201379 CC Suisse) \xB7 Merkle SHA-256")));
+  return ReactDOM.createPortal(drawer, document.body);
 }
+window.MobileDrawer = MobileDrawer;
 Object.assign(window, {
   MobileDrawer
 });
@@ -735,6 +660,45 @@ function HeroV2({
   }, t.hero.line2)), /*#__PURE__*/React.createElement("p", {
     className: "v2-hero-sub"
   }, t.hero.lede), /*#__PURE__*/React.createElement("div", {
+    className: "v2-hero-cta-group hero-ctas"
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/swiss_relief_bot?start=web_hero",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "v2-btn v2-btn-primary v2-btn-tg btn tg lg"
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: "22",
+    y1: "2",
+    x2: "11",
+    y2: "13"
+  }), /*#__PURE__*/React.createElement("polygon", {
+    points: "22 2 15 22 11 13 2 9 22 2"
+  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaBot || "Ouvrir @swiss_relief_bot")), /*#__PURE__*/React.createElement("a", {
+    href: "/app/",
+    className: "v2-btn v2-btn-secondary btn primary lg"
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M3 12 12 3l9 9M5 10v10h14V10"
+  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaApp || "Lancer la Mini App"))), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-tabs",
     role: "tablist",
     "aria-label": "Public cible"
@@ -926,9 +890,15 @@ const chfV2 = n => new Intl.NumberFormat('de-CH', {
 }).format(Math.round(n)).replace(/,/g, "'");
 function CantonCalculatorV2({
   t,
-  lang = 'fr'
+  lang = 'fr',
+  canton: propCanton,
+  setCanton: propSetCanton,
+  status = 'evam',
+  income = 0
 }) {
-  const [canton, setCanton] = React.useState("VD");
+  const [localCanton, setLocalCanton] = React.useState("VD");
+  const canton = propCanton || localCanton;
+  const setCanton = propSetCanton || setLocalCanton;
   const [size, setSize] = React.useState(3);
   const [rentType, setRentType] = React.useState("brut");
   const [testRent, setTestRent] = React.useState(1400);
@@ -942,7 +912,9 @@ function CantonCalculatorV2({
     5: 1800
   };
   const raw = ceilings[size] || ceilings[5] || 1200;
-  const displayCeiling = c.basis === rentType ? raw : c.basis === "brut" ? Math.round(raw * 0.85) : Math.round(raw / 0.85);
+  const rawDisplayCeiling = c.basis === rentType ? raw : c.basis === "brut" ? Math.round(raw * 0.85) : Math.round(raw / 0.85);
+  const rule33 = income && Number(income) > 0 ? Math.round(Number(income) * 0.33) : null;
+  const displayCeiling = status === 'salary' && rule33 ? Math.min(rawDisplayCeiling, rule33) : rawDisplayCeiling;
   const over = testRent - displayCeiling;
   const compliant = over <= 0;
   const cantonName = typeof c.name === 'object' ? c.name[lang] || c.name.fr || c.code : c.name || c.code;
@@ -1115,6 +1087,338 @@ function CantonCalculatorV2({
 Object.assign(window, {
   CantonCalculatorV2,
   chfV2
+});
+
+// ==================== [Module: HousingCards.jsx] ====================
+// SwissRelief · Pan-Swiss 2.6 — Housing Cards (source-agnostic)
+// Attribution factuelle aux régies sans mention de portails tiers (Art. 5 LCD/UWG)
+
+function HousingCard({
+  item,
+  t,
+  lang,
+  onGenerate
+}) {
+  const compOk = item.compliance.ok;
+  const isPrivate = item.regieType === 'private';
+  return /*#__PURE__*/React.createElement("article", {
+    className: "h-card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "h-photo"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "badges"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: `regie-badge ${isPrivate ? 'priv' : ''}`
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "dot",
+    "aria-hidden": "true"
+  }), item.regie), /*#__PURE__*/React.createElement("span", {
+    className: `compliance-badge ${compOk ? '' : 'warn'}`
+  }, compOk ? '✓' : '!', " EVAM")), /*#__PURE__*/React.createElement("div", {
+    className: "placeholder"
+  }, item.photoCaption)), /*#__PURE__*/React.createElement("div", {
+    className: "h-body"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "h-price-row"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "h-price"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "cur"
+  }, "CHF"), window.chf(item.price), /*#__PURE__*/React.createElement("span", {
+    className: "per"
+  }, "/ ", lang === 'de' ? 'Monat' : lang === 'it' ? 'mese' : lang === 'uk' ? 'міс.' : 'mois')), /*#__PURE__*/React.createElement("div", {
+    className: "h-loc"
+  }, item.city[lang], " ", /*#__PURE__*/React.createElement("span", {
+    className: "canton"
+  }, "\xB7 ", item.canton))), /*#__PURE__*/React.createElement("div", {
+    className: "h-title"
+  }, item.title[lang]), /*#__PURE__*/React.createElement("div", {
+    className: "sbb-pill"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ico"
+  }, /*#__PURE__*/React.createElement(Ico.train, null)), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
+    className: "min"
+  }, item.sbb.minutes), " min \u2192 ", item.sbb.city), /*#__PURE__*/React.createElement("span", {
+    className: "swap"
+  }, t.housing.changes(item.sbb.changes))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)',
+      padding: '6px 10px',
+      background: 'rgba(16,185,129,.06)',
+      border: '1px solid rgba(16,185,129,.20)',
+      borderRadius: 6,
+      lineHeight: 1.4
+    }
+  }, "\uD83D\uDFE2 ", item.compliance.note[lang])), /*#__PURE__*/React.createElement("div", {
+    className: "h-actions"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn primary",
+    onClick: () => onGenerate(item)
+  }, /*#__PURE__*/React.createElement(Ico.file, null), " ", t.housing.generate), /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost"
+  }, /*#__PURE__*/React.createElement(Ico.train, null), " ", t.housing.sbb)));
+}
+function HousingSection({
+  t,
+  lang,
+  canton,
+  onGenerate
+}) {
+  const items = React.useMemo(() => {
+    return (window.SR_HOUSING || window.HOUSING_LISTINGS || []).filter(h => canton === 'ALL' || h.canton === canton || canton === 'VD');
+  }, [canton]);
+  return /*#__PURE__*/React.createElement("section", {
+    id: "housing",
+    className: "block",
+    style: {
+      background: 'rgba(15,23,42,.25)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "section-eyebrow"
+  }, t.housing.eyebrow), /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, t.housing.title), /*#__PURE__*/React.createElement("p", {
+    className: "section-sub"
+  }, t.housing.lede), /*#__PURE__*/React.createElement("div", {
+    className: "housing-list"
+  }, items.map(it => /*#__PURE__*/React.createElement(HousingCard, {
+    key: it.id,
+    item: it,
+    t: t,
+    lang: lang,
+    onGenerate: onGenerate
+  })))));
+}
+Object.assign(window, {
+  HousingCard,
+  HousingSection
+});
+
+// ==================== [Module: DossierGenerator.jsx] ====================
+// SwissRelief · Pan-Swiss 2.6 — Générateur de Dossier Régie 1-Click (Art. 253 CO)
+
+function DossierGenerator({
+  t,
+  lang,
+  prefill
+}) {
+  const [name, setName] = React.useState('Maryna Vokovytch');
+  const [permis, setPermis] = React.useState('S-VD-2024-0847');
+  const [statusForm, setStatusForm] = React.useState('evam'); // evam | salary
+  const [salary, setSalary] = React.useState(4800);
+  const [guarantors, setGuarantors] = React.useState('—');
+  const [poursuites, setPoursuites] = React.useState('has');
+  const [previewLang, setPreviewLang] = React.useState('fr'); // fr | de
+
+  // Prefill from a housing card
+  const listing = prefill || window.SR_HOUSING[0];
+  const today = new Date().toLocaleDateString(previewLang === 'de' ? 'de-CH' : 'fr-CH', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  const financialLine = statusForm === 'evam' ? previewLang === 'de' ? "Die Miete wird vollständig durch das kantonale Amt EVAM (Vaud) übernommen, gemäss der bundesrechtlichen Kostenübernahme für Personen mit S-Ausweis." : "Le loyer est intégralement pris en charge par l'organe cantonal EVAM (Vaud), au titre de la couverture fédérale des personnes titulaires du Permis S." : previewLang === 'de' ? `Mein regelmässiges Nettoeinkommen beträgt CHF ${window.chf(salary)}/Monat, was der 33%-Regel (max. CHF ${window.chf(Math.round(salary * 0.33))}) entspricht.` : `Mon revenu net régulier s'élève à CHF ${window.chf(salary)}/mois, respectant la règle des 33% (loyer max. CHF ${window.chf(Math.round(salary * 0.33))}).`;
+  const poursuitesLine = poursuites === 'has' ? previewLang === 'de' ? "Ein aktueller Betreibungsregisterauszug (leer, weniger als 3 Monate alt) liegt diesem Schreiben bei." : "Un extrait du Registre des Poursuites (vierge, daté de moins de 3 mois) est joint à la présente." : previewLang === 'de' ? "Der Betreibungsregisterauszug wurde beim zuständigen Amt beantragt und wird innerhalb von 5 Werktagen nachgereicht." : "L'extrait du Registre des Poursuites a été demandé à l'Office et sera transmis sous 5 jours ouvrés.";
+  const salutation = previewLang === 'de' ? "Sehr geehrte Damen und Herren," : "Madame, Monsieur,";
+  const opening = previewLang === 'de' ? `mit Interesse habe ich Ihr Angebot für die ${listing.title.de} zur Kenntnis genommen und erlaube mir, mich hiermit als Mieter/in zu bewerben.` : `Ayant pris connaissance avec grand intérêt de votre annonce concernant l'${listing.title.fr.toLowerCase()}, je me permets par la présente de me porter candidat·e à la location de ce bien.`;
+  const closing = previewLang === 'de' ? "Für ein Vorstellungsgespräch stehe ich Ihnen gerne zur Verfügung. In der Zwischenzeit danke ich Ihnen für die Prüfung meiner Bewerbung und verbleibe mit freundlichen Grüssen," : "Je me tiens à votre entière disposition pour un entretien de présentation. Dans cette attente, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.";
+  const cityName = listing.city.fr;
+  const priceLine = `CHF ${window.chf(listing.price)}/mois`;
+  return /*#__PURE__*/React.createElement("section", {
+    id: "dossier",
+    className: "block",
+    style: {
+      background: 'rgba(213,43,30,.03)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "section-eyebrow"
+  }, t.dossier.eyebrow), /*#__PURE__*/React.createElement("h2", {
+    className: "section-title"
+  }, t.dossier.title), /*#__PURE__*/React.createElement("p", {
+    className: "section-sub"
+  }, t.dossier.lede), /*#__PURE__*/React.createElement("div", {
+    className: "dossier-grid"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: 'var(--f-mono)',
+      fontSize: 10.5,
+      letterSpacing: '.08em',
+      textTransform: 'uppercase',
+      color: 'var(--gold-2)',
+      fontWeight: 700,
+      marginBottom: 14
+    }
+  }, "\uD83D\uDCC4 ", t.dossier.formTitle), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '10px 12px',
+      marginBottom: 16,
+      background: 'rgba(213,43,30,.08)',
+      border: '1px solid rgba(213,43,30,.25)',
+      borderRadius: 10,
+      fontSize: 12,
+      color: 'var(--ink-2)',
+      lineHeight: 1.5
+    }
+  }, /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: 'var(--ink-0)'
+    }
+  }, "Bien cibl\xE9 :"), " ", listing.title[lang], /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    className: "mono",
+    style: {
+      color: 'var(--muted)',
+      fontSize: 11
+    }
+  }, listing.regie, " \xB7 CHF ", window.chf(listing.price), "/mois \xB7 ", listing.city[lang])), /*#__PURE__*/React.createElement("div", {
+    className: "field"
+  }, /*#__PURE__*/React.createElement("label", null, t.dossier.name), /*#__PURE__*/React.createElement("input", {
+    className: "input",
+    value: name,
+    onChange: e => setName(e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "field"
+  }, /*#__PURE__*/React.createElement("label", null, t.dossier.permis), /*#__PURE__*/React.createElement("input", {
+    className: "input mono",
+    value: permis,
+    onChange: e => setPermis(e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "field"
+  }, /*#__PURE__*/React.createElement("label", null, t.dossier.status), /*#__PURE__*/React.createElement("div", {
+    className: "dossier-status-toggle"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: statusForm === 'evam' ? 'active' : '',
+    onClick: () => setStatusForm('evam')
+  }, "\uD83D\uDCCB ", t.dossier.evamPec), /*#__PURE__*/React.createElement("button", {
+    className: statusForm === 'salary' ? 'active' : '',
+    onClick: () => setStatusForm('salary')
+  }, "\uD83D\uDCBC ", lang === 'de' ? 'Lohn' : lang === 'it' ? 'Salario' : lang === 'uk' ? 'Зарплата' : 'Salaire'))), statusForm === 'salary' && /*#__PURE__*/React.createElement("div", {
+    className: "field"
+  }, /*#__PURE__*/React.createElement("label", null, t.dossier.salary), /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    className: "input mono",
+    value: salary,
+    onChange: e => setSalary(Number(e.target.value) || 0)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "field"
+  }, /*#__PURE__*/React.createElement("label", null, t.dossier.guarantors), /*#__PURE__*/React.createElement("input", {
+    className: "input",
+    value: guarantors,
+    onChange: e => setGuarantors(e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "field",
+    style: {
+      marginBottom: 0
+    }
+  }, /*#__PURE__*/React.createElement("label", null, t.dossier.poursuites), /*#__PURE__*/React.createElement("div", {
+    className: "dossier-status-toggle"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: poursuites === 'has' ? 'active' : '',
+    onClick: () => setPoursuites('has')
+  }, "\u2713 ", t.dossier.hasIt), /*#__PURE__*/React.createElement("button", {
+    className: poursuites === 'will' ? 'active' : '',
+    onClick: () => setPoursuites('will')
+  }, "\u23F3 ", t.dossier.willGet)))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "lang-preview-toggle"
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: 'var(--f-mono)',
+      fontSize: 10.5,
+      letterSpacing: '.08em',
+      textTransform: 'uppercase',
+      color: 'var(--muted)',
+      padding: '6px 8px',
+      fontWeight: 600
+    }
+  }, t.dossier.previewIn), /*#__PURE__*/React.createElement("button", {
+    className: previewLang === 'fr' ? 'active' : '',
+    onClick: () => setPreviewLang('fr')
+  }, "\uD83C\uDDEB\uD83C\uDDF7 FR"), /*#__PURE__*/React.createElement("button", {
+    className: previewLang === 'de' ? 'active' : '',
+    onClick: () => setPreviewLang('de')
+  }, "\uD83C\uDDE9\uD83C\uDDEA DE")), /*#__PURE__*/React.createElement("div", {
+    className: "letter",
+    role: "document"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "from"
+  }, /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: '#0f172a'
+    }
+  }, name), /*#__PURE__*/React.createElement("br", null), previewLang === 'de' ? 'S-Ausweis Nr.' : 'Permis S n°', " ", /*#__PURE__*/React.createElement("span", {
+    className: "highlight"
+  }, permis), /*#__PURE__*/React.createElement("br", null), "c/o EVAM, Route de Chavannes 33", /*#__PURE__*/React.createElement("br", null), "1007 Lausanne \xB7 +41 21 XXX XX XX"), /*#__PURE__*/React.createElement("div", {
+    className: "to"
+  }, /*#__PURE__*/React.createElement("b", null, listing.regie), /*#__PURE__*/React.createElement("br", null), previewLang === 'de' ? 'Vermietungsabteilung' : 'Service Location', /*#__PURE__*/React.createElement("br", null), "Case postale", /*#__PURE__*/React.createElement("br", null), "1000 Lausanne"), /*#__PURE__*/React.createElement("div", {
+    className: "place-date"
+  }, "Lausanne, ", today), /*#__PURE__*/React.createElement("div", {
+    className: "subject"
+  }, previewLang === 'de' ? `Betreff: Bewerbung für die Miete – ${listing.title.de}` : `Objet : Candidature à la location – ${listing.title.fr}`, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontWeight: 400,
+      fontSize: 11,
+      color: '#64748B'
+    }
+  }, "R\xE9f. annonce : ", /*#__PURE__*/React.createElement("span", {
+    className: "highlight"
+  }, listing.id.toUpperCase()), " \xB7 ", priceLine)), /*#__PURE__*/React.createElement("p", {
+    style: {
+      marginTop: 8
+    }
+  }, salutation), /*#__PURE__*/React.createElement("p", null, opening), /*#__PURE__*/React.createElement("div", {
+    className: "listing-box"
+  }, /*#__PURE__*/React.createElement("b", null, previewLang === 'de' ? 'Betroffenes Objekt' : 'Objet concerné'), /*#__PURE__*/React.createElement("br", null), listing.title[previewLang === 'de' ? 'de' : 'fr'], /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#64748B'
+    }
+  }, listing.city[previewLang === 'de' ? 'de' : 'fr'], " \xB7 ", priceLine, " \xB7 ", listing.rooms, " ", previewLang === 'de' ? 'Zimmer' : 'pièces')), /*#__PURE__*/React.createElement("p", null, financialLine), /*#__PURE__*/React.createElement("p", null, poursuitesLine), /*#__PURE__*/React.createElement("p", {
+    style: {
+      marginTop: 14
+    }
+  }, closing), /*#__PURE__*/React.createElement("div", {
+    className: "sig"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "line"
+  }), previewLang === 'de' ? 'Unterschrift' : 'Signature'), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "line"
+  }), previewLang === 'de' ? 'Ort · Datum' : 'Lieu · Date')), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 22,
+      paddingTop: 14,
+      borderTop: '1px dotted rgba(0,0,0,.18)',
+      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontSize: 10,
+      color: '#94A3B8',
+      lineHeight: 1.5
+    }
+  }, /*#__PURE__*/React.createElement("b", null, previewLang === 'de' ? 'Beilagen' : 'Annexes', " :"), ' ', previewLang === 'de' ? 'Kopie S-Ausweis · EVAM-Kostenübernahmebestätigung · Betreibungsauszug' : 'Copie Permis S · Attestation EVAM · Extrait Poursuites', /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: '#D97706'
+    }
+  }, previewLang === 'de' ? 'Erstellt mit SwissRelief 2.6 · Art. 253 OR konform · Merkle SHA-256' : 'Généré via SwissRelief 2.6 · Conforme Art. 253 CO · Merkle SHA-256'))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      marginTop: 12,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn primary",
+    onClick: () => alert('Génération PDF/A (mock)')
+  }, /*#__PURE__*/React.createElement(Ico.file, null), " ", t.dossier.downloadPdf), /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost",
+    onClick: () => alert('Texte copié dans le presse-papier (mock)')
+  }, t.dossier.copyText))))));
+}
+window.DossierGenerator = DossierGenerator;
+Object.assign(window, {
+  DossierGenerator
 });
 
 // ==================== [Module: ProfessionSelector.jsx] ====================
@@ -1768,7 +2072,7 @@ function BetaSection({
     className: "v2-features"
   }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("span", {
     className: "check"
-  }, "\u2713"), " Filtres avanc\xE9s Flatfox / Job-Room"), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("span", {
+  }, "\u2713"), " Recherche source-agnostique \xB7 attribution factuelle r\xE9gie"), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("span", {
     className: "check"
   }, "\u2713"), " Alertes push 5 jours priorit\xE9"), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("span", {
     className: "check"
@@ -2174,7 +2478,7 @@ function FooterV2({
     className: "v2-comp-chip"
   }, "TMA v7.10")), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-legal"
-  }, "\xA9 2026 SwissRelief \u2014 Association en cr\xE9ation \xB7 Gen\xE8ve / Vaud \xB7 Art. 60\u201379 CC Suisse.", /*#__PURE__*/React.createElement("br", null), "Aucun abonnement commercial pendant la B\xEAta. Toutes les donn\xE9es proviennent des sources officielles (SKOS, cantons, SECO, Job-Room, Tribunal f\xE9d\xE9ral).")));
+  }, "\xA9 2026 SwissRelief \u2014 Association en cr\xE9ation \xB7 Gen\xE8ve / Vaud \xB7 Art. 60\u201379 CC Suisse.", /*#__PURE__*/React.createElement("br", null), "Plateforme souveraine d'intelligence territoriale. Donn\xE9es officielles (SKOS, cantons, SECO, r\xE9gies officielles mandat\xE9es, Tribunal f\xE9d\xE9ral) \xB7 Conformit\xE9 LCD/UWG Art. 5 & ADR-018 Source-Agnostique.")));
 }
 Object.assign(window, {
   FooterV2
@@ -2200,6 +2504,10 @@ function safeStorageSet(key, val) {
     _memStore[key] = val;
   }
 }
+
+// Global aliases for components that call window.safeGet / window.safeSet
+window.safeGet = safeStorageGet;
+window.safeSet = safeStorageSet;
 function App() {
   const [lang, setLang] = React.useState(() => {
     try {
@@ -2207,7 +2515,7 @@ function App() {
       const paramLang = urlParams.get('lang');
       if (paramLang && ['fr', 'de', 'it', 'uk'].includes(paramLang)) return paramLang;
     } catch (e) {}
-    return safeStorageGet('sr-v2-lang', 'fr');
+    return safeStorageGet('sr26-lang', safeStorageGet('sr-v2-lang', 'fr'));
   });
   const [side, setSide] = React.useState(() => {
     try {
@@ -2215,31 +2523,79 @@ function App() {
       const paramSide = urlParams.get('side');
       if (paramSide === 'a' || paramSide === 'b') return paramSide;
     } catch (e) {}
-    return safeStorageGet('sr-v2-side', 'a');
+    return safeStorageGet('sr26-side', safeStorageGet('sr-v2-side', 'a'));
   });
   const [service, setService] = React.useState('calc');
+  const [canton, setCanton] = React.useState(() => safeStorageGet('sr26-canton', 'VD'));
+  const [status, setStatus] = React.useState(() => safeStorageGet('sr26-status', 'evam')); // evam | salary
+  const [income, setIncome] = React.useState(() => Number(safeStorageGet('sr26-income', 4800)) || 4800);
   const [drawerOpen, setDrawer] = React.useState(false);
   const [donateOpen, setDonate] = React.useState(false);
+  const [dossierPrefill, setPrefill] = React.useState(null);
+
+  // Persistence
   React.useEffect(() => {
+    safeStorageSet('sr26-lang', lang);
     safeStorageSet('sr-v2-lang', lang);
   }, [lang]);
   React.useEffect(() => {
+    safeStorageSet('sr26-side', side);
     safeStorageSet('sr-v2-side', side);
   }, [side]);
+  React.useEffect(() => {
+    safeStorageSet('sr26-canton', canton);
+  }, [canton]);
+  React.useEffect(() => {
+    safeStorageSet('sr26-status', status);
+  }, [status]);
+  React.useEffect(() => {
+    safeStorageSet('sr26-income', String(income));
+  }, [income]);
 
   // Early Telegram WebApp initialization and stabilization
   React.useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       try {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-        if (window.Telegram.WebApp.enableClosingConfirmation) {
-          window.Telegram.WebApp.enableClosingConfirmation();
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        if (tg.enableClosingConfirmation) {
+          tg.enableClosingConfirmation();
+        }
+        if (tg.MainButton) {
+          tg.MainButton.setText("🏠 EXPLORER LE LOGEMENT EN ROMANDIE");
+          tg.MainButton.show();
+          tg.MainButton.onClick(() => {
+            window.location.hash = "#housing";
+            document.getElementById('housing')?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          });
         }
       } catch (e) {
         console.warn('Telegram WebApp init warning:', e);
       }
     }
+  }, []);
+
+  // Hash routing (#housing, #dossier, #calc, #beta, etc.)
+  React.useEffect(() => {
+    const applyHash = () => {
+      const h = window.location.hash.replace('#', '');
+      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
+        setService(h);
+        setTimeout(() => {
+          document.getElementById(h)?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 100);
+      }
+    };
+    applyHash();
+    window.addEventListener('hashchange', applyHash);
+    return () => window.removeEventListener('hashchange', applyHash);
   }, []);
   const t = window.SR_I18N && window.SR_I18N[lang] ? window.SR_I18N[lang] : window.SR_I18N ? window.SR_I18N.fr : {};
   const pickService = (id, s) => {
@@ -2252,6 +2608,16 @@ function App() {
         block: 'start'
       });
     }, 40);
+  };
+  const handleGenerate = item => {
+    setPrefill(item);
+    setService('dossier');
+    setTimeout(() => {
+      document.getElementById('dossier')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 100);
   };
   if (!t || !t.banner) {
     return /*#__PURE__*/React.createElement("div", {
@@ -2283,7 +2649,20 @@ function App() {
     t: t
   }), side === 'a' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(CantonCalculatorV2, {
     t: t,
-    lang: lang
+    lang: lang,
+    canton: canton,
+    setCanton: setCanton,
+    status: status,
+    income: income
+  }), /*#__PURE__*/React.createElement(HousingSection, {
+    t: t,
+    lang: lang,
+    canton: canton,
+    onGenerate: handleGenerate
+  }), /*#__PURE__*/React.createElement(DossierGenerator, {
+    t: t,
+    lang: lang,
+    prefill: dossierPrefill
   }), /*#__PURE__*/React.createElement(ProfessionSelector, {
     t: t,
     lang: lang
@@ -2301,8 +2680,11 @@ function App() {
     setLang: setLang,
     side: side,
     setSide: setSide,
+    service: service,
+    setService: setService,
     onClose: () => setDrawer(false),
     onOpenDonate: () => setDonate(true),
+    onDonate: () => setDonate(true),
     t: t
   }), donateOpen && /*#__PURE__*/React.createElement(DonationModal, {
     onClose: () => setDonate(false),

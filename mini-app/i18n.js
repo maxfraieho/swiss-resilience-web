@@ -666,3 +666,351 @@ window.SR_I18N = {
     }
   }
 };
+
+
+// =====================================================================
+// PAN-SWISS 2.6 I18N EXTENSION (sr-i18n.jsx)
+// =====================================================================
+(function() {
+// SwissRelief · Pan-Swiss 2.6 — minimal i18n dictionary (FR/DE/IT/UK)
+const SR_I18N = {
+  fr: {
+    lang: "Français",
+    lei: {
+      pill: "Art. 21a LEI",
+      pill2: "Stellenmeldepflicht",
+      text: "Certaines professions listées CH-ISCO-19 sont soumises à l'obligation d'annonce. SwissRelief indique le statut de chaque poste."
+    },
+    nav: {
+      housing: "Logement", jobs: "Emploi", dossier: "Dossier régie",
+      solidarity: "Solidarité", beta: "Bêta libre"
+    },
+    hero: {
+      eyebrow: "26 CANTONS · 4 LANGUES · PERMIS S · MERKLE",
+      title1: "Barèmes sociaux, ",
+      title2: "logement régie",
+      title3: " & emploi dans les 26 cantons.",
+      lede: "Plateforme souveraine d'intelligence territoriale. Estimations mobilité SBB, plafonds EVAM, dossier régie 1-clic — 100% gratuit en bêta publique.",
+      ctaBot: "Ouvrir @swiss_relief_bot",
+      ctaApp: "Lancer la Mini App"
+    },
+    tabs: {
+      seekers: "Candidats Permis S",
+      seekersSub: "Barèmes · Logement · Métiers",
+      solidarity: "Hôtes solidaires",
+      solSub: "Sous-location Art. 262 CO · Mentors"
+    },
+    metrics: [
+      { k: "Cantons", v: "26", d: "Barèmes EVAM/Hospice/AOZ" },
+      { k: "Régies", v: "180+", d: "Attribution factuelle" },
+      { k: "Langues", v: "4", d: "FR · DE · IT · UK" },
+      { k: "Rétrocession ZSU", v: "30%", d: "Preuve Merkle SHA-256" }
+    ],
+    calc: {
+      eyebrow: "Calculateur de plafond",
+      title: "Plafond de loyer par canton",
+      lede: "Sélectionnez votre canton et la taille du ménage. Le calculateur applique les barèmes EVAM (VD), Hospice général (GE), AOZ (ZH), Migration BE, et signale la conformité de la règle des 33% du revenu.",
+      canton: "Canton",
+      size: "Taille du ménage",
+      persons: (n) => `${n} pers.`,
+      status: "Statut financier",
+      evam: "Prise en charge EVAM",
+      salary: "Revenu salarié",
+      income: "Revenu net mensuel (CHF)",
+      testRent: "Loyer testé (CHF/mois)",
+      ceiling: "Plafond applicable",
+      basis: "Base",
+      authority: "Autorité",
+      compliant: "✓ 100% conforme au barème cantonal",
+      overBy: "Dépassement de",
+      overNote: "Loyer supérieur au plafond — une prise en charge partielle ou une demande dérogatoire motivée est requise.",
+      brut: "Loyer brut (charges incl.)",
+      net: "Loyer net"
+    },
+    housing: {
+      eyebrow: "Logement · Source-agnostique",
+      title: "Annonces vérifiées, attribuées à la régie",
+      lede: "Aucun lien vers des portails tiers. Attribution factuelle et loyale au gestionnaire du bien (Art. 5 LCD conforme).",
+      generate: "Générer le dossier",
+      sbb: "Itinéraire SBB",
+      apply: "Postuler",
+      changes: (n) => n > 1 ? `${n} correspondances` : n === 1 ? "1 correspondance" : "direct",
+      minTo: (m, city) => `SBB · ${m} min jusqu'à ${city}`
+    },
+    dossier: {
+      eyebrow: "Dossier régie 1-Click · Art. 253 CO",
+      title: "Générateur de dossier de candidature locative",
+      lede: "Formulaire express en français ou ukrainien. Aperçu du courrier officiel FR/DE prêt à télécharger en PDF/A.",
+      formTitle: "Formulaire candidat express",
+      name: "Nom · Prénom",
+      permis: "N° dossier cantonal / Permis S",
+      status: "Statut de prise en charge",
+      evamPec: "Prise en charge EVAM (loyer garanti)",
+      salary: "Revenu salarié (CHF/mois)",
+      guarantors: "Garants (facultatif)",
+      poursuites: "Extrait Registre des Poursuites (vierge · < 3 mois)",
+      hasIt: "Oui, en ma possession",
+      willGet: "Je le demande à l'Office",
+      previewIn: "Aperçu du courrier en",
+      downloadPdf: "Télécharger en PDF/A",
+      copyText: "Copier le texte"
+    },
+    beta: {
+      eyebrow: "Bêta publique · 100% gratuit",
+      title1: "Bêta libre. ",
+      title2: "Pour toujours ",
+      title3: "durant la phase publique.",
+      lede: "Accès illimité au moteur, aux estimations SBB et au générateur de dossier. Aucun paywall, aucune inscription.",
+      donateBtn: "Faire un don solidaire (XTR · CHF)",
+      zsuTitle: "Rétrocession solidaire ZSU",
+      zsuDesc: "des recettes post-bêta sont automatiquement reversées aux Forces Armées Ukrainiennes, avec preuve vérifiable sur registre Merkle SHA-256."
+    },
+    footer: {
+      about: "SwissRelief est une plateforme souveraine d'intelligence territoriale et de mise en relation directe entre candidats Permis S et régies immobilières / employeurs suisses.",
+      legal: "Association Swiss Resilience en cours de constitution (Art. 60–79 CC) · Bulletin de conformité LCD/UWG · ADR-018 Source-Agnostique · Merkle SHA-256"
+    }
+  },
+
+  de: {
+    lang: "Deutsch",
+    lei: {
+      pill: "Art. 21a AIG",
+      pill2: "Stellenmeldepflicht",
+      text: "Bestimmte CH-ISCO-19-Berufe unterliegen der Meldepflicht. SwissRelief zeigt den Status jeder Stelle."
+    },
+    nav: { housing: "Wohnen", jobs: "Arbeit", dossier: "Bewerbungsdossier", solidarity: "Solidarität", beta: "Freie Beta" },
+    hero: {
+      eyebrow: "26 KANTONE · 4 SPRACHEN · S-AUSWEIS · MERKLE",
+      title1: "Sozialhilfe-Ansätze, ", title2: "Wohnen bei Verwaltungen", title3: " & Arbeit in 26 Kantonen.",
+      lede: "Souveräne Plattform für territoriale Intelligenz. SBB-Mobilitätsschätzungen, EVAM-Obergrenzen, 1-Klick-Bewerbungsdossier — kostenlos in der öffentlichen Beta.",
+      ctaBot: "@swiss_relief_bot öffnen",
+      ctaApp: "Mini App starten"
+    },
+    tabs: {
+      seekers: "S-Ausweis-Kandidaten", seekersSub: "Ansätze · Wohnen · Berufe",
+      solidarity: "Solidarische Gastgeber", solSub: "Untermiete Art. 262 OR · Mentoren"
+    },
+    metrics: [
+      { k: "Kantone", v: "26", d: "EVAM/Fürsorge/AOZ" },
+      { k: "Verwaltungen", v: "180+", d: "Sachliche Zuordnung" },
+      { k: "Sprachen", v: "4", d: "FR · DE · IT · UK" },
+      { k: "ZSU-Anteil", v: "30%", d: "Merkle SHA-256 Beweis" }
+    ],
+    calc: {
+      eyebrow: "Mietobergrenze",
+      title: "Kantonale Mietobergrenze",
+      lede: "Wählen Sie Kanton und Haushaltsgrösse. Der Rechner wendet EVAM (VD), Fürsorge (GE), AOZ (ZH), Migration BE an und prüft die 33%-Einkommensregel.",
+      canton: "Kanton", size: "Haushaltsgrösse",
+      persons: (n) => `${n} Pers.`,
+      status: "Finanzieller Status", evam: "EVAM-Kostenübernahme", salary: "Lohneinkommen",
+      income: "Netto-Monatseinkommen (CHF)", testRent: "Testmiete (CHF/Monat)",
+      ceiling: "Anwendbare Obergrenze", basis: "Basis", authority: "Behörde",
+      compliant: "✓ 100% konform mit kantonalem Ansatz",
+      overBy: "Überschritten um",
+      overNote: "Miete über der Obergrenze — teilweise Übernahme oder begründeter Ausnahmeantrag erforderlich.",
+      brut: "Bruttomiete (inkl. NK)", net: "Nettomiete"
+    },
+    housing: {
+      eyebrow: "Wohnen · Source-agnostisch",
+      title: "Geprüfte Angebote, der Verwaltung zugeordnet",
+      lede: "Keine Links zu Drittportalen. Sachliche und lautere Zuordnung zum Verwalter (Art. 5 UWG konform).",
+      generate: "Dossier erstellen", sbb: "SBB-Route", apply: "Bewerben",
+      changes: (n) => n > 1 ? `${n} Umsteigen` : n === 1 ? "1× umsteigen" : "direkt",
+      minTo: (m, city) => `SBB · ${m} Min bis ${city}`
+    },
+    dossier: {
+      eyebrow: "1-Klick-Dossier · Art. 253 OR",
+      title: "Bewerbungsdossier-Generator",
+      lede: "Express-Formular auf Französisch oder Ukrainisch. FR/DE-Anschreiben als PDF/A.",
+      formTitle: "Express-Bewerbungsformular",
+      name: "Name · Vorname", permis: "Kant. Dossier-Nr. / S-Ausweis",
+      status: "Status der Kostenübernahme",
+      evamPec: "EVAM-Übernahme (Miete garantiert)", salary: "Lohneinkommen (CHF/Monat)",
+      guarantors: "Bürgen (optional)",
+      poursuites: "Betreibungsregisterauszug (leer · < 3 Monate)",
+      hasIt: "Ja, vorhanden", willGet: "Ich beantrage ihn beim Amt",
+      previewIn: "Anschreiben-Vorschau in",
+      downloadPdf: "Als PDF/A herunterladen", copyText: "Text kopieren"
+    },
+    beta: {
+      eyebrow: "Öffentliche Beta · 100% kostenlos",
+      title1: "Freie Beta. ", title2: "Für immer ", title3: "während der öffentlichen Phase.",
+      lede: "Unbegrenzter Zugang zu Suche, SBB-Schätzungen und Dossier-Generator. Keine Paywall.",
+      donateBtn: "Solidarisch spenden (XTR · CHF)",
+      zsuTitle: "Solidarische ZSU-Weiterleitung",
+      zsuDesc: "der Post-Beta-Einnahmen gehen automatisch an die Ukrainischen Streitkräfte, mit prüfbarem SHA-256-Merkle-Beweis."
+    },
+    footer: {
+      about: "SwissRelief ist eine souveräne Plattform für territoriale Intelligenz und direkte Vermittlung zwischen S-Ausweis-Kandidaten und Schweizer Verwaltungen / Arbeitgebern.",
+      legal: "Verein Swiss Resilience in Gründung (Art. 60–79 ZGB) · UWG-Compliance · ADR-018 Source-agnostisch · Merkle SHA-256"
+    }
+  },
+
+  it: {
+    lang: "Italiano",
+    lei: {
+      pill: "Art. 21a LStrI", pill2: "Obbligo di annuncio",
+      text: "Alcune professioni CH-ISCO-19 sono soggette all'obbligo di annuncio. SwissRelief indica lo stato di ogni posto."
+    },
+    nav: { housing: "Alloggio", jobs: "Lavoro", dossier: "Dossier regia", solidarity: "Solidarietà", beta: "Beta libera" },
+    hero: {
+      eyebrow: "26 CANTONI · 4 LINGUE · PERMESSO S · MERKLE",
+      title1: "Parametri sociali, ", title2: "alloggio regia", title3: " e lavoro nei 26 cantoni.",
+      lede: "Piattaforma sovrana di intelligenza territoriale. Stime SBB, plafond EVAM, dossier 1-clic — gratis in beta pubblica.",
+      ctaBot: "Apri @swiss_relief_bot", ctaApp: "Avvia la Mini App"
+    },
+    tabs: {
+      seekers: "Candidati Permesso S", seekersSub: "Parametri · Alloggio · Mestieri",
+      solidarity: "Ospiti solidali", solSub: "Sublocazione Art. 262 CO · Mentori"
+    },
+    metrics: [
+      { k: "Cantoni", v: "26", d: "EVAM/Soccorso/AOZ" },
+      { k: "Regie", v: "180+", d: "Attribuzione fattuale" },
+      { k: "Lingue", v: "4", d: "FR · DE · IT · UK" },
+      { k: "Retrocessione ZSU", v: "30%", d: "Prova Merkle SHA-256" }
+    ],
+    calc: {
+      eyebrow: "Calcolatore plafond", title: "Plafond d'affitto per cantone",
+      lede: "Seleziona cantone e dimensione. Il calcolatore applica EVAM (VD), Soccorso (GE), AOZ (ZH), Migrazione BE, e verifica la regola del 33%.",
+      canton: "Cantone", size: "Dimensione nucleo",
+      persons: (n) => `${n} pers.`,
+      status: "Stato finanziario", evam: "Presa a carico EVAM", salary: "Reddito salariato",
+      income: "Reddito netto mensile (CHF)", testRent: "Affitto testato (CHF/mese)",
+      ceiling: "Plafond applicabile", basis: "Base", authority: "Autorità",
+      compliant: "✓ 100% conforme al parametro cantonale",
+      overBy: "Superamento di",
+      overNote: "Affitto superiore al plafond — presa a carico parziale o richiesta motivata di deroga.",
+      brut: "Affitto lordo (incl. spese)", net: "Affitto netto"
+    },
+    housing: {
+      eyebrow: "Alloggio · Source-agnostico",
+      title: "Annunci verificati, attribuiti alla regia",
+      lede: "Nessun link a portali terzi. Attribuzione fattuale al gestore (Art. 5 LCSl conforme).",
+      generate: "Genera dossier", sbb: "Itinerario SBB", apply: "Candidati",
+      changes: (n) => n > 1 ? `${n} cambi` : n === 1 ? "1 cambio" : "diretto",
+      minTo: (m, city) => `SBB · ${m} min fino a ${city}`
+    },
+    dossier: {
+      eyebrow: "Dossier 1-Click · Art. 253 CO",
+      title: "Generatore di dossier di candidatura",
+      lede: "Modulo express in francese o ucraino. Anteprima lettera FR/DE pronta in PDF/A.",
+      formTitle: "Modulo candidato express",
+      name: "Cognome · Nome", permis: "N° dossier / Permesso S",
+      status: "Stato di presa a carico",
+      evamPec: "Presa a carico EVAM (affitto garantito)", salary: "Reddito salariato (CHF/mese)",
+      guarantors: "Garanti (facoltativo)",
+      poursuites: "Estratto Registro Esecuzioni (vergine · < 3 mesi)",
+      hasIt: "Sì, in mio possesso", willGet: "Lo richiedo all'Ufficio",
+      previewIn: "Anteprima lettera in",
+      downloadPdf: "Scarica in PDF/A", copyText: "Copia il testo"
+    },
+    beta: {
+      eyebrow: "Beta pubblica · 100% gratis",
+      title1: "Beta libera. ", title2: "Per sempre ", title3: "durante la fase pubblica.",
+      lede: "Accesso illimitato al motore, alle stime SBB e al generatore. Nessun paywall.",
+      donateBtn: "Donazione solidale (XTR · CHF)",
+      zsuTitle: "Retrocessione solidale ZSU",
+      zsuDesc: "dei ricavi post-beta va automaticamente alle Forze Armate Ucraine, con prova verificabile su registro Merkle SHA-256."
+    },
+    footer: {
+      about: "SwissRelief è una piattaforma sovrana di intelligenza territoriale e di collegamento diretto tra candidati Permesso S e regie / datori di lavoro svizzeri.",
+      legal: "Associazione Swiss Resilience in costituzione (Art. 60–79 CC) · Conformità LCSl · ADR-018 Source-agnostico · Merkle SHA-256"
+    }
+  },
+
+  uk: {
+    lang: "Українська",
+    lei: {
+      pill: "Ст. 21a LEI", pill2: "Обов'язок оголошення",
+      text: "Деякі професії CH-ISCO-19 підлягають обов'язку оголошення. SwissRelief показує статус кожної вакансії."
+    },
+    nav: { housing: "Житло", jobs: "Робота", dossier: "Досьє режі", solidarity: "Солідарність", beta: "Вільна бета" },
+    hero: {
+      eyebrow: "26 КАНТОНІВ · 4 МОВИ · ДОЗВІЛ S · MERKLE",
+      title1: "Соціальні стандарти, ", title2: "житло від режі", title3: " та робота у 26 кантонах.",
+      lede: "Суверенна платформа територіальної інтелігенції. Оцінки SBB, ліміти EVAM, досьє в 1 клік — безкоштовно у публічній беті.",
+      ctaBot: "Відкрити @swiss_relief_bot", ctaApp: "Запустити Mini App"
+    },
+    tabs: {
+      seekers: "Кандидати Дозвіл S", seekersSub: "Стандарти · Житло · Професії",
+      solidarity: "Солідарні господарі", solSub: "Суборенда Ст. 262 CO · Ментори"
+    },
+    metrics: [
+      { k: "Кантони", v: "26", d: "EVAM/Hospice/AOZ" },
+      { k: "Режі", v: "180+", d: "Фактична атрибуція" },
+      { k: "Мови", v: "4", d: "FR · DE · IT · UK" },
+      { k: "Внесок ЗСУ", v: "30%", d: "Merkle SHA-256" }
+    ],
+    calc: {
+      eyebrow: "Калькулятор ліміту", title: "Ліміт оренди по кантонах",
+      lede: "Оберіть кантон і розмір сім'ї. Калькулятор застосовує EVAM (VD), Hospice (GE), AOZ (ZH), Migration BE, перевіряє правило 33% доходу.",
+      canton: "Кантон", size: "Розмір сім'ї",
+      persons: (n) => `${n} осіб`,
+      status: "Фінансовий статус", evam: "Опіка EVAM", salary: "Зарплатний дохід",
+      income: "Чистий місячний дохід (CHF)", testRent: "Тестова оренда (CHF/міс)",
+      ceiling: "Застосовний ліміт", basis: "База", authority: "Орган",
+      compliant: "✓ 100% відповідає стандарту кантону",
+      overBy: "Перевищення на",
+      overNote: "Оренда вище ліміту — потрібна часткова опіка або мотивована заявка на виняток.",
+      brut: "Брутто-оренда (з ЖКГ)", net: "Нетто-оренда"
+    },
+    housing: {
+      eyebrow: "Житло · Source-agnostic",
+      title: "Перевірені оголошення, атрибутовані режі",
+      lede: "Жодних посилань на сторонні портали. Фактична та добросовісна атрибуція керівнику (Ст. 5 LCD).",
+      generate: "Створити досьє", sbb: "Маршрут SBB", apply: "Подати заявку",
+      changes: (n) => n > 1 ? `${n} пересадки` : n === 1 ? "1 пересадка" : "прямо",
+      minTo: (m, city) => `SBB · ${m} хв до ${city}`
+    },
+    dossier: {
+      eyebrow: "Досьє 1-Click · Ст. 253 CO",
+      title: "Генератор досьє орендаря",
+      lede: "Експрес-форма українською або французькою. Попередній перегляд листа FR/DE, готовий до PDF/A.",
+      formTitle: "Експрес-форма кандидата",
+      name: "Прізвище · Ім'я", permis: "№ кантонального досьє / Дозвіл S",
+      status: "Статус опіки",
+      evamPec: "Опіка EVAM (гарантія оренди)", salary: "Зарплатний дохід (CHF/міс)",
+      guarantors: "Поручителі (не обов'язково)",
+      poursuites: "Витяг з Реєстру стягнень (чистий · < 3 міс)",
+      hasIt: "Так, є у мене", willGet: "Замовлю в Управлінні",
+      previewIn: "Перегляд листа",
+      downloadPdf: "Завантажити PDF/A", copyText: "Скопіювати текст"
+    },
+    beta: {
+      eyebrow: "Публічна бета · 100% безкоштовно",
+      title1: "Вільна бета. ", title2: "Назавжди ", title3: "протягом публічної фази.",
+      lede: "Необмежений доступ до пошуку, SBB-оцінок і генератора досьє. Без paywall.",
+      donateBtn: "Солідарна пожертва (XTR · CHF)",
+      zsuTitle: "Солідарний внесок ЗСУ",
+      zsuDesc: "від пост-бета надходжень автоматично перераховується Збройним Силам України, з перевіреним доказом на реєстрі Merkle SHA-256."
+    },
+    footer: {
+      about: "SwissRelief — суверенна платформа територіальної інтелігенції та прямого зв'язку між кандидатами Дозволу S і швейцарськими режі / роботодавцями.",
+      legal: "Асоціація Swiss Resilience у процесі створення (Ст. 60–79 CC) · Відповідність LCD/UWG · ADR-018 Source-agnostic · Merkle SHA-256"
+    }
+  }
+};
+
+// window.SR_I18N preserved
+window.LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦" };
+window.LANG_CODES = { fr: "FR", de: "DE", it: "IT", uk: "UK" };
+
+
+  if (typeof window !== 'undefined' && window.SR_I18N) {
+    ['fr', 'de', 'it', 'uk'].forEach(function(l) {
+      if (!SR_I18N[l]) return;
+      window.SR_I18N[l] = Object.assign({}, window.SR_I18N[l], {
+        lei: SR_I18N[l].lei,
+        housing: SR_I18N[l].housing,
+        dossier: SR_I18N[l].dossier,
+        calc: Object.assign({}, window.SR_I18N[l].calc, SR_I18N[l].calc),
+        beta: Object.assign({}, window.SR_I18N[l].beta, SR_I18N[l].beta),
+        hero: Object.assign({}, window.SR_I18N[l].hero, {
+          ctaBot: SR_I18N[l].hero.ctaBot,
+          ctaApp: SR_I18N[l].hero.ctaApp
+        })
+      });
+    });
+    window.I18N = window.SR_I18N;
+  }
+})();
