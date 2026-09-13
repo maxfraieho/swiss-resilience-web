@@ -1477,13 +1477,25 @@ function HousingCard({
   lang,
   onGenerate
 }) {
-  const compOk = item.compliance.ok;
+  const compOk = item.compliance?.ok ?? true;
   const isPrivate = item.regieType === 'private';
+  const [imgFailed, setImgFailed] = React.useState(false);
   return /*#__PURE__*/React.createElement("article", {
     className: "h-card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "h-photo"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, item.image_url && !imgFailed ? /*#__PURE__*/React.createElement("img", {
+    src: item.image_url,
+    alt: item.title?.[lang] || item.title || "Logement Suisse",
+    className: "h-photo-img",
+    loading: "lazy",
+    onError: () => setImgFailed(true)
+  }) : null, /*#__PURE__*/React.createElement("div", {
+    className: "placeholder",
+    style: {
+      display: !item.image_url || imgFailed ? 'flex' : 'none'
+    }
+  }, item.photoCaption || item.title && (item.title[lang] || item.title) || "Logement Suisse"), /*#__PURE__*/React.createElement("div", {
     className: "badges"
   }, /*#__PURE__*/React.createElement("span", {
     className: `regie-badge ${isPrivate ? 'priv' : ''}`
@@ -1492,9 +1504,7 @@ function HousingCard({
     "aria-hidden": "true"
   }), item.regie), /*#__PURE__*/React.createElement("span", {
     className: `compliance-badge ${compOk ? '' : 'warn'}`
-  }, compOk ? '✓' : '!', " EVAM")), /*#__PURE__*/React.createElement("div", {
-    className: "placeholder"
-  }, item.photoCaption)), /*#__PURE__*/React.createElement("div", {
+  }, compOk ? '✓' : '!', " EVAM"))), /*#__PURE__*/React.createElement("div", {
     className: "h-body"
   }, /*#__PURE__*/React.createElement("div", {
     className: "h-price-row"
@@ -1506,19 +1516,19 @@ function HousingCard({
     className: "per"
   }, "/ ", lang === 'de' ? 'Monat' : lang === 'it' ? 'mese' : lang === 'uk' ? 'міс.' : 'mois')), /*#__PURE__*/React.createElement("div", {
     className: "h-loc"
-  }, item.city[lang], " ", /*#__PURE__*/React.createElement("span", {
+  }, item.city?.[lang] || item.city_name || "Vaud", " ", /*#__PURE__*/React.createElement("span", {
     className: "canton"
   }, "\xB7 ", item.canton))), /*#__PURE__*/React.createElement("div", {
     className: "h-title"
-  }, item.title[lang]), /*#__PURE__*/React.createElement("div", {
+  }, item.title?.[lang] || item.title), /*#__PURE__*/React.createElement("div", {
     className: "sbb-pill"
   }, /*#__PURE__*/React.createElement("span", {
     className: "ico"
   }, /*#__PURE__*/React.createElement(Ico.train, null)), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("span", {
     className: "min"
-  }, item.sbb.minutes), " min \u2192 ", item.sbb.city), /*#__PURE__*/React.createElement("span", {
+  }, item.sbb?.minutes || 15), " min \u2192 ", item.sbb?.city || "Gare"), /*#__PURE__*/React.createElement("span", {
     className: "swap"
-  }, t.housing.changes(item.sbb.changes))), /*#__PURE__*/React.createElement("div", {
+  }, t.housing?.changes ? t.housing.changes(item.sbb?.changes || 0) : `${item.sbb?.changes || 0} corresp.`)), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11.5,
       color: 'var(--muted)',
@@ -1528,14 +1538,18 @@ function HousingCard({
       borderRadius: 6,
       lineHeight: 1.4
     }
-  }, "\uD83D\uDFE2 ", item.compliance.note[lang])), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83D\uDFE2 ", item.compliance?.note?.[lang] || (item.compliance?.ok ? "100% conforme EVAM" : "Validation requise"))), /*#__PURE__*/React.createElement("div", {
     className: "h-actions"
   }, /*#__PURE__*/React.createElement("button", {
     className: "btn primary",
     onClick: () => onGenerate(item)
-  }, /*#__PURE__*/React.createElement(Ico.file, null), " ", t.housing.generate), /*#__PURE__*/React.createElement("button", {
-    className: "btn ghost"
-  }, /*#__PURE__*/React.createElement(Ico.train, null), " ", t.housing.sbb)));
+  }, /*#__PURE__*/React.createElement(Ico.file, null), " ", t.housing?.generate || "Générer dossier"), /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost",
+    onClick: () => {
+      const dest = encodeURIComponent(`${item.city?.[lang] || item.city_name || ''}`);
+      window.open(`https://www.sbb.ch/fr/acheter/pages/fahrplan/fahrplan.xhtml?von=Morges&nach=${dest}`, '_blank');
+    }
+  }, /*#__PURE__*/React.createElement(Ico.train, null), " ", t.housing?.sbb || "Horaires SBB")));
 }
 function HousingSection({
   t,
@@ -1543,9 +1557,16 @@ function HousingSection({
   canton,
   onGenerate
 }) {
+  const [limit, setLimit] = React.useState(9);
+  const allItems = React.useMemo(() => {
+    return window.SR_HOUSING || window.HOUSING_LISTINGS || [];
+  }, []);
   const items = React.useMemo(() => {
-    return (window.SR_HOUSING || window.HOUSING_LISTINGS || []).filter(h => canton === 'ALL' || h.canton === canton || canton === 'VD');
-  }, [canton]);
+    if (!canton || canton === 'ALL') return allItems;
+    const filtered = allItems.filter(h => h.canton === canton);
+    return filtered.length > 0 ? filtered : allItems;
+  }, [canton, allItems]);
+  const visibleItems = items.slice(0, limit);
   return /*#__PURE__*/React.createElement("section", {
     id: "housing",
     className: "block",
@@ -1554,21 +1575,53 @@ function HousingSection({
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "container"
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+      flexWrap: 'wrap',
+      gap: 12,
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
     className: "section-eyebrow"
-  }, t.housing.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, t.housing?.eyebrow || "LOGEMENT VÉRIFIÉ"), /*#__PURE__*/React.createElement("h2", {
     className: "section-title"
-  }, t.housing.title), /*#__PURE__*/React.createElement("p", {
+  }, t.housing?.title || "Offres vérifiées en Romandie"), /*#__PURE__*/React.createElement("p", {
     className: "section-sub"
-  }, t.housing.lede), /*#__PURE__*/React.createElement("div", {
+  }, t.housing?.lede || "Directement attribué aux régies sans mention de portails tiers.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      fontFamily: 'var(--f-mono)',
+      padding: '6px 12px',
+      borderRadius: 8,
+      background: 'rgba(56,189,248,.08)',
+      border: '1px solid rgba(56,189,248,.25)',
+      color: 'var(--accent-1)'
+    }
+  }, "\u26A1 ", items.length, " ", lang === 'uk' ? 'пропозицій з реальними фото' : lang === 'de' ? 'Angebote mit echten Fotos' : lang === 'it' ? 'offerte con foto reali' : 'offres avec photos réelles')), /*#__PURE__*/React.createElement("div", {
     className: "housing-list"
-  }, items.map(it => /*#__PURE__*/React.createElement(HousingCard, {
+  }, visibleItems.map(it => /*#__PURE__*/React.createElement(HousingCard, {
     key: it.id,
     item: it,
     t: t,
     lang: lang,
     onGenerate: onGenerate
-  })))));
+  }))), limit < items.length && /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      marginTop: 32
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn ghost",
+    style: {
+      padding: '12px 28px',
+      fontSize: 14,
+      fontWeight: 600
+    },
+    onClick: () => setLimit(prev => prev + 9)
+  }, lang === 'uk' ? `Показати більше пропозицій (ще ${items.length - limit}) ↓` : lang === 'de' ? `Mehr Wohnungen anzeigen (noch ${items.length - limit}) ↓` : lang === 'it' ? `Mostra più alloggi (altri ${items.length - limit}) ↓` : `Afficher plus de logements (encore ${items.length - limit}) ↓`))));
 }
 Object.assign(window, {
   HousingCard,

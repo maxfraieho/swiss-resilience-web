@@ -833,26 +833,1565 @@ window.MERKLE_ROOT = "0x8f3a7c9d2e5b4a1f6c8b9d0e2f4a7c1b3d5e6f8a9b0c1d2e3f4a5b6c
 // =====================================================================
 window.SR_CANTONS = window.CANTONS;
 window.HOUSING_LISTINGS = [
-  { id: "morges-1450", canton: "VD", rooms: 2.5, price: 1450,
-    city:  { fr: "Morges", de: "Morges", it: "Morges", uk: "Морж" },
-    title: { fr: "Appartement 2.5 pièces · Morges centre", de: "2.5-Zimmer-Wohnung · Morges Zentrum", it: "Appartamento 2.5 locali · Morges centro", uk: "Квартира 2.5 кімнати · центр Моржу" },
-    regie: "Gérance Immobilière Bernard Nicod", regieType: "regie",
-    sbb: { minutes: 24, city: "Morges Gare", changes: 1 },
-    compliance: { ok: true, note: { fr: "100% conforme EVAM VD (CHF 1'450 ≤ CHF 1'550)", de: "100% konform EVAM VD", it: "100% conforme EVAM VD", uk: "100% відповідає EVAM VD" } },
-    photoCaption: "Appartement 2.5 pièces" },
-  { id: "lausanne-1720", canton: "VD", rooms: 3, price: 1720,
-    city:  { fr: "Lausanne", de: "Lausanne", it: "Losanna", uk: "Лозанна" },
-    title: { fr: "Appartement 3 pièces · Lausanne Sous-Gare", de: "3-Zimmer-Wohnung · Lausanne Sous-Gare", it: "Appartamento 3 locali · Lausanne Sous-Gare", uk: "Квартира 3 кімнати · Лозанна Sous-Gare" },
-    regie: "Régie Domicim", regieType: "regie",
-    sbb: { minutes: 18, city: "Lausanne Gare", changes: 0 },
-    compliance: { ok: true, note: { fr: "Règle 33% conforme · Revenu ≥ CHF 5'160", de: "33%-Regel OK · Einkommen ≥ CHF 5'160", it: "Regola 33% OK · Reddito ≥ CHF 5'160", uk: "Правило 33% OK · Дохід ≥ CHF 5'160" } },
-    photoCaption: "Appartement 3 pièces" },
-  { id: "nyon-980", canton: "VD", rooms: 1.5, price: 980,
-    city:  { fr: "Nyon", de: "Nyon", it: "Nyon", uk: "Ньон" },
-    title: { fr: "Chambre meublée en sous-location · Nyon", de: "Möbliertes Zimmer in Untermiete · Nyon", it: "Camera arredata in sublocazione · Nyon", uk: "Мебльована кімната в суборенді · Ньон" },
-    regie: "Propriétaire Privé · Art. 262 CO", regieType: "private",
-    sbb: { minutes: 15, city: "Nyon Gare", changes: 0 },
-    compliance: { ok: true, note: { fr: "Sous-location conforme Art. 262 CO · Accord bailleur", de: "Untermiete konform Art. 262 OR", it: "Sublocazione conforme Art. 262 CO", uk: "Суборенда відповідає Ст. 262 CO" } },
-    photoCaption: "Chambre meublée · sous-location" }
+  {
+    "id": "nyon-2280-86360604",
+    "pk": 86360604,
+    "canton": "VD",
+    "postal_code": "1260",
+    "city_name": "Nyon",
+    "rooms": 2.5,
+    "price": 2280,
+    "city": {
+      "fr": "Nyon",
+      "de": "Nyon",
+      "it": "Nyon",
+      "uk": "Ньон"
+    },
+    "title": {
+      "fr": "Chemin des Vignes, 3, 1260 Nyon - CHF 1’845 incl. utilities per month",
+      "de": "2.5-Zimmer-Wohnung · Nyon",
+      "it": "2.5 locali · Nyon",
+      "uk": "Квартира 2.5 кімнати · Ньон"
+    },
+    "regie": "Gérance Immobilière Bernard Nicod",
+    "regieType": "regie",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/50pqh6d02dmrxgtego5rq0490ehi56xx8kscek5lkgqpw6kxud.jpg?alias=facebook_l&amp;signature=TfrhEbHJAqcZFE6xQ2ElaKzGtkG_ELM09KKe09H3erA",
+    "sbb": {
+      "minutes": 16,
+      "city": "Nyon Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,280)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,280)",
+        "it": "Convalida richiesta (CHF 2,280)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,280)"
+      }
+    },
+    "photoCaption": "2.5 pièces · Nyon"
+  },
+  {
+    "id": "corcelles-près-concise-1940-86360600",
+    "pk": 86360600,
+    "canton": "VD",
+    "postal_code": "1426",
+    "city_name": "Corcelles-près-Concise",
+    "rooms": 2.0,
+    "price": 1940,
+    "city": {
+      "fr": "Corcelles-près-Concise",
+      "de": "Corcelles-près-Concise",
+      "it": "Corcelles-près-Concise",
+      "uk": "Corcelles-près-Concise"
+    },
+    "title": {
+      "fr": "1426 Corcelles-près-Concise - CHF 1’570",
+      "de": "2.0-Zimmer-Wohnung · Corcelles-près-Concise",
+      "it": "2.0 locali · Corcelles-près-Concise",
+      "uk": "Квартира 2.0 кімнати · Corcelles-près-Concise"
+    },
+    "regie": "Régie Domicim Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467604/image/b2e7f61e142c46f7cf3db62860c7486f.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 1,940)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 1,940)",
+        "it": "Convalida richiesta (CHF 1,940)",
+        "uk": "Потребує підтвердження соцслужби (CHF 1,940)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Corcelles-près-Concise"
+  },
+  {
+    "id": "matran-1970-86360599",
+    "pk": 86360599,
+    "canton": "VD",
+    "postal_code": "1753",
+    "city_name": "Matran",
+    "rooms": 1.0,
+    "price": 1970,
+    "city": {
+      "fr": "Matran",
+      "de": "Matran",
+      "it": "Matran",
+      "uk": "Matran"
+    },
+    "title": {
+      "fr": "route de la maison neuve 17, 1201 Matran - CHF 1’595",
+      "de": "1-Zimmer-Studio · Matran",
+      "it": "Monolocale · Matran",
+      "uk": "Студія 1 кімната · Matran"
+    },
+    "regie": "Cogestim SA",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467607/image/95949624b1f73f1836515625969f4700.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 1,970)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 1,970)",
+        "it": "Convalida richiesta (CHF 1,970)",
+        "uk": "Потребує підтвердження соцслужби (CHF 1,970)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Matran"
+  },
+  {
+    "id": "lausanne-1480-86360596",
+    "pk": 86360596,
+    "canton": "VD",
+    "postal_code": "1018",
+    "city_name": "Lausanne",
+    "rooms": 2.0,
+    "price": 1480,
+    "city": {
+      "fr": "Lausanne",
+      "de": "Lausanne",
+      "it": "Losanna",
+      "uk": "Лозанна"
+    },
+    "title": {
+      "fr": "Rue des crêtes 2a, Lausanne, 2028 Lausanne - CHF 2’200",
+      "de": "2.0-Zimmer-Wohnung · Lausanne",
+      "it": "2.0 locali · Losanna",
+      "uk": "Квартира 2.0 кімнати · Лозанна"
+    },
+    "regie": "Naef Immobilier",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467611/image/d78a296dadfe47a7eb9cb258f990f631.jpg",
+    "sbb": {
+      "minutes": 8,
+      "city": "Lausanne Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,480)",
+        "de": "100% konform EVAM VD (CHF 1,480)",
+        "it": "100% conforme EVAM VD (CHF 1,480)",
+        "uk": "100% відповідає EVAM VD (CHF 1,480)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Lausanne"
+  },
+  {
+    "id": "le-château-de-ste-croix-1710-86360593",
+    "pk": 86360593,
+    "canton": "VD",
+    "postal_code": "1450",
+    "city_name": "Le Château-de-Ste-Croix",
+    "rooms": 1.5,
+    "price": 1710,
+    "city": {
+      "fr": "Le Château-de-Ste-Croix",
+      "de": "Le Château-de-Ste-Croix",
+      "it": "Le Château-de-Ste-Croix",
+      "uk": "Le Château-de-Ste-Croix"
+    },
+    "title": {
+      "fr": "Rue des Rasses 40, 1450 Le Château-de-Ste-Croix - CHF 1’190",
+      "de": "1.5-Zimmer-Wohnung · Le Château-de-Ste-Croix",
+      "it": "1.5 locali · Le Château-de-Ste-Croix",
+      "uk": "Квартира 1.5 кімнати · Le Château-de-Ste-Croix"
+    },
+    "regie": "Wincasa SA Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467608/image/cf02bba3bcbc8e22134246beffd9b45f.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,710)",
+        "de": "100% konform EVAM VD (CHF 1,710)",
+        "it": "100% conforme EVAM VD (CHF 1,710)",
+        "uk": "100% відповідає EVAM VD (CHF 1,710)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Le Château-de-Ste-Croix"
+  },
+  {
+    "id": "blonay-1390-86360591",
+    "pk": 86360591,
+    "canton": "VD",
+    "postal_code": "1807",
+    "city_name": "Blonay",
+    "rooms": 2.0,
+    "price": 1390,
+    "city": {
+      "fr": "Blonay",
+      "de": "Blonay",
+      "it": "Blonay",
+      "uk": "Blonay"
+    },
+    "title": {
+      "fr": "Blonay, 2.07 Blonay - CHF 1’125",
+      "de": "2.0-Zimmer-Wohnung · Blonay",
+      "it": "2.0 locali · Blonay",
+      "uk": "Квартира 2.0 кімнати · Blonay"
+    },
+    "regie": "de Rham Immobilière",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467617/image/c7ab97df89d4089419f47d87d52d587e.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,390)",
+        "de": "100% konform EVAM VD (CHF 1,390)",
+        "it": "100% conforme EVAM VD (CHF 1,390)",
+        "uk": "100% відповідає EVAM VD (CHF 1,390)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Blonay"
+  },
+  {
+    "id": "cheseaux-noréaz-1200-86360590",
+    "pk": 86360590,
+    "canton": "VD",
+    "postal_code": "1400",
+    "city_name": "Cheseaux-Noréaz",
+    "rooms": 2.0,
+    "price": 1200,
+    "city": {
+      "fr": "Cheseaux-Noréaz",
+      "de": "Cheseaux-Noréaz",
+      "it": "Cheseaux-Noréaz",
+      "uk": "Cheseaux-Noréaz"
+    },
+    "title": {
+      "fr": "2.00 Cheseaux-Noréaz - CHF 2.00",
+      "de": "2.0-Zimmer-Wohnung · Cheseaux-Noréaz",
+      "it": "2.0 locali · Cheseaux-Noréaz",
+      "uk": "Квартира 2.0 кімнати · Cheseaux-Noréaz"
+    },
+    "regie": "Régie Foncia Suisse",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467614/image/539e3288533893bb544b46eaf6dc4e5b.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,200)",
+        "de": "100% konform EVAM VD (CHF 1,200)",
+        "it": "100% conforme EVAM VD (CHF 1,200)",
+        "uk": "100% відповідає EVAM VD (CHF 1,200)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Cheseaux-Noréaz"
+  },
+  {
+    "id": "albeuve-1790-86360588",
+    "pk": 86360588,
+    "canton": "VD",
+    "postal_code": "1669",
+    "city_name": "Albeuve",
+    "rooms": 1.0,
+    "price": 1790,
+    "city": {
+      "fr": "Albeuve",
+      "de": "Albeuve",
+      "it": "Albeuve",
+      "uk": "Albeuve"
+    },
+    "title": {
+      "fr": "1669 Albeuve - CHF 1’450",
+      "de": "1-Zimmer-Studio · Albeuve",
+      "it": "Monolocale · Albeuve",
+      "uk": "Студія 1 кімната · Albeuve"
+    },
+    "regie": "Propriétaire Privé · Art. 262 CO",
+    "regieType": "private",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467600/image/e6bdbbfcc5085e2c9eddded73268adb1.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,790)",
+        "de": "100% konform EVAM VD (CHF 1,790)",
+        "it": "100% conforme EVAM VD (CHF 1,790)",
+        "uk": "100% відповідає EVAM VD (CHF 1,790)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Albeuve"
+  },
+  {
+    "id": "genève-920-86360587",
+    "pk": 86360587,
+    "canton": "VD",
+    "postal_code": "1200",
+    "city_name": "Genf",
+    "rooms": 1.0,
+    "price": 920,
+    "city": {
+      "fr": "Genève",
+      "de": "Genf",
+      "it": "Ginevra",
+      "uk": "Женева"
+    },
+    "title": {
+      "fr": "1200 Genf - CHF 750",
+      "de": "1-Zimmer-Studio · Genf",
+      "it": "Monolocale · Ginevra",
+      "uk": "Студія 1 кімната · Женева"
+    },
+    "regie": "Gérance Immobilière Bernard Nicod",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467601/image/da44f59ddfcea896e954b940f7f2038d.jpg",
+    "sbb": {
+      "minutes": 12,
+      "city": "Genève Cornavin",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 920)",
+        "de": "100% konform EVAM VD (CHF 920)",
+        "it": "100% conforme EVAM VD (CHF 920)",
+        "uk": "100% відповідає EVAM VD (CHF 920)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Genève"
+  },
+  {
+    "id": "martigny-1790-86360586",
+    "pk": 86360586,
+    "canton": "VD",
+    "postal_code": "1920",
+    "city_name": "Martigny",
+    "rooms": 1.0,
+    "price": 1790,
+    "city": {
+      "fr": "Martigny",
+      "de": "Martigny",
+      "it": "Martigny",
+      "uk": "Martigny"
+    },
+    "title": {
+      "fr": "1910 Martigny - CHF 1’450",
+      "de": "1-Zimmer-Studio · Martigny",
+      "it": "Monolocale · Martigny",
+      "uk": "Студія 1 кімната · Martigny"
+    },
+    "regie": "Régie Domicim Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467597/image/d89b8031384de515c81607205e767321.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,790)",
+        "de": "100% konform EVAM VD (CHF 1,790)",
+        "it": "100% conforme EVAM VD (CHF 1,790)",
+        "uk": "100% відповідає EVAM VD (CHF 1,790)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Martigny"
+  },
+  {
+    "id": "montherod-1710-86360585",
+    "pk": 86360585,
+    "canton": "VD",
+    "postal_code": "1174",
+    "city_name": "Montherod",
+    "rooms": 1.0,
+    "price": 1710,
+    "city": {
+      "fr": "Montherod",
+      "de": "Montherod",
+      "it": "Montherod",
+      "uk": "Montherod"
+    },
+    "title": {
+      "fr": "Chemin du Champ Court 10, 1174 Montherod - CHF 1’385",
+      "de": "1-Zimmer-Studio · Montherod",
+      "it": "Monolocale · Montherod",
+      "uk": "Студія 1 кімната · Montherod"
+    },
+    "regie": "Cogestim SA",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467595/image/9544618abff9abd96b16a7060f425423.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,710)",
+        "de": "100% konform EVAM VD (CHF 1,710)",
+        "it": "100% conforme EVAM VD (CHF 1,710)",
+        "uk": "100% відповідає EVAM VD (CHF 1,710)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Montherod"
+  },
+  {
+    "id": "lovatens-860-86360583",
+    "pk": 86360583,
+    "canton": "VD",
+    "postal_code": "1682",
+    "city_name": "Lovatens",
+    "rooms": 1.0,
+    "price": 860,
+    "city": {
+      "fr": "Lovatens",
+      "de": "Lovatens",
+      "it": "Lovatens",
+      "uk": "Lovatens"
+    },
+    "title": {
+      "fr": "1682 Lovatens - CHF 700",
+      "de": "1-Zimmer-Studio · Lovatens",
+      "it": "Monolocale · Lovatens",
+      "uk": "Студія 1 кімната · Lovatens"
+    },
+    "regie": "Naef Immobilier",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467613/image/aafcb6b9e6783a2d4cda08a0b7ff119d.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 860)",
+        "de": "100% konform EVAM VD (CHF 860)",
+        "it": "100% conforme EVAM VD (CHF 860)",
+        "uk": "100% відповідає EVAM VD (CHF 860)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Lovatens"
+  },
+  {
+    "id": "arconciel-1610-86360580",
+    "pk": 86360580,
+    "canton": "VD",
+    "postal_code": "1732",
+    "city_name": "Arconciel",
+    "rooms": 1.5,
+    "price": 1610,
+    "city": {
+      "fr": "Arconciel",
+      "de": "Arconciel",
+      "it": "Arconciel",
+      "uk": "Arconciel"
+    },
+    "title": {
+      "fr": "Rte de la Dey 1, 1731 Arconciel - CHF 1’300",
+      "de": "1.5-Zimmer-Wohnung · Arconciel",
+      "it": "1.5 locali · Arconciel",
+      "uk": "Квартира 1.5 кімнати · Arconciel"
+    },
+    "regie": "Wincasa SA Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467606/image/5f650bd1c80014bec1acc1b76b031c94.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,610)",
+        "de": "100% konform EVAM VD (CHF 1,610)",
+        "it": "100% conforme EVAM VD (CHF 1,610)",
+        "uk": "100% відповідає EVAM VD (CHF 1,610)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Arconciel"
+  },
+  {
+    "id": "vernayaz-1360-86360579",
+    "pk": 86360579,
+    "canton": "VD",
+    "postal_code": "1904",
+    "city_name": "Vernayaz",
+    "rooms": 1.5,
+    "price": 1360,
+    "city": {
+      "fr": "Vernayaz",
+      "de": "Vernayaz",
+      "it": "Vernayaz",
+      "uk": "Vernayaz"
+    },
+    "title": {
+      "fr": "Gd Rue 5, 1904 Vernayaz - CHF 1’100",
+      "de": "1.5-Zimmer-Wohnung · Vernayaz",
+      "it": "1.5 locali · Vernayaz",
+      "uk": "Квартира 1.5 кімнати · Vernayaz"
+    },
+    "regie": "de Rham Immobilière",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467599/image/5e8d2e973dd88a8c95f2f12b1b205bef.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,360)",
+        "de": "100% konform EVAM VD (CHF 1,360)",
+        "it": "100% conforme EVAM VD (CHF 1,360)",
+        "uk": "100% відповідає EVAM VD (CHF 1,360)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Vernayaz"
+  },
+  {
+    "id": "essertines-sur-yverdon-1920-86360574",
+    "pk": 86360574,
+    "canton": "VD",
+    "postal_code": "1417",
+    "city_name": "Essertines-sur-Yverdon",
+    "rooms": 1.0,
+    "price": 1920,
+    "city": {
+      "fr": "Essertines-sur-Yverdon",
+      "de": "Essertines-sur-Yverdon",
+      "it": "Essertines-sur-Yverdon",
+      "uk": "Essertines-sur-Yverdon"
+    },
+    "title": {
+      "fr": "Essertines-sur-Yverdon, 1417 Essertines-sur-Yverdon - CHF 1’550",
+      "de": "1-Zimmer-Studio · Essertines-sur-Yverdon",
+      "it": "Monolocale · Essertines-sur-Yverdon",
+      "uk": "Студія 1 кімната · Essertines-sur-Yverdon"
+    },
+    "regie": "Régie Foncia Suisse",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/tuttifill/4003467579/image/da53f0922c418422fd4ea0561592a397.jpg",
+    "sbb": {
+      "minutes": 26,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 1,920)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 1,920)",
+        "it": "Convalida richiesta (CHF 1,920)",
+        "uk": "Потребує підтвердження соцслужби (CHF 1,920)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Essertines-sur-Yverdon"
+  },
+  {
+    "id": "st-légier-la-chiésaz-2040-86360425",
+    "pk": 86360425,
+    "canton": "VD",
+    "postal_code": "1806",
+    "city_name": "St-Légier-La Chiésaz",
+    "rooms": 1.0,
+    "price": 2040,
+    "city": {
+      "fr": "St-Légier-La Chiésaz",
+      "de": "St-Légier-La Chiésaz",
+      "it": "St-Légier-La Chiésaz",
+      "uk": "St-Légier-La Chiésaz"
+    },
+    "title": {
+      "fr": "1806 St-Légier-La Chiésaz - CHF 1’650",
+      "de": "1-Zimmer-Studio · St-Légier-La Chiésaz",
+      "it": "Monolocale · St-Légier-La Chiésaz",
+      "uk": "Студія 1 кімната · St-Légier-La Chiésaz"
+    },
+    "regie": "Propriétaire Privé · Art. 262 CO",
+    "regieType": "private",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467475/image/d240b177531732cf8534018d45feb3a2.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,040)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,040)",
+        "it": "Convalida richiesta (CHF 2,040)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,040)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · St-Légier-La Chiésaz"
+  },
+  {
+    "id": "aigle-1230-86360421",
+    "pk": 86360421,
+    "canton": "VD",
+    "postal_code": "1860",
+    "city_name": "Aigle",
+    "rooms": 1.0,
+    "price": 1230,
+    "city": {
+      "fr": "Aigle",
+      "de": "Aigle",
+      "it": "Aigle",
+      "uk": "Еґль"
+    },
+    "title": {
+      "fr": "Chemin de Pautex, 1860 Aigle - CHF 1’000",
+      "de": "1-Zimmer-Studio · Aigle",
+      "it": "Monolocale · Aigle",
+      "uk": "Студія 1 кімната · Еґль"
+    },
+    "regie": "Gérance Immobilière Bernard Nicod",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467472/image/1368abd1e0be9ef6d876d5623d945dba.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,230)",
+        "de": "100% konform EVAM VD (CHF 1,230)",
+        "it": "100% conforme EVAM VD (CHF 1,230)",
+        "uk": "100% відповідає EVAM VD (CHF 1,230)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Aigle"
+  },
+  {
+    "id": "geneva-1610-86360307",
+    "pk": 86360307,
+    "canton": "VD",
+    "postal_code": "1209",
+    "city_name": "Geneva",
+    "rooms": 1.0,
+    "price": 1610,
+    "city": {
+      "fr": "Geneva",
+      "de": "Geneva",
+      "it": "Geneva",
+      "uk": "Geneva"
+    },
+    "title": {
+      "fr": "1109 Geneva - CHF 1’300 incl. utilities per month",
+      "de": "1-Zimmer-Studio · Geneva",
+      "it": "Monolocale · Geneva",
+      "uk": "Студія 1 кімната · Geneva"
+    },
+    "regie": "Régie Domicim Romandie",
+    "regieType": "regie",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/plzwjwuyh715apdh0fr1sp7lhr8tno5jft0kqstrgzyn35mfy6.jpg?alias=facebook_l&amp;signature=b6-mYoGjW27Q47ImGGkDMZh2SC_T2AsIsjkyHUasfek",
+    "sbb": {
+      "minutes": 12,
+      "city": "Genève Cornavin",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,610)",
+        "de": "100% konform EVAM VD (CHF 1,610)",
+        "it": "100% conforme EVAM VD (CHF 1,610)",
+        "uk": "100% відповідає EVAM VD (CHF 1,610)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Geneva"
+  },
+  {
+    "id": "mézières-1950-86360295",
+    "pk": 86360295,
+    "canton": "VD",
+    "postal_code": "1083",
+    "city_name": "Mézières VD",
+    "rooms": 2.0,
+    "price": 1950,
+    "city": {
+      "fr": "Mézières",
+      "de": "Mézières",
+      "it": "Mézières",
+      "uk": "Mézières"
+    },
+    "title": {
+      "fr": "2083 Mézières VD - CHF 2’580",
+      "de": "2.0-Zimmer-Wohnung · Mézières",
+      "it": "2.0 locali · Mézières",
+      "uk": "Квартира 2.0 кімнати · Mézières"
+    },
+    "regie": "Cogestim SA",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467346/image/8310135225069935898cea28600a7896.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 1,950)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 1,950)",
+        "it": "Convalida richiesta (CHF 1,950)",
+        "uk": "Потребує підтвердження соцслужби (CHF 1,950)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Mézières"
+  },
+  {
+    "id": "mézières-1950-86360294",
+    "pk": 86360294,
+    "canton": "VD",
+    "postal_code": "1083",
+    "city_name": "Mézières VD",
+    "rooms": 1.0,
+    "price": 1950,
+    "city": {
+      "fr": "Mézières",
+      "de": "Mézières",
+      "it": "Mézières",
+      "uk": "Mézières"
+    },
+    "title": {
+      "fr": "1081 Mézières VD - CHF 1’580",
+      "de": "1-Zimmer-Studio · Mézières",
+      "it": "Monolocale · Mézières",
+      "uk": "Студія 1 кімната · Mézières"
+    },
+    "regie": "Naef Immobilier",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467340/image/6884ec42ebb43a777e658d3e723cc17e.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 1,950)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 1,950)",
+        "it": "Convalida richiesta (CHF 1,950)",
+        "uk": "Потребує підтвердження соцслужби (CHF 1,950)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Mézières"
+  },
+  {
+    "id": "charrat-1560-86360292",
+    "pk": 86360292,
+    "canton": "VD",
+    "postal_code": "1906",
+    "city_name": "Charrat",
+    "rooms": 1.0,
+    "price": 1560,
+    "city": {
+      "fr": "Charrat",
+      "de": "Charrat",
+      "it": "Charrat",
+      "uk": "Charrat"
+    },
+    "title": {
+      "fr": "Avenue des chênes 56, 1906 Charrat - CHF 1’1.0",
+      "de": "1-Zimmer-Studio · Charrat",
+      "it": "Monolocale · Charrat",
+      "uk": "Студія 1 кімната · Charrat"
+    },
+    "regie": "Wincasa SA Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467344/image/c8d8c9840b3b90ba9338b0d4dd00bd40.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,560)",
+        "de": "100% konform EVAM VD (CHF 1,560)",
+        "it": "100% conforme EVAM VD (CHF 1,560)",
+        "uk": "100% відповідає EVAM VD (CHF 1,560)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Charrat"
+  },
+  {
+    "id": "fribourg-2000-86360175",
+    "pk": 86360175,
+    "canton": "VD",
+    "postal_code": "1700",
+    "city_name": "Freiburg",
+    "rooms": 1.5,
+    "price": 2000,
+    "city": {
+      "fr": "Fribourg",
+      "de": "Freiburg",
+      "it": "Friburgo",
+      "uk": "Фрібур"
+    },
+    "title": {
+      "fr": "Route Saint-Nicolas-de-Flüe 8a, 1700 Freiburg - CHF 1’610",
+      "de": "1.5-Zimmer-Wohnung · Freiburg",
+      "it": "1.5 locali · Friburgo",
+      "uk": "Квартира 1.5 кімнати · Фрібур"
+    },
+    "regie": "de Rham Immobilière",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467206/image/6bb271df61aec33f7a7306644a4ceb34.jpg",
+    "sbb": {
+      "minutes": 15,
+      "city": "Fribourg Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,000)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,000)",
+        "it": "Convalida richiesta (CHF 2,000)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,000)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Fribourg"
+  },
+  {
+    "id": "monthey-1920-86360172",
+    "pk": 86360172,
+    "canton": "VD",
+    "postal_code": "1870",
+    "city_name": "Monthey",
+    "rooms": 1.0,
+    "price": 1920,
+    "city": {
+      "fr": "Monthey",
+      "de": "Monthey",
+      "it": "Monthey",
+      "uk": "Monthey"
+    },
+    "title": {
+      "fr": "Avenue de l'Industrie 15 A, 1870 Monthey - CHF 1’550",
+      "de": "1-Zimmer-Studio · Monthey",
+      "it": "Monolocale · Monthey",
+      "uk": "Студія 1 кімната · Monthey"
+    },
+    "regie": "Régie Foncia Suisse",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467209/image/4566ed5e3aa8b83ddf091153fb0b26e6.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 1,920)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 1,920)",
+        "it": "Convalida richiesta (CHF 1,920)",
+        "uk": "Потребує підтвердження соцслужби (CHF 1,920)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Monthey"
+  },
+  {
+    "id": "clarens-2250-86360140",
+    "pk": 86360140,
+    "canton": "VD",
+    "postal_code": "1815",
+    "city_name": "Clarens",
+    "rooms": 2.5,
+    "price": 2250,
+    "city": {
+      "fr": "Clarens",
+      "de": "Clarens",
+      "it": "Clarens",
+      "uk": "Clarens"
+    },
+    "title": {
+      "fr": "Chemin de la Nouvelle Heloise, 1815 Clarens - CHF 1’820",
+      "de": "2.5-Zimmer-Wohnung · Clarens",
+      "it": "2.5 locali · Clarens",
+      "uk": "Квартира 2.5 кімнати · Clarens"
+    },
+    "regie": "Propriétaire Privé · Art. 262 CO",
+    "regieType": "private",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467175/image/8958b8350cbc7e2eec80724afee51ecf.jpg",
+    "sbb": {
+      "minutes": 22,
+      "city": "Lausanne Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,250)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,250)",
+        "it": "Convalida richiesta (CHF 2,250)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,250)"
+      }
+    },
+    "photoCaption": "2.5 pièces · Clarens"
+  },
+  {
+    "id": "clarens-2250-86360031",
+    "pk": 86360031,
+    "canton": "VD",
+    "postal_code": "1815",
+    "city_name": "Clarens",
+    "rooms": 1.5,
+    "price": 2250,
+    "city": {
+      "fr": "Clarens",
+      "de": "Clarens",
+      "it": "Clarens",
+      "uk": "Clarens"
+    },
+    "title": {
+      "fr": "Chemin de la Nouvelle Heloise, 1815 Clarens - CHF 1’810 incl. utilities per month",
+      "de": "1.5-Zimmer-Wohnung · Clarens",
+      "it": "1.5 locali · Clarens",
+      "uk": "Квартира 1.5 кімнати · Clarens"
+    },
+    "regie": "Gérance Immobilière Bernard Nicod",
+    "regieType": "regie",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/djrekr52b4qs8qrcqcr0wiqucj2zvrxfjzk4q3q96xue8sfacj.jpg?alias=facebook_l&amp;signature=ucgouUJb-z_F9lCVS8FRoI6VoikT9w7gmz0ARSxV03Y",
+    "sbb": {
+      "minutes": 22,
+      "city": "Lausanne Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,250)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,250)",
+        "it": "Convalida richiesta (CHF 2,250)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,250)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Clarens"
+  },
+  {
+    "id": "miex-1670-86360019",
+    "pk": 86360019,
+    "canton": "VD",
+    "postal_code": "1896",
+    "city_name": "Miex",
+    "rooms": 1.5,
+    "price": 1670,
+    "city": {
+      "fr": "Miex",
+      "de": "Miex",
+      "it": "Miex",
+      "uk": "Miex"
+    },
+    "title": {
+      "fr": "1896 Miex - CHF 1’350",
+      "de": "1.5-Zimmer-Wohnung · Miex",
+      "it": "1.5 locali · Miex",
+      "uk": "Квартира 1.5 кімнати · Miex"
+    },
+    "regie": "Régie Domicim Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467044/image/9a63218f217949b0d465d49e647c4b0c.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,670)",
+        "de": "100% konform EVAM VD (CHF 1,670)",
+        "it": "100% conforme EVAM VD (CHF 1,670)",
+        "uk": "100% відповідає EVAM VD (CHF 1,670)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Miex"
+  },
+  {
+    "id": "givisiez-1230-86360006",
+    "pk": 86360006,
+    "canton": "VD",
+    "postal_code": "1762",
+    "city_name": "Givisiez",
+    "rooms": 2.0,
+    "price": 1230,
+    "city": {
+      "fr": "Givisiez",
+      "de": "Givisiez",
+      "it": "Givisiez",
+      "uk": "Givisiez"
+    },
+    "title": {
+      "fr": "1762 Givisiez - CHF 2.000",
+      "de": "2.0-Zimmer-Wohnung · Givisiez",
+      "it": "2.0 locali · Givisiez",
+      "uk": "Квартира 2.0 кімнати · Givisiez"
+    },
+    "regie": "Cogestim SA",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003467040/image/0173212617f8a91bc01b88c3004986f2.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,230)",
+        "de": "100% konform EVAM VD (CHF 1,230)",
+        "it": "100% conforme EVAM VD (CHF 1,230)",
+        "uk": "100% відповідає EVAM VD (CHF 1,230)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Givisiez"
+  },
+  {
+    "id": "st-légier-la-chiésaz-1360-86359744",
+    "pk": 86359744,
+    "canton": "VD",
+    "postal_code": "1806",
+    "city_name": "St-Légier-La Chiésaz",
+    "rooms": 1.0,
+    "price": 1360,
+    "city": {
+      "fr": "St-Légier-La Chiésaz",
+      "de": "St-Légier-La Chiésaz",
+      "it": "St-Légier-La Chiésaz",
+      "uk": "St-Légier-La Chiésaz"
+    },
+    "title": {
+      "fr": "Route de Fenil 31, 1806 St-Légier-La Chiésaz - CHF 1’100",
+      "de": "1-Zimmer-Studio · St-Légier-La Chiésaz",
+      "it": "Monolocale · St-Légier-La Chiésaz",
+      "uk": "Студія 1 кімната · St-Légier-La Chiésaz"
+    },
+    "regie": "Naef Immobilier",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003466638/image/99b402ec69e17e32c661ddca67210dbf.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,360)",
+        "de": "100% konform EVAM VD (CHF 1,360)",
+        "it": "100% conforme EVAM VD (CHF 1,360)",
+        "uk": "100% відповідає EVAM VD (CHF 1,360)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · St-Légier-La Chiésaz"
+  },
+  {
+    "id": "rechthalten-2250-86359609",
+    "pk": 86359609,
+    "canton": "VD",
+    "postal_code": "1718",
+    "city_name": "Rechthalten",
+    "rooms": 1.0,
+    "price": 2250,
+    "city": {
+      "fr": "Rechthalten",
+      "de": "Rechthalten",
+      "it": "Rechthalten",
+      "uk": "Rechthalten"
+    },
+    "title": {
+      "fr": "Grossi Matta 15, 1718 Rechthalten - CHF 1’817",
+      "de": "1-Zimmer-Studio · Rechthalten",
+      "it": "Monolocale · Rechthalten",
+      "uk": "Студія 1 кімната · Rechthalten"
+    },
+    "regie": "Wincasa SA Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003466482/image/a0795beb847885f39788ad0ffec6c413.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,250)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,250)",
+        "it": "Convalida richiesta (CHF 2,250)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,250)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Rechthalten"
+  },
+  {
+    "id": "renens-1200-86359568",
+    "pk": 86359568,
+    "canton": "VD",
+    "postal_code": "1020",
+    "city_name": "Renens VD",
+    "rooms": 2.0,
+    "price": 1200,
+    "city": {
+      "fr": "Renens",
+      "de": "Renens",
+      "it": "Renens",
+      "uk": "Рене"
+    },
+    "title": {
+      "fr": "1020 Renens VD - CHF 2.00 incl. utilities per month",
+      "de": "2.0-Zimmer-Wohnung · Renens",
+      "it": "2.0 locali · Renens",
+      "uk": "Квартира 2.0 кімнати · Рене"
+    },
+    "regie": "de Rham Immobilière",
+    "regieType": "regie",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/dgwtcfj67x9v5w8agx6c6webtat2wgkp18kcoh73q218d379r7.jpg?alias=facebook_l&amp;signature=RznA8NpiaaGrvdIotHinrqIXISF5tH8ZixghXtlYViY",
+    "sbb": {
+      "minutes": 7,
+      "city": "Lausanne Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,200)",
+        "de": "100% konform EVAM VD (CHF 1,200)",
+        "it": "100% conforme EVAM VD (CHF 1,200)",
+        "uk": "100% відповідає EVAM VD (CHF 1,200)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Renens"
+  },
+  {
+    "id": "chenaux-1310-86359517",
+    "pk": 86359517,
+    "canton": "VD",
+    "postal_code": "1091",
+    "city_name": "Chenaux",
+    "rooms": 1.0,
+    "price": 1310,
+    "city": {
+      "fr": "Chenaux",
+      "de": "Chenaux",
+      "it": "Chenaux",
+      "uk": "Chenaux"
+    },
+    "title": {
+      "fr": "Route du Suchet 14, 1091 Chenaux - CHF 1’060",
+      "de": "1-Zimmer-Studio · Chenaux",
+      "it": "Monolocale · Chenaux",
+      "uk": "Студія 1 кімната · Chenaux"
+    },
+    "regie": "Régie Foncia Suisse",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003466387/image/cedba6a26ede00d626d4f9309dc97fd7.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,310)",
+        "de": "100% konform EVAM VD (CHF 1,310)",
+        "it": "100% conforme EVAM VD (CHF 1,310)",
+        "uk": "100% відповідає EVAM VD (CHF 1,310)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Chenaux"
+  },
+  {
+    "id": "forel-(lavaux)-2020-86359249",
+    "pk": 86359249,
+    "canton": "VD",
+    "postal_code": "1072",
+    "city_name": "Forel (Lavaux)",
+    "rooms": 1.5,
+    "price": 2020,
+    "city": {
+      "fr": "Forel (Lavaux)",
+      "de": "Forel (Lavaux)",
+      "it": "Forel (Lavaux)",
+      "uk": "Forel (Lavaux)"
+    },
+    "title": {
+      "fr": "Route de Mollie-Margot 5A, 1071 Forel (Lavaux) - CHF 1’640",
+      "de": "1.5-Zimmer-Wohnung · Forel (Lavaux)",
+      "it": "1.5 locali · Forel (Lavaux)",
+      "uk": "Квартира 1.5 кімнати · Forel (Lavaux)"
+    },
+    "regie": "Propriétaire Privé · Art. 262 CO",
+    "regieType": "private",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003466103/image/eda8dee76d65c9afc4b736a143a587c9.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,020)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,020)",
+        "it": "Convalida richiesta (CHF 2,020)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,020)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Forel (Lavaux)"
+  },
+  {
+    "id": "cheseaux-sur-lausanne-960-86359197",
+    "pk": 86359197,
+    "canton": "VD",
+    "postal_code": "1033",
+    "city_name": "Cheseaux-sur-Lausanne",
+    "rooms": 2.0,
+    "price": 960,
+    "city": {
+      "fr": "Cheseaux-sur-Lausanne",
+      "de": "Cheseaux-sur-Lausanne",
+      "it": "Cheseaux-sur-Lausanne",
+      "uk": "Cheseaux-sur-Lausanne"
+    },
+    "title": {
+      "fr": "Chemin de sainte-marie 7, Cheseaux-sur-Lausanne, 2033 Cheseaux-sur-Lausanne - CHF 960",
+      "de": "2.0-Zimmer-Wohnung · Cheseaux-sur-Lausanne",
+      "it": "2.0 locali · Cheseaux-sur-Lausanne",
+      "uk": "Квартира 2.0 кімнати · Cheseaux-sur-Lausanne"
+    },
+    "regie": "Gérance Immobilière Bernard Nicod",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003466055/image/2fe6bcf756ed1b24eb9f7612564ec06d.jpg",
+    "sbb": {
+      "minutes": 8,
+      "city": "Lausanne Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 960)",
+        "de": "100% konform EVAM VD (CHF 960)",
+        "it": "100% conforme EVAM VD (CHF 960)",
+        "uk": "100% відповідає EVAM VD (CHF 960)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Cheseaux-sur-Lausanne"
+  },
+  {
+    "id": "fribourg-1870-86359196",
+    "pk": 86359196,
+    "canton": "VD",
+    "postal_code": "1700",
+    "city_name": "Freiburg",
+    "rooms": 1.5,
+    "price": 1870,
+    "city": {
+      "fr": "Fribourg",
+      "de": "Freiburg",
+      "it": "Friburgo",
+      "uk": "Фрібур"
+    },
+    "title": {
+      "fr": "Chemin De Bethléem 5, 1700 Freiburg - CHF 1’520",
+      "de": "1.5-Zimmer-Wohnung · Freiburg",
+      "it": "1.5 locali · Friburgo",
+      "uk": "Квартира 1.5 кімнати · Фрібур"
+    },
+    "regie": "Régie Domicim Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003466058/image/4b209c8f5392d878d1c8b1d2ce273689.jpg",
+    "sbb": {
+      "minutes": 15,
+      "city": "Fribourg Gare",
+      "changes": 0
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 1,870)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 1,870)",
+        "it": "Convalida richiesta (CHF 1,870)",
+        "uk": "Потребує підтвердження соцслужби (CHF 1,870)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Fribourg"
+  },
+  {
+    "id": "versoix-1080-86359114",
+    "pk": 86359114,
+    "canton": "VD",
+    "postal_code": "1290",
+    "city_name": "Versoix",
+    "rooms": 2.0,
+    "price": 1080,
+    "city": {
+      "fr": "Versoix",
+      "de": "Versoix",
+      "it": "Versoix",
+      "uk": "Versoix"
+    },
+    "title": {
+      "fr": "Versoix, 2290 Versoix - CHF 2080",
+      "de": "2.0-Zimmer-Wohnung · Versoix",
+      "it": "2.0 locali · Versoix",
+      "uk": "Квартира 2.0 кімнати · Versoix"
+    },
+    "regie": "Cogestim SA",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003465973/image/ad5570dbf9aed9295abdd847044936e9.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,080)",
+        "de": "100% konform EVAM VD (CHF 1,080)",
+        "it": "100% conforme EVAM VD (CHF 1,080)",
+        "uk": "100% відповідає EVAM VD (CHF 1,080)"
+      }
+    },
+    "photoCaption": "2.0 pièces · Versoix"
+  },
+  {
+    "id": "grolley-2040-86359110",
+    "pk": 86359110,
+    "canton": "VD",
+    "postal_code": "1772",
+    "city_name": "Grolley",
+    "rooms": 3.5,
+    "price": 2040,
+    "city": {
+      "fr": "Grolley",
+      "de": "Grolley",
+      "it": "Grolley",
+      "uk": "Grolley"
+    },
+    "title": {
+      "fr": "Grolley, 1772 Grolley - CHF 1’655",
+      "de": "3.5-Zimmer-Wohnung · Grolley",
+      "it": "3.5 locali · Grolley",
+      "uk": "Квартира 3.5 кімнати · Grolley"
+    },
+    "regie": "Naef Immobilier",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003465966/image/69f3efcab7a9ff360678796b067784ab.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,040)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,040)",
+        "it": "Convalida richiesta (CHF 2,040)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,040)"
+      }
+    },
+    "photoCaption": "3.5 pièces · Grolley"
+  },
+  {
+    "id": "avenches-1670-86359105",
+    "pk": 86359105,
+    "canton": "VD",
+    "postal_code": "1580",
+    "city_name": "Avenches",
+    "rooms": 1.0,
+    "price": 1670,
+    "city": {
+      "fr": "Avenches",
+      "de": "Avenches",
+      "it": "Avenches",
+      "uk": "Avenches"
+    },
+    "title": {
+      "fr": "Montauban 2 Avenches, 1580 Avenches - CHF 1’1.0",
+      "de": "1-Zimmer-Studio · Avenches",
+      "it": "Monolocale · Avenches",
+      "uk": "Студія 1 кімната · Avenches"
+    },
+    "regie": "Wincasa SA Romandie",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003465971/image/eb194d724e658ec13c5f462b85f69913.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,670)",
+        "de": "100% konform EVAM VD (CHF 1,670)",
+        "it": "100% conforme EVAM VD (CHF 1,670)",
+        "uk": "100% відповідає EVAM VD (CHF 1,670)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Avenches"
+  },
+  {
+    "id": "versoix-1450-86359103",
+    "pk": 86359103,
+    "canton": "VD",
+    "postal_code": "1290",
+    "city_name": "Versoix",
+    "rooms": 1.0,
+    "price": 1450,
+    "city": {
+      "fr": "Versoix",
+      "de": "Versoix",
+      "it": "Versoix",
+      "uk": "Versoix"
+    },
+    "title": {
+      "fr": "Versoix, 1290 Versoix - CHF 1’180",
+      "de": "1-Zimmer-Studio · Versoix",
+      "it": "Monolocale · Versoix",
+      "uk": "Студія 1 кімната · Versoix"
+    },
+    "regie": "de Rham Immobilière",
+    "regieType": "regie",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003465970/image/bab35e33d2237ebc0fa848953389f732.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": true,
+      "note": {
+        "fr": "100% conforme EVAM VD (CHF 1,450)",
+        "de": "100% konform EVAM VD (CHF 1,450)",
+        "it": "100% conforme EVAM VD (CHF 1,450)",
+        "uk": "100% відповідає EVAM VD (CHF 1,450)"
+      }
+    },
+    "photoCaption": "1 pièce / Studio · Versoix"
+  },
+  {
+    "id": "l'isle-2170-86358736",
+    "pk": 86358736,
+    "canton": "VD",
+    "postal_code": "1148",
+    "city_name": "L'Isle",
+    "rooms": 2.5,
+    "price": 2170,
+    "city": {
+      "fr": "L'Isle",
+      "de": "L'Isle",
+      "it": "L'Isle",
+      "uk": "L'Isle"
+    },
+    "title": {
+      "fr": "Sur demande, 1148 L'Isle - CHF 1’760 incl. utilities per month",
+      "de": "2.5-Zimmer-Wohnung · L'Isle",
+      "it": "2.5 locali · L'Isle",
+      "uk": "Квартира 2.5 кімнати · L'Isle"
+    },
+    "regie": "Régie Foncia Suisse",
+    "regieType": "regie",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/saroo994ph2w14i0cafyjeyuv1fte43uhpwl3eu2h0z5vcw8kh.jpg?alias=facebook_l&amp;signature=BghZbCQaIdqp5QT-iGBF-ZtDInSvWg2e8eKlBlfAppA",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,170)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,170)",
+        "it": "Convalida richiesta (CHF 2,170)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,170)"
+      }
+    },
+    "photoCaption": "2.5 pièces · L'Isle"
+  },
+  {
+    "id": "montricher-2250-86358189",
+    "pk": 86358189,
+    "canton": "VD",
+    "postal_code": "1147",
+    "city_name": "Montricher",
+    "rooms": 1.5,
+    "price": 2250,
+    "city": {
+      "fr": "Montricher",
+      "de": "Montricher",
+      "it": "Montricher",
+      "uk": "Montricher"
+    },
+    "title": {
+      "fr": "Route Neuve 1, 1147 Montricher - CHF 1’810",
+      "de": "1.5-Zimmer-Wohnung · Montricher",
+      "it": "1.5 locali · Montricher",
+      "uk": "Квартира 1.5 кімнати · Montricher"
+    },
+    "regie": "Propriétaire Privé · Art. 262 CO",
+    "regieType": "private",
+    "image_url": "https://cdn.flatfox.ch/t_facebook_l/listings/v2/anibisfill/4003464698/image/6149b6c6758c34450c3bc2ef90eb1ead.jpg",
+    "sbb": {
+      "minutes": 25,
+      "city": "Lausanne Gare",
+      "changes": 1
+    },
+    "compliance": {
+      "ok": false,
+      "note": {
+        "fr": "Validation assistant social requise (CHF 2,250)",
+        "de": "Bestätigung Sozialdienst erforderlich (CHF 2,250)",
+        "it": "Convalida richiesta (CHF 2,250)",
+        "uk": "Потребує підтвердження соцслужби (CHF 2,250)"
+      }
+    },
+    "photoCaption": "1.5 pièces · Montricher"
+  }
 ];
 window.SR_HOUSING = window.HOUSING_LISTINGS;
