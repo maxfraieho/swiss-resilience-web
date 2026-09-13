@@ -7,6 +7,7 @@ const https = require('https');
 
 const rootDir = __dirname;
 const files = [
+  'shared.jsx',
   'Nav.jsx',
   'ServiceSwitcher.jsx',
   'MobileDrawer.jsx',

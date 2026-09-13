@@ -2,12 +2,12 @@
 // Implements ADR-016 safe storage, Telegram WebApp stabilization, and quad-lingual i18n routing.
 
 // Safe storage helper resilient to Telegram in-app browser and private mode storage blocks (ADR-016)
-const _memStore = {};
+const _appMemStore = {};
 function safeStorageGet(key, def = null) {
   try {
-    return window.localStorage ? (window.localStorage.getItem(key) || def) : (_memStore[key] || def);
+    return window.localStorage ? (window.localStorage.getItem(key) || def) : (_appMemStore[key] || def);
   } catch (e) {
-    return _memStore[key] || def;
+    return _appMemStore[key] || def;
   }
 }
 
@@ -15,7 +15,7 @@ function safeStorageSet(key, val) {
   try {
     if (window.localStorage) window.localStorage.setItem(key, val);
   } catch (e) {
-    _memStore[key] = val;
+    _appMemStore[key] = val;
   }
 }
 

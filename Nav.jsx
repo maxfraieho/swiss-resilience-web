@@ -1,14 +1,4 @@
 // SwissRelief 2.6 — Sticky header (NO backdrop-filter on the wrap = no containing-block trap, ADR-017)
-function BrandMark({ size = 22 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="22" height="22" rx="4" fill="#D52B1E"/>
-      <rect x="10.5" y="5" width="3" height="14" fill="#F8FAFC"/>
-      <rect x="5" y="10.5" width="14" height="3" fill="#F8FAFC"/>
-      <circle cx="12" cy="12" r="9" stroke="#D97706" strokeWidth="0.6" opacity="0.55" fill="none"/>
-    </svg>
-  );
-}
 
 function TopBannerV2({ t }) {
   return (
