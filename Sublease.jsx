@@ -17,13 +17,15 @@ function SubleaseWizard({ t }) {
     }, 200);
   };
 
+  const sub = t?.sublease || {};
+
   return (
     <section id="sublease" className="v2-section">
       <div className="v2-container">
         <div className="v2-section-head">
-          <span className="v2-eyebrow">{t.sublease.eyebrow}</span>
-          <h2 className="v2-section-title">{t.sublease.title}</h2>
-          <p className="v2-section-sub">{t.sublease.lede}</p>
+          <span className="v2-eyebrow">{sub.eyebrow || "Module 03 · Solidarité Suisse"}</span>
+          <h2 className="v2-section-title">{sub.title || "Héberger en toute légalité (Art. 262 CO)"}</h2>
+          <p className="v2-section-sub">{sub.lede || "Calcul d'une juste participation aux frais et plafonnement légal."}</p>
         </div>
 
         <div className="v2-sublease-grid">
@@ -35,14 +37,14 @@ function SubleaseWizard({ t }) {
                 </svg>
               </div>
               <div>
-                <div className="v2-shield-title">{t.sublease.shield}</div>
-                <div className="v2-shield-body">{t.sublease.shieldBody}</div>
+                <div className="v2-shield-title">{sub.shield || "Bouclier juridique du locataire — Art. 262 CO"}</div>
+                <div className="v2-shield-body">{sub.shieldBody || "Le bailleur ne peut pas interdire la sous-location de manière générale."}</div>
               </div>
             </div>
 
             <div className="v2-two-col-fields">
               <div className="v2-field">
-                <label>{t.sublease.totalRent}</label>
+                <label>{sub.totalRent || "Loyer total net (CHF/mois)"}</label>
                 <div className="v2-input-with-suffix">
                   <input
                     type="number"
@@ -57,7 +59,7 @@ function SubleaseWizard({ t }) {
                 </div>
               </div>
               <div className="v2-field">
-                <label>{t.sublease.rooms}</label>
+                <label>{sub.rooms || "Nombre de pièces"}</label>
                 <div className="v2-input-with-suffix">
                   <input
                     type="number"
@@ -74,7 +76,7 @@ function SubleaseWizard({ t }) {
             </div>
 
             <div className="v2-field">
-              <label>{t.sublease.base}</label>
+              <label>{sub.base || "Quote-part loyer brut"}</label>
               <div className="v2-quote-row">
                 <span className="v2-quote-formula">CHF {chfV2(totalRent)} / {rooms} pièces</span>
                 <span className="v2-quote-value">CHF {chfV2(base)}</span>
@@ -83,7 +85,7 @@ function SubleaseWizard({ t }) {
 
             <div className="v2-field">
               <label className="v2-slider-label">
-                <span>{t.sublease.surcharge}</span>
+                <span>{sub.surcharge || "Majoration meubles & équipement"}</span>
                 <span className={`v2-slider-value ${over20 ? 'danger' : 'ok'}`}>{surcharge}%</span>
               </label>
               <input
@@ -101,11 +103,11 @@ function SubleaseWizard({ t }) {
                 <span style={{ color: 'var(--gold-2)' }}>20% MAX</span>
                 <span style={{ color: '#FCA5A5' }}>30%</span>
               </div>
-              <div className="v2-slider-hint">{t.sublease.surchargeLimit}</div>
+              <div className="v2-slider-hint">{sub.surchargeLimit || "Plafond légal 20% · Jurisprudence ASLOCA"}</div>
             </div>
 
             <div className="v2-final-rent">
-              <div className="v2-final-label">{t.sublease.final}</div>
+              <div className="v2-final-label">{sub.final || "Participation mensuelle demandée"}</div>
               <div className="v2-final-amount">
                 <span className="cur">CHF</span>
                 <span className="num">{chfV2(finalRent)}</span>
@@ -128,7 +130,7 @@ function SubleaseWizard({ t }) {
                   )}
                 </div>
                 <div>
-                  <div className="v2-compliance-title">{over20 ? t.sublease.overBadge : t.sublease.okBadge}</div>
+                  <div className="v2-compliance-title">{over20 ? (sub.overBadge || "Loyer abusif") : (sub.okBadge || "Conforme Art. 262 CO")}</div>
                   <div className="v2-compliance-body">{over20 ? 'Art. 262 al. 2 let. b CO' : 'Art. 262 CO · TF · ASLOCA'}</div>
                 </div>
               </div>
@@ -139,13 +141,13 @@ function SubleaseWizard({ t }) {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 10h12M4 14h9M18 6a7 7 0 0 0-7 7 7 7 0 0 0 7 7"/>
                 </svg>
-                {t.sublease.taxBadge}
+                {sub.taxBadge || "Non imposable"}
               </span>
               <span className="v2-mini-badge blue">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
-                {t.sublease.insBadge}
+                {sub.insBadge || "RC collective 5M"}
               </span>
               <span className="v2-mini-badge cyan">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -154,7 +156,7 @@ function SubleaseWizard({ t }) {
                   <line x1="10" y1="3" x2="8" y2="21"/>
                   <line x1="16" y1="3" x2="14" y2="21"/>
                 </svg>
-                {t.sublease.merkleBadge}
+                {sub.merkleBadge || "Merkle SHA-256"}
               </span>
             </div>
 
@@ -167,21 +169,21 @@ function SubleaseWizard({ t }) {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 5l7 7-7 7"/>
               </svg>
-              {pdfGenerated ? '✓ Document prêt — Imprimer / PDF' : t.sublease.letterBtn}
+              {pdfGenerated ? '✓ Document prêt — Imprimer / PDF' : (sub.letterBtn || "Générer la notification régie (PDF)")}
             </button>
-            <div className="v2-btn-hint">{t.sublease.letterHint}</div>
+            <div className="v2-btn-hint">{sub.letterHint || "Courrier prêt à signer pour la gérance."}</div>
           </div>
 
           {/* Right: mock PDF preview (Georgia serif on white paper) */}
           <div className="v2-pdf-preview">
-            <div className="v2-pdf-head">{t.sublease.pdfTitle}</div>
-            <p className="v2-pdf-intro">{t.sublease.pdfIntro}</p>
+            <div className="v2-pdf-head">{sub.pdfTitle || "NOTIFICATION OFFICIELLE À LA GÉRANCE"}</div>
+            <p className="v2-pdf-intro">{sub.pdfIntro || "En application de l'art. 262 CO..."}</p>
             <div className="v2-pdf-row"><span className="k">Locataire principal</span><span>[ Nom · Adresse · NPA / Ville ]</span></div>
             <div className="v2-pdf-row"><span className="k">Gérance</span><span>[ Nom · Adresse · Contact ]</span></div>
             <div className="v2-pdf-row"><span className="k">Sous-locataire (Permis S)</span><span>[ Nom · N° Permis S ]</span></div>
             <div className="v2-pdf-row"><span className="k">Locaux sous-loués</span><span>1 pièce meublée, ~{(15/Math.max(rooms,1)).toFixed(1)} m², cuisine/SdB partagées</span></div>
             <div className="v2-pdf-row"><span className="k">Loyer forfaitaire</span><span style={{ fontWeight: 700 }}>CHF {chfV2(finalRent)} / mois</span></div>
-            <div className="v2-pdf-close">{t.sublease.pdfClose}</div>
+            <div className="v2-pdf-close">{sub.pdfClose || "Le préavis applicable demeure celui de l'art. 266e CO."}</div>
             <div className="v2-pdf-sig">
               <div><div className="v2-pdf-line"/>Signature · locataire principal</div>
               <div><div className="v2-pdf-line"/>Date · Lieu</div>

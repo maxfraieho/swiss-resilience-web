@@ -362,8 +362,69 @@ function App() {
   );
 }
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("ACCORD App ErrorBoundary caught:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#070B12',
+          color: '#F8FAFC',
+          fontFamily: "'Inter', sans-serif",
+          textAlign: 'center',
+          padding: 24
+        }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 14, background: '#D52B1E',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginBottom: 16, boxShadow: '0 0 24px rgba(213,43,30,0.45)', overflow: 'hidden'
+          }}>
+            <img src="/accord_logo.jpg" alt="ACCORD" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.style.display = 'none'; }} />
+          </div>
+          <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 6, letterSpacing: '-0.01em' }}>ACCORD Suisse</div>
+          <div style={{ fontSize: 13, color: '#94A3B8', maxWidth: 360, lineHeight: 1.5, marginBottom: 18 }}>
+            Оновлення даних... Якщо сторінка не завантажилася автоматично, натисніть кнопку нижче:
+          </div>
+          <button
+            onClick={() => {
+              try { localStorage.clear(); } catch(e) {}
+              window.location.reload();
+            }}
+            style={{
+              background: '#D52B1E', color: '#fff', border: 'none', borderRadius: 8,
+              padding: '10px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer'
+            }}
+          >
+            Оновити сторінку
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<App/>);
+  root.render(
+    <ErrorBoundary>
+      <App/>
+    </ErrorBoundary>
+  );
 }
+

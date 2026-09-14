@@ -31,12 +31,15 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
     }, 200);
   };
 
+  const sw = t?.switcher || {};
   const services = [
-    { id: 'calc',    side: 'a', icon: <Ico.house/>, label: t.nav.housing,    sub: "Barèmes EVAM · 26 Cantons" },
-    { id: 'housing', side: 'a', icon: <Ico.house/>, label: t.housing.eyebrow.split(' · ')[0], sub: "Régies · SBB · EVAM" },
-    { id: 'prof',    side: 'a', icon: <Ico.chart/>, label: t.nav?.jobs || "Emploi", sub: "Offres · Art. 21a LEI" },
-    { id: 'dossier', side: 'a', icon: <Ico.file/>,  label: t.nav.dossier,    sub: "Art. 253 CO · PDF/A" },
-    { id: 'beta',    side: null,icon: <Ico.heart/>, label: t.nav.beta,       sub: "0 CHF · Bêta publique" }
+    { id: 'housing', side: 'a', icon: <Ico.house/>, label: sw.housing?.label || t?.nav?.housing || "Житло", sub: sw.housing?.sub || "Оренда та EVAM" },
+    { id: 'prof',    side: 'a', icon: <Ico.chart/>, label: sw.prof?.label || t?.nav?.jobs || "Робота", sub: sw.prof?.sub || "Вакансії та CV" },
+    { id: 'calc',    side: 'a', icon: <Ico.house/>, label: sw.calc?.label || t?.svc?.calc || "Калькулятор", sub: sw.calc?.sub || "Ліміти 26 кантонів" },
+    { id: 'dossier', side: 'a', icon: <Ico.file/>,  label: sw.dossier?.label || t?.nav?.dossier || "Досьє", sub: sw.dossier?.sub || "Пакет для режі" },
+    { id: 'sublease',side: 'b', icon: <Ico.shield/>,label: sw.sublease?.label || t?.svc?.sublease || "Суборенда", sub: sw.sublease?.sub || "Кімната в оренду" },
+    { id: 'mentors', side: 'b', icon: <Ico.users/>, label: sw.mentors?.label || t?.svc?.mentors || "Ментори", sub: sw.mentors?.sub || "Волонтери Benevol" },
+    { id: 'beta',    side: null,icon: <Ico.heart/>, label: sw.beta?.label || t?.svc?.beta || "Підтримка", sub: sw.beta?.sub || "Вільна бета" }
   ];
 
   const drawer = (

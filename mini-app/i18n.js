@@ -991,26 +991,179 @@ const SR_I18N = {
   }
 };
 
-// window.SR_I18N preserved
-window.LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦" };
-window.LANG_CODES = { fr: "FR", de: "DE", it: "IT", uk: "UK" };
-
-
-  if (typeof window !== 'undefined' && window.SR_I18N) {
-    ['fr', 'de', 'it', 'uk'].forEach(function(l) {
-      if (!SR_I18N[l]) return;
-      window.SR_I18N[l] = Object.assign({}, window.SR_I18N[l], {
-        lei: SR_I18N[l].lei,
-        housing: SR_I18N[l].housing,
-        dossier: SR_I18N[l].dossier,
-        calc: Object.assign({}, window.SR_I18N[l].calc, SR_I18N[l].calc),
-        beta: Object.assign({}, window.SR_I18N[l].beta, SR_I18N[l].beta),
-        hero: Object.assign({}, window.SR_I18N[l].hero, {
-          ctaBot: SR_I18N[l].hero.ctaBot,
-          ctaApp: SR_I18N[l].hero.ctaApp
-        })
-      });
-    });
-    window.I18N = window.SR_I18N;
+// ACCORD 2.7 Pillars
+const ACCORD_PILLARS = {
+  uk: {
+    eyebrow: "Чому АКОРД ?",
+    title: "Чотири стовпи довіри, без складних термінів.",
+    sub: "Прямий інструмент дії — у дусі знайомої цифрової зручності — створений для швейцарських реалій: швидкість, юридична точність і гідність.",
+    items: [
+      { idx: "01", cls: "pillar-1", icon: "⚡", title: "Швидкість, яка вирішує все", body: "Сповіщення в Telegram за лічені секунди після появи нової пропозиції. Відгукуйтесь першими — до напливу сотень інших кандидатів.", kpi: { n: "< 60 с", l: "швидкість сигналу" } },
+      { idx: "02", cls: "pillar-2", icon: "🤖", title: "Швейцарський ШІ-копілот 24/7", body: "Адаптація CV до швейцарських кантональних норм, мотиваційні листи французькою та німецькою, та автоматична збірка досьє на оренду.", kpi: { n: "Claude · GPT", l: "швейцарські моделі" } },
+      { idx: "03", cls: "pillar-3", icon: "🤝", title: "Швейцарські наставники та волонтери", body: "Підтримка від місцевих жителів: перевірка резюме, супровід на перегляди квартир, мовна практика. Офіційний цивільний мандат ст. 394 CO за стандартами Benevol.", kpi: { n: "148+", l: "активних наставників" } },
+      { idx: "04", cls: "pillar-4", icon: "🛡️", title: "Повна повага та безпека", body: "Жодного спаму, дублікатів та застарілих оголошень. Повна відповідність ставкам вашого кантону і 100% безкоштовно згідно з законом LSE.", kpi: { n: "LPD · LSE", l: "відповідність закону" } }
+    ]
+  },
+  fr: {
+    eyebrow: "POURQUOI L'ACCORD ?",
+    title: "Quatre piliers de confiance, sans jargon.",
+    sub: "Un outil d'action directe — dans l'esprit de simplicité numérique — conçu pour la réalité suisse : rapidité, précision juridique et dignité.",
+    items: [
+      { idx: "01", cls: "pillar-1", icon: "⚡", title: "La vitesse qui change tout", body: "Alertes Telegram en quelques secondes après parution. Postulez en premier, avant l'afflux de centaines d'autres dossiers.", kpi: { n: "< 60 s", l: "vitesse de signal" } },
+      { idx: "02", cls: "pillar-2", icon: "🤖", title: "Copilote IA suisse 24/7", body: "Adaptation du CV aux normes cantonales suisses, lettres de motivation en français/allemand, et assemblage automatique du dossier de régie.", kpi: { n: "Claude · GPT", l: "modèles suisses" } },
+      { idx: "03", cls: "pillar-3", icon: "🤝", title: "Mentors & bénévoles suisses", body: "Accompagnement par des résidents suisses : relecture de CV, visites de logements, pratique linguistique. Mandat civil officiel Art. 394 CO selon charte Benevol.", kpi: { n: "148+", l: "mentors actifs" } },
+      { idx: "04", cls: "pillar-4", icon: "🛡️", title: "Respect absolu & conformité", body: "Zéro spam, zéro doublon, zéro annonce obsolète. Respect strict des barèmes de votre canton et 100% gratuit selon la loi LSE.", kpi: { n: "LPD · LSE", l: "conformité légale" } }
+    ]
+  },
+  de: {
+    eyebrow: "WARUM AKKORD ?",
+    title: "Vier Säulen des Vertrauens, ohne Fachjargon.",
+    sub: "Ein direktes Handlungsinstrument für Schweizer Realitäten: Schnelligkeit, Rechtssicherheit und Würde.",
+    items: [
+      { idx: "01", cls: "pillar-1", icon: "⚡", title: "Geschwindigkeit entscheidet", body: "Telegram-Benachrichtigungen innerhalb von Sekunden nach Veröffentlichung.", kpi: { n: "< 60 s", l: "Signalzeit" } },
+      { idx: "02", cls: "pillar-2", icon: "🤖", title: "Schweizer KI-Copilot 24/7", body: "Anpassung des Lebenslaufs an kantonale Normen und automatische Dossier-Erstellung.", kpi: { n: "Claude · GPT", l: "Schweizer Modelle" } },
+      { idx: "03", cls: "pillar-3", icon: "🤝", title: "Schweizer Mentoren & Freiwillige", body: "Unterstützung durch Einheimische: CV-Check, Wohnungsbesichtigungen nach Benevol-Standards.", kpi: { n: "148+", l: "aktive Mentoren" } },
+      { idx: "04", cls: "pillar-4", icon: "🛡️", title: "Sicherheit & Rechtstreue", body: "Kein Spam, 100% kostenlos gemäss Arbeitsvermittlungsgesetz (AVG).", kpi: { n: "DSG · AVG", l: "Gesetzeskonform" } }
+    ]
+  },
+  en: {
+    eyebrow: "WHY ACCORD ?",
+    title: "Four pillars of trust, zero jargon.",
+    sub: "A direct empowerment tool engineered for Swiss realities: speed, legal precision, and human dignity.",
+    items: [
+      { idx: "01", cls: "pillar-1", icon: "⚡", title: "Speed that changes everything", body: "Telegram notifications in seconds. Apply first before hundreds of candidates crowd in.", kpi: { n: "< 60 s", l: "signal speed" } },
+      { idx: "02", cls: "pillar-2", icon: "🤖", title: "24/7 Swiss AI Copilot", body: "Resume adaptation to Swiss cantonal standards, bilingual cover letters, and rental dossier packaging.", kpi: { n: "Claude · GPT", l: "Swiss models" } },
+      { idx: "03", cls: "pillar-3", icon: "🤝", title: "Swiss Mentors & Volunteers", body: "One-on-one guidance by local residents under Benevol standards and Art. 394 CO.", kpi: { n: "148+", l: "active mentors" } },
+      { idx: "04", cls: "pillar-4", icon: "🛡️", title: "Absolute Safety & Compliance", body: "Zero spam, official cantonal rent limits, and 100% free under Federal Employment Law (LSE).", kpi: { n: "FADP · LSE", l: "full compliance" } }
+    ]
   }
+};
+
+window.LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦", en: "🇬🇧" };
+window.LANG_CODES = { fr: "FR", de: "DE", it: "IT", uk: "UK", en: "EN" };
+
+if (typeof window !== 'undefined') {
+  if (!window.SR_I18N) window.SR_I18N = {};
+
+  // 1. Merge 2.6 extensions (housing, dossier, lei, metrics, etc.) into window.SR_I18N
+  ['fr', 'de', 'it', 'uk'].forEach(function(l) {
+    if (typeof SR_I18N !== 'undefined' && SR_I18N[l]) {
+      if (!window.SR_I18N[l]) window.SR_I18N[l] = {};
+      window.SR_I18N[l].housing = SR_I18N[l].housing;
+      window.SR_I18N[l].dossier = SR_I18N[l].dossier;
+      window.SR_I18N[l].lei = SR_I18N[l].lei;
+      window.SR_I18N[l].metrics = SR_I18N[l].metrics;
+      if (!window.SR_I18N[l].calc) {
+        window.SR_I18N[l].calc = SR_I18N[l].calc;
+      } else {
+        Object.assign(window.SR_I18N[l].calc, SR_I18N[l].calc);
+      }
+      if (!window.SR_I18N[l].nav) {
+        window.SR_I18N[l].nav = SR_I18N[l].nav;
+      } else {
+        Object.assign(window.SR_I18N[l].nav, SR_I18N[l].nav);
+      }
+    }
+  });
+
+  // 2. Merge data.js modules (sublease, mentors, prof) into window.SR_I18N
+  if (window.I18N) {
+    ['fr', 'de', 'it', 'uk'].forEach(function(l) {
+      if (window.I18N[l] && window.SR_I18N[l]) {
+        if (window.I18N[l].sublease) window.SR_I18N[l].sublease = window.I18N[l].sublease;
+        if (window.I18N[l].mentors) window.SR_I18N[l].mentors = window.I18N[l].mentors;
+        if (window.I18N[l].prof) {
+          window.SR_I18N[l].prof = Object.assign({}, window.I18N[l].prof, window.SR_I18N[l].prof || {});
+        }
+      }
+    });
+  }
+
+  // 3. Simplified switcher badge labels and subtitles (direct & clear: Житло, Робота, Калькулятор, Досьє...)
+  var SWITCHER_LABELS = {
+    uk: {
+      housing:  { label: "Житло",       sub: "Оренда та EVAM",       badge: "A" },
+      prof:     { label: "Робота",      sub: "Вакансії та CV",       badge: "A" },
+      calc:     { label: "Калькулятор", sub: "Ліміти 26 кантонів",   badge: "A" },
+      dossier:  { label: "Досьє",       sub: "Пакет для режі",       badge: "A" },
+      sublease: { label: "Суборенда",   sub: "Кімната в оренду",     badge: "B" },
+      mentors:  { label: "Ментори",     sub: "Волонтери Benevol",    badge: "B" },
+      beta:     { label: "Підтримка",   sub: "Вільна бета",          badge: "FREE" }
+    },
+    fr: {
+      housing:  { label: "Logement",      sub: "Régies & EVAM",        badge: "A" },
+      prof:     { label: "Emploi",        sub: "Offres & CV suisse",   badge: "A" },
+      calc:     { label: "Calculateur",   sub: "Plafonds 26 cantons",  badge: "A" },
+      dossier:  { label: "Dossier",       sub: "Candidature 1-clic",   badge: "A" },
+      sublease: { label: "Sous-location", sub: "Logement solidaire",   badge: "B" },
+      mentors:  { label: "Mentors",       sub: "Bénévoles Benevol",    badge: "B" },
+      beta:     { label: "Soutien",       sub: "Bêta 100% libre",      badge: "FREE" }
+    },
+    de: {
+      housing:  { label: "Wohnen",        sub: "Mietwohnungen & EVAM", badge: "A" },
+      prof:     { label: "Arbeit",        sub: "Stellen & Lebenslauf", badge: "A" },
+      calc:     { label: "Rechner",       sub: "26 Kantone Limiten",   badge: "A" },
+      dossier:  { label: "Dossier",       sub: "1-Klick Bewerbung",    badge: "A" },
+      sublease: { label: "Untermiete",    sub: "Solidarische Miete",   badge: "B" },
+      mentors:  { label: "Mentoren",      sub: "Freiwillige Benevol",  badge: "B" },
+      beta:     { label: "Support",       sub: "Öffentliche Beta",     badge: "FREE" }
+    },
+    it: {
+      housing:  { label: "Alloggio",      sub: "Affitti e limiti EVAM",badge: "A" },
+      prof:     { label: "Lavoro",        sub: "Offerte e CV svizzero",badge: "A" },
+      calc:     { label: "Calcolatore",   sub: "Limiti 26 cantoni",    badge: "A" },
+      dossier:  { label: "Dossier",       sub: "Candidatura 1-clic",   badge: "A" },
+      sublease: { label: "Subaffitto",    sub: "Camera solidale",      badge: "B" },
+      mentors:  { label: "Mentori",       sub: "Volontari Benevol",    badge: "B" },
+      beta:     { label: "Supporto",      sub: "Beta gratuita",        badge: "FREE" }
+    },
+    en: {
+      housing:  { label: "Housing",       sub: "Rentals & EVAM",       badge: "A" },
+      prof:     { label: "Jobs",          sub: "Vacancies & Swiss CV", badge: "A" },
+      calc:     { label: "Calculator",    sub: "26 cantons limits",    badge: "A" },
+      dossier:  { label: "Dossier",       sub: "1-Click rental pack",  badge: "A" },
+      sublease: { label: "Sublease",      sub: "Shared rooms & flats", badge: "B" },
+      mentors:  { label: "Mentors",       sub: "Benevol volunteers",   badge: "B" },
+      beta:     { label: "Support",       sub: "100% free beta",       badge: "FREE" }
+    }
+  };
+
+  ['fr', 'de', 'it', 'uk', 'en'].forEach(function(l) {
+    if (window.SR_I18N[l]) {
+      window.SR_I18N[l].switcher = SWITCHER_LABELS[l] || SWITCHER_LABELS.fr;
+    }
+  });
+
+  // 4. Construct complete English dictionary from French base
+  if (!window.SR_I18N.en && window.SR_I18N.fr) {
+    window.SR_I18N.en = JSON.parse(JSON.stringify(window.SR_I18N.fr));
+    Object.assign(window.SR_I18N.en, {
+      banner: "Public Beta · Swiss Resilience Association in creation (Art. 60–79 CC). 100% Free.",
+      donate: "Donate",
+      hero: {
+        line1: "A dignified home, legal employment —",
+        line2: "without predatory middlemen.",
+        lede: "Official ceilings of 26 cantons, job radar Art. 21a LEI, sublease calculator Art. 262 CO, and Benevol mentor network."
+      },
+      tabs: {
+        seekers: "Candidates · Permis S",
+        seekersSub: "Jobs, housing, rental dossier",
+        solidarity: "Swiss Volunteers",
+        solSub: "Mentoring & hospitality"
+      },
+      switcher: SWITCHER_LABELS.en
+    });
+  }
+
+  // 5. Attach Four Pillars to every language
+  ['fr', 'de', 'it', 'uk', 'en'].forEach(function(l) {
+    if (window.SR_I18N[l]) {
+      window.SR_I18N[l].pillars = ACCORD_PILLARS[l] || ACCORD_PILLARS.fr;
+    }
+  });
+
+  // 6. Synchronize window.I18N
+  window.I18N = window.SR_I18N;
+}
 })();
+

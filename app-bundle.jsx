@@ -245,78 +245,80 @@ Object.assign(window, { NavV2, TopBannerV2, BrandMark });
 // SwissRelief 2.6 — Horizontal 5-service switcher bar under the header.
 // Isolated stacking context (z-index: 10) so the language dropdown (z: 1100) stays above.
 function ServiceSwitcher({ activeId, onPick, t }) {
+  const sw = t?.switcher || {};
+
   const services = [
     {
       id: 'housing',
       side: 'a',
       num: '01',
-      badge: 'A',
+      badge: sw.housing?.badge || 'A',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 12 12 3l9 9M5 10v10h14V10"/>
         </svg>
       ),
-      label: t.nav?.housing || "Logement",
-      sub: "EVAM · Régies · SBB"
+      label: sw.housing?.label || t?.nav?.housing || "Житло",
+      sub: sw.housing?.sub || "Оренда та EVAM"
     },
     {
       id: 'prof',
       side: 'a',
       num: '02',
-      badge: 'A',
+      badge: sw.prof?.badge || 'A',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M3 3v18h18"/>
           <path d="M7 15l4-4 3 3 5-6"/>
         </svg>
       ),
-      label: t.nav?.jobs || "Emploi & CV",
-      sub: "63 offres · Art. 21a LEI"
+      label: sw.prof?.label || t?.nav?.jobs || "Робота",
+      sub: sw.prof?.sub || "Вакансії та CV"
     },
     {
       id: 'calc',
       side: 'a',
       num: '03',
-      badge: 'A',
+      badge: sw.calc?.badge || 'A',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/>
         </svg>
       ),
-      label: t.svc?.calc || "Calculateur",
-      sub: "26 cantons · Plafonds"
+      label: sw.calc?.label || t?.svc?.calc || "Калькулятор",
+      sub: sw.calc?.sub || "Ліміти 26 кантонів"
     },
     {
       id: 'dossier',
       side: 'a',
       num: '04',
-      badge: 'A',
+      badge: sw.dossier?.badge || 'A',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/>
         </svg>
       ),
-      label: t.nav?.dossier || "Dossier USPI",
-      sub: "1-Click PDF/A · Barème"
+      label: sw.dossier?.label || t?.nav?.dossier || "Досьє",
+      sub: sw.dossier?.sub || "Пакет для режі"
     },
     {
       id: 'sublease',
       side: 'b',
       num: '05',
-      badge: 'B',
+      badge: sw.sublease?.badge || 'B',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
         </svg>
       ),
-      label: t.svc?.sublease || "Sous-location",
-      sub: "Art. 262 CO · ASLOCA"
+      label: sw.sublease?.label || t?.svc?.sublease || "Суборенда",
+      sub: sw.sublease?.sub || "Кімната в оренду"
     },
     {
       id: 'mentors',
       side: 'b',
       num: '06',
-      badge: 'B',
+      badge: sw.mentors?.badge || 'B',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -325,22 +327,22 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       ),
-      label: t.svc?.mentors || "Mentors",
-      sub: "Art. 394 CO · Benevol"
+      label: sw.mentors?.label || t?.svc?.mentors || "Ментори",
+      sub: sw.mentors?.sub || "Волонтери Benevol"
     },
     {
       id: 'beta',
       side: null,
       num: '07',
-      badge: 'FREE',
+      badge: sw.beta?.badge || 'FREE',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="11" width="18" height="11" rx="2"/>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       ),
-      label: t.svc?.beta || "Transparence",
-      sub: "0 CHF · Don Merkle"
+      label: sw.beta?.label || t?.svc?.beta || "Підтримка",
+      sub: sw.beta?.sub || "Вільна бета"
     },
   ];
 
@@ -411,12 +413,15 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
     }, 200);
   };
 
+  const sw = t?.switcher || {};
   const services = [
-    { id: 'calc',    side: 'a', icon: <Ico.house/>, label: t.nav.housing,    sub: "Barèmes EVAM · 26 Cantons" },
-    { id: 'housing', side: 'a', icon: <Ico.house/>, label: t.housing.eyebrow.split(' · ')[0], sub: "Régies · SBB · EVAM" },
-    { id: 'prof',    side: 'a', icon: <Ico.chart/>, label: t.nav?.jobs || "Emploi", sub: "Offres · Art. 21a LEI" },
-    { id: 'dossier', side: 'a', icon: <Ico.file/>,  label: t.nav.dossier,    sub: "Art. 253 CO · PDF/A" },
-    { id: 'beta',    side: null,icon: <Ico.heart/>, label: t.nav.beta,       sub: "0 CHF · Bêta publique" }
+    { id: 'housing', side: 'a', icon: <Ico.house/>, label: sw.housing?.label || t?.nav?.housing || "Житло", sub: sw.housing?.sub || "Оренда та EVAM" },
+    { id: 'prof',    side: 'a', icon: <Ico.chart/>, label: sw.prof?.label || t?.nav?.jobs || "Робота", sub: sw.prof?.sub || "Вакансії та CV" },
+    { id: 'calc',    side: 'a', icon: <Ico.house/>, label: sw.calc?.label || t?.svc?.calc || "Калькулятор", sub: sw.calc?.sub || "Ліміти 26 кантонів" },
+    { id: 'dossier', side: 'a', icon: <Ico.file/>,  label: sw.dossier?.label || t?.nav?.dossier || "Досьє", sub: sw.dossier?.sub || "Пакет для режі" },
+    { id: 'sublease',side: 'b', icon: <Ico.shield/>,label: sw.sublease?.label || t?.svc?.sublease || "Суборенда", sub: sw.sublease?.sub || "Кімната в оренду" },
+    { id: 'mentors', side: 'b', icon: <Ico.users/>, label: sw.mentors?.label || t?.svc?.mentors || "Ментори", sub: sw.mentors?.sub || "Волонтери Benevol" },
+    { id: 'beta',    side: null,icon: <Ico.heart/>, label: sw.beta?.label || t?.svc?.beta || "Підтримка", sub: sw.beta?.sub || "Вільна бета" }
   ];
 
   const drawer = (
@@ -554,10 +559,10 @@ function HeroV2({ side, setSide, t }) {
           <span>{t.hero?.pill || "ACCORD SUISSE · PERMIS S · 100% GRATUIT"}</span>
         </div>
         <h1 className="v2-hero-title">
-          {t.hero.line1 || t.hero.title1 || "Твоя дія у Швейцарії:"}<br/>
-          <span className="v2-hero-accent">{t.hero.line2 || t.hero.title2 || "житло, робота та спільнота."}</span>
+          {t?.hero?.line1 || t?.hero?.title1 || "Твоя дія у Швейцарії:"}<br/>
+          <span className="v2-hero-accent">{t?.hero?.line2 || t?.hero?.title2 || "житло, робота та спільнота."}</span>
         </h1>
-        <p className="v2-hero-sub">{t.hero.lede}</p>
+        <p className="v2-hero-sub">{t?.hero?.lede || ""}</p>
 
         <div className="v2-hero-cta-group hero-ctas">
           <a
@@ -567,14 +572,14 @@ function HeroV2({ side, setSide, t }) {
             className="v2-btn v2-btn-primary v2-btn-tg btn tg lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>{t.hero?.ctaBot || "Запустити АКОРД у Telegram"}</span>
+            <span>{t?.hero?.ctaBot || "Запустити АКОРД у Telegram"}</span>
           </a>
           <a
             href="/app/"
             className="v2-btn v2-btn-secondary btn primary lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
-            <span>{t.hero?.ctaApp || "Відкрити Mini App"}</span>
+            <span>{t?.hero?.ctaApp || "Відкрити Mini App"}</span>
           </a>
         </div>
 
@@ -593,8 +598,8 @@ function HeroV2({ side, setSide, t }) {
               </svg>
             </span>
             <span className="v2-tab-body">
-              <span className="v2-tab-label">{t.tabs.seekers}</span>
-              <span className="v2-tab-sub">{t.tabs.seekersSub}</span>
+              <span className="v2-tab-label">{t?.tabs?.seekers || "Кандидати Permis S"}</span>
+              <span className="v2-tab-sub">{t?.tabs?.seekersSub || "Житло, робота, досьє"}</span>
             </span>
           </button>
           <button
@@ -608,14 +613,14 @@ function HeroV2({ side, setSide, t }) {
               </svg>
             </span>
             <span className="v2-tab-body">
-              <span className="v2-tab-label">{t.tabs.solidarity || t.tabs.volunteers}</span>
-              <span className="v2-tab-sub">{t.tabs.solSub || t.tabs.volunteersSub}</span>
+              <span className="v2-tab-label">{t?.tabs?.solidarity || t?.tabs?.volunteers || "Швейцарські волонтери"}</span>
+              <span className="v2-tab-sub">{t?.tabs?.solSub || t?.tabs?.volunteersSub || "Підтримка та гостинність"}</span>
             </span>
           </button>
         </div>
 
         <div className="v2-trust-grid">
-          {t.trust.map((m, i) => (
+          {(t?.trust || []).map((m, i) => (
             <div key={i} className={`v2-trust-tile rail-${['emerald','crimson','gold','cyan'][i % 4]}`}>
               <div className="v2-trust-label">{m.k}</div>
               <div className="v2-trust-value">{m.v}</div>
@@ -629,7 +634,7 @@ function HeroV2({ side, setSide, t }) {
 }
 
 function FourPillars({ t }) {
-  const p = t.pillars || {
+  const p = t?.pillars || {
     eyebrow: "POURQUOI L'ACCORD ?",
     title: "Quatre piliers de confiance, sans jargon.",
     sub: "Un outil d'action directe conçu pour la réalité suisse.",
@@ -650,7 +655,7 @@ function FourPillars({ t }) {
           <p className="section-sub" style={{ fontSize: 14, color: 'var(--muted)', margin: 0 }}>{p.sub}</p>
         </div>
         <div className="pillar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-          {p.items.map((it) => (
+          {(p.items || []).map((it) => (
             <article key={it.idx} className={`pillar-card ${it.cls}`} style={{
               background: 'rgba(15,23,42,.65)', border: '1px solid var(--line-2)', borderRadius: 16, padding: 20,
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
@@ -1074,12 +1079,14 @@ function DossierGenerator({ t, lang, prefill }) {
   const cityName = listing.city.fr;
   const priceLine = `CHF ${window.chf(listing.price)}/mois`;
 
+  const d = t?.dossier || {};
+
   return (
     <section id="dossier" className="block" style={{background: 'rgba(213,43,30,.03)'}}>
       <div className="container">
-        <span className="section-eyebrow">{t.dossier.eyebrow}</span>
-        <h2 className="section-title">{t.dossier.title}</h2>
-        <p className="section-sub">{t.dossier.lede}</p>
+        <span className="section-eyebrow">{d.eyebrow || "Dossier régie 1-Click · Art. 253 CO"}</span>
+        <h2 className="section-title">{d.title || "Générateur de dossier de candidature locative"}</h2>
+        <p className="section-sub">{d.lede || "Formulaire candidat conforme aux normes régies suisses."}</p>
 
         <div className="dossier-grid">
           {/* FORM */}
@@ -1089,7 +1096,7 @@ function DossierGenerator({ t, lang, prefill }) {
               textTransform: 'uppercase', color: 'var(--gold-2)', fontWeight: 700,
               marginBottom: 14
             }}>
-              📄 {t.dossier.formTitle}
+              📄 {d.formTitle || "Formulaire candidat"}
             </div>
 
             {/* Prefill notice */}
@@ -1099,27 +1106,27 @@ function DossierGenerator({ t, lang, prefill }) {
               border: '1px solid rgba(213,43,30,.25)',
               borderRadius: 10, fontSize: 12, color: 'var(--ink-2)', lineHeight: 1.5
             }}>
-              <b style={{color: 'var(--ink-0)'}}>Bien ciblé :</b> {listing.title[lang]}<br/>
+              <b style={{color: 'var(--ink-0)'}}>Bien ciblé :</b> {listing.title?.[lang] || listing.title?.fr || listing.title || "Logement Suisse"}<br/>
               <span className="mono" style={{color: 'var(--muted)', fontSize: 11}}>
-                {listing.regie} · CHF {window.chf(listing.price)}/mois · {listing.city[lang]}
+                {listing.regie} · CHF {window.chf(listing.price)}/mois · {listing.city?.[lang] || listing.city?.fr || listing.city_name || "Vaud"}
               </span>
             </div>
 
             <div className="field">
-              <label>{t.dossier.name}</label>
+              <label>{d.name || "Nom · Prénom"}</label>
               <input className="input" value={name} onChange={e => setName(e.target.value)}/>
             </div>
 
             <div className="field">
-              <label>{t.dossier.permis}</label>
+              <label>{d.permis || "N° dossier / Permis S"}</label>
               <input className="input mono" value={permis} onChange={e => setPermis(e.target.value)}/>
             </div>
 
             <div className="field">
-              <label>{t.dossier.status}</label>
+              <label>{d.status || "Statut financier"}</label>
               <div className="dossier-status-toggle">
                 <button className={statusForm === 'evam' ? 'active' : ''} onClick={() => setStatusForm('evam')}>
-                  📋 {t.dossier.evamPec}
+                  📋 {d.evamPec || "Prise en charge EVAM"}
                 </button>
                 <button className={statusForm === 'salary' ? 'active' : ''} onClick={() => setStatusForm('salary')}>
                   💼 {lang === 'de' ? 'Lohn' : lang === 'it' ? 'Salario' : lang === 'uk' ? 'Зарплата' : 'Salaire'}
@@ -1129,25 +1136,25 @@ function DossierGenerator({ t, lang, prefill }) {
 
             {statusForm === 'salary' && (
               <div className="field">
-                <label>{t.dossier.salary}</label>
+                <label>{d.salary || "Revenu mensuel (CHF)"}</label>
                 <input type="number" className="input mono" value={salary}
                   onChange={e => setSalary(Number(e.target.value) || 0)}/>
               </div>
             )}
 
             <div className="field">
-              <label>{t.dossier.guarantors}</label>
+              <label>{d.guarantors || "Garants éventuels"}</label>
               <input className="input" value={guarantors} onChange={e => setGuarantors(e.target.value)}/>
             </div>
 
             <div className="field" style={{marginBottom: 0}}>
-              <label>{t.dossier.poursuites}</label>
+              <label>{d.poursuites || "Extrait du Registre des Poursuites"}</label>
               <div className="dossier-status-toggle">
                 <button className={poursuites === 'has' ? 'active' : ''} onClick={() => setPoursuites('has')}>
-                  ✓ {t.dossier.hasIt}
+                  ✓ {d.hasIt || "Disponible (< 3 mois)"}
                 </button>
                 <button className={poursuites === 'will' ? 'active' : ''} onClick={() => setPoursuites('will')}>
-                  ⏳ {t.dossier.willGet}
+                  ⏳ {d.willGet || "En cours de commande"}
                 </button>
               </div>
             </div>
@@ -1161,7 +1168,7 @@ function DossierGenerator({ t, lang, prefill }) {
                 textTransform: 'uppercase', color: 'var(--muted)',
                 padding: '6px 8px', fontWeight: 600
               }}>
-                {t.dossier.previewIn}
+                {d.previewIn || "Aperçu de la lettre"}
               </span>
               <button className={previewLang === 'fr' ? 'active' : ''} onClick={() => setPreviewLang('fr')}>🇫🇷 FR</button>
               <button className={previewLang === 'de' ? 'active' : ''} onClick={() => setPreviewLang('de')}>🇩🇪 DE</button>
@@ -1239,10 +1246,10 @@ function DossierGenerator({ t, lang, prefill }) {
               display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap'
             }}>
               <button className="btn primary" onClick={() => alert('Génération PDF/A (mock)')}>
-                <Ico.file/> {t.dossier.downloadPdf}
+                <Ico.file/> {d.downloadPdf || "Télécharger PDF/A"}
               </button>
               <button className="btn ghost" onClick={() => alert('Texte copié dans le presse-papier (mock)')}>
-                {t.dossier.copyText}
+                {d.copyText || "Copier le texte"}
               </button>
             </div>
           </div>
@@ -1960,13 +1967,15 @@ function SubleaseWizard({ t }) {
     }, 200);
   };
 
+  const sub = t?.sublease || {};
+
   return (
     <section id="sublease" className="v2-section">
       <div className="v2-container">
         <div className="v2-section-head">
-          <span className="v2-eyebrow">{t.sublease.eyebrow}</span>
-          <h2 className="v2-section-title">{t.sublease.title}</h2>
-          <p className="v2-section-sub">{t.sublease.lede}</p>
+          <span className="v2-eyebrow">{sub.eyebrow || "Module 03 · Solidarité Suisse"}</span>
+          <h2 className="v2-section-title">{sub.title || "Héberger en toute légalité (Art. 262 CO)"}</h2>
+          <p className="v2-section-sub">{sub.lede || "Calcul d'une juste participation aux frais et plafonnement légal."}</p>
         </div>
 
         <div className="v2-sublease-grid">
@@ -1978,14 +1987,14 @@ function SubleaseWizard({ t }) {
                 </svg>
               </div>
               <div>
-                <div className="v2-shield-title">{t.sublease.shield}</div>
-                <div className="v2-shield-body">{t.sublease.shieldBody}</div>
+                <div className="v2-shield-title">{sub.shield || "Bouclier juridique du locataire — Art. 262 CO"}</div>
+                <div className="v2-shield-body">{sub.shieldBody || "Le bailleur ne peut pas interdire la sous-location de manière générale."}</div>
               </div>
             </div>
 
             <div className="v2-two-col-fields">
               <div className="v2-field">
-                <label>{t.sublease.totalRent}</label>
+                <label>{sub.totalRent || "Loyer total net (CHF/mois)"}</label>
                 <div className="v2-input-with-suffix">
                   <input
                     type="number"
@@ -2000,7 +2009,7 @@ function SubleaseWizard({ t }) {
                 </div>
               </div>
               <div className="v2-field">
-                <label>{t.sublease.rooms}</label>
+                <label>{sub.rooms || "Nombre de pièces"}</label>
                 <div className="v2-input-with-suffix">
                   <input
                     type="number"
@@ -2017,7 +2026,7 @@ function SubleaseWizard({ t }) {
             </div>
 
             <div className="v2-field">
-              <label>{t.sublease.base}</label>
+              <label>{sub.base || "Quote-part loyer brut"}</label>
               <div className="v2-quote-row">
                 <span className="v2-quote-formula">CHF {chfV2(totalRent)} / {rooms} pièces</span>
                 <span className="v2-quote-value">CHF {chfV2(base)}</span>
@@ -2026,7 +2035,7 @@ function SubleaseWizard({ t }) {
 
             <div className="v2-field">
               <label className="v2-slider-label">
-                <span>{t.sublease.surcharge}</span>
+                <span>{sub.surcharge || "Majoration meubles & équipement"}</span>
                 <span className={`v2-slider-value ${over20 ? 'danger' : 'ok'}`}>{surcharge}%</span>
               </label>
               <input
@@ -2044,11 +2053,11 @@ function SubleaseWizard({ t }) {
                 <span style={{ color: 'var(--gold-2)' }}>20% MAX</span>
                 <span style={{ color: '#FCA5A5' }}>30%</span>
               </div>
-              <div className="v2-slider-hint">{t.sublease.surchargeLimit}</div>
+              <div className="v2-slider-hint">{sub.surchargeLimit || "Plafond légal 20% · Jurisprudence ASLOCA"}</div>
             </div>
 
             <div className="v2-final-rent">
-              <div className="v2-final-label">{t.sublease.final}</div>
+              <div className="v2-final-label">{sub.final || "Participation mensuelle demandée"}</div>
               <div className="v2-final-amount">
                 <span className="cur">CHF</span>
                 <span className="num">{chfV2(finalRent)}</span>
@@ -2071,7 +2080,7 @@ function SubleaseWizard({ t }) {
                   )}
                 </div>
                 <div>
-                  <div className="v2-compliance-title">{over20 ? t.sublease.overBadge : t.sublease.okBadge}</div>
+                  <div className="v2-compliance-title">{over20 ? (sub.overBadge || "Loyer abusif") : (sub.okBadge || "Conforme Art. 262 CO")}</div>
                   <div className="v2-compliance-body">{over20 ? 'Art. 262 al. 2 let. b CO' : 'Art. 262 CO · TF · ASLOCA'}</div>
                 </div>
               </div>
@@ -2082,13 +2091,13 @@ function SubleaseWizard({ t }) {
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 10h12M4 14h9M18 6a7 7 0 0 0-7 7 7 7 0 0 0 7 7"/>
                 </svg>
-                {t.sublease.taxBadge}
+                {sub.taxBadge || "Non imposable"}
               </span>
               <span className="v2-mini-badge blue">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
-                {t.sublease.insBadge}
+                {sub.insBadge || "RC collective 5M"}
               </span>
               <span className="v2-mini-badge cyan">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -2097,7 +2106,7 @@ function SubleaseWizard({ t }) {
                   <line x1="10" y1="3" x2="8" y2="21"/>
                   <line x1="16" y1="3" x2="14" y2="21"/>
                 </svg>
-                {t.sublease.merkleBadge}
+                {sub.merkleBadge || "Merkle SHA-256"}
               </span>
             </div>
 
@@ -2110,21 +2119,21 @@ function SubleaseWizard({ t }) {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 5l7 7-7 7"/>
               </svg>
-              {pdfGenerated ? '✓ Document prêt — Imprimer / PDF' : t.sublease.letterBtn}
+              {pdfGenerated ? '✓ Document prêt — Imprimer / PDF' : (sub.letterBtn || "Générer la notification régie (PDF)")}
             </button>
-            <div className="v2-btn-hint">{t.sublease.letterHint}</div>
+            <div className="v2-btn-hint">{sub.letterHint || "Courrier prêt à signer pour la gérance."}</div>
           </div>
 
           {/* Right: mock PDF preview (Georgia serif on white paper) */}
           <div className="v2-pdf-preview">
-            <div className="v2-pdf-head">{t.sublease.pdfTitle}</div>
-            <p className="v2-pdf-intro">{t.sublease.pdfIntro}</p>
+            <div className="v2-pdf-head">{sub.pdfTitle || "NOTIFICATION OFFICIELLE À LA GÉRANCE"}</div>
+            <p className="v2-pdf-intro">{sub.pdfIntro || "En application de l'art. 262 CO..."}</p>
             <div className="v2-pdf-row"><span className="k">Locataire principal</span><span>[ Nom · Adresse · NPA / Ville ]</span></div>
             <div className="v2-pdf-row"><span className="k">Gérance</span><span>[ Nom · Adresse · Contact ]</span></div>
             <div className="v2-pdf-row"><span className="k">Sous-locataire (Permis S)</span><span>[ Nom · N° Permis S ]</span></div>
             <div className="v2-pdf-row"><span className="k">Locaux sous-loués</span><span>1 pièce meublée, ~{(15/Math.max(rooms,1)).toFixed(1)} m², cuisine/SdB partagées</span></div>
             <div className="v2-pdf-row"><span className="k">Loyer forfaitaire</span><span style={{ fontWeight: 700 }}>CHF {chfV2(finalRent)} / mois</span></div>
-            <div className="v2-pdf-close">{t.sublease.pdfClose}</div>
+            <div className="v2-pdf-close">{sub.pdfClose || "Le préavis applicable demeure celui de l'art. 266e CO."}</div>
             <div className="v2-pdf-sig">
               <div><div className="v2-pdf-line"/>Signature · locataire principal</div>
               <div><div className="v2-pdf-line"/>Date · Lieu</div>
@@ -2153,21 +2162,23 @@ function BenevolMentors({ t }) {
     }
   };
 
+  const m = t?.mentors || {};
+
   return (
     <section id="mentors" className="v2-section">
       <div className="v2-container">
         <div className="v2-section-head">
-          <span className="v2-eyebrow">{t.mentors.eyebrow}</span>
-          <h2 className="v2-section-title">{t.mentors.title}</h2>
-          <p className="v2-section-sub">{t.mentors.lede}</p>
+          <span className="v2-eyebrow">{m.eyebrow || "Module 04 · Engagement Citoyen — Réseau Benevol"}</span>
+          <h2 className="v2-section-title">{m.title || "Mentorat solidaire : 1 à 3 heures par semaine"}</h2>
+          <p className="v2-section-sub">{m.lede || "Accompagnement bénévole structuré sous mandat gratuit (Art. 394 CO)."}</p>
         </div>
 
         <div className="v2-mentors-grid">
           <div className="v2-card">
             <div className="v2-field">
-              <label>{t.mentors.commit}</label>
+              <label>{m.commit || "Disponibilité souhaitée"}</label>
               <div className="v2-pill-group">
-                {t.mentors.commitOpts.map((o, i) => (
+                {(m.commitOpts || ["1 h / semaine", "2–3 h / semaine", "À la demande"]).map((o, i) => (
                   <button key={i} className={`v2-pill-btn ${commit === i ? 'active-blue' : ''}`} onClick={() => setCommit(i)}>
                     {o}
                   </button>
@@ -2176,9 +2187,13 @@ function BenevolMentors({ t }) {
             </div>
 
             <div className="v2-field">
-              <label>{t.mentors.tracks}</label>
+              <label>{m.tracks || "Axes d'accompagnement"}</label>
               <div className="v2-tracks-grid">
-                {t.mentors.trackList.map((tr, i) => (
+                {(m.trackList || [
+                  { t: "Codes professionnels suisses", b: "Relecture de CV, préparation aux entretiens, culture d'entreprise locale." },
+                  { t: "Logement & intégration", b: "Aide aux visites de régies, décryptage des baux, orientation quartier." },
+                  { t: "Pratique linguistique", b: "Conversations hebdomadaires en français ou allemand en situation réelle." }
+                ]).map((tr, i) => (
                   <article key={i} className="v2-track-card">
                     <div className="v2-track-num">TRACK {String(i + 1).padStart(2, '0')}</div>
                     <div className="v2-track-title">{tr.t}</div>
@@ -2190,7 +2205,7 @@ function BenevolMentors({ t }) {
 
             <div className="v2-legal-strip">
               <span aria-hidden="true">§</span>
-              <span>{t.mentors.legal}</span>
+              <span>{m.legal || "Engagement régi par l'art. 394 CO (mandat civil bénévole). Aucun lien de subordination."}</span>
             </div>
 
             <button className="v2-btn v2-btn-blue" style={{ marginTop: 18 }} onClick={handleApply}>
@@ -2200,7 +2215,7 @@ function BenevolMentors({ t }) {
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
-              {t.mentors.apply}
+              {m.apply || "Rejoindre le réseau de mentors"}
             </button>
           </div>
 
@@ -2233,13 +2248,15 @@ Object.assign(window, { BenevolMentors });
 // SwissRelief 2.6 — Beta transparency section + Donation modal (MoR: Twint / Card / QR-Facture / Crypto ZK / Stars).
 // Fully functional payment interactions as requested by user ("Оплата має працювати для отримання донату").
 function BetaSection({ onOpenDonate, t }) {
+  const b = t?.beta || {};
+
   return (
     <section id="beta" className="v2-section">
       <div className="v2-container">
         <div className="v2-section-head">
-          <span className="v2-eyebrow">{t.beta.eyebrow}</span>
-          <h2 className="v2-section-title">{t.beta.title}</h2>
-          <p className="v2-section-sub">{t.beta.lede}</p>
+          <span className="v2-eyebrow">{b.eyebrow || "BÊTA PUBLIQUE · ACCORD SUISSE"}</span>
+          <h2 className="v2-section-title">{b.title || "Transparence absolue & solidarité"}</h2>
+          <p className="v2-section-sub">{b.lede || "Plateforme 100% libre et gratuite pendant toute la phase publique."}</p>
         </div>
 
         <div className="v2-beta-grid">
@@ -2978,9 +2995,70 @@ function App() {
   );
 }
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("ACCORD App ErrorBoundary caught:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#070B12',
+          color: '#F8FAFC',
+          fontFamily: "'Inter', sans-serif",
+          textAlign: 'center',
+          padding: 24
+        }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 14, background: '#D52B1E',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginBottom: 16, boxShadow: '0 0 24px rgba(213,43,30,0.45)', overflow: 'hidden'
+          }}>
+            <img src="/accord_logo.jpg" alt="ACCORD" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.style.display = 'none'; }} />
+          </div>
+          <div style={{ fontWeight: 800, fontSize: 18, marginBottom: 6, letterSpacing: '-0.01em' }}>ACCORD Suisse</div>
+          <div style={{ fontSize: 13, color: '#94A3B8', maxWidth: 360, lineHeight: 1.5, marginBottom: 18 }}>
+            Оновлення даних... Якщо сторінка не завантажилася автоматично, натисніть кнопку нижче:
+          </div>
+          <button
+            onClick={() => {
+              try { localStorage.clear(); } catch(e) {}
+              window.location.reload();
+            }}
+            style={{
+              background: '#D52B1E', color: '#fff', border: 'none', borderRadius: 8,
+              padding: '10px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer'
+            }}
+          >
+            Оновити сторінку
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<App/>);
+  root.render(
+    <ErrorBoundary>
+      <App/>
+    </ErrorBoundary>
+  );
 }
+
 

@@ -9,10 +9,10 @@ function HeroV2({ side, setSide, t }) {
           <span>{t.hero?.pill || "ACCORD SUISSE · PERMIS S · 100% GRATUIT"}</span>
         </div>
         <h1 className="v2-hero-title">
-          {t.hero.line1 || t.hero.title1 || "Твоя дія у Швейцарії:"}<br/>
-          <span className="v2-hero-accent">{t.hero.line2 || t.hero.title2 || "житло, робота та спільнота."}</span>
+          {t?.hero?.line1 || t?.hero?.title1 || "Твоя дія у Швейцарії:"}<br/>
+          <span className="v2-hero-accent">{t?.hero?.line2 || t?.hero?.title2 || "житло, робота та спільнота."}</span>
         </h1>
-        <p className="v2-hero-sub">{t.hero.lede}</p>
+        <p className="v2-hero-sub">{t?.hero?.lede || ""}</p>
 
         <div className="v2-hero-cta-group hero-ctas">
           <a
@@ -22,14 +22,14 @@ function HeroV2({ side, setSide, t }) {
             className="v2-btn v2-btn-primary v2-btn-tg btn tg lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>{t.hero?.ctaBot || "Запустити АКОРД у Telegram"}</span>
+            <span>{t?.hero?.ctaBot || "Запустити АКОРД у Telegram"}</span>
           </a>
           <a
             href="/app/"
             className="v2-btn v2-btn-secondary btn primary lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
-            <span>{t.hero?.ctaApp || "Відкрити Mini App"}</span>
+            <span>{t?.hero?.ctaApp || "Відкрити Mini App"}</span>
           </a>
         </div>
 
@@ -48,8 +48,8 @@ function HeroV2({ side, setSide, t }) {
               </svg>
             </span>
             <span className="v2-tab-body">
-              <span className="v2-tab-label">{t.tabs.seekers}</span>
-              <span className="v2-tab-sub">{t.tabs.seekersSub}</span>
+              <span className="v2-tab-label">{t?.tabs?.seekers || "Кандидати Permis S"}</span>
+              <span className="v2-tab-sub">{t?.tabs?.seekersSub || "Житло, робота, досьє"}</span>
             </span>
           </button>
           <button
@@ -63,14 +63,14 @@ function HeroV2({ side, setSide, t }) {
               </svg>
             </span>
             <span className="v2-tab-body">
-              <span className="v2-tab-label">{t.tabs.solidarity || t.tabs.volunteers}</span>
-              <span className="v2-tab-sub">{t.tabs.solSub || t.tabs.volunteersSub}</span>
+              <span className="v2-tab-label">{t?.tabs?.solidarity || t?.tabs?.volunteers || "Швейцарські волонтери"}</span>
+              <span className="v2-tab-sub">{t?.tabs?.solSub || t?.tabs?.volunteersSub || "Підтримка та гостинність"}</span>
             </span>
           </button>
         </div>
 
         <div className="v2-trust-grid">
-          {t.trust.map((m, i) => (
+          {(t?.trust || []).map((m, i) => (
             <div key={i} className={`v2-trust-tile rail-${['emerald','crimson','gold','cyan'][i % 4]}`}>
               <div className="v2-trust-label">{m.k}</div>
               <div className="v2-trust-value">{m.v}</div>
@@ -84,7 +84,7 @@ function HeroV2({ side, setSide, t }) {
 }
 
 function FourPillars({ t }) {
-  const p = t.pillars || {
+  const p = t?.pillars || {
     eyebrow: "POURQUOI L'ACCORD ?",
     title: "Quatre piliers de confiance, sans jargon.",
     sub: "Un outil d'action directe conçu pour la réalité suisse.",
@@ -105,7 +105,7 @@ function FourPillars({ t }) {
           <p className="section-sub" style={{ fontSize: 14, color: 'var(--muted)', margin: 0 }}>{p.sub}</p>
         </div>
         <div className="pillar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-          {p.items.map((it) => (
+          {(p.items || []).map((it) => (
             <article key={it.idx} className={`pillar-card ${it.cls}`} style={{
               background: 'rgba(15,23,42,.65)', border: '1px solid var(--line-2)', borderRadius: 16, padding: 20,
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between'

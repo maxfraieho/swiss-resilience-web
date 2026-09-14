@@ -47,12 +47,14 @@ function DossierGenerator({ t, lang, prefill }) {
   const cityName = listing.city.fr;
   const priceLine = `CHF ${window.chf(listing.price)}/mois`;
 
+  const d = t?.dossier || {};
+
   return (
     <section id="dossier" className="block" style={{background: 'rgba(213,43,30,.03)'}}>
       <div className="container">
-        <span className="section-eyebrow">{t.dossier.eyebrow}</span>
-        <h2 className="section-title">{t.dossier.title}</h2>
-        <p className="section-sub">{t.dossier.lede}</p>
+        <span className="section-eyebrow">{d.eyebrow || "Dossier régie 1-Click · Art. 253 CO"}</span>
+        <h2 className="section-title">{d.title || "Générateur de dossier de candidature locative"}</h2>
+        <p className="section-sub">{d.lede || "Formulaire candidat conforme aux normes régies suisses."}</p>
 
         <div className="dossier-grid">
           {/* FORM */}
@@ -62,7 +64,7 @@ function DossierGenerator({ t, lang, prefill }) {
               textTransform: 'uppercase', color: 'var(--gold-2)', fontWeight: 700,
               marginBottom: 14
             }}>
-              📄 {t.dossier.formTitle}
+              📄 {d.formTitle || "Formulaire candidat"}
             </div>
 
             {/* Prefill notice */}
@@ -72,27 +74,27 @@ function DossierGenerator({ t, lang, prefill }) {
               border: '1px solid rgba(213,43,30,.25)',
               borderRadius: 10, fontSize: 12, color: 'var(--ink-2)', lineHeight: 1.5
             }}>
-              <b style={{color: 'var(--ink-0)'}}>Bien ciblé :</b> {listing.title[lang]}<br/>
+              <b style={{color: 'var(--ink-0)'}}>Bien ciblé :</b> {listing.title?.[lang] || listing.title?.fr || listing.title || "Logement Suisse"}<br/>
               <span className="mono" style={{color: 'var(--muted)', fontSize: 11}}>
-                {listing.regie} · CHF {window.chf(listing.price)}/mois · {listing.city[lang]}
+                {listing.regie} · CHF {window.chf(listing.price)}/mois · {listing.city?.[lang] || listing.city?.fr || listing.city_name || "Vaud"}
               </span>
             </div>
 
             <div className="field">
-              <label>{t.dossier.name}</label>
+              <label>{d.name || "Nom · Prénom"}</label>
               <input className="input" value={name} onChange={e => setName(e.target.value)}/>
             </div>
 
             <div className="field">
-              <label>{t.dossier.permis}</label>
+              <label>{d.permis || "N° dossier / Permis S"}</label>
               <input className="input mono" value={permis} onChange={e => setPermis(e.target.value)}/>
             </div>
 
             <div className="field">
-              <label>{t.dossier.status}</label>
+              <label>{d.status || "Statut financier"}</label>
               <div className="dossier-status-toggle">
                 <button className={statusForm === 'evam' ? 'active' : ''} onClick={() => setStatusForm('evam')}>
-                  📋 {t.dossier.evamPec}
+                  📋 {d.evamPec || "Prise en charge EVAM"}
                 </button>
                 <button className={statusForm === 'salary' ? 'active' : ''} onClick={() => setStatusForm('salary')}>
                   💼 {lang === 'de' ? 'Lohn' : lang === 'it' ? 'Salario' : lang === 'uk' ? 'Зарплата' : 'Salaire'}
@@ -102,25 +104,25 @@ function DossierGenerator({ t, lang, prefill }) {
 
             {statusForm === 'salary' && (
               <div className="field">
-                <label>{t.dossier.salary}</label>
+                <label>{d.salary || "Revenu mensuel (CHF)"}</label>
                 <input type="number" className="input mono" value={salary}
                   onChange={e => setSalary(Number(e.target.value) || 0)}/>
               </div>
             )}
 
             <div className="field">
-              <label>{t.dossier.guarantors}</label>
+              <label>{d.guarantors || "Garants éventuels"}</label>
               <input className="input" value={guarantors} onChange={e => setGuarantors(e.target.value)}/>
             </div>
 
             <div className="field" style={{marginBottom: 0}}>
-              <label>{t.dossier.poursuites}</label>
+              <label>{d.poursuites || "Extrait du Registre des Poursuites"}</label>
               <div className="dossier-status-toggle">
                 <button className={poursuites === 'has' ? 'active' : ''} onClick={() => setPoursuites('has')}>
-                  ✓ {t.dossier.hasIt}
+                  ✓ {d.hasIt || "Disponible (< 3 mois)"}
                 </button>
                 <button className={poursuites === 'will' ? 'active' : ''} onClick={() => setPoursuites('will')}>
-                  ⏳ {t.dossier.willGet}
+                  ⏳ {d.willGet || "En cours de commande"}
                 </button>
               </div>
             </div>
@@ -134,7 +136,7 @@ function DossierGenerator({ t, lang, prefill }) {
                 textTransform: 'uppercase', color: 'var(--muted)',
                 padding: '6px 8px', fontWeight: 600
               }}>
-                {t.dossier.previewIn}
+                {d.previewIn || "Aperçu de la lettre"}
               </span>
               <button className={previewLang === 'fr' ? 'active' : ''} onClick={() => setPreviewLang('fr')}>🇫🇷 FR</button>
               <button className={previewLang === 'de' ? 'active' : ''} onClick={() => setPreviewLang('de')}>🇩🇪 DE</button>
@@ -212,10 +214,10 @@ function DossierGenerator({ t, lang, prefill }) {
               display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap'
             }}>
               <button className="btn primary" onClick={() => alert('Génération PDF/A (mock)')}>
-                <Ico.file/> {t.dossier.downloadPdf}
+                <Ico.file/> {d.downloadPdf || "Télécharger PDF/A"}
               </button>
               <button className="btn ghost" onClick={() => alert('Texte copié dans le presse-papier (mock)')}>
-                {t.dossier.copyText}
+                {d.copyText || "Copier le texte"}
               </button>
             </div>
           </div>

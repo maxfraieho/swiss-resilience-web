@@ -11,21 +11,23 @@ function BenevolMentors({ t }) {
     }
   };
 
+  const m = t?.mentors || {};
+
   return (
     <section id="mentors" className="v2-section">
       <div className="v2-container">
         <div className="v2-section-head">
-          <span className="v2-eyebrow">{t.mentors.eyebrow}</span>
-          <h2 className="v2-section-title">{t.mentors.title}</h2>
-          <p className="v2-section-sub">{t.mentors.lede}</p>
+          <span className="v2-eyebrow">{m.eyebrow || "Module 04 · Engagement Citoyen — Réseau Benevol"}</span>
+          <h2 className="v2-section-title">{m.title || "Mentorat solidaire : 1 à 3 heures par semaine"}</h2>
+          <p className="v2-section-sub">{m.lede || "Accompagnement bénévole structuré sous mandat gratuit (Art. 394 CO)."}</p>
         </div>
 
         <div className="v2-mentors-grid">
           <div className="v2-card">
             <div className="v2-field">
-              <label>{t.mentors.commit}</label>
+              <label>{m.commit || "Disponibilité souhaitée"}</label>
               <div className="v2-pill-group">
-                {t.mentors.commitOpts.map((o, i) => (
+                {(m.commitOpts || ["1 h / semaine", "2–3 h / semaine", "À la demande"]).map((o, i) => (
                   <button key={i} className={`v2-pill-btn ${commit === i ? 'active-blue' : ''}`} onClick={() => setCommit(i)}>
                     {o}
                   </button>
@@ -34,9 +36,13 @@ function BenevolMentors({ t }) {
             </div>
 
             <div className="v2-field">
-              <label>{t.mentors.tracks}</label>
+              <label>{m.tracks || "Axes d'accompagnement"}</label>
               <div className="v2-tracks-grid">
-                {t.mentors.trackList.map((tr, i) => (
+                {(m.trackList || [
+                  { t: "Codes professionnels suisses", b: "Relecture de CV, préparation aux entretiens, culture d'entreprise locale." },
+                  { t: "Logement & intégration", b: "Aide aux visites de régies, décryptage des baux, orientation quartier." },
+                  { t: "Pratique linguistique", b: "Conversations hebdomadaires en français ou allemand en situation réelle." }
+                ]).map((tr, i) => (
                   <article key={i} className="v2-track-card">
                     <div className="v2-track-num">TRACK {String(i + 1).padStart(2, '0')}</div>
                     <div className="v2-track-title">{tr.t}</div>
@@ -48,7 +54,7 @@ function BenevolMentors({ t }) {
 
             <div className="v2-legal-strip">
               <span aria-hidden="true">§</span>
-              <span>{t.mentors.legal}</span>
+              <span>{m.legal || "Engagement régi par l'art. 394 CO (mandat civil bénévole). Aucun lien de subordination."}</span>
             </div>
 
             <button className="v2-btn v2-btn-blue" style={{ marginTop: 18 }} onClick={handleApply}>
@@ -58,7 +64,7 @@ function BenevolMentors({ t }) {
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
-              {t.mentors.apply}
+              {m.apply || "Rejoindre le réseau de mentors"}
             </button>
           </div>
 

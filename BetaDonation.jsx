@@ -1,13 +1,15 @@
 // SwissRelief 2.6 — Beta transparency section + Donation modal (MoR: Twint / Card / QR-Facture / Crypto ZK / Stars).
 // Fully functional payment interactions as requested by user ("Оплата має працювати для отримання донату").
 function BetaSection({ onOpenDonate, t }) {
+  const b = t?.beta || {};
+
   return (
     <section id="beta" className="v2-section">
       <div className="v2-container">
         <div className="v2-section-head">
-          <span className="v2-eyebrow">{t.beta.eyebrow}</span>
-          <h2 className="v2-section-title">{t.beta.title}</h2>
-          <p className="v2-section-sub">{t.beta.lede}</p>
+          <span className="v2-eyebrow">{b.eyebrow || "BÊTA PUBLIQUE · ACCORD SUISSE"}</span>
+          <h2 className="v2-section-title">{b.title || "Transparence absolue & solidarité"}</h2>
+          <p className="v2-section-sub">{b.lede || "Plateforme 100% libre et gratuite pendant toute la phase publique."}</p>
         </div>
 
         <div className="v2-beta-grid">

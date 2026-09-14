@@ -754,11 +754,12 @@ function ServiceSwitcher({
   onPick,
   t
 }) {
+  const sw = t?.switcher || {};
   const services = [{
     id: 'housing',
     side: 'a',
     num: '01',
-    badge: 'A',
+    badge: sw.housing?.badge || 'A',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
       height: "14",
@@ -771,13 +772,13 @@ function ServiceSwitcher({
     }, /*#__PURE__*/React.createElement("path", {
       d: "M3 12 12 3l9 9M5 10v10h14V10"
     })),
-    label: t.nav?.housing || "Logement",
-    sub: "EVAM · Régies · SBB"
+    label: sw.housing?.label || t?.nav?.housing || "Житло",
+    sub: sw.housing?.sub || "Оренда та EVAM"
   }, {
     id: 'prof',
     side: 'a',
     num: '02',
-    badge: 'A',
+    badge: sw.prof?.badge || 'A',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
       height: "14",
@@ -792,13 +793,13 @@ function ServiceSwitcher({
     }), /*#__PURE__*/React.createElement("path", {
       d: "M7 15l4-4 3 3 5-6"
     })),
-    label: t.nav?.jobs || "Emploi & CV",
-    sub: "63 offres · Art. 21a LEI"
+    label: sw.prof?.label || t?.nav?.jobs || "Робота",
+    sub: sw.prof?.sub || "Вакансії та CV"
   }, {
     id: 'calc',
     side: 'a',
     num: '03',
-    badge: 'A',
+    badge: sw.calc?.badge || 'A',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
       height: "14",
@@ -825,13 +826,13 @@ function ServiceSwitcher({
       x2: "16",
       y2: "10"
     })),
-    label: t.svc?.calc || "Calculateur",
-    sub: "26 cantons · Plafonds"
+    label: sw.calc?.label || t?.svc?.calc || "Калькулятор",
+    sub: sw.calc?.sub || "Ліміти 26 кантонів"
   }, {
     id: 'dossier',
     side: 'a',
     num: '04',
-    badge: 'A',
+    badge: sw.dossier?.badge || 'A',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
       height: "14",
@@ -848,13 +849,13 @@ function ServiceSwitcher({
     }), /*#__PURE__*/React.createElement("path", {
       d: "M8 13h8M8 17h5"
     })),
-    label: t.nav?.dossier || "Dossier USPI",
-    sub: "1-Click PDF/A · Barème"
+    label: sw.dossier?.label || t?.nav?.dossier || "Досьє",
+    sub: sw.dossier?.sub || "Пакет для режі"
   }, {
     id: 'sublease',
     side: 'b',
     num: '05',
-    badge: 'B',
+    badge: sw.sublease?.badge || 'B',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
       height: "14",
@@ -867,13 +868,13 @@ function ServiceSwitcher({
     }, /*#__PURE__*/React.createElement("path", {
       d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
     })),
-    label: t.svc?.sublease || "Sous-location",
-    sub: "Art. 262 CO · ASLOCA"
+    label: sw.sublease?.label || t?.svc?.sublease || "Суборенда",
+    sub: sw.sublease?.sub || "Кімната в оренду"
   }, {
     id: 'mentors',
     side: 'b',
     num: '06',
-    badge: 'B',
+    badge: sw.mentors?.badge || 'B',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
       height: "14",
@@ -894,13 +895,13 @@ function ServiceSwitcher({
     }), /*#__PURE__*/React.createElement("path", {
       d: "M16 3.13a4 4 0 0 1 0 7.75"
     })),
-    label: t.svc?.mentors || "Mentors",
-    sub: "Art. 394 CO · Benevol"
+    label: sw.mentors?.label || t?.svc?.mentors || "Ментори",
+    sub: sw.mentors?.sub || "Волонтери Benevol"
   }, {
     id: 'beta',
     side: null,
     num: '07',
-    badge: 'FREE',
+    badge: sw.beta?.badge || 'FREE',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
       height: "14",
@@ -919,8 +920,8 @@ function ServiceSwitcher({
     }), /*#__PURE__*/React.createElement("path", {
       d: "M7 11V7a5 5 0 0 1 10 0v4"
     })),
-    label: t.svc?.beta || "Transparence",
-    sub: "0 CHF · Don Merkle"
+    label: sw.beta?.label || t?.svc?.beta || "Підтримка",
+    sub: sw.beta?.sub || "Вільна бета"
   }];
   return /*#__PURE__*/React.createElement("div", {
     className: "v2-service-banner-wrap"
@@ -1003,36 +1004,49 @@ function MobileDrawer({
       });
     }, 200);
   };
+  const sw = t?.switcher || {};
   const services = [{
-    id: 'calc',
-    side: 'a',
-    icon: /*#__PURE__*/React.createElement(Ico.house, null),
-    label: t.nav.housing,
-    sub: "Barèmes EVAM · 26 Cantons"
-  }, {
     id: 'housing',
     side: 'a',
     icon: /*#__PURE__*/React.createElement(Ico.house, null),
-    label: t.housing.eyebrow.split(' · ')[0],
-    sub: "Régies · SBB · EVAM"
+    label: sw.housing?.label || t?.nav?.housing || "Житло",
+    sub: sw.housing?.sub || "Оренда та EVAM"
   }, {
     id: 'prof',
     side: 'a',
     icon: /*#__PURE__*/React.createElement(Ico.chart, null),
-    label: t.nav?.jobs || "Emploi",
-    sub: "Offres · Art. 21a LEI"
+    label: sw.prof?.label || t?.nav?.jobs || "Робота",
+    sub: sw.prof?.sub || "Вакансії та CV"
+  }, {
+    id: 'calc',
+    side: 'a',
+    icon: /*#__PURE__*/React.createElement(Ico.house, null),
+    label: sw.calc?.label || t?.svc?.calc || "Калькулятор",
+    sub: sw.calc?.sub || "Ліміти 26 кантонів"
   }, {
     id: 'dossier',
     side: 'a',
     icon: /*#__PURE__*/React.createElement(Ico.file, null),
-    label: t.nav.dossier,
-    sub: "Art. 253 CO · PDF/A"
+    label: sw.dossier?.label || t?.nav?.dossier || "Досьє",
+    sub: sw.dossier?.sub || "Пакет для режі"
+  }, {
+    id: 'sublease',
+    side: 'b',
+    icon: /*#__PURE__*/React.createElement(Ico.shield, null),
+    label: sw.sublease?.label || t?.svc?.sublease || "Суборенда",
+    sub: sw.sublease?.sub || "Кімната в оренду"
+  }, {
+    id: 'mentors',
+    side: 'b',
+    icon: /*#__PURE__*/React.createElement(Ico.users, null),
+    label: sw.mentors?.label || t?.svc?.mentors || "Ментори",
+    sub: sw.mentors?.sub || "Волонтери Benevol"
   }, {
     id: 'beta',
     side: null,
     icon: /*#__PURE__*/React.createElement(Ico.heart, null),
-    label: t.nav.beta,
-    sub: "0 CHF · Bêta publique"
+    label: sw.beta?.label || t?.svc?.beta || "Підтримка",
+    sub: sw.beta?.sub || "Вільна бета"
   }];
   const drawer = /*#__PURE__*/React.createElement("div", {
     className: "drawer-overlay",
@@ -1176,11 +1190,11 @@ function HeroV2({
     "aria-hidden": "true"
   }), /*#__PURE__*/React.createElement("span", null, t.hero?.pill || "ACCORD SUISSE · PERMIS S · 100% GRATUIT")), /*#__PURE__*/React.createElement("h1", {
     className: "v2-hero-title"
-  }, t.hero.line1 || t.hero.title1 || "Твоя дія у Швейцарії:", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+  }, t?.hero?.line1 || t?.hero?.title1 || "Твоя дія у Швейцарії:", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
     className: "v2-hero-accent"
-  }, t.hero.line2 || t.hero.title2 || "житло, робота та спільнота.")), /*#__PURE__*/React.createElement("p", {
+  }, t?.hero?.line2 || t?.hero?.title2 || "житло, робота та спільнота.")), /*#__PURE__*/React.createElement("p", {
     className: "v2-hero-sub"
-  }, t.hero.lede), /*#__PURE__*/React.createElement("div", {
+  }, t?.hero?.lede || ""), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-cta-group hero-ctas"
   }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/SwissResilienceHubBot?start=web_hero",
@@ -1204,7 +1218,7 @@ function HeroV2({
     y2: "13"
   }), /*#__PURE__*/React.createElement("polygon", {
     points: "22 2 15 22 11 13 2 9 22 2"
-  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaBot || "Запустити АКОРД у Telegram")), /*#__PURE__*/React.createElement("a", {
+  })), /*#__PURE__*/React.createElement("span", null, t?.hero?.ctaBot || "Запустити АКОРД у Telegram")), /*#__PURE__*/React.createElement("a", {
     href: "/app/",
     className: "v2-btn v2-btn-secondary btn primary lg"
   }, /*#__PURE__*/React.createElement("svg", {
@@ -1219,7 +1233,7 @@ function HeroV2({
     "aria-hidden": "true"
   }, /*#__PURE__*/React.createElement("path", {
     d: "M3 12 12 3l9 9M5 10v10h14V10"
-  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaApp || "Відкрити Mini App"))), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("span", null, t?.hero?.ctaApp || "Відкрити Mini App"))), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-tabs",
     role: "tablist",
     "aria-label": "Public cible"
@@ -1254,9 +1268,9 @@ function HeroV2({
     className: "v2-tab-body"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-tab-label"
-  }, t.tabs.seekers), /*#__PURE__*/React.createElement("span", {
+  }, t?.tabs?.seekers || "Кандидати Permis S"), /*#__PURE__*/React.createElement("span", {
     className: "v2-tab-sub"
-  }, t.tabs.seekersSub))), /*#__PURE__*/React.createElement("button", {
+  }, t?.tabs?.seekersSub || "Житло, робота, досьє"))), /*#__PURE__*/React.createElement("button", {
     className: `v2-hero-tab tab-b ${side === 'b' ? 'active' : ''}`,
     role: "tab",
     "aria-selected": side === 'b',
@@ -1279,11 +1293,11 @@ function HeroV2({
     className: "v2-tab-body"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-tab-label"
-  }, t.tabs.solidarity || t.tabs.volunteers), /*#__PURE__*/React.createElement("span", {
+  }, t?.tabs?.solidarity || t?.tabs?.volunteers || "Швейцарські волонтери"), /*#__PURE__*/React.createElement("span", {
     className: "v2-tab-sub"
-  }, t.tabs.solSub || t.tabs.volunteersSub)))), /*#__PURE__*/React.createElement("div", {
+  }, t?.tabs?.solSub || t?.tabs?.volunteersSub || "Підтримка та гостинність")))), /*#__PURE__*/React.createElement("div", {
     className: "v2-trust-grid"
-  }, t.trust.map((m, i) => /*#__PURE__*/React.createElement("div", {
+  }, (t?.trust || []).map((m, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     className: `v2-trust-tile rail-${['emerald', 'crimson', 'gold', 'cyan'][i % 4]}`
   }, /*#__PURE__*/React.createElement("div", {
@@ -1297,7 +1311,7 @@ function HeroV2({
 function FourPillars({
   t
 }) {
-  const p = t.pillars || {
+  const p = t?.pillars || {
     eyebrow: "POURQUOI L'ACCORD ?",
     title: "Quatre piliers de confiance, sans jargon.",
     sub: "Un outil d'action directe conçu pour la réalité suisse.",
@@ -1391,7 +1405,7 @@ function FourPillars({
       gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
       gap: 16
     }
-  }, p.items.map(it => /*#__PURE__*/React.createElement("article", {
+  }, (p.items || []).map(it => /*#__PURE__*/React.createElement("article", {
     key: it.idx,
     className: `pillar-card ${it.cls}`,
     style: {
@@ -2008,6 +2022,7 @@ function DossierGenerator({
   const closing = previewLang === 'de' ? "Für ein Vorstellungsgespräch stehe ich Ihnen gerne zur Verfügung. In der Zwischenzeit danke ich Ihnen für die Prüfung meiner Bewerbung und verbleibe mit freundlichen Grüssen," : "Je me tiens à votre entière disposition pour un entretien de présentation. Dans cette attente, je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.";
   const cityName = listing.city.fr;
   const priceLine = `CHF ${window.chf(listing.price)}/mois`;
+  const d = t?.dossier || {};
   return /*#__PURE__*/React.createElement("section", {
     id: "dossier",
     className: "block",
@@ -2018,11 +2033,11 @@ function DossierGenerator({
     className: "container"
   }, /*#__PURE__*/React.createElement("span", {
     className: "section-eyebrow"
-  }, t.dossier.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, d.eyebrow || "Dossier régie 1-Click · Art. 253 CO"), /*#__PURE__*/React.createElement("h2", {
     className: "section-title"
-  }, t.dossier.title), /*#__PURE__*/React.createElement("p", {
+  }, d.title || "Générateur de dossier de candidature locative"), /*#__PURE__*/React.createElement("p", {
     className: "section-sub"
-  }, t.dossier.lede), /*#__PURE__*/React.createElement("div", {
+  }, d.lede || "Formulaire candidat conforme aux normes régies suisses."), /*#__PURE__*/React.createElement("div", {
     className: "dossier-grid"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card"
@@ -2036,7 +2051,7 @@ function DossierGenerator({
       fontWeight: 700,
       marginBottom: 14
     }
-  }, "\uD83D\uDCC4 ", t.dossier.formTitle), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83D\uDCC4 ", d.formTitle || "Formulaire candidat"), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: '10px 12px',
       marginBottom: 16,
@@ -2051,44 +2066,44 @@ function DossierGenerator({
     style: {
       color: 'var(--ink-0)'
     }
-  }, "Bien cibl\xE9 :"), " ", listing.title[lang], /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+  }, "Bien cibl\xE9 :"), " ", listing.title?.[lang] || listing.title?.fr || listing.title || "Logement Suisse", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
     className: "mono",
     style: {
       color: 'var(--muted)',
       fontSize: 11
     }
-  }, listing.regie, " \xB7 CHF ", window.chf(listing.price), "/mois \xB7 ", listing.city[lang])), /*#__PURE__*/React.createElement("div", {
+  }, listing.regie, " \xB7 CHF ", window.chf(listing.price), "/mois \xB7 ", listing.city?.[lang] || listing.city?.fr || listing.city_name || "Vaud")), /*#__PURE__*/React.createElement("div", {
     className: "field"
-  }, /*#__PURE__*/React.createElement("label", null, t.dossier.name), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("label", null, d.name || "Nom · Prénom"), /*#__PURE__*/React.createElement("input", {
     className: "input",
     value: name,
     onChange: e => setName(e.target.value)
   })), /*#__PURE__*/React.createElement("div", {
     className: "field"
-  }, /*#__PURE__*/React.createElement("label", null, t.dossier.permis), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("label", null, d.permis || "N° dossier / Permis S"), /*#__PURE__*/React.createElement("input", {
     className: "input mono",
     value: permis,
     onChange: e => setPermis(e.target.value)
   })), /*#__PURE__*/React.createElement("div", {
     className: "field"
-  }, /*#__PURE__*/React.createElement("label", null, t.dossier.status), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("label", null, d.status || "Statut financier"), /*#__PURE__*/React.createElement("div", {
     className: "dossier-status-toggle"
   }, /*#__PURE__*/React.createElement("button", {
     className: statusForm === 'evam' ? 'active' : '',
     onClick: () => setStatusForm('evam')
-  }, "\uD83D\uDCCB ", t.dossier.evamPec), /*#__PURE__*/React.createElement("button", {
+  }, "\uD83D\uDCCB ", d.evamPec || "Prise en charge EVAM"), /*#__PURE__*/React.createElement("button", {
     className: statusForm === 'salary' ? 'active' : '',
     onClick: () => setStatusForm('salary')
   }, "\uD83D\uDCBC ", lang === 'de' ? 'Lohn' : lang === 'it' ? 'Salario' : lang === 'uk' ? 'Зарплата' : 'Salaire'))), statusForm === 'salary' && /*#__PURE__*/React.createElement("div", {
     className: "field"
-  }, /*#__PURE__*/React.createElement("label", null, t.dossier.salary), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("label", null, d.salary || "Revenu mensuel (CHF)"), /*#__PURE__*/React.createElement("input", {
     type: "number",
     className: "input mono",
     value: salary,
     onChange: e => setSalary(Number(e.target.value) || 0)
   })), /*#__PURE__*/React.createElement("div", {
     className: "field"
-  }, /*#__PURE__*/React.createElement("label", null, t.dossier.guarantors), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("label", null, d.guarantors || "Garants éventuels"), /*#__PURE__*/React.createElement("input", {
     className: "input",
     value: guarantors,
     onChange: e => setGuarantors(e.target.value)
@@ -2097,15 +2112,15 @@ function DossierGenerator({
     style: {
       marginBottom: 0
     }
-  }, /*#__PURE__*/React.createElement("label", null, t.dossier.poursuites), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("label", null, d.poursuites || "Extrait du Registre des Poursuites"), /*#__PURE__*/React.createElement("div", {
     className: "dossier-status-toggle"
   }, /*#__PURE__*/React.createElement("button", {
     className: poursuites === 'has' ? 'active' : '',
     onClick: () => setPoursuites('has')
-  }, "\u2713 ", t.dossier.hasIt), /*#__PURE__*/React.createElement("button", {
+  }, "\u2713 ", d.hasIt || "Disponible (< 3 mois)"), /*#__PURE__*/React.createElement("button", {
     className: poursuites === 'will' ? 'active' : '',
     onClick: () => setPoursuites('will')
-  }, "\u23F3 ", t.dossier.willGet)))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "\u23F3 ", d.willGet || "En cours de commande")))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "lang-preview-toggle"
   }, /*#__PURE__*/React.createElement("span", {
     style: {
@@ -2117,7 +2132,7 @@ function DossierGenerator({
       padding: '6px 8px',
       fontWeight: 600
     }
-  }, t.dossier.previewIn), /*#__PURE__*/React.createElement("button", {
+  }, d.previewIn || "Aperçu de la lettre"), /*#__PURE__*/React.createElement("button", {
     className: previewLang === 'fr' ? 'active' : '',
     onClick: () => setPreviewLang('fr')
   }, "\uD83C\uDDEB\uD83C\uDDF7 FR"), /*#__PURE__*/React.createElement("button", {
@@ -2192,10 +2207,10 @@ function DossierGenerator({
   }, /*#__PURE__*/React.createElement("button", {
     className: "btn primary",
     onClick: () => alert('Génération PDF/A (mock)')
-  }, /*#__PURE__*/React.createElement(Ico.file, null), " ", t.dossier.downloadPdf), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement(Ico.file, null), " ", d.downloadPdf || "Télécharger PDF/A"), /*#__PURE__*/React.createElement("button", {
     className: "btn ghost",
     onClick: () => alert('Texte copié dans le presse-papier (mock)')
-  }, t.dossier.copyText))))));
+  }, d.copyText || "Copier le texte"))))));
 }
 window.DossierGenerator = DossierGenerator;
 Object.assign(window, {
@@ -3158,6 +3173,7 @@ function SubleaseWizard({
       window.print();
     }, 200);
   };
+  const sub = t?.sublease || {};
   return /*#__PURE__*/React.createElement("section", {
     id: "sublease",
     className: "v2-section"
@@ -3167,11 +3183,11 @@ function SubleaseWizard({
     className: "v2-section-head"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-eyebrow"
-  }, t.sublease.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, sub.eyebrow || "Module 03 · Solidarité Suisse"), /*#__PURE__*/React.createElement("h2", {
     className: "v2-section-title"
-  }, t.sublease.title), /*#__PURE__*/React.createElement("p", {
+  }, sub.title || "Héberger en toute légalité (Art. 262 CO)"), /*#__PURE__*/React.createElement("p", {
     className: "v2-section-sub"
-  }, t.sublease.lede)), /*#__PURE__*/React.createElement("div", {
+  }, sub.lede || "Calcul d'une juste participation aux frais et plafonnement légal.")), /*#__PURE__*/React.createElement("div", {
     className: "v2-sublease-grid"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-card"
@@ -3193,13 +3209,13 @@ function SubleaseWizard({
     d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "v2-shield-title"
-  }, t.sublease.shield), /*#__PURE__*/React.createElement("div", {
+  }, sub.shield || "Bouclier juridique du locataire — Art. 262 CO"), /*#__PURE__*/React.createElement("div", {
     className: "v2-shield-body"
-  }, t.sublease.shieldBody))), /*#__PURE__*/React.createElement("div", {
+  }, sub.shieldBody || "Le bailleur ne peut pas interdire la sous-location de manière générale."))), /*#__PURE__*/React.createElement("div", {
     className: "v2-two-col-fields"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-field"
-  }, /*#__PURE__*/React.createElement("label", null, t.sublease.totalRent), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("label", null, sub.totalRent || "Loyer total net (CHF/mois)"), /*#__PURE__*/React.createElement("div", {
     className: "v2-input-with-suffix"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
@@ -3213,7 +3229,7 @@ function SubleaseWizard({
     className: "v2-input-suffix"
   }, "CHF / mois"))), /*#__PURE__*/React.createElement("div", {
     className: "v2-field"
-  }, /*#__PURE__*/React.createElement("label", null, t.sublease.rooms), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("label", null, sub.rooms || "Nombre de pièces"), /*#__PURE__*/React.createElement("div", {
     className: "v2-input-with-suffix"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
@@ -3227,7 +3243,7 @@ function SubleaseWizard({
     className: "v2-input-suffix"
   }, "pi\xE8ces")))), /*#__PURE__*/React.createElement("div", {
     className: "v2-field"
-  }, /*#__PURE__*/React.createElement("label", null, t.sublease.base), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("label", null, sub.base || "Quote-part loyer brut"), /*#__PURE__*/React.createElement("div", {
     className: "v2-quote-row"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-quote-formula"
@@ -3237,7 +3253,7 @@ function SubleaseWizard({
     className: "v2-field"
   }, /*#__PURE__*/React.createElement("label", {
     className: "v2-slider-label"
-  }, /*#__PURE__*/React.createElement("span", null, t.sublease.surcharge), /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, sub.surcharge || "Majoration meubles & équipement"), /*#__PURE__*/React.createElement("span", {
     className: `v2-slider-value ${over20 ? 'danger' : 'ok'}`
   }, surcharge, "%")), /*#__PURE__*/React.createElement("input", {
     type: "range",
@@ -3263,11 +3279,11 @@ function SubleaseWizard({
     }
   }, "30%")), /*#__PURE__*/React.createElement("div", {
     className: "v2-slider-hint"
-  }, t.sublease.surchargeLimit)), /*#__PURE__*/React.createElement("div", {
+  }, sub.surchargeLimit || "Plafond légal 20% · Jurisprudence ASLOCA")), /*#__PURE__*/React.createElement("div", {
     className: "v2-final-rent"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-final-label"
-  }, t.sublease.final), /*#__PURE__*/React.createElement("div", {
+  }, sub.final || "Participation mensuelle demandée"), /*#__PURE__*/React.createElement("div", {
     className: "v2-final-amount"
   }, /*#__PURE__*/React.createElement("span", {
     className: "cur"
@@ -3308,7 +3324,7 @@ function SubleaseWizard({
     points: "20 6 9 17 4 12"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "v2-compliance-title"
-  }, over20 ? t.sublease.overBadge : t.sublease.okBadge), /*#__PURE__*/React.createElement("div", {
+  }, over20 ? sub.overBadge || "Loyer abusif" : sub.okBadge || "Conforme Art. 262 CO"), /*#__PURE__*/React.createElement("div", {
     className: "v2-compliance-body"
   }, over20 ? 'Art. 262 al. 2 let. b CO' : 'Art. 262 CO · TF · ASLOCA')))), /*#__PURE__*/React.createElement("div", {
     className: "v2-badges-row"
@@ -3325,7 +3341,7 @@ function SubleaseWizard({
     strokeLinejoin: "round"
   }, /*#__PURE__*/React.createElement("path", {
     d: "M4 10h12M4 14h9M18 6a7 7 0 0 0-7 7 7 7 0 0 0 7 7"
-  })), t.sublease.taxBadge), /*#__PURE__*/React.createElement("span", {
+  })), sub.taxBadge || "Non imposable"), /*#__PURE__*/React.createElement("span", {
     className: "v2-mini-badge blue"
   }, /*#__PURE__*/React.createElement("svg", {
     width: "12",
@@ -3338,7 +3354,7 @@ function SubleaseWizard({
     strokeLinejoin: "round"
   }, /*#__PURE__*/React.createElement("path", {
     d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-  })), t.sublease.insBadge), /*#__PURE__*/React.createElement("span", {
+  })), sub.insBadge || "RC collective 5M"), /*#__PURE__*/React.createElement("span", {
     className: "v2-mini-badge cyan"
   }, /*#__PURE__*/React.createElement("svg", {
     width: "12",
@@ -3369,7 +3385,7 @@ function SubleaseWizard({
     y1: "3",
     x2: "14",
     y2: "21"
-  })), t.sublease.merkleBadge)), /*#__PURE__*/React.createElement("button", {
+  })), sub.merkleBadge || "Merkle SHA-256")), /*#__PURE__*/React.createElement("button", {
     className: "v2-btn v2-btn-blue",
     style: {
       marginTop: 20,
@@ -3388,15 +3404,15 @@ function SubleaseWizard({
     strokeLinejoin: "round"
   }, /*#__PURE__*/React.createElement("path", {
     d: "M5 12h14M13 5l7 7-7 7"
-  })), pdfGenerated ? '✓ Document prêt — Imprimer / PDF' : t.sublease.letterBtn), /*#__PURE__*/React.createElement("div", {
+  })), pdfGenerated ? '✓ Document prêt — Imprimer / PDF' : sub.letterBtn || "Générer la notification régie (PDF)"), /*#__PURE__*/React.createElement("div", {
     className: "v2-btn-hint"
-  }, t.sublease.letterHint)), /*#__PURE__*/React.createElement("div", {
+  }, sub.letterHint || "Courrier prêt à signer pour la gérance.")), /*#__PURE__*/React.createElement("div", {
     className: "v2-pdf-preview"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-pdf-head"
-  }, t.sublease.pdfTitle), /*#__PURE__*/React.createElement("p", {
+  }, sub.pdfTitle || "NOTIFICATION OFFICIELLE À LA GÉRANCE"), /*#__PURE__*/React.createElement("p", {
     className: "v2-pdf-intro"
-  }, t.sublease.pdfIntro), /*#__PURE__*/React.createElement("div", {
+  }, sub.pdfIntro || "En application de l'art. 262 CO..."), /*#__PURE__*/React.createElement("div", {
     className: "v2-pdf-row"
   }, /*#__PURE__*/React.createElement("span", {
     className: "k"
@@ -3422,7 +3438,7 @@ function SubleaseWizard({
     }
   }, "CHF ", chfV2(finalRent), " / mois")), /*#__PURE__*/React.createElement("div", {
     className: "v2-pdf-close"
-  }, t.sublease.pdfClose), /*#__PURE__*/React.createElement("div", {
+  }, sub.pdfClose || "Le préavis applicable demeure celui de l'art. 266e CO."), /*#__PURE__*/React.createElement("div", {
     className: "v2-pdf-sig"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "v2-pdf-line"
@@ -3448,6 +3464,7 @@ function BenevolMentors({
       window.open(url, '_blank');
     }
   };
+  const m = t?.mentors || {};
   return /*#__PURE__*/React.createElement("section", {
     id: "mentors",
     className: "v2-section"
@@ -3457,27 +3474,36 @@ function BenevolMentors({
     className: "v2-section-head"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-eyebrow"
-  }, t.mentors.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, m.eyebrow || "Module 04 · Engagement Citoyen — Réseau Benevol"), /*#__PURE__*/React.createElement("h2", {
     className: "v2-section-title"
-  }, t.mentors.title), /*#__PURE__*/React.createElement("p", {
+  }, m.title || "Mentorat solidaire : 1 à 3 heures par semaine"), /*#__PURE__*/React.createElement("p", {
     className: "v2-section-sub"
-  }, t.mentors.lede)), /*#__PURE__*/React.createElement("div", {
+  }, m.lede || "Accompagnement bénévole structuré sous mandat gratuit (Art. 394 CO).")), /*#__PURE__*/React.createElement("div", {
     className: "v2-mentors-grid"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-field"
-  }, /*#__PURE__*/React.createElement("label", null, t.mentors.commit), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("label", null, m.commit || "Disponibilité souhaitée"), /*#__PURE__*/React.createElement("div", {
     className: "v2-pill-group"
-  }, t.mentors.commitOpts.map((o, i) => /*#__PURE__*/React.createElement("button", {
+  }, (m.commitOpts || ["1 h / semaine", "2–3 h / semaine", "À la demande"]).map((o, i) => /*#__PURE__*/React.createElement("button", {
     key: i,
     className: `v2-pill-btn ${commit === i ? 'active-blue' : ''}`,
     onClick: () => setCommit(i)
   }, o)))), /*#__PURE__*/React.createElement("div", {
     className: "v2-field"
-  }, /*#__PURE__*/React.createElement("label", null, t.mentors.tracks), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("label", null, m.tracks || "Axes d'accompagnement"), /*#__PURE__*/React.createElement("div", {
     className: "v2-tracks-grid"
-  }, t.mentors.trackList.map((tr, i) => /*#__PURE__*/React.createElement("article", {
+  }, (m.trackList || [{
+    t: "Codes professionnels suisses",
+    b: "Relecture de CV, préparation aux entretiens, culture d'entreprise locale."
+  }, {
+    t: "Logement & intégration",
+    b: "Aide aux visites de régies, décryptage des baux, orientation quartier."
+  }, {
+    t: "Pratique linguistique",
+    b: "Conversations hebdomadaires en français ou allemand en situation réelle."
+  }]).map((tr, i) => /*#__PURE__*/React.createElement("article", {
     key: i,
     className: "v2-track-card"
   }, /*#__PURE__*/React.createElement("div", {
@@ -3490,7 +3516,7 @@ function BenevolMentors({
     className: "v2-legal-strip"
   }, /*#__PURE__*/React.createElement("span", {
     "aria-hidden": "true"
-  }, "\xA7"), /*#__PURE__*/React.createElement("span", null, t.mentors.legal)), /*#__PURE__*/React.createElement("button", {
+  }, "\xA7"), /*#__PURE__*/React.createElement("span", null, m.legal || "Engagement régi par l'art. 394 CO (mandat civil bénévole). Aucun lien de subordination.")), /*#__PURE__*/React.createElement("button", {
     className: "v2-btn v2-btn-blue",
     style: {
       marginTop: 18
@@ -3515,7 +3541,7 @@ function BenevolMentors({
     d: "M23 21v-2a4 4 0 0 0-3-3.87"
   }), /*#__PURE__*/React.createElement("path", {
     d: "M16 3.13a4 4 0 0 1 0 7.75"
-  })), t.mentors.apply)), /*#__PURE__*/React.createElement("div", {
+  })), m.apply || "Rejoindre le réseau de mentors")), /*#__PURE__*/React.createElement("div", {
     className: "v2-mentors-side"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-side-card"
@@ -3550,6 +3576,7 @@ function BetaSection({
   onOpenDonate,
   t
 }) {
+  const b = t?.beta || {};
   return /*#__PURE__*/React.createElement("section", {
     id: "beta",
     className: "v2-section"
@@ -3559,11 +3586,11 @@ function BetaSection({
     className: "v2-section-head"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-eyebrow"
-  }, t.beta.eyebrow), /*#__PURE__*/React.createElement("h2", {
+  }, b.eyebrow || "BÊTA PUBLIQUE · ACCORD SUISSE"), /*#__PURE__*/React.createElement("h2", {
     className: "v2-section-title"
-  }, t.beta.title), /*#__PURE__*/React.createElement("p", {
+  }, b.title || "Transparence absolue & solidarité"), /*#__PURE__*/React.createElement("p", {
     className: "v2-section-sub"
-  }, t.beta.lede)), /*#__PURE__*/React.createElement("div", {
+  }, b.lede || "Plateforme 100% libre et gratuite pendant toute la phase publique.")), /*#__PURE__*/React.createElement("div", {
     className: "v2-beta-grid"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-price-card frozen"
@@ -4411,8 +4438,101 @@ function App() {
     t: t
   }));
 }
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null
+    };
+  }
+  static getDerivedStateFromError(error) {
+    return {
+      hasError: true,
+      error
+    };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.error("ACCORD App ErrorBoundary caught:", error, errorInfo);
+  }
+  render() {
+    if (this.state.hasError) {
+      return /*#__PURE__*/React.createElement("div", {
+        style: {
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#070B12',
+          color: '#F8FAFC',
+          fontFamily: "'Inter', sans-serif",
+          textAlign: 'center',
+          padding: 24
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: 56,
+          height: 56,
+          borderRadius: 14,
+          background: '#D52B1E',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 16,
+          boxShadow: '0 0 24px rgba(213,43,30,0.45)',
+          overflow: 'hidden'
+        }
+      }, /*#__PURE__*/React.createElement("img", {
+        src: "/accord_logo.jpg",
+        alt: "ACCORD",
+        style: {
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        },
+        onError: e => {
+          e.target.style.display = 'none';
+        }
+      })), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontWeight: 800,
+          fontSize: 18,
+          marginBottom: 6,
+          letterSpacing: '-0.01em'
+        }
+      }, "ACCORD Suisse"), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 13,
+          color: '#94A3B8',
+          maxWidth: 360,
+          lineHeight: 1.5,
+          marginBottom: 18
+        }
+      }, "\u041E\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u044F \u0434\u0430\u043D\u0438\u0445... \u042F\u043A\u0449\u043E \u0441\u0442\u043E\u0440\u0456\u043D\u043A\u0430 \u043D\u0435 \u0437\u0430\u0432\u0430\u043D\u0442\u0430\u0436\u0438\u043B\u0430\u0441\u044F \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0438\u0447\u043D\u043E, \u043D\u0430\u0442\u0438\u0441\u043D\u0456\u0442\u044C \u043A\u043D\u043E\u043F\u043A\u0443 \u043D\u0438\u0436\u0447\u0435:"), /*#__PURE__*/React.createElement("button", {
+        onClick: () => {
+          try {
+            localStorage.clear();
+          } catch (e) {}
+          window.location.reload();
+        },
+        style: {
+          background: '#D52B1E',
+          color: '#fff',
+          border: 'none',
+          borderRadius: 8,
+          padding: '10px 20px',
+          fontSize: 13,
+          fontWeight: 700,
+          cursor: 'pointer'
+        }
+      }, "\u041E\u043D\u043E\u0432\u0438\u0442\u0438 \u0441\u0442\u043E\u0440\u0456\u043D\u043A\u0443"));
+    }
+    return this.props.children;
+  }
+}
 const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(/*#__PURE__*/React.createElement(App, null));
+  root.render(/*#__PURE__*/React.createElement(ErrorBoundary, null, /*#__PURE__*/React.createElement(App, null)));
 }

@@ -1042,10 +1042,102 @@ const ACCORD_PILLARS = {
 window.LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦", en: "🇬🇧" };
 window.LANG_CODES = { fr: "FR", de: "DE", it: "IT", uk: "UK", en: "EN" };
 
-if (typeof window !== 'undefined' && window.SR_I18N) {
-  // Add English dictionary based on fr with English overrides
+if (typeof window !== 'undefined') {
+  if (!window.SR_I18N) window.SR_I18N = {};
+
+  // 1. Merge 2.6 extensions (housing, dossier, lei, metrics, etc.) into window.SR_I18N
+  ['fr', 'de', 'it', 'uk'].forEach(function(l) {
+    if (typeof SR_I18N !== 'undefined' && SR_I18N[l]) {
+      if (!window.SR_I18N[l]) window.SR_I18N[l] = {};
+      window.SR_I18N[l].housing = SR_I18N[l].housing;
+      window.SR_I18N[l].dossier = SR_I18N[l].dossier;
+      window.SR_I18N[l].lei = SR_I18N[l].lei;
+      window.SR_I18N[l].metrics = SR_I18N[l].metrics;
+      if (!window.SR_I18N[l].calc) {
+        window.SR_I18N[l].calc = SR_I18N[l].calc;
+      } else {
+        Object.assign(window.SR_I18N[l].calc, SR_I18N[l].calc);
+      }
+      if (!window.SR_I18N[l].nav) {
+        window.SR_I18N[l].nav = SR_I18N[l].nav;
+      } else {
+        Object.assign(window.SR_I18N[l].nav, SR_I18N[l].nav);
+      }
+    }
+  });
+
+  // 2. Merge data.js modules (sublease, mentors, prof) into window.SR_I18N
+  if (window.I18N) {
+    ['fr', 'de', 'it', 'uk'].forEach(function(l) {
+      if (window.I18N[l] && window.SR_I18N[l]) {
+        if (window.I18N[l].sublease) window.SR_I18N[l].sublease = window.I18N[l].sublease;
+        if (window.I18N[l].mentors) window.SR_I18N[l].mentors = window.I18N[l].mentors;
+        if (window.I18N[l].prof) {
+          window.SR_I18N[l].prof = Object.assign({}, window.I18N[l].prof, window.SR_I18N[l].prof || {});
+        }
+      }
+    });
+  }
+
+  // 3. Simplified switcher badge labels and subtitles (direct & clear: Житло, Робота, Калькулятор, Досьє...)
+  var SWITCHER_LABELS = {
+    uk: {
+      housing:  { label: "Житло",       sub: "Оренда та EVAM",       badge: "A" },
+      prof:     { label: "Робота",      sub: "Вакансії та CV",       badge: "A" },
+      calc:     { label: "Калькулятор", sub: "Ліміти 26 кантонів",   badge: "A" },
+      dossier:  { label: "Досьє",       sub: "Пакет для режі",       badge: "A" },
+      sublease: { label: "Суборенда",   sub: "Кімната в оренду",     badge: "B" },
+      mentors:  { label: "Ментори",     sub: "Волонтери Benevol",    badge: "B" },
+      beta:     { label: "Підтримка",   sub: "Вільна бета",          badge: "FREE" }
+    },
+    fr: {
+      housing:  { label: "Logement",      sub: "Régies & EVAM",        badge: "A" },
+      prof:     { label: "Emploi",        sub: "Offres & CV suisse",   badge: "A" },
+      calc:     { label: "Calculateur",   sub: "Plafonds 26 cantons",  badge: "A" },
+      dossier:  { label: "Dossier",       sub: "Candidature 1-clic",   badge: "A" },
+      sublease: { label: "Sous-location", sub: "Logement solidaire",   badge: "B" },
+      mentors:  { label: "Mentors",       sub: "Bénévoles Benevol",    badge: "B" },
+      beta:     { label: "Soutien",       sub: "Bêta 100% libre",      badge: "FREE" }
+    },
+    de: {
+      housing:  { label: "Wohnen",        sub: "Mietwohnungen & EVAM", badge: "A" },
+      prof:     { label: "Arbeit",        sub: "Stellen & Lebenslauf", badge: "A" },
+      calc:     { label: "Rechner",       sub: "26 Kantone Limiten",   badge: "A" },
+      dossier:  { label: "Dossier",       sub: "1-Klick Bewerbung",    badge: "A" },
+      sublease: { label: "Untermiete",    sub: "Solidarische Miete",   badge: "B" },
+      mentors:  { label: "Mentoren",      sub: "Freiwillige Benevol",  badge: "B" },
+      beta:     { label: "Support",       sub: "Öffentliche Beta",     badge: "FREE" }
+    },
+    it: {
+      housing:  { label: "Alloggio",      sub: "Affitti e limiti EVAM",badge: "A" },
+      prof:     { label: "Lavoro",        sub: "Offerte e CV svizzero",badge: "A" },
+      calc:     { label: "Calcolatore",   sub: "Limiti 26 cantoni",    badge: "A" },
+      dossier:  { label: "Dossier",       sub: "Candidatura 1-clic",   badge: "A" },
+      sublease: { label: "Subaffitto",    sub: "Camera solidale",      badge: "B" },
+      mentors:  { label: "Mentori",       sub: "Volontari Benevol",    badge: "B" },
+      beta:     { label: "Supporto",      sub: "Beta gratuita",        badge: "FREE" }
+    },
+    en: {
+      housing:  { label: "Housing",       sub: "Rentals & EVAM",       badge: "A" },
+      prof:     { label: "Jobs",          sub: "Vacancies & Swiss CV", badge: "A" },
+      calc:     { label: "Calculator",    sub: "26 cantons limits",    badge: "A" },
+      dossier:  { label: "Dossier",       sub: "1-Click rental pack",  badge: "A" },
+      sublease: { label: "Sublease",      sub: "Shared rooms & flats", badge: "B" },
+      mentors:  { label: "Mentors",       sub: "Benevol volunteers",   badge: "B" },
+      beta:     { label: "Support",       sub: "100% free beta",       badge: "FREE" }
+    }
+  };
+
+  ['fr', 'de', 'it', 'uk', 'en'].forEach(function(l) {
+    if (window.SR_I18N[l]) {
+      window.SR_I18N[l].switcher = SWITCHER_LABELS[l] || SWITCHER_LABELS.fr;
+    }
+  });
+
+  // 4. Construct complete English dictionary from French base
   if (!window.SR_I18N.en && window.SR_I18N.fr) {
-    window.SR_I18N.en = Object.assign({}, window.SR_I18N.fr, {
+    window.SR_I18N.en = JSON.parse(JSON.stringify(window.SR_I18N.fr));
+    Object.assign(window.SR_I18N.en, {
       banner: "Public Beta · Swiss Resilience Association in creation (Art. 60–79 CC). 100% Free.",
       donate: "Donate",
       hero: {
@@ -1058,16 +1150,20 @@ if (typeof window !== 'undefined' && window.SR_I18N) {
         seekersSub: "Jobs, housing, rental dossier",
         solidarity: "Swiss Volunteers",
         solSub: "Mentoring & hospitality"
-      }
+      },
+      switcher: SWITCHER_LABELS.en
     });
   }
 
+  // 5. Attach Four Pillars to every language
   ['fr', 'de', 'it', 'uk', 'en'].forEach(function(l) {
-    if (!window.SR_I18N[l]) return;
-    window.SR_I18N[l] = Object.assign({}, window.SR_I18N[l], {
-      pillars: ACCORD_PILLARS[l] || ACCORD_PILLARS.fr
-    });
+    if (window.SR_I18N[l]) {
+      window.SR_I18N[l].pillars = ACCORD_PILLARS[l] || ACCORD_PILLARS.fr;
+    }
   });
+
+  // 6. Synchronize window.I18N
   window.I18N = window.SR_I18N;
 }
 })();
+
