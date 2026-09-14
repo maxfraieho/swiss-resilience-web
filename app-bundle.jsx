@@ -6,21 +6,30 @@ const { useState, useEffect, useMemo, useRef, useCallback } = React;
 
 // ---------- Formatting ----------
 const chf = (n) => new Intl.NumberFormat('de-CH', { maximumFractionDigits: 0 }).format(Math.round(n)).replace(/,/g, "'");
+window.chf = chf;
 
 // ---------- Language tag / flag helpers ----------
-const LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦" };
-const LANG_LABEL = { fr: "FR", de: "DE", it: "IT", uk: "UK" };
+const LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦", en: "🇬🇧" };
+const LANG_LABEL = { fr: "FR", de: "DE", it: "IT", uk: "UK", en: "EN" };
 
-// ---------- Brand mark: Swiss cross ----------
-function BrandMark({ size = 20 }) {
+// ---------- Brand mark: ACCORD squircle logo with SVG fallback ----------
+function BrandMark({ size = 28 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="22" height="22" rx="4" fill="#D52B1E"/>
-      <rect x="10.5" y="5" width="3" height="14" rx=".4" fill="#FFFFFF"/>
-      <rect x="5" y="10.5" width="14" height="3" rx=".4" fill="#FFFFFF"/>
-      {/* subtle compass overlay */}
-      <circle cx="12" cy="12" r="9" stroke="#D97706" strokeWidth="0.6" opacity="0.45" fill="none"/>
-    </svg>
+    <span className="brand-mark" style={{
+      width: size, height: size, minWidth: size, borderRadius: Math.round(size * 0.25),
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden', verticalAlign: 'middle', background: '#D52B1E',
+      boxShadow: '0 2px 8px rgba(213,43,30,0.35)', flexShrink: 0
+    }}>
+      <img
+        src="/accord_logo.jpg"
+        alt="ACCORD"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        onError={(e) => {
+          e.target.style.display = 'none';
+        }}
+      />
+    </span>
   );
 }
 
@@ -92,9 +101,9 @@ function TopBannerV2({ t }) {
 
 function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) {
   const [langOpen, setLangOpen] = React.useState(false);
-  const FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦" };
-  const NAMES = { fr: "Français", de: "Deutsch", it: "Italiano", uk: "Українська" };
-  const LABELS = { fr: "FR", de: "DE", it: "IT", uk: "UK" };
+  const FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦", en: "🇬🇧" };
+  const NAMES = { fr: "Français", de: "Deutsch", it: "Italiano", uk: "Українська", en: "English" };
+  const LABELS = { fr: "FR", de: "DE", it: "IT", uk: "UK", en: "EN" };
 
   React.useEffect(() => {
     const closeOnOutside = (e) => { if (!e.target.closest('.v2-lang-dropdown')) setLangOpen(false); };
@@ -107,21 +116,33 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
     };
   }, []);
 
+  const navLabels = {
+    uk: { housing: "Житло", jobs: "Вакансії", calc: "Калькулятор", dossier: "Досьє", sublease: "Суборенда", mentors: "Ментори" },
+    fr: { housing: "Logement", jobs: "Emplois", calc: "Calculateur", dossier: "Dossier", sublease: "Sous-location", mentors: "Mentors" },
+    de: { housing: "Wohnen", jobs: "Stellen", calc: "Rechner", dossier: "Dossier", sublease: "Untermiete", mentors: "Mentoren" },
+    en: { housing: "Housing", jobs: "Jobs", calc: "Calculator", dossier: "Dossier", sublease: "Sublease", mentors: "Mentors" }
+  };
+  const nl = navLabels[lang] || navLabels.fr;
+
   return (
     <header className="v2-sticky-header" role="banner">
       {/* Row 1: brand + desktop nav + actions */}
       <div className="v2-container v2-nav-row">
-        <a href="#top" className="v2-brand" aria-label="SwissRelief">
-          <span className="v2-brand-badge"><BrandMark size={22}/></span>
+        <a href="#top" className="v2-brand" aria-label="ACCORD">
+          <span className="v2-brand-badge"><BrandMark size={28}/></span>
           <span className="v2-brand-name">
-            SwissRelief
-            <span>Pan-Swiss 2.6</span>
+            ACCORD
+            <span>{lang === 'uk' ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'}</span>
           </span>
         </a>
 
-        <div className="v2-nav-tagline" aria-hidden="true">
-          <span className="v2-mono-tag">26 CANTONS · 4 LANGUES · ART. 60–79 CC</span>
-        </div>
+        <nav className="v2-nav-links v2-desktop-only" aria-label="Navigation principale" style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+          <a href="#housing" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.housing}</a>
+          <a href="#prof" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.jobs}</a>
+          <a href="#calc" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.calc}</a>
+          <a href="#dossier" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.dossier}</a>
+          <a href="#mentors" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.mentors}</a>
+        </nav>
 
         <div className="v2-nav-actions">
           {/* Direct Telegram Bot Link */}
@@ -153,7 +174,7 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
             </button>
             {langOpen && (
               <div className="v2-lang-menu" role="menu">
-                {['fr','de','it','uk'].map(l => (
+                {['fr','de','it','uk','en'].map(l => (
                   <button
                     key={l}
                     className={`v2-lang-item ${l === lang ? 'active' : ''}`}
@@ -226,7 +247,7 @@ Object.assign(window, { NavV2, TopBannerV2, BrandMark });
 function ServiceSwitcher({ activeId, onPick, t }) {
   const services = [
     {
-      id: 'calc',
+      id: 'housing',
       side: 'a',
       num: '01',
       badge: 'A',
@@ -235,8 +256,8 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M3 12 12 3l9 9M5 10v10h14V10"/>
         </svg>
       ),
-      label: t.svc.calc,
-      sub: 'EVAM · Hospice · AOZ'
+      label: t.nav?.housing || "Logement",
+      sub: "EVAM · Régies · SBB"
     },
     {
       id: 'prof',
@@ -249,26 +270,52 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M7 15l4-4 3 3 5-6"/>
         </svg>
       ),
-      label: t.svc.prof,
-      sub: 'Art. 21a LEI · CH-ISCO'
+      label: t.nav?.jobs || "Emploi & CV",
+      sub: "63 offres · Art. 21a LEI"
+    },
+    {
+      id: 'calc',
+      side: 'a',
+      num: '03',
+      badge: 'A',
+      icon: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/>
+        </svg>
+      ),
+      label: t.svc?.calc || "Calculateur",
+      sub: "26 cantons · Plafonds"
+    },
+    {
+      id: 'dossier',
+      side: 'a',
+      num: '04',
+      badge: 'A',
+      icon: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/>
+        </svg>
+      ),
+      label: t.nav?.dossier || "Dossier USPI",
+      sub: "1-Click PDF/A · Barème"
     },
     {
       id: 'sublease',
       side: 'b',
-      num: '03',
+      num: '05',
       badge: 'B',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
         </svg>
       ),
-      label: t.svc.sublease,
-      sub: '10–20% mobilier · ASLOCA'
+      label: t.svc?.sublease || "Sous-location",
+      sub: "Art. 262 CO · ASLOCA"
     },
     {
       id: 'mentors',
       side: 'b',
-      num: '04',
+      num: '06',
       badge: 'B',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -278,13 +325,13 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       ),
-      label: t.svc.mentors,
-      sub: 'Art. 394 CO · Benevol'
+      label: t.svc?.mentors || "Mentors",
+      sub: "Art. 394 CO · Benevol"
     },
     {
       id: 'beta',
       side: null,
-      num: '05',
+      num: '07',
       badge: 'FREE',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -292,8 +339,8 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       ),
-      label: t.svc.beta,
-      sub: '0 CHF · Transparence'
+      label: t.svc?.beta || "Transparence",
+      sub: "0 CHF · Don Merkle"
     },
   ];
 
@@ -504,11 +551,11 @@ function HeroV2({ side, setSide, t }) {
       <div className="v2-container">
         <div className="v2-hero-pill">
           <span className="v2-pulse-dot" aria-hidden="true"/>
-          <span>26 CANTONS · 4 LANGUES · MERKLE SHA-256</span>
+          <span>{t.hero?.pill || "ACCORD SUISSE · PERMIS S · 100% GRATUIT"}</span>
         </div>
         <h1 className="v2-hero-title">
-          {t.hero.line1}<br/>
-          <span className="v2-hero-accent">{t.hero.line2}</span>
+          {t.hero.line1 || t.hero.title1 || "Твоя дія у Швейцарії:"}<br/>
+          <span className="v2-hero-accent">{t.hero.line2 || t.hero.title2 || "житло, робота та спільнота."}</span>
         </h1>
         <p className="v2-hero-sub">{t.hero.lede}</p>
 
@@ -520,14 +567,14 @@ function HeroV2({ side, setSide, t }) {
             className="v2-btn v2-btn-primary v2-btn-tg btn tg lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>{t.hero?.ctaBot || "Ouvrir @SwissResilienceHubBot"}</span>
+            <span>{t.hero?.ctaBot || "Запустити АКОРД у Telegram"}</span>
           </a>
           <a
             href="/app/"
             className="v2-btn v2-btn-secondary btn primary lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
-            <span>{t.hero?.ctaApp || "Lancer la Mini App"}</span>
+            <span>{t.hero?.ctaApp || "Відкрити Mini App"}</span>
           </a>
         </div>
 
@@ -561,8 +608,8 @@ function HeroV2({ side, setSide, t }) {
               </svg>
             </span>
             <span className="v2-tab-body">
-              <span className="v2-tab-label">{t.tabs.solidarity}</span>
-              <span className="v2-tab-sub">{t.tabs.solSub}</span>
+              <span className="v2-tab-label">{t.tabs.solidarity || t.tabs.volunteers}</span>
+              <span className="v2-tab-sub">{t.tabs.solSub || t.tabs.volunteersSub}</span>
             </span>
           </button>
         </div>
@@ -581,7 +628,54 @@ function HeroV2({ side, setSide, t }) {
   );
 }
 
-Object.assign(window, { HeroV2 });
+function FourPillars({ t }) {
+  const p = t.pillars || {
+    eyebrow: "POURQUOI L'ACCORD ?",
+    title: "Quatre piliers de confiance, sans jargon.",
+    sub: "Un outil d'action directe conçu pour la réalité suisse.",
+    items: [
+      { idx: "01", cls: "pillar-1", icon: "⚡", title: "Vitesse décisive", body: "Alertes Telegram en moins de 60 secondes.", kpi: { n: "< 60 s", l: "temps de signal" } },
+      { idx: "02", cls: "pillar-2", icon: "🤖", title: "Copilote IA 24/7", body: "Normes suisses pour CV et lettres de motivation.", kpi: { n: "Claude · GPT", l: "modèles suisses" } },
+      { idx: "03", cls: "pillar-3", icon: "🤝", title: "Mentors suisses", body: "Réseau de bénévoles suisses (Benevol).", kpi: { n: "148+", l: "mentors actifs" } },
+      { idx: "04", cls: "pillar-4", icon: "🛡️", title: "Conformité totale", body: "100% gratuit selon la loi LSE et Art. 262 CO.", kpi: { n: "LPD · LSE", l: "cadre légal" } }
+    ]
+  };
+
+  return (
+    <section className="pillars-section" id="pillars" style={{ padding: '40px 0', borderBottom: '1px solid var(--line-2)' }}>
+      <div className="v2-container">
+        <div className="section-head" style={{ textAlign: 'center', maxWidth: 700, margin: '0 auto 32px' }}>
+          <span className="eyebrow" style={{ fontSize: 11.5, letterSpacing: '0.12em', color: 'var(--swiss-red)', textTransform: 'uppercase', fontWeight: 700 }}>{p.eyebrow}</span>
+          <h2 className="section-title" style={{ fontSize: 26, fontWeight: 800, margin: '6px 0 10px', letterSpacing: '-0.02em', color: '#fff' }}>{p.title}</h2>
+          <p className="section-sub" style={{ fontSize: 14, color: 'var(--muted)', margin: 0 }}>{p.sub}</p>
+        </div>
+        <div className="pillar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+          {p.items.map((it) => (
+            <article key={it.idx} className={`pillar-card ${it.cls}`} style={{
+              background: 'rgba(15,23,42,.65)', border: '1px solid var(--line-2)', borderRadius: 16, padding: 20,
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
+            }}>
+              <div>
+                <div className="pillar-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <span className="pillar-idx" style={{ fontFamily: 'var(--f-mono)', fontSize: 12, color: 'var(--muted)', fontWeight: 700 }}>{it.idx}</span>
+                  <span className="pillar-icon" style={{ fontSize: 22 }} aria-hidden="true">{it.icon}</span>
+                </div>
+                <h3 className="pillar-title" style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>{it.title}</h3>
+                <p className="pillar-body" style={{ fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.5, margin: '0 0 16px' }}>{it.body}</p>
+              </div>
+              <div className="pillar-kpi" style={{ borderTop: '1px solid var(--line-1)', paddingTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <span className="kpi-num" style={{ fontFamily: 'var(--f-mono)', fontSize: 14, fontWeight: 700, color: '#10B981' }}>{it.kpi.n}</span>
+                <span className="kpi-lbl" style={{ fontSize: 11.5, color: 'var(--muted)' }}>{it.kpi.l}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { HeroV2, FourPillars });
 
 
 // ==================== [Module: CantonCalculator.jsx] ====================
@@ -836,29 +930,40 @@ function HousingCard({ item, t, lang, onGenerate }) {
   );
 }
 
-function HousingSection({ t, lang, canton, onGenerate }) {
+function HousingSection({ t, lang, canton: propCanton, onGenerate }) {
   const [limit, setLimit] = React.useState(9);
+  const [selectedCanton, setSelectedCanton] = React.useState(propCanton || 'ALL');
+
+  React.useEffect(() => {
+    if (propCanton) setSelectedCanton(propCanton);
+  }, [propCanton]);
 
   const allItems = React.useMemo(() => {
     return (window.SR_HOUSING || window.HOUSING_LISTINGS || []);
   }, []);
 
   const items = React.useMemo(() => {
-    if (!canton || canton === 'ALL') return allItems;
-    const filtered = allItems.filter(h => h.canton === canton);
+    if (!selectedCanton || selectedCanton === 'ALL') return allItems;
+    const filtered = allItems.filter(h => h.canton === selectedCanton);
     return filtered.length > 0 ? filtered : allItems;
-  }, [canton, allItems]);
+  }, [selectedCanton, allItems]);
 
   const visibleItems = items.slice(0, limit);
 
   return (
-    <section id="housing" className="block" style={{background: 'rgba(15,23,42,.25)'}}>
+    <section id="housing" className="block" style={{background: 'rgba(15,23,42,.25)', padding: '50px 0'}}>
       <div className="container">
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12, marginBottom: 20}}>
           <div>
-            <span className="section-eyebrow">{t.housing?.eyebrow || "LOGEMENT VÉRIFIÉ"}</span>
-            <h2 className="section-title">{t.housing?.title || "Offres vérifiées en Romandie"}</h2>
-            <p className="section-sub">{t.housing?.lede || "Directement attribué aux régies sans mention de portails tiers."}</p>
+            <span className="section-eyebrow" style={{ color: 'var(--swiss-red)', fontWeight: 700, letterSpacing: '0.1em' }}>
+              {t.housing?.eyebrow || "LOGEMENT VÉRIFIÉ"}
+            </span>
+            <h2 className="section-title" style={{ color: '#fff', margin: '4px 0 8px' }}>
+              {t.housing?.title || "Offres vérifiées en Romandie"}
+            </h2>
+            <p className="section-sub" style={{ color: 'var(--muted)', margin: 0 }}>
+              {t.housing?.lede || "Directement attribué aux régies sans mention de portails tiers."}
+            </p>
           </div>
           <div style={{
             fontSize: 12,
@@ -867,10 +972,24 @@ function HousingSection({ t, lang, canton, onGenerate }) {
             borderRadius: 8,
             background: 'rgba(56,189,248,.08)',
             border: '1px solid rgba(56,189,248,.25)',
-            color: 'var(--accent-1)'
+            color: 'var(--sbb-blue)'
           }}>
             ⚡ {items.length} {lang === 'uk' ? 'пропозицій з реальними фото' : lang === 'de' ? 'Angebote mit echten Fotos' : lang === 'it' ? 'offerte con foto reali' : 'offres avec photos réelles'}
           </div>
+        </div>
+
+        {/* Canton filter chips */}
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 24 }}>
+          {['ALL', 'VD', 'GE', 'BE', 'FR', 'NE', 'VS', 'ZH', 'BS'].map(c => (
+            <button
+              key={c}
+              className={`btn ${selectedCanton === c ? 'primary' : 'ghost'}`}
+              onClick={() => setSelectedCanton(c)}
+              style={{ fontSize: 12, padding: '5px 12px', borderRadius: 8 }}
+            >
+              {c === 'ALL' ? (lang === 'uk' ? 'Усі кантони' : 'Tous cantons') : c}
+            </button>
+          ))}
         </div>
 
         <div className="housing-list">
@@ -1560,6 +1679,13 @@ function ProfessionSelector({ t, lang = 'fr' }) {
           >
             📊 {lang === 'uk' ? 'Тарифна сітка CH-ISCO' : lang === 'de' ? 'Lohntabelle CH-ISCO' : 'Grille salariale CH-ISCO'}
           </button>
+          <button
+            className={`btn ${subTab === 'cv' ? 'primary' : 'ghost'}`}
+            onClick={() => setSubTab('cv')}
+            style={{ padding: '8px 18px', fontSize: 13.5, fontWeight: 700 }}
+          >
+            📄 {lang === 'uk' ? 'Швейцарський стандарт CV' : lang === 'de' ? 'Schweizer CV-Standards' : 'Normes CV Suisse'}
+          </button>
         </div>
 
         {subTab === 'offers' && (
@@ -1723,6 +1849,76 @@ function ProfessionSelector({ t, lang = 'fr' }) {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {subTab === 'cv' && (
+          <div style={{ background: 'rgba(15,23,42,.6)', borderRadius: 16, border: '1px solid var(--line-2)', padding: '28px 24px' }}>
+            <div style={{ maxWidth: 780, margin: '0 auto' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
+                <span style={{ fontSize: 28 }}>🇨🇭</span>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: 18, color: '#fff', fontWeight: 700 }}>
+                    {lang === 'uk' ? 'Швейцарський стандарт CV (Резюме) для Permis S'
+                     : lang === 'de' ? 'Schweizer Lebenslauf-Standards für S-Ausweis Inhaber'
+                     : 'Normes du Curriculum Vitae (CV) suisse pour titulaires du Permis S'}
+                  </h3>
+                  <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--muted)' }}>
+                    {lang === 'uk' ? 'Офіційні вимоги швейцарських HR: структура, обов\'язкові пункти та формулювання прав'
+                     : 'Exigences clés des recruteurs suisses : structure, mentions indispensables et législation SEM'}
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--sbb-blue)', marginBottom: 8 }}>1. Фото та особисті дані</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li><strong>Фото:</strong> професійне ділове фото (світлий нейтральний фон, легка посмішка).</li>
+                    <li><strong>Контакти:</strong> швейцарський номер (+41), email (ім'я.прізвище), точне місто проживання.</li>
+                    <li><strong>Дата народження та сімейний стан:</strong> обов'язково за швейцарською традицією.</li>
+                  </ul>
+                </div>
+
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--emerald)', marginBottom: 8 }}>2. Юридичний статус Permis S</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li><strong>Обов'язковий рядок:</strong> <em>«Titulaire du Permis S — Autorisation de travail immédiate (Art. 17 LEI)»</em></li>
+                    <li><strong>Перевага для HR:</strong> без квот, без сплати зборів, проста декларація онлайн.</li>
+                  </ul>
+                </div>
+
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--gold)', marginBottom: 8 }}>3. Мови за шкалою CEFR</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li>Чітка градація: <strong>Français B1 (opérationnel)</strong> / <strong>B2 (courant)</strong>.</li>
+                    <li>Німецька (Deutsch), Англійська (Anglais) та Українська (langue maternelle).</li>
+                  </ul>
+                </div>
+
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--violet)', marginBottom: 8 }}>4. Досвід та рекомендації</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li>Антихронологічний порядок (найновіший досвід зверху).</li>
+                    <li>Рядок: <em>«Certificats de travail et références disponibles sur demande»</em>.</li>
+                    <li>Залучайте волонтера Benevol як місцевого поручителя.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'center' }}>
+                <a
+                  href="https://t.me/SwissResilienceHubBot?start=cv_help"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn primary"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', fontSize: 14 }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span>{lang === 'uk' ? 'Перевірити CV з ШІ-копілотом у Telegram' : 'Vérifier mon CV avec le copilote IA sur Telegram'}</span>
+                </a>
+              </div>
             </div>
           </div>
         )}
@@ -2353,21 +2549,23 @@ function FooterV2({ t }) {
           <div className="v2-foot-col">
             <div className="v2-brand" style={{ marginBottom: 14 }}>
               <span className="v2-brand-badge">
-                <BrandMark size={20}/>
+                <BrandMark size={24}/>
               </span>
-              <span className="v2-brand-name">SwissRelief<span>Pan-Swiss 2.6</span></span>
+              <span className="v2-brand-name">ACCORD<span>L'Accord Suisse · Permis S</span></span>
             </div>
-            <p>{t.footer.about}</p>
-            <p className="v2-foot-url">violin-integration.works · swiss-resilience-web.pages.dev</p>
+            <p>{t.footer?.about || "Plateforme souveraine d'insertion et d'intégration territoriale pour la Suisse."}</p>
+            <p className="v2-foot-url">violin-integration.works · @SwissResilienceHubBot</p>
           </div>
           <div className="v2-foot-col">
             <h4>Modules</h4>
             <ul>
+              <li><a href="#housing">Logement vérifié (EVAM / SBB)</a></li>
+              <li><a href="#prof">Offres d'emploi &amp; CV (LEI)</a></li>
               <li><a href="#calc">Barèmes cantonaux (26)</a></li>
-              <li><a href="#prof">Radar CH-ISCO-19</a></li>
+              <li><a href="#dossier">Dossier régie 1-Click (USPI)</a></li>
               <li><a href="#sublease">Sous-location 262 CO</a></li>
-              <li><a href="#mentors">Mentors Benevol</a></li>
-              <li><a href="#beta">Transparence Merkle</a></li>
+              <li><a href="#mentors">Mentors Benevol Suisse</a></li>
+              <li><a href="#beta">Transparence Bêta</a></li>
             </ul>
           </div>
           <div className="v2-foot-col">
@@ -2416,8 +2614,15 @@ Object.assign(window, { FooterV2 });
 
 
 // ==================== [Module: app.jsx] ====================
-// SwissRelief 2.6 — App Root Component
-// Implements ADR-016 safe storage, Telegram WebApp stabilization, and quad-lingual i18n routing.
+// ACCORD-S · Root Application Router & Unification
+// Combines ACCORD 2.7 branding with full 2.6 suite:
+// - HousingCards (real apartments with photos, EVAM limits, SBB travel time)
+// - ProfessionSelector & JobCard (63 live job openings, Swiss cover letter assistant, CV guide)
+// - CantonCalculator (26 cantons official social ceilings)
+// - DossierGenerator (USPI standard rental dossier builder)
+// - Sublease (Art. 262 CO sublease calculator & contract)
+// - BenevolMentors (Benevol Suisse mentor network)
+// - BetaDonation (Transparent association support & Telegram link)
 
 const _appMemStore = {};
 function safeStorageGet(key, def = null) {
@@ -2455,9 +2660,9 @@ function App() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const paramLang = urlParams.get('lang');
-      if (paramLang && ['fr', 'de', 'it', 'uk'].includes(paramLang)) return paramLang;
+      if (paramLang && ['fr', 'de', 'it', 'uk', 'en'].includes(paramLang)) return paramLang;
     } catch (e) {}
-    return safeStorageGet('sr26-lang', safeStorageGet('sr-v2-lang', 'fr'));
+    return safeStorageGet('sr26-lang', safeStorageGet('sr-v2-lang', 'uk'));
   });
 
   const [side, setSide] = React.useState(() => {
@@ -2485,15 +2690,15 @@ function App() {
       if (params.get('housing') || params.get('item')) return 'housing';
 
       const h = window.location.hash.replace('#', '');
-      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
-        return h;
+      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'jobs', 'sublease', 'mentors'].includes(h)) {
+        return h === 'jobs' ? 'prof' : h;
       }
     } catch (e) {}
     return 'housing';
   });
 
   const [canton, setCanton] = React.useState(() => safeStorageGet('sr26-canton', 'VD'));
-  const [status, setStatus] = React.useState(() => safeStorageGet('sr26-status', 'evam')); // evam | salary
+  const [status, setStatus] = React.useState(() => safeStorageGet('sr26-status', 'evam'));
   const [income, setIncome] = React.useState(() => Number(safeStorageGet('sr26-income', 4800)) || 4800);
   const [drawerOpen, setDrawer] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
@@ -2513,7 +2718,7 @@ function App() {
   React.useEffect(() => { safeStorageSet('sr26-status', status); }, [status]);
   React.useEffect(() => { safeStorageSet('sr26-income', String(income)); }, [income]);
 
-  // Early Telegram WebApp initialization and stabilization
+  // Telegram WebApp initialization
   React.useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       try {
@@ -2523,7 +2728,6 @@ function App() {
         if (tg.enableClosingConfirmation) {
           tg.enableClosingConfirmation();
         }
-        // In TMA mode, let the native bottom tab bar handle navigation smoothly
         if (tg.MainButton) {
           tg.MainButton.hide();
         }
@@ -2533,147 +2737,110 @@ function App() {
     }
   }, []);
 
-  // Hash & query routing (#housing, #dossier, #prof, ?view=prof, etc.)
+  // Hash & query routing
   React.useEffect(() => {
     const checkDeepLink = () => {
       try {
-        const params = new URLSearchParams(window.location.search);
-        const viewParam = params.get('view') || params.get('service') || params.get('tab');
-        let target = null;
-        if (viewParam) {
-          if (['prof', 'jobs', 'job', 'emplois'].includes(viewParam)) {
-            target = 'prof';
-            setSide('a');
-          } else if (['housing', 'calc', 'dossier', 'beta', 'sublease', 'mentors'].includes(viewParam)) {
-            target = viewParam;
-            if (viewParam === 'mentors' || viewParam === 'sublease') setSide('b');
-            else if (viewParam !== 'beta') setSide('a');
-          } else if (viewParam === 'checkout' || viewParam === 'donate') {
-            target = 'beta';
-          }
-        } else if (params.get('job')) {
-          target = 'prof';
-          setSide('a');
-        }
-
         const h = window.location.hash.replace('#', '');
-        if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
-          target = h;
-          if (h === 'mentors' || h === 'sublease') setSide('b');
-        }
-
-        if (target) {
-          setService(target);
-          setTimeout(() => {
-            const el = document.getElementById(target);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 150);
+        if (['housing', 'calc', 'dossier', 'prof', 'sublease', 'mentors', 'beta'].includes(h)) {
+          setService(h);
+          if (['sublease', 'mentors'].includes(h)) setSide('b');
+          else if (['housing', 'calc', 'dossier', 'prof'].includes(h)) setSide('a');
+        } else if (h === 'jobs') {
+          setService('prof');
+          setSide('a');
         }
       } catch (e) {}
     };
 
-    checkDeepLink();
     window.addEventListener('hashchange', checkDeepLink);
+    checkDeepLink();
     return () => window.removeEventListener('hashchange', checkDeepLink);
   }, []);
 
   const t = (window.SR_I18N && window.SR_I18N[lang])
     ? window.SR_I18N[lang]
-    : (window.SR_I18N ? window.SR_I18N.fr : {});
+    : ((window.SR_I18N && window.SR_I18N.uk) ? window.SR_I18N.uk : (window.SR_I18N ? window.SR_I18N.fr : {}));
 
   const pickService = (id, s) => {
-    setService(id);
+    const targetId = id === 'jobs' ? 'prof' : id;
+    setService(targetId);
     if (s) setSide(s);
+    else if (['sublease', 'mentors'].includes(targetId)) setSide('b');
+    else if (['housing', 'prof', 'calc', 'dossier'].includes(targetId)) setSide('a');
+
     setTimeout(() => {
-      const el = document.getElementById(id);
+      const el = document.getElementById(targetId);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 40);
+    }, 50);
   };
 
   const handleGenerate = (item) => {
     setPrefill(item);
+    setSide('a');
     setService('dossier');
     setTimeout(() => {
-      document.getElementById('dossier')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+      const el = document.getElementById('dossier');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
   };
 
   const openTelegramDonate = () => {
+    const url = 'https://t.me/SwissResilienceHubBot?start=donate';
     if (window.Telegram?.WebApp && window.Telegram.WebApp.openTelegramLink) {
-      window.Telegram.WebApp.openTelegramLink('https://t.me/SwissResilienceHubBot?start=donate');
+      window.Telegram.WebApp.openTelegramLink(url);
     } else {
-      window.open('https://t.me/SwissResilienceHubBot?start=donate', '_blank');
+      window.open(url, '_blank');
     }
   };
 
-  if (!t || !t.banner) {
-    return (
-      <div style={{ padding: 40, textAlign: 'center', color: '#CBD5E1', fontFamily: 'Inter, sans-serif' }}>
-        Chargement de l'environnement SwissRelief 2.6...
-      </div>
-    );
-  }
-
-  // Dedicated Native-like Mini App mode
+  // Telegram Mini App dedicated mobile view
   if (isTMA) {
     return (
-      <div className="tma-app-root">
+      <div className="tma-app-shell">
         <header className="tma-header">
           <div className="tma-brand">
-            <BrandMark size={22}/>
-            <span className="tma-title">SwissRelief</span>
-            <span className="tma-badge">Mini App</span>
+            <BrandMark size={28}/>
+            <div>
+              <div className="tma-title">ACCORD Suisse</div>
+              <div className="tma-sub">Permis S · Romandie</div>
+            </div>
           </div>
-          <div className="tma-header-actions">
-            <div className="tma-side-toggle">
-              <button
-                className={side === 'a' ? 'active' : ''}
-                onClick={() => setSide('a')}
-              >
-                Permis S
-              </button>
-              <button
-                className={side === 'b' ? 'active' : ''}
-                onClick={() => setSide('b')}
-              >
-                Hôte
-              </button>
-            </div>
-            <div className="tma-lang-picker">
-              {['fr', 'de', 'it', 'uk'].map(l => (
-                <button
-                  key={l}
-                  className={`tma-lang-pill ${lang === l ? 'active' : ''}`}
-                  onClick={() => setLang(l)}
-                  title={l.toUpperCase()}
-                >
-                  {LANG_FLAGS[l]}
-                </button>
-              ))}
-            </div>
+          <div className="tma-actions">
+            <button
+              className="v2-lang-btn"
+              onClick={() => {
+                const order = ['uk', 'fr', 'de', 'en'];
+                const next = order[(order.indexOf(lang) + 1) % order.length];
+                setLang(next);
+              }}
+              style={{ padding: '4px 8px', fontSize: 11.5 }}
+            >
+              <span>{window.LANG_FLAGS ? window.LANG_FLAGS[lang] : '🌐'}</span>
+              <span>{window.LANG_CODES ? window.LANG_CODES[lang] : lang.toUpperCase()}</span>
+            </button>
           </div>
         </header>
 
-        <ServiceSwitcher activeId={service} onPick={pickService} t={t}/>
+        <main className="tma-content">
+          {service === 'housing' && (
+            <HousingSection
+              t={t}
+              lang={lang}
+              canton={canton}
+              onGenerate={handleGenerate}
+            />
+          )}
 
-        <main className="tma-main">
-          {(service === 'calc' || service === 'housing') && (
-            <React.Fragment>
-              <CantonCalculatorV2
-                t={t}
-                lang={lang}
-                canton={canton}
-                setCanton={setCanton}
-                status={status}
-                income={income}
-              />
-              <HousingSection
-                t={t}
-                lang={lang}
-                canton={canton}
-                onGenerate={handleGenerate}
-              />
-            </React.Fragment>
+          {service === 'calc' && (
+            <CantonCalculatorV2
+              t={t}
+              lang={lang}
+              canton={canton}
+              setCanton={setCanton}
+              status={status}
+              income={income}
+            />
           )}
 
           {service === 'dossier' && (
@@ -2703,46 +2870,46 @@ function App() {
 
         <nav className="tma-bottom-bar" aria-label="Navigation Mini App">
           <button
-            className={service === 'calc' || service === 'housing' ? 'active' : ''}
-            onClick={() => { setSide('a'); pickService('calc'); }}
+            className={service === 'housing' ? 'active' : ''}
+            onClick={() => { setSide('a'); pickService('housing'); }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
-            <span>{t.nav?.housing || "Logement"}</span>
-          </button>
-          <button
-            className={service === 'dossier' ? 'active' : ''}
-            onClick={() => { setSide('a'); pickService('dossier'); }}
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
-            <span>{t.nav?.dossier || "Dossier"}</span>
+            <span>{t.nav?.housing || "Житло"}</span>
           </button>
           <button
             className={service === 'prof' ? 'active' : ''}
             onClick={() => { setSide('a'); pickService('prof'); }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
-            <span>{t.svc?.prof || "Emploi"}</span>
+            <span>{t.nav?.jobs || "Робота"}</span>
           </button>
           <button
-            className={service === 'sublease' || service === 'mentors' ? 'active' : ''}
-            onClick={() => { setSide('b'); pickService(service === 'mentors' ? 'mentors' : 'sublease', 'b'); }}
+            className={service === 'calc' ? 'active' : ''}
+            onClick={() => { setSide('a'); pickService('calc'); }}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>{side === 'b' ? (t.svc?.mentors || "Mentors") : (t.svc?.sublease || "Sous-location")}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/></svg>
+            <span>{t.svc?.calc || "Ліміти"}</span>
           </button>
           <button
-            className={service === 'beta' ? 'active' : ''}
-            onClick={() => pickService('beta')}
+            className={service === 'dossier' ? 'active' : ''}
+            onClick={() => { setSide('a'); pickService('dossier'); }}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"/></svg>
-            <span>{t.nav?.donate || "Soutenir"}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+            <span>{t.nav?.dossier || "Досьє"}</span>
+          </button>
+          <button
+            className={service === 'mentors' || service === 'sublease' ? 'active' : ''}
+            onClick={() => { setSide('b'); pickService('mentors', 'b'); }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            <span>{t.svc?.mentors || "Ментори"}</span>
           </button>
         </nav>
       </div>
     );
   }
 
-  // Regular Desktop Landing Page
+  // Full Desktop & Mobile Web Experience
   return (
     <React.Fragment>
       <TopBannerV2 t={t}/>
@@ -2760,6 +2927,14 @@ function App() {
         <HeroV2 side={side} setSide={setSide} t={t}/>
         {side === 'a' ? (
           <React.Fragment>
+            <FourPillars t={t}/>
+            <HousingSection
+              t={t}
+              lang={lang}
+              canton={canton}
+              onGenerate={handleGenerate}
+            />
+            <ProfessionSelector t={t} lang={lang}/>
             <CantonCalculatorV2
               t={t}
               lang={lang}
@@ -2768,21 +2943,15 @@ function App() {
               status={status}
               income={income}
             />
-            <HousingSection
-              t={t}
-              lang={lang}
-              canton={canton}
-              onGenerate={handleGenerate}
-            />
             <DossierGenerator
               t={t}
               lang={lang}
               prefill={dossierPrefill}
             />
-            <ProfessionSelector t={t} lang={lang}/>
           </React.Fragment>
         ) : (
           <React.Fragment>
+            <FourPillars t={t}/>
             <SubleaseWizard t={t}/>
             <BenevolMentors t={t}/>
           </React.Fragment>

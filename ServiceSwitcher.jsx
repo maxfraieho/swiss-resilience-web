@@ -3,7 +3,7 @@
 function ServiceSwitcher({ activeId, onPick, t }) {
   const services = [
     {
-      id: 'calc',
+      id: 'housing',
       side: 'a',
       num: '01',
       badge: 'A',
@@ -12,8 +12,8 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M3 12 12 3l9 9M5 10v10h14V10"/>
         </svg>
       ),
-      label: t.svc.calc,
-      sub: 'EVAM · Hospice · AOZ'
+      label: t.nav?.housing || "Logement",
+      sub: "EVAM · Régies · SBB"
     },
     {
       id: 'prof',
@@ -26,26 +26,52 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M7 15l4-4 3 3 5-6"/>
         </svg>
       ),
-      label: t.svc.prof,
-      sub: 'Art. 21a LEI · CH-ISCO'
+      label: t.nav?.jobs || "Emploi & CV",
+      sub: "63 offres · Art. 21a LEI"
+    },
+    {
+      id: 'calc',
+      side: 'a',
+      num: '03',
+      badge: 'A',
+      icon: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/>
+        </svg>
+      ),
+      label: t.svc?.calc || "Calculateur",
+      sub: "26 cantons · Plafonds"
+    },
+    {
+      id: 'dossier',
+      side: 'a',
+      num: '04',
+      badge: 'A',
+      icon: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/>
+        </svg>
+      ),
+      label: t.nav?.dossier || "Dossier USPI",
+      sub: "1-Click PDF/A · Barème"
     },
     {
       id: 'sublease',
       side: 'b',
-      num: '03',
+      num: '05',
       badge: 'B',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
         </svg>
       ),
-      label: t.svc.sublease,
-      sub: '10–20% mobilier · ASLOCA'
+      label: t.svc?.sublease || "Sous-location",
+      sub: "Art. 262 CO · ASLOCA"
     },
     {
       id: 'mentors',
       side: 'b',
-      num: '04',
+      num: '06',
       badge: 'B',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -55,13 +81,13 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       ),
-      label: t.svc.mentors,
-      sub: 'Art. 394 CO · Benevol'
+      label: t.svc?.mentors || "Mentors",
+      sub: "Art. 394 CO · Benevol"
     },
     {
       id: 'beta',
       side: null,
-      num: '05',
+      num: '07',
       badge: 'FREE',
       icon: (
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -69,8 +95,8 @@ function ServiceSwitcher({ activeId, onPick, t }) {
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       ),
-      label: t.svc.beta,
-      sub: '0 CHF · Transparence'
+      label: t.svc?.beta || "Transparence",
+      sub: "0 CHF · Don Merkle"
     },
   ];
 

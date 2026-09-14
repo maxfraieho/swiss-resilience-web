@@ -15,60 +15,55 @@ const {
 const chf = n => new Intl.NumberFormat('de-CH', {
   maximumFractionDigits: 0
 }).format(Math.round(n)).replace(/,/g, "'");
+window.chf = chf;
 
 // ---------- Language tag / flag helpers ----------
 const LANG_FLAGS = {
   fr: "🇫🇷",
   de: "🇩🇪",
   it: "🇮🇹",
-  uk: "🇺🇦"
+  uk: "🇺🇦",
+  en: "🇬🇧"
 };
 const LANG_LABEL = {
   fr: "FR",
   de: "DE",
   it: "IT",
-  uk: "UK"
+  uk: "UK",
+  en: "EN"
 };
 
-// ---------- Brand mark: Swiss cross ----------
+// ---------- Brand mark: ACCORD squircle logo with SVG fallback ----------
 function BrandMark({
-  size = 20
+  size = 28
 }) {
-  return /*#__PURE__*/React.createElement("svg", {
-    width: size,
-    height: size,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement("rect", {
-    x: "1",
-    y: "1",
-    width: "22",
-    height: "22",
-    rx: "4",
-    fill: "#D52B1E"
-  }), /*#__PURE__*/React.createElement("rect", {
-    x: "10.5",
-    y: "5",
-    width: "3",
-    height: "14",
-    rx: ".4",
-    fill: "#FFFFFF"
-  }), /*#__PURE__*/React.createElement("rect", {
-    x: "5",
-    y: "10.5",
-    width: "14",
-    height: "3",
-    rx: ".4",
-    fill: "#FFFFFF"
-  }), /*#__PURE__*/React.createElement("circle", {
-    cx: "12",
-    cy: "12",
-    r: "9",
-    stroke: "#D97706",
-    strokeWidth: "0.6",
-    opacity: "0.45",
-    fill: "none"
+  return /*#__PURE__*/React.createElement("span", {
+    className: "brand-mark",
+    style: {
+      width: size,
+      height: size,
+      minWidth: size,
+      borderRadius: Math.round(size * 0.25),
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+      verticalAlign: 'middle',
+      background: '#D52B1E',
+      boxShadow: '0 2px 8px rgba(213,43,30,0.35)',
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "/accord_logo.jpg",
+    alt: "ACCORD",
+    style: {
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover'
+    },
+    onError: e => {
+      e.target.style.display = 'none';
+    }
   }));
 }
 
@@ -460,19 +455,22 @@ function NavV2({
     fr: "🇫🇷",
     de: "🇩🇪",
     it: "🇮🇹",
-    uk: "🇺🇦"
+    uk: "🇺🇦",
+    en: "🇬🇧"
   };
   const NAMES = {
     fr: "Français",
     de: "Deutsch",
     it: "Italiano",
-    uk: "Українська"
+    uk: "Українська",
+    en: "English"
   };
   const LABELS = {
     fr: "FR",
     de: "DE",
     it: "IT",
-    uk: "UK"
+    uk: "UK",
+    en: "EN"
   };
   React.useEffect(() => {
     const closeOnOutside = e => {
@@ -488,6 +486,41 @@ function NavV2({
       document.removeEventListener('keydown', closeOnEsc);
     };
   }, []);
+  const navLabels = {
+    uk: {
+      housing: "Житло",
+      jobs: "Вакансії",
+      calc: "Калькулятор",
+      dossier: "Досьє",
+      sublease: "Суборенда",
+      mentors: "Ментори"
+    },
+    fr: {
+      housing: "Logement",
+      jobs: "Emplois",
+      calc: "Calculateur",
+      dossier: "Dossier",
+      sublease: "Sous-location",
+      mentors: "Mentors"
+    },
+    de: {
+      housing: "Wohnen",
+      jobs: "Stellen",
+      calc: "Rechner",
+      dossier: "Dossier",
+      sublease: "Untermiete",
+      mentors: "Mentoren"
+    },
+    en: {
+      housing: "Housing",
+      jobs: "Jobs",
+      calc: "Calculator",
+      dossier: "Dossier",
+      sublease: "Sublease",
+      mentors: "Mentors"
+    }
+  };
+  const nl = navLabels[lang] || navLabels.fr;
   return /*#__PURE__*/React.createElement("header", {
     className: "v2-sticky-header",
     role: "banner"
@@ -496,19 +529,67 @@ function NavV2({
   }, /*#__PURE__*/React.createElement("a", {
     href: "#top",
     className: "v2-brand",
-    "aria-label": "SwissRelief"
+    "aria-label": "ACCORD"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-brand-badge"
   }, /*#__PURE__*/React.createElement(BrandMark, {
-    size: 22
+    size: 28
   })), /*#__PURE__*/React.createElement("span", {
     className: "v2-brand-name"
-  }, "SwissRelief", /*#__PURE__*/React.createElement("span", null, "Pan-Swiss 2.6"))), /*#__PURE__*/React.createElement("div", {
-    className: "v2-nav-tagline",
-    "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-mono-tag"
-  }, "26 CANTONS \xB7 4 LANGUES \xB7 ART. 60\u201379 CC")), /*#__PURE__*/React.createElement("div", {
+  }, "ACCORD", /*#__PURE__*/React.createElement("span", null, lang === 'uk' ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'))), /*#__PURE__*/React.createElement("nav", {
+    className: "v2-nav-links v2-desktop-only",
+    "aria-label": "Navigation principale",
+    style: {
+      display: 'flex',
+      gap: 14,
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "#housing",
+    className: "v2-nav-link",
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: 'var(--fg-2)',
+      textDecoration: 'none'
+    }
+  }, nl.housing), /*#__PURE__*/React.createElement("a", {
+    href: "#prof",
+    className: "v2-nav-link",
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: 'var(--fg-2)',
+      textDecoration: 'none'
+    }
+  }, nl.jobs), /*#__PURE__*/React.createElement("a", {
+    href: "#calc",
+    className: "v2-nav-link",
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: 'var(--fg-2)',
+      textDecoration: 'none'
+    }
+  }, nl.calc), /*#__PURE__*/React.createElement("a", {
+    href: "#dossier",
+    className: "v2-nav-link",
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: 'var(--fg-2)',
+      textDecoration: 'none'
+    }
+  }, nl.dossier), /*#__PURE__*/React.createElement("a", {
+    href: "#mentors",
+    className: "v2-nav-link",
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: 'var(--fg-2)',
+      textDecoration: 'none'
+    }
+  }, nl.mentors)), /*#__PURE__*/React.createElement("div", {
     className: "v2-nav-actions"
   }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/SwissResilienceHubBot?start=web_nav",
@@ -567,7 +648,7 @@ function NavV2({
   }))), langOpen && /*#__PURE__*/React.createElement("div", {
     className: "v2-lang-menu",
     role: "menu"
-  }, ['fr', 'de', 'it', 'uk'].map(l => /*#__PURE__*/React.createElement("button", {
+  }, ['fr', 'de', 'it', 'uk', 'en'].map(l => /*#__PURE__*/React.createElement("button", {
     key: l,
     className: `v2-lang-item ${l === lang ? 'active' : ''}`,
     role: "menuitemradio",
@@ -674,7 +755,7 @@ function ServiceSwitcher({
   t
 }) {
   const services = [{
-    id: 'calc',
+    id: 'housing',
     side: 'a',
     num: '01',
     badge: 'A',
@@ -690,8 +771,8 @@ function ServiceSwitcher({
     }, /*#__PURE__*/React.createElement("path", {
       d: "M3 12 12 3l9 9M5 10v10h14V10"
     })),
-    label: t.svc.calc,
-    sub: 'EVAM · Hospice · AOZ'
+    label: t.nav?.housing || "Logement",
+    sub: "EVAM · Régies · SBB"
   }, {
     id: 'prof',
     side: 'a',
@@ -711,12 +792,68 @@ function ServiceSwitcher({
     }), /*#__PURE__*/React.createElement("path", {
       d: "M7 15l4-4 3 3 5-6"
     })),
-    label: t.svc.prof,
-    sub: 'Art. 21a LEI · CH-ISCO'
+    label: t.nav?.jobs || "Emploi & CV",
+    sub: "63 offres · Art. 21a LEI"
+  }, {
+    id: 'calc',
+    side: 'a',
+    num: '03',
+    badge: 'A',
+    icon: /*#__PURE__*/React.createElement("svg", {
+      width: "14",
+      height: "14",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("rect", {
+      x: "4",
+      y: "2",
+      width: "16",
+      height: "20",
+      rx: "2"
+    }), /*#__PURE__*/React.createElement("line", {
+      x1: "8",
+      y1: "6",
+      x2: "16",
+      y2: "6"
+    }), /*#__PURE__*/React.createElement("line", {
+      x1: "8",
+      y1: "10",
+      x2: "16",
+      y2: "10"
+    })),
+    label: t.svc?.calc || "Calculateur",
+    sub: "26 cantons · Plafonds"
+  }, {
+    id: 'dossier',
+    side: 'a',
+    num: '04',
+    badge: 'A',
+    icon: /*#__PURE__*/React.createElement("svg", {
+      width: "14",
+      height: "14",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M14 2v6h6"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M8 13h8M8 17h5"
+    })),
+    label: t.nav?.dossier || "Dossier USPI",
+    sub: "1-Click PDF/A · Barème"
   }, {
     id: 'sublease',
     side: 'b',
-    num: '03',
+    num: '05',
     badge: 'B',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
@@ -730,12 +867,12 @@ function ServiceSwitcher({
     }, /*#__PURE__*/React.createElement("path", {
       d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
     })),
-    label: t.svc.sublease,
-    sub: '10–20% mobilier · ASLOCA'
+    label: t.svc?.sublease || "Sous-location",
+    sub: "Art. 262 CO · ASLOCA"
   }, {
     id: 'mentors',
     side: 'b',
-    num: '04',
+    num: '06',
     badge: 'B',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
@@ -757,12 +894,12 @@ function ServiceSwitcher({
     }), /*#__PURE__*/React.createElement("path", {
       d: "M16 3.13a4 4 0 0 1 0 7.75"
     })),
-    label: t.svc.mentors,
-    sub: 'Art. 394 CO · Benevol'
+    label: t.svc?.mentors || "Mentors",
+    sub: "Art. 394 CO · Benevol"
   }, {
     id: 'beta',
     side: null,
-    num: '05',
+    num: '07',
     badge: 'FREE',
     icon: /*#__PURE__*/React.createElement("svg", {
       width: "14",
@@ -782,8 +919,8 @@ function ServiceSwitcher({
     }), /*#__PURE__*/React.createElement("path", {
       d: "M7 11V7a5 5 0 0 1 10 0v4"
     })),
-    label: t.svc.beta,
-    sub: '0 CHF · Transparence'
+    label: t.svc?.beta || "Transparence",
+    sub: "0 CHF · Don Merkle"
   }];
   return /*#__PURE__*/React.createElement("div", {
     className: "v2-service-banner-wrap"
@@ -1037,11 +1174,11 @@ function HeroV2({
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-pulse-dot",
     "aria-hidden": "true"
-  }), /*#__PURE__*/React.createElement("span", null, "26 CANTONS \xB7 4 LANGUES \xB7 MERKLE SHA-256")), /*#__PURE__*/React.createElement("h1", {
+  }), /*#__PURE__*/React.createElement("span", null, t.hero?.pill || "ACCORD SUISSE · PERMIS S · 100% GRATUIT")), /*#__PURE__*/React.createElement("h1", {
     className: "v2-hero-title"
-  }, t.hero.line1, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+  }, t.hero.line1 || t.hero.title1 || "Твоя дія у Швейцарії:", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
     className: "v2-hero-accent"
-  }, t.hero.line2)), /*#__PURE__*/React.createElement("p", {
+  }, t.hero.line2 || t.hero.title2 || "житло, робота та спільнота.")), /*#__PURE__*/React.createElement("p", {
     className: "v2-hero-sub"
   }, t.hero.lede), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-cta-group hero-ctas"
@@ -1067,7 +1204,7 @@ function HeroV2({
     y2: "13"
   }), /*#__PURE__*/React.createElement("polygon", {
     points: "22 2 15 22 11 13 2 9 22 2"
-  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaBot || "Ouvrir @SwissResilienceHubBot")), /*#__PURE__*/React.createElement("a", {
+  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaBot || "Запустити АКОРД у Telegram")), /*#__PURE__*/React.createElement("a", {
     href: "/app/",
     className: "v2-btn v2-btn-secondary btn primary lg"
   }, /*#__PURE__*/React.createElement("svg", {
@@ -1082,7 +1219,7 @@ function HeroV2({
     "aria-hidden": "true"
   }, /*#__PURE__*/React.createElement("path", {
     d: "M3 12 12 3l9 9M5 10v10h14V10"
-  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaApp || "Lancer la Mini App"))), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("span", null, t.hero?.ctaApp || "Відкрити Mini App"))), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-tabs",
     role: "tablist",
     "aria-label": "Public cible"
@@ -1142,9 +1279,9 @@ function HeroV2({
     className: "v2-tab-body"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-tab-label"
-  }, t.tabs.solidarity), /*#__PURE__*/React.createElement("span", {
+  }, t.tabs.solidarity || t.tabs.volunteers), /*#__PURE__*/React.createElement("span", {
     className: "v2-tab-sub"
-  }, t.tabs.solSub)))), /*#__PURE__*/React.createElement("div", {
+  }, t.tabs.solSub || t.tabs.volunteersSub)))), /*#__PURE__*/React.createElement("div", {
     className: "v2-trust-grid"
   }, t.trust.map((m, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
@@ -1157,8 +1294,181 @@ function HeroV2({
     className: "v2-trust-desc"
   }, m.d))))));
 }
+function FourPillars({
+  t
+}) {
+  const p = t.pillars || {
+    eyebrow: "POURQUOI L'ACCORD ?",
+    title: "Quatre piliers de confiance, sans jargon.",
+    sub: "Un outil d'action directe conçu pour la réalité suisse.",
+    items: [{
+      idx: "01",
+      cls: "pillar-1",
+      icon: "⚡",
+      title: "Vitesse décisive",
+      body: "Alertes Telegram en moins de 60 secondes.",
+      kpi: {
+        n: "< 60 s",
+        l: "temps de signal"
+      }
+    }, {
+      idx: "02",
+      cls: "pillar-2",
+      icon: "🤖",
+      title: "Copilote IA 24/7",
+      body: "Normes suisses pour CV et lettres de motivation.",
+      kpi: {
+        n: "Claude · GPT",
+        l: "modèles suisses"
+      }
+    }, {
+      idx: "03",
+      cls: "pillar-3",
+      icon: "🤝",
+      title: "Mentors suisses",
+      body: "Réseau de bénévoles suisses (Benevol).",
+      kpi: {
+        n: "148+",
+        l: "mentors actifs"
+      }
+    }, {
+      idx: "04",
+      cls: "pillar-4",
+      icon: "🛡️",
+      title: "Conformité totale",
+      body: "100% gratuit selon la loi LSE et Art. 262 CO.",
+      kpi: {
+        n: "LPD · LSE",
+        l: "cadre légal"
+      }
+    }]
+  };
+  return /*#__PURE__*/React.createElement("section", {
+    className: "pillars-section",
+    id: "pillars",
+    style: {
+      padding: '40px 0',
+      borderBottom: '1px solid var(--line-2)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "v2-container"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "section-head",
+    style: {
+      textAlign: 'center',
+      maxWidth: 700,
+      margin: '0 auto 32px'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "eyebrow",
+    style: {
+      fontSize: 11.5,
+      letterSpacing: '0.12em',
+      color: 'var(--swiss-red)',
+      textTransform: 'uppercase',
+      fontWeight: 700
+    }
+  }, p.eyebrow), /*#__PURE__*/React.createElement("h2", {
+    className: "section-title",
+    style: {
+      fontSize: 26,
+      fontWeight: 800,
+      margin: '6px 0 10px',
+      letterSpacing: '-0.02em',
+      color: '#fff'
+    }
+  }, p.title), /*#__PURE__*/React.createElement("p", {
+    className: "section-sub",
+    style: {
+      fontSize: 14,
+      color: 'var(--muted)',
+      margin: 0
+    }
+  }, p.sub)), /*#__PURE__*/React.createElement("div", {
+    className: "pillar-grid",
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+      gap: 16
+    }
+  }, p.items.map(it => /*#__PURE__*/React.createElement("article", {
+    key: it.idx,
+    className: `pillar-card ${it.cls}`,
+    style: {
+      background: 'rgba(15,23,42,.65)',
+      border: '1px solid var(--line-2)',
+      borderRadius: 16,
+      padding: 20,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "pillar-top",
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "pillar-idx",
+    style: {
+      fontFamily: 'var(--f-mono)',
+      fontSize: 12,
+      color: 'var(--muted)',
+      fontWeight: 700
+    }
+  }, it.idx), /*#__PURE__*/React.createElement("span", {
+    className: "pillar-icon",
+    style: {
+      fontSize: 22
+    },
+    "aria-hidden": "true"
+  }, it.icon)), /*#__PURE__*/React.createElement("h3", {
+    className: "pillar-title",
+    style: {
+      fontSize: 16,
+      fontWeight: 700,
+      color: '#fff',
+      margin: '0 0 8px'
+    }
+  }, it.title), /*#__PURE__*/React.createElement("p", {
+    className: "pillar-body",
+    style: {
+      fontSize: 13,
+      color: 'var(--fg-3)',
+      lineHeight: 1.5,
+      margin: '0 0 16px'
+    }
+  }, it.body)), /*#__PURE__*/React.createElement("div", {
+    className: "pillar-kpi",
+    style: {
+      borderTop: '1px solid var(--line-1)',
+      paddingTop: 10,
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'baseline'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "kpi-num",
+    style: {
+      fontFamily: 'var(--f-mono)',
+      fontSize: 14,
+      fontWeight: 700,
+      color: '#10B981'
+    }
+  }, it.kpi.n), /*#__PURE__*/React.createElement("span", {
+    className: "kpi-lbl",
+    style: {
+      fontSize: 11.5,
+      color: 'var(--muted)'
+    }
+  }, it.kpi.l)))))));
+}
 Object.assign(window, {
-  HeroV2
+  HeroV2,
+  FourPillars
 });
 
 // ==================== [Module: CantonCalculator.jsx] ====================
@@ -1560,24 +1870,29 @@ function HousingCard({
 function HousingSection({
   t,
   lang,
-  canton,
+  canton: propCanton,
   onGenerate
 }) {
   const [limit, setLimit] = React.useState(9);
+  const [selectedCanton, setSelectedCanton] = React.useState(propCanton || 'ALL');
+  React.useEffect(() => {
+    if (propCanton) setSelectedCanton(propCanton);
+  }, [propCanton]);
   const allItems = React.useMemo(() => {
     return window.SR_HOUSING || window.HOUSING_LISTINGS || [];
   }, []);
   const items = React.useMemo(() => {
-    if (!canton || canton === 'ALL') return allItems;
-    const filtered = allItems.filter(h => h.canton === canton);
+    if (!selectedCanton || selectedCanton === 'ALL') return allItems;
+    const filtered = allItems.filter(h => h.canton === selectedCanton);
     return filtered.length > 0 ? filtered : allItems;
-  }, [canton, allItems]);
+  }, [selectedCanton, allItems]);
   const visibleItems = items.slice(0, limit);
   return /*#__PURE__*/React.createElement("section", {
     id: "housing",
     className: "block",
     style: {
-      background: 'rgba(15,23,42,.25)'
+      background: 'rgba(15,23,42,.25)',
+      padding: '50px 0'
     }
   }, /*#__PURE__*/React.createElement("div", {
     className: "container"
@@ -1591,11 +1906,24 @@ function HousingSection({
       marginBottom: 20
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
-    className: "section-eyebrow"
+    className: "section-eyebrow",
+    style: {
+      color: 'var(--swiss-red)',
+      fontWeight: 700,
+      letterSpacing: '0.1em'
+    }
   }, t.housing?.eyebrow || "LOGEMENT VÉRIFIÉ"), /*#__PURE__*/React.createElement("h2", {
-    className: "section-title"
+    className: "section-title",
+    style: {
+      color: '#fff',
+      margin: '4px 0 8px'
+    }
   }, t.housing?.title || "Offres vérifiées en Romandie"), /*#__PURE__*/React.createElement("p", {
-    className: "section-sub"
+    className: "section-sub",
+    style: {
+      color: 'var(--muted)',
+      margin: 0
+    }
   }, t.housing?.lede || "Directement attribué aux régies sans mention de portails tiers.")), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12,
@@ -1604,9 +1932,25 @@ function HousingSection({
       borderRadius: 8,
       background: 'rgba(56,189,248,.08)',
       border: '1px solid rgba(56,189,248,.25)',
-      color: 'var(--accent-1)'
+      color: 'var(--sbb-blue)'
     }
   }, "\u26A1 ", items.length, " ", lang === 'uk' ? 'пропозицій з реальними фото' : lang === 'de' ? 'Angebote mit echten Fotos' : lang === 'it' ? 'offerte con foto reali' : 'offres avec photos réelles')), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      flexWrap: 'wrap',
+      marginBottom: 24
+    }
+  }, ['ALL', 'VD', 'GE', 'BE', 'FR', 'NE', 'VS', 'ZH', 'BS'].map(c => /*#__PURE__*/React.createElement("button", {
+    key: c,
+    className: `btn ${selectedCanton === c ? 'primary' : 'ghost'}`,
+    onClick: () => setSelectedCanton(c),
+    style: {
+      fontSize: 12,
+      padding: '5px 12px',
+      borderRadius: 8
+    }
+  }, c === 'ALL' ? lang === 'uk' ? 'Усі кантони' : 'Tous cantons' : c))), /*#__PURE__*/React.createElement("div", {
     className: "housing-list"
   }, visibleItems.map(it => /*#__PURE__*/React.createElement(HousingCard, {
     key: it.id,
@@ -2467,7 +2811,15 @@ function ProfessionSelector({
       fontSize: 13.5,
       fontWeight: 700
     }
-  }, "\uD83D\uDCCA ", lang === 'uk' ? 'Тарифна сітка CH-ISCO' : lang === 'de' ? 'Lohntabelle CH-ISCO' : 'Grille salariale CH-ISCO')), subTab === 'offers' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+  }, "\uD83D\uDCCA ", lang === 'uk' ? 'Тарифна сітка CH-ISCO' : lang === 'de' ? 'Lohntabelle CH-ISCO' : 'Grille salariale CH-ISCO'), /*#__PURE__*/React.createElement("button", {
+    className: `btn ${subTab === 'cv' ? 'primary' : 'ghost'}`,
+    onClick: () => setSubTab('cv'),
+    style: {
+      padding: '8px 18px',
+      fontSize: 13.5,
+      fontWeight: 700
+    }
+  }, "\uD83D\uDCC4 ", lang === 'uk' ? 'Швейцарський стандарт CV' : lang === 'de' ? 'Schweizer CV-Standards' : 'Normes CV Suisse')), subTab === 'offers' && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexWrap: 'wrap',
@@ -2611,7 +2963,170 @@ function ProfessionSelector({
   }, "\u25CF Art. 21a LEI") : /*#__PURE__*/React.createElement("span", {
     className: "v2-status-pill free",
     title: "March\xE9 libre"
-  }, "Libre")))))))), activeLetterJob && /*#__PURE__*/React.createElement(JobLetterModal, {
+  }, "Libre")))))))), subTab === 'cv' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'rgba(15,23,42,.6)',
+      borderRadius: 16,
+      border: '1px solid var(--line-2)',
+      padding: '28px 24px'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 780,
+      margin: '0 auto'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      marginBottom: 18
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 28
+    }
+  }, "\uD83C\uDDE8\uD83C\uDDED"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      margin: 0,
+      fontSize: 18,
+      color: '#fff',
+      fontWeight: 700
+    }
+  }, lang === 'uk' ? 'Швейцарський стандарт CV (Резюме) для Permis S' : lang === 'de' ? 'Schweizer Lebenslauf-Standards für S-Ausweis Inhaber' : 'Normes du Curriculum Vitae (CV) suisse pour titulaires du Permis S'), /*#__PURE__*/React.createElement("p", {
+    style: {
+      margin: '4px 0 0',
+      fontSize: 13,
+      color: 'var(--muted)'
+    }
+  }, lang === 'uk' ? 'Офіційні вимоги швейцарських HR: структура, обов\'язкові пункти та формулювання прав' : 'Exigences clés des recruteurs suisses : structure, mentions indispensables et législation SEM'))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: 16,
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#0B1220',
+      border: '1px solid var(--line-1)',
+      borderRadius: 12,
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: 'var(--sbb-blue)',
+      marginBottom: 8
+    }
+  }, "1. \u0424\u043E\u0442\u043E \u0442\u0430 \u043E\u0441\u043E\u0431\u0438\u0441\u0442\u0456 \u0434\u0430\u043D\u0456"), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      margin: 0,
+      paddingLeft: 18,
+      fontSize: 13,
+      color: 'var(--fg-3)',
+      lineHeight: 1.6
+    }
+  }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "\u0424\u043E\u0442\u043E:"), " \u043F\u0440\u043E\u0444\u0435\u0441\u0456\u0439\u043D\u0435 \u0434\u0456\u043B\u043E\u0432\u0435 \u0444\u043E\u0442\u043E (\u0441\u0432\u0456\u0442\u043B\u0438\u0439 \u043D\u0435\u0439\u0442\u0440\u0430\u043B\u044C\u043D\u0438\u0439 \u0444\u043E\u043D, \u043B\u0435\u0433\u043A\u0430 \u043F\u043E\u0441\u043C\u0456\u0448\u043A\u0430)."), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "\u041A\u043E\u043D\u0442\u0430\u043A\u0442\u0438:"), " \u0448\u0432\u0435\u0439\u0446\u0430\u0440\u0441\u044C\u043A\u0438\u0439 \u043D\u043E\u043C\u0435\u0440 (+41), email (\u0456\u043C'\u044F.\u043F\u0440\u0456\u0437\u0432\u0438\u0449\u0435), \u0442\u043E\u0447\u043D\u0435 \u043C\u0456\u0441\u0442\u043E \u043F\u0440\u043E\u0436\u0438\u0432\u0430\u043D\u043D\u044F."), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "\u0414\u0430\u0442\u0430 \u043D\u0430\u0440\u043E\u0434\u0436\u0435\u043D\u043D\u044F \u0442\u0430 \u0441\u0456\u043C\u0435\u0439\u043D\u0438\u0439 \u0441\u0442\u0430\u043D:"), " \u043E\u0431\u043E\u0432'\u044F\u0437\u043A\u043E\u0432\u043E \u0437\u0430 \u0448\u0432\u0435\u0439\u0446\u0430\u0440\u0441\u044C\u043A\u043E\u044E \u0442\u0440\u0430\u0434\u0438\u0446\u0456\u0454\u044E."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#0B1220',
+      border: '1px solid var(--line-1)',
+      borderRadius: 12,
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: 'var(--emerald)',
+      marginBottom: 8
+    }
+  }, "2. \u042E\u0440\u0438\u0434\u0438\u0447\u043D\u0438\u0439 \u0441\u0442\u0430\u0442\u0443\u0441 Permis S"), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      margin: 0,
+      paddingLeft: 18,
+      fontSize: 13,
+      color: 'var(--fg-3)',
+      lineHeight: 1.6
+    }
+  }, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "\u041E\u0431\u043E\u0432'\u044F\u0437\u043A\u043E\u0432\u0438\u0439 \u0440\u044F\u0434\u043E\u043A:"), " ", /*#__PURE__*/React.createElement("em", null, "\xABTitulaire du Permis S \u2014 Autorisation de travail imm\xE9diate (Art. 17 LEI)\xBB")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("strong", null, "\u041F\u0435\u0440\u0435\u0432\u0430\u0433\u0430 \u0434\u043B\u044F HR:"), " \u0431\u0435\u0437 \u043A\u0432\u043E\u0442, \u0431\u0435\u0437 \u0441\u043F\u043B\u0430\u0442\u0438 \u0437\u0431\u043E\u0440\u0456\u0432, \u043F\u0440\u043E\u0441\u0442\u0430 \u0434\u0435\u043A\u043B\u0430\u0440\u0430\u0446\u0456\u044F \u043E\u043D\u043B\u0430\u0439\u043D."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#0B1220',
+      border: '1px solid var(--line-1)',
+      borderRadius: 12,
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: 'var(--gold)',
+      marginBottom: 8
+    }
+  }, "3. \u041C\u043E\u0432\u0438 \u0437\u0430 \u0448\u043A\u0430\u043B\u043E\u044E CEFR"), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      margin: 0,
+      paddingLeft: 18,
+      fontSize: 13,
+      color: 'var(--fg-3)',
+      lineHeight: 1.6
+    }
+  }, /*#__PURE__*/React.createElement("li", null, "\u0427\u0456\u0442\u043A\u0430 \u0433\u0440\u0430\u0434\u0430\u0446\u0456\u044F: ", /*#__PURE__*/React.createElement("strong", null, "Fran\xE7ais B1 (op\xE9rationnel)"), " / ", /*#__PURE__*/React.createElement("strong", null, "B2 (courant)"), "."), /*#__PURE__*/React.createElement("li", null, "\u041D\u0456\u043C\u0435\u0446\u044C\u043A\u0430 (Deutsch), \u0410\u043D\u0433\u043B\u0456\u0439\u0441\u044C\u043A\u0430 (Anglais) \u0442\u0430 \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 (langue maternelle)."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#0B1220',
+      border: '1px solid var(--line-1)',
+      borderRadius: 12,
+      padding: 18
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: 'var(--violet)',
+      marginBottom: 8
+    }
+  }, "4. \u0414\u043E\u0441\u0432\u0456\u0434 \u0442\u0430 \u0440\u0435\u043A\u043E\u043C\u0435\u043D\u0434\u0430\u0446\u0456\u0457"), /*#__PURE__*/React.createElement("ul", {
+    style: {
+      margin: 0,
+      paddingLeft: 18,
+      fontSize: 13,
+      color: 'var(--fg-3)',
+      lineHeight: 1.6
+    }
+  }, /*#__PURE__*/React.createElement("li", null, "\u0410\u043D\u0442\u0438\u0445\u0440\u043E\u043D\u043E\u043B\u043E\u0433\u0456\u0447\u043D\u0438\u0439 \u043F\u043E\u0440\u044F\u0434\u043E\u043A (\u043D\u0430\u0439\u043D\u043E\u0432\u0456\u0448\u0438\u0439 \u0434\u043E\u0441\u0432\u0456\u0434 \u0437\u0432\u0435\u0440\u0445\u0443)."), /*#__PURE__*/React.createElement("li", null, "\u0420\u044F\u0434\u043E\u043A: ", /*#__PURE__*/React.createElement("em", null, "\xABCertificats de travail et r\xE9f\xE9rences disponibles sur demande\xBB"), "."), /*#__PURE__*/React.createElement("li", null, "\u0417\u0430\u043B\u0443\u0447\u0430\u0439\u0442\u0435 \u0432\u043E\u043B\u043E\u043D\u0442\u0435\u0440\u0430 Benevol \u044F\u043A \u043C\u0456\u0441\u0446\u0435\u0432\u043E\u0433\u043E \u043F\u043E\u0440\u0443\u0447\u0438\u0442\u0435\u043B\u044F.")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/SwissResilienceHubBot?start=cv_help",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "btn primary",
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8,
+      padding: '12px 24px',
+      fontSize: 14
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "18",
+    height: "18",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("line", {
+    x1: "22",
+    y1: "2",
+    x2: "11",
+    y2: "13"
+  }), /*#__PURE__*/React.createElement("polygon", {
+    points: "22 2 15 22 11 13 2 9 22 2"
+  })), /*#__PURE__*/React.createElement("span", null, lang === 'uk' ? 'Перевірити CV з ШІ-копілотом у Telegram' : 'Vérifier mon CV avec le copilote IA sur Telegram'))))), activeLetterJob && /*#__PURE__*/React.createElement(JobLetterModal, {
     job: activeLetterJob,
     onClose: () => setActiveLetterJob(null),
     lang: lang,
@@ -3437,24 +3952,28 @@ function FooterV2({
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-brand-badge"
   }, /*#__PURE__*/React.createElement(BrandMark, {
-    size: 20
+    size: 24
   })), /*#__PURE__*/React.createElement("span", {
     className: "v2-brand-name"
-  }, "SwissRelief", /*#__PURE__*/React.createElement("span", null, "Pan-Swiss 2.6"))), /*#__PURE__*/React.createElement("p", null, t.footer.about), /*#__PURE__*/React.createElement("p", {
+  }, "ACCORD", /*#__PURE__*/React.createElement("span", null, "L'Accord Suisse \xB7 Permis S"))), /*#__PURE__*/React.createElement("p", null, t.footer?.about || "Plateforme souveraine d'insertion et d'intégration territoriale pour la Suisse."), /*#__PURE__*/React.createElement("p", {
     className: "v2-foot-url"
-  }, "violin-integration.works \xB7 swiss-resilience-web.pages.dev")), /*#__PURE__*/React.createElement("div", {
+  }, "violin-integration.works \xB7 @SwissResilienceHubBot")), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
   }, /*#__PURE__*/React.createElement("h4", null, "Modules"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "#housing"
+  }, "Logement v\xE9rifi\xE9 (EVAM / SBB)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "#prof"
+  }, "Offres d'emploi & CV (LEI)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#calc"
   }, "Bar\xE8mes cantonaux (26)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
-    href: "#prof"
-  }, "Radar CH-ISCO-19")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "#dossier"
+  }, "Dossier r\xE9gie 1-Click (USPI)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#sublease"
   }, "Sous-location 262 CO")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#mentors"
-  }, "Mentors Benevol")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, "Mentors Benevol Suisse")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#beta"
-  }, "Transparence Merkle")))), /*#__PURE__*/React.createElement("div", {
+  }, "Transparence B\xEAta")))), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
   }, /*#__PURE__*/React.createElement("h4", null, "R\xE9f\xE9rences l\xE9gales"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 262 CO \xB7 Sous-location")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 21a LEI \xB7 Priorit\xE9 ORP")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 394 CO \xB7 Mandat gratuit")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 60\u201379 CC \xB7 Association")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 239 CO \xB7 Donation")))), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
@@ -3485,8 +4004,15 @@ Object.assign(window, {
 });
 
 // ==================== [Module: app.jsx] ====================
-// SwissRelief 2.6 — App Root Component
-// Implements ADR-016 safe storage, Telegram WebApp stabilization, and quad-lingual i18n routing.
+// ACCORD-S · Root Application Router & Unification
+// Combines ACCORD 2.7 branding with full 2.6 suite:
+// - HousingCards (real apartments with photos, EVAM limits, SBB travel time)
+// - ProfessionSelector & JobCard (63 live job openings, Swiss cover letter assistant, CV guide)
+// - CantonCalculator (26 cantons official social ceilings)
+// - DossierGenerator (USPI standard rental dossier builder)
+// - Sublease (Art. 262 CO sublease calculator & contract)
+// - BenevolMentors (Benevol Suisse mentor network)
+// - BetaDonation (Transparent association support & Telegram link)
 
 const _appMemStore = {};
 function safeStorageGet(key, def = null) {
@@ -3520,9 +4046,9 @@ function App() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const paramLang = urlParams.get('lang');
-      if (paramLang && ['fr', 'de', 'it', 'uk'].includes(paramLang)) return paramLang;
+      if (paramLang && ['fr', 'de', 'it', 'uk', 'en'].includes(paramLang)) return paramLang;
     } catch (e) {}
-    return safeStorageGet('sr26-lang', safeStorageGet('sr-v2-lang', 'fr'));
+    return safeStorageGet('sr26-lang', safeStorageGet('sr-v2-lang', 'uk'));
   });
   const [side, setSide] = React.useState(() => {
     try {
@@ -3547,14 +4073,14 @@ function App() {
       if (params.get('job')) return 'prof';
       if (params.get('housing') || params.get('item')) return 'housing';
       const h = window.location.hash.replace('#', '');
-      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
-        return h;
+      if (['calc', 'housing', 'dossier', 'beta', 'prof', 'jobs', 'sublease', 'mentors'].includes(h)) {
+        return h === 'jobs' ? 'prof' : h;
       }
     } catch (e) {}
     return 'housing';
   });
   const [canton, setCanton] = React.useState(() => safeStorageGet('sr26-canton', 'VD'));
-  const [status, setStatus] = React.useState(() => safeStorageGet('sr26-status', 'evam')); // evam | salary
+  const [status, setStatus] = React.useState(() => safeStorageGet('sr26-status', 'evam'));
   const [income, setIncome] = React.useState(() => Number(safeStorageGet('sr26-income', 4800)) || 4800);
   const [drawerOpen, setDrawer] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
@@ -3578,7 +4104,7 @@ function App() {
     safeStorageSet('sr26-income', String(income));
   }, [income]);
 
-  // Early Telegram WebApp initialization and stabilization
+  // Telegram WebApp initialization
   React.useEffect(() => {
     if (window.Telegram && window.Telegram.WebApp) {
       try {
@@ -3588,7 +4114,6 @@ function App() {
         if (tg.enableClosingConfirmation) {
           tg.enableClosingConfirmation();
         }
-        // In TMA mode, let the native bottom tab bar handle navigation smoothly
         if (tg.MainButton) {
           tg.MainButton.hide();
         }
@@ -3598,138 +4123,100 @@ function App() {
     }
   }, []);
 
-  // Hash & query routing (#housing, #dossier, #prof, ?view=prof, etc.)
+  // Hash & query routing
   React.useEffect(() => {
     const checkDeepLink = () => {
       try {
-        const params = new URLSearchParams(window.location.search);
-        const viewParam = params.get('view') || params.get('service') || params.get('tab');
-        let target = null;
-        if (viewParam) {
-          if (['prof', 'jobs', 'job', 'emplois'].includes(viewParam)) {
-            target = 'prof';
-            setSide('a');
-          } else if (['housing', 'calc', 'dossier', 'beta', 'sublease', 'mentors'].includes(viewParam)) {
-            target = viewParam;
-            if (viewParam === 'mentors' || viewParam === 'sublease') setSide('b');else if (viewParam !== 'beta') setSide('a');
-          } else if (viewParam === 'checkout' || viewParam === 'donate') {
-            target = 'beta';
-          }
-        } else if (params.get('job')) {
-          target = 'prof';
-          setSide('a');
-        }
         const h = window.location.hash.replace('#', '');
-        if (['calc', 'housing', 'dossier', 'beta', 'prof', 'sublease', 'mentors'].includes(h)) {
-          target = h;
-          if (h === 'mentors' || h === 'sublease') setSide('b');
-        }
-        if (target) {
-          setService(target);
-          setTimeout(() => {
-            const el = document.getElementById(target);
-            if (el) el.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }, 150);
+        if (['housing', 'calc', 'dossier', 'prof', 'sublease', 'mentors', 'beta'].includes(h)) {
+          setService(h);
+          if (['sublease', 'mentors'].includes(h)) setSide('b');else if (['housing', 'calc', 'dossier', 'prof'].includes(h)) setSide('a');
+        } else if (h === 'jobs') {
+          setService('prof');
+          setSide('a');
         }
       } catch (e) {}
     };
-    checkDeepLink();
     window.addEventListener('hashchange', checkDeepLink);
+    checkDeepLink();
     return () => window.removeEventListener('hashchange', checkDeepLink);
   }, []);
-  const t = window.SR_I18N && window.SR_I18N[lang] ? window.SR_I18N[lang] : window.SR_I18N ? window.SR_I18N.fr : {};
+  const t = window.SR_I18N && window.SR_I18N[lang] ? window.SR_I18N[lang] : window.SR_I18N && window.SR_I18N.uk ? window.SR_I18N.uk : window.SR_I18N ? window.SR_I18N.fr : {};
   const pickService = (id, s) => {
-    setService(id);
-    if (s) setSide(s);
+    const targetId = id === 'jobs' ? 'prof' : id;
+    setService(targetId);
+    if (s) setSide(s);else if (['sublease', 'mentors'].includes(targetId)) setSide('b');else if (['housing', 'prof', 'calc', 'dossier'].includes(targetId)) setSide('a');
     setTimeout(() => {
-      const el = document.getElementById(id);
+      const el = document.getElementById(targetId);
       if (el) el.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
-    }, 40);
+    }, 50);
   };
   const handleGenerate = item => {
     setPrefill(item);
+    setSide('a');
     setService('dossier');
     setTimeout(() => {
-      document.getElementById('dossier')?.scrollIntoView({
+      const el = document.getElementById('dossier');
+      if (el) el.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
       });
-    }, 100);
+    }, 80);
   };
   const openTelegramDonate = () => {
+    const url = 'https://t.me/SwissResilienceHubBot?start=donate';
     if (window.Telegram?.WebApp && window.Telegram.WebApp.openTelegramLink) {
-      window.Telegram.WebApp.openTelegramLink('https://t.me/SwissResilienceHubBot?start=donate');
+      window.Telegram.WebApp.openTelegramLink(url);
     } else {
-      window.open('https://t.me/SwissResilienceHubBot?start=donate', '_blank');
+      window.open(url, '_blank');
     }
   };
-  if (!t || !t.banner) {
-    return /*#__PURE__*/React.createElement("div", {
-      style: {
-        padding: 40,
-        textAlign: 'center',
-        color: '#CBD5E1',
-        fontFamily: 'Inter, sans-serif'
-      }
-    }, "Chargement de l'environnement SwissRelief 2.6...");
-  }
 
-  // Dedicated Native-like Mini App mode
+  // Telegram Mini App dedicated mobile view
   if (isTMA) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "tma-app-root"
+      className: "tma-app-shell"
     }, /*#__PURE__*/React.createElement("header", {
       className: "tma-header"
     }, /*#__PURE__*/React.createElement("div", {
       className: "tma-brand"
     }, /*#__PURE__*/React.createElement(BrandMark, {
-      size: 22
-    }), /*#__PURE__*/React.createElement("span", {
+      size: 28
+    }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       className: "tma-title"
-    }, "SwissRelief"), /*#__PURE__*/React.createElement("span", {
-      className: "tma-badge"
-    }, "Mini App")), /*#__PURE__*/React.createElement("div", {
-      className: "tma-header-actions"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "tma-side-toggle"
+    }, "ACCORD Suisse"), /*#__PURE__*/React.createElement("div", {
+      className: "tma-sub"
+    }, "Permis S \xB7 Romandie"))), /*#__PURE__*/React.createElement("div", {
+      className: "tma-actions"
     }, /*#__PURE__*/React.createElement("button", {
-      className: side === 'a' ? 'active' : '',
-      onClick: () => setSide('a')
-    }, "Permis S"), /*#__PURE__*/React.createElement("button", {
-      className: side === 'b' ? 'active' : '',
-      onClick: () => setSide('b')
-    }, "H\xF4te")), /*#__PURE__*/React.createElement("div", {
-      className: "tma-lang-picker"
-    }, ['fr', 'de', 'it', 'uk'].map(l => /*#__PURE__*/React.createElement("button", {
-      key: l,
-      className: `tma-lang-pill ${lang === l ? 'active' : ''}`,
-      onClick: () => setLang(l),
-      title: l.toUpperCase()
-    }, LANG_FLAGS[l]))))), /*#__PURE__*/React.createElement(ServiceSwitcher, {
-      activeId: service,
-      onPick: pickService,
-      t: t
-    }), /*#__PURE__*/React.createElement("main", {
-      className: "tma-main"
-    }, (service === 'calc' || service === 'housing') && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(CantonCalculatorV2, {
+      className: "v2-lang-btn",
+      onClick: () => {
+        const order = ['uk', 'fr', 'de', 'en'];
+        const next = order[(order.indexOf(lang) + 1) % order.length];
+        setLang(next);
+      },
+      style: {
+        padding: '4px 8px',
+        fontSize: 11.5
+      }
+    }, /*#__PURE__*/React.createElement("span", null, window.LANG_FLAGS ? window.LANG_FLAGS[lang] : '🌐'), /*#__PURE__*/React.createElement("span", null, window.LANG_CODES ? window.LANG_CODES[lang] : lang.toUpperCase())))), /*#__PURE__*/React.createElement("main", {
+      className: "tma-content"
+    }, service === 'housing' && /*#__PURE__*/React.createElement(HousingSection, {
+      t: t,
+      lang: lang,
+      canton: canton,
+      onGenerate: handleGenerate
+    }), service === 'calc' && /*#__PURE__*/React.createElement(CantonCalculatorV2, {
       t: t,
       lang: lang,
       canton: canton,
       setCanton: setCanton,
       status: status,
       income: income
-    }), /*#__PURE__*/React.createElement(HousingSection, {
-      t: t,
-      lang: lang,
-      canton: canton,
-      onGenerate: handleGenerate
-    })), service === 'dossier' && /*#__PURE__*/React.createElement(DossierGenerator, {
+    }), service === 'dossier' && /*#__PURE__*/React.createElement(DossierGenerator, {
       t: t,
       lang: lang,
       prefill: dossierPrefill
@@ -3747,7 +4234,43 @@ function App() {
       className: "tma-bottom-bar",
       "aria-label": "Navigation Mini App"
     }, /*#__PURE__*/React.createElement("button", {
-      className: service === 'calc' || service === 'housing' ? 'active' : '',
+      className: service === 'housing' ? 'active' : '',
+      onClick: () => {
+        setSide('a');
+        pickService('housing');
+      }
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M3 12 12 3l9 9M5 10v10h14V10"
+    })), /*#__PURE__*/React.createElement("span", null, t.nav?.housing || "Житло")), /*#__PURE__*/React.createElement("button", {
+      className: service === 'prof' ? 'active' : '',
+      onClick: () => {
+        setSide('a');
+        pickService('prof');
+      }
+    }, /*#__PURE__*/React.createElement("svg", {
+      width: "20",
+      height: "20",
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
+    }, /*#__PURE__*/React.createElement("path", {
+      d: "M3 3v18h18"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M7 15l4-4 3 3 5-6"
+    })), /*#__PURE__*/React.createElement("span", null, t.nav?.jobs || "Робота")), /*#__PURE__*/React.createElement("button", {
+      className: service === 'calc' ? 'active' : '',
       onClick: () => {
         setSide('a');
         pickService('calc');
@@ -3761,9 +4284,23 @@ function App() {
       strokeWidth: "2",
       strokeLinecap: "round",
       strokeLinejoin: "round"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M3 12 12 3l9 9M5 10v10h14V10"
-    })), /*#__PURE__*/React.createElement("span", null, t.nav?.housing || "Logement")), /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/React.createElement("rect", {
+      x: "4",
+      y: "2",
+      width: "16",
+      height: "20",
+      rx: "2"
+    }), /*#__PURE__*/React.createElement("line", {
+      x1: "8",
+      y1: "6",
+      x2: "16",
+      y2: "6"
+    }), /*#__PURE__*/React.createElement("line", {
+      x1: "8",
+      y1: "10",
+      x2: "16",
+      y2: "10"
+    })), /*#__PURE__*/React.createElement("span", null, t.svc?.calc || "Ліміти")), /*#__PURE__*/React.createElement("button", {
       className: service === 'dossier' ? 'active' : '',
       onClick: () => {
         setSide('a');
@@ -3784,30 +4321,11 @@ function App() {
       d: "M14 2v6h6"
     }), /*#__PURE__*/React.createElement("path", {
       d: "M8 13h8M8 17h5"
-    })), /*#__PURE__*/React.createElement("span", null, t.nav?.dossier || "Dossier")), /*#__PURE__*/React.createElement("button", {
-      className: service === 'prof' ? 'active' : '',
-      onClick: () => {
-        setSide('a');
-        pickService('prof');
-      }
-    }, /*#__PURE__*/React.createElement("svg", {
-      width: "20",
-      height: "20",
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-      strokeLinecap: "round",
-      strokeLinejoin: "round"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M3 3v18h18"
-    }), /*#__PURE__*/React.createElement("path", {
-      d: "M7 15l4-4 3 3 5-6"
-    })), /*#__PURE__*/React.createElement("span", null, t.svc?.prof || "Emploi")), /*#__PURE__*/React.createElement("button", {
-      className: service === 'sublease' || service === 'mentors' ? 'active' : '',
+    })), /*#__PURE__*/React.createElement("span", null, t.nav?.dossier || "Досьє")), /*#__PURE__*/React.createElement("button", {
+      className: service === 'mentors' || service === 'sublease' ? 'active' : '',
       onClick: () => {
         setSide('b');
-        pickService(service === 'mentors' ? 'mentors' : 'sublease', 'b');
+        pickService('mentors', 'b');
       }
     }, /*#__PURE__*/React.createElement("svg", {
       width: "20",
@@ -3819,21 +4337,17 @@ function App() {
       strokeLinecap: "round",
       strokeLinejoin: "round"
     }, /*#__PURE__*/React.createElement("path", {
-      d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-    })), /*#__PURE__*/React.createElement("span", null, side === 'b' ? t.svc?.mentors || "Mentors" : t.svc?.sublease || "Sous-location")), /*#__PURE__*/React.createElement("button", {
-      className: service === 'beta' ? 'active' : '',
-      onClick: () => pickService('beta')
-    }, /*#__PURE__*/React.createElement("svg", {
-      width: "20",
-      height: "20",
-      viewBox: "0 0 24 24",
-      fill: "currentColor"
-    }, /*#__PURE__*/React.createElement("path", {
-      d: "M12 2 15 8l6 .9-4.5 4.4L18 20l-6-3.2L6 20l1.5-6.7L3 8.9 9 8z"
-    })), /*#__PURE__*/React.createElement("span", null, t.nav?.donate || "Soutenir"))));
+      d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+    }), /*#__PURE__*/React.createElement("circle", {
+      cx: "9",
+      cy: "7",
+      r: "4"
+    }), /*#__PURE__*/React.createElement("path", {
+      d: "M23 21v-2a4 4 0 0 0-3-3.87"
+    })), /*#__PURE__*/React.createElement("span", null, t.svc?.mentors || "Ментори"))));
   }
 
-  // Regular Desktop Landing Page
+  // Full Desktop & Mobile Web Experience
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(TopBannerV2, {
     t: t
   }), /*#__PURE__*/React.createElement(NavV2, {
@@ -3852,26 +4366,30 @@ function App() {
     side: side,
     setSide: setSide,
     t: t
-  }), side === 'a' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(CantonCalculatorV2, {
+  }), side === 'a' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(FourPillars, {
+    t: t
+  }), /*#__PURE__*/React.createElement(HousingSection, {
+    t: t,
+    lang: lang,
+    canton: canton,
+    onGenerate: handleGenerate
+  }), /*#__PURE__*/React.createElement(ProfessionSelector, {
+    t: t,
+    lang: lang
+  }), /*#__PURE__*/React.createElement(CantonCalculatorV2, {
     t: t,
     lang: lang,
     canton: canton,
     setCanton: setCanton,
     status: status,
     income: income
-  }), /*#__PURE__*/React.createElement(HousingSection, {
-    t: t,
-    lang: lang,
-    canton: canton,
-    onGenerate: handleGenerate
   }), /*#__PURE__*/React.createElement(DossierGenerator, {
     t: t,
     lang: lang,
     prefill: dossierPrefill
-  }), /*#__PURE__*/React.createElement(ProfessionSelector, {
-    t: t,
-    lang: lang
-  })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SubleaseWizard, {
+  })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(FourPillars, {
+    t: t
+  }), /*#__PURE__*/React.createElement(SubleaseWizard, {
     t: t
   }), /*#__PURE__*/React.createElement(BenevolMentors, {
     t: t

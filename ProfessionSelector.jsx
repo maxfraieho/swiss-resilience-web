@@ -418,6 +418,13 @@ function ProfessionSelector({ t, lang = 'fr' }) {
           >
             📊 {lang === 'uk' ? 'Тарифна сітка CH-ISCO' : lang === 'de' ? 'Lohntabelle CH-ISCO' : 'Grille salariale CH-ISCO'}
           </button>
+          <button
+            className={`btn ${subTab === 'cv' ? 'primary' : 'ghost'}`}
+            onClick={() => setSubTab('cv')}
+            style={{ padding: '8px 18px', fontSize: 13.5, fontWeight: 700 }}
+          >
+            📄 {lang === 'uk' ? 'Швейцарський стандарт CV' : lang === 'de' ? 'Schweizer CV-Standards' : 'Normes CV Suisse'}
+          </button>
         </div>
 
         {subTab === 'offers' && (
@@ -581,6 +588,76 @@ function ProfessionSelector({ t, lang = 'fr' }) {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {subTab === 'cv' && (
+          <div style={{ background: 'rgba(15,23,42,.6)', borderRadius: 16, border: '1px solid var(--line-2)', padding: '28px 24px' }}>
+            <div style={{ maxWidth: 780, margin: '0 auto' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
+                <span style={{ fontSize: 28 }}>🇨🇭</span>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: 18, color: '#fff', fontWeight: 700 }}>
+                    {lang === 'uk' ? 'Швейцарський стандарт CV (Резюме) для Permis S'
+                     : lang === 'de' ? 'Schweizer Lebenslauf-Standards für S-Ausweis Inhaber'
+                     : 'Normes du Curriculum Vitae (CV) suisse pour titulaires du Permis S'}
+                  </h3>
+                  <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--muted)' }}>
+                    {lang === 'uk' ? 'Офіційні вимоги швейцарських HR: структура, обов\'язкові пункти та формулювання прав'
+                     : 'Exigences clés des recruteurs suisses : structure, mentions indispensables et législation SEM'}
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 24 }}>
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--sbb-blue)', marginBottom: 8 }}>1. Фото та особисті дані</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li><strong>Фото:</strong> професійне ділове фото (світлий нейтральний фон, легка посмішка).</li>
+                    <li><strong>Контакти:</strong> швейцарський номер (+41), email (ім'я.прізвище), точне місто проживання.</li>
+                    <li><strong>Дата народження та сімейний стан:</strong> обов'язково за швейцарською традицією.</li>
+                  </ul>
+                </div>
+
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--emerald)', marginBottom: 8 }}>2. Юридичний статус Permis S</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li><strong>Обов'язковий рядок:</strong> <em>«Titulaire du Permis S — Autorisation de travail immédiate (Art. 17 LEI)»</em></li>
+                    <li><strong>Перевага для HR:</strong> без квот, без сплати зборів, проста декларація онлайн.</li>
+                  </ul>
+                </div>
+
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--gold)', marginBottom: 8 }}>3. Мови за шкалою CEFR</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li>Чітка градація: <strong>Français B1 (opérationnel)</strong> / <strong>B2 (courant)</strong>.</li>
+                    <li>Німецька (Deutsch), Англійська (Anglais) та Українська (langue maternelle).</li>
+                  </ul>
+                </div>
+
+                <div style={{ background: '#0B1220', border: '1px solid var(--line-1)', borderRadius: 12, padding: 18 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--violet)', marginBottom: 8 }}>4. Досвід та рекомендації</div>
+                  <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.6 }}>
+                    <li>Антихронологічний порядок (найновіший досвід зверху).</li>
+                    <li>Рядок: <em>«Certificats de travail et références disponibles sur demande»</em>.</li>
+                    <li>Залучайте волонтера Benevol як місцевого поручителя.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'center' }}>
+                <a
+                  href="https://t.me/SwissResilienceHubBot?start=cv_help"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn primary"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 24px', fontSize: 14 }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span>{lang === 'uk' ? 'Перевірити CV з ШІ-копілотом у Telegram' : 'Vérifier mon CV avec le copilote IA sur Telegram'}</span>
+                </a>
+              </div>
             </div>
           </div>
         )}

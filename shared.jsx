@@ -3,21 +3,30 @@ const { useState, useEffect, useMemo, useRef, useCallback } = React;
 
 // ---------- Formatting ----------
 const chf = (n) => new Intl.NumberFormat('de-CH', { maximumFractionDigits: 0 }).format(Math.round(n)).replace(/,/g, "'");
+window.chf = chf;
 
 // ---------- Language tag / flag helpers ----------
-const LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦" };
-const LANG_LABEL = { fr: "FR", de: "DE", it: "IT", uk: "UK" };
+const LANG_FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦", en: "🇬🇧" };
+const LANG_LABEL = { fr: "FR", de: "DE", it: "IT", uk: "UK", en: "EN" };
 
-// ---------- Brand mark: Swiss cross ----------
-function BrandMark({ size = 20 }) {
+// ---------- Brand mark: ACCORD squircle logo with SVG fallback ----------
+function BrandMark({ size = 28 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="1" y="1" width="22" height="22" rx="4" fill="#D52B1E"/>
-      <rect x="10.5" y="5" width="3" height="14" rx=".4" fill="#FFFFFF"/>
-      <rect x="5" y="10.5" width="14" height="3" rx=".4" fill="#FFFFFF"/>
-      {/* subtle compass overlay */}
-      <circle cx="12" cy="12" r="9" stroke="#D97706" strokeWidth="0.6" opacity="0.45" fill="none"/>
-    </svg>
+    <span className="brand-mark" style={{
+      width: size, height: size, minWidth: size, borderRadius: Math.round(size * 0.25),
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden', verticalAlign: 'middle', background: '#D52B1E',
+      boxShadow: '0 2px 8px rgba(213,43,30,0.35)', flexShrink: 0
+    }}>
+      <img
+        src="/accord_logo.jpg"
+        alt="ACCORD"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        onError={(e) => {
+          e.target.style.display = 'none';
+        }}
+      />
+    </span>
   );
 }
 

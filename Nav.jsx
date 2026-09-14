@@ -13,9 +13,9 @@ function TopBannerV2({ t }) {
 
 function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) {
   const [langOpen, setLangOpen] = React.useState(false);
-  const FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦" };
-  const NAMES = { fr: "Français", de: "Deutsch", it: "Italiano", uk: "Українська" };
-  const LABELS = { fr: "FR", de: "DE", it: "IT", uk: "UK" };
+  const FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦", en: "🇬🇧" };
+  const NAMES = { fr: "Français", de: "Deutsch", it: "Italiano", uk: "Українська", en: "English" };
+  const LABELS = { fr: "FR", de: "DE", it: "IT", uk: "UK", en: "EN" };
 
   React.useEffect(() => {
     const closeOnOutside = (e) => { if (!e.target.closest('.v2-lang-dropdown')) setLangOpen(false); };
@@ -28,21 +28,33 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
     };
   }, []);
 
+  const navLabels = {
+    uk: { housing: "Житло", jobs: "Вакансії", calc: "Калькулятор", dossier: "Досьє", sublease: "Суборенда", mentors: "Ментори" },
+    fr: { housing: "Logement", jobs: "Emplois", calc: "Calculateur", dossier: "Dossier", sublease: "Sous-location", mentors: "Mentors" },
+    de: { housing: "Wohnen", jobs: "Stellen", calc: "Rechner", dossier: "Dossier", sublease: "Untermiete", mentors: "Mentoren" },
+    en: { housing: "Housing", jobs: "Jobs", calc: "Calculator", dossier: "Dossier", sublease: "Sublease", mentors: "Mentors" }
+  };
+  const nl = navLabels[lang] || navLabels.fr;
+
   return (
     <header className="v2-sticky-header" role="banner">
       {/* Row 1: brand + desktop nav + actions */}
       <div className="v2-container v2-nav-row">
-        <a href="#top" className="v2-brand" aria-label="SwissRelief">
-          <span className="v2-brand-badge"><BrandMark size={22}/></span>
+        <a href="#top" className="v2-brand" aria-label="ACCORD">
+          <span className="v2-brand-badge"><BrandMark size={28}/></span>
           <span className="v2-brand-name">
-            SwissRelief
-            <span>Pan-Swiss 2.6</span>
+            ACCORD
+            <span>{lang === 'uk' ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'}</span>
           </span>
         </a>
 
-        <div className="v2-nav-tagline" aria-hidden="true">
-          <span className="v2-mono-tag">26 CANTONS · 4 LANGUES · ART. 60–79 CC</span>
-        </div>
+        <nav className="v2-nav-links v2-desktop-only" aria-label="Navigation principale" style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+          <a href="#housing" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.housing}</a>
+          <a href="#prof" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.jobs}</a>
+          <a href="#calc" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.calc}</a>
+          <a href="#dossier" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.dossier}</a>
+          <a href="#mentors" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.mentors}</a>
+        </nav>
 
         <div className="v2-nav-actions">
           {/* Direct Telegram Bot Link */}
@@ -74,7 +86,7 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
             </button>
             {langOpen && (
               <div className="v2-lang-menu" role="menu">
-                {['fr','de','it','uk'].map(l => (
+                {['fr','de','it','uk','en'].map(l => (
                   <button
                     key={l}
                     className={`v2-lang-item ${l === lang ? 'active' : ''}`}

@@ -78,29 +78,40 @@ function HousingCard({ item, t, lang, onGenerate }) {
   );
 }
 
-function HousingSection({ t, lang, canton, onGenerate }) {
+function HousingSection({ t, lang, canton: propCanton, onGenerate }) {
   const [limit, setLimit] = React.useState(9);
+  const [selectedCanton, setSelectedCanton] = React.useState(propCanton || 'ALL');
+
+  React.useEffect(() => {
+    if (propCanton) setSelectedCanton(propCanton);
+  }, [propCanton]);
 
   const allItems = React.useMemo(() => {
     return (window.SR_HOUSING || window.HOUSING_LISTINGS || []);
   }, []);
 
   const items = React.useMemo(() => {
-    if (!canton || canton === 'ALL') return allItems;
-    const filtered = allItems.filter(h => h.canton === canton);
+    if (!selectedCanton || selectedCanton === 'ALL') return allItems;
+    const filtered = allItems.filter(h => h.canton === selectedCanton);
     return filtered.length > 0 ? filtered : allItems;
-  }, [canton, allItems]);
+  }, [selectedCanton, allItems]);
 
   const visibleItems = items.slice(0, limit);
 
   return (
-    <section id="housing" className="block" style={{background: 'rgba(15,23,42,.25)'}}>
+    <section id="housing" className="block" style={{background: 'rgba(15,23,42,.25)', padding: '50px 0'}}>
       <div className="container">
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 12, marginBottom: 20}}>
           <div>
-            <span className="section-eyebrow">{t.housing?.eyebrow || "LOGEMENT VÉRIFIÉ"}</span>
-            <h2 className="section-title">{t.housing?.title || "Offres vérifiées en Romandie"}</h2>
-            <p className="section-sub">{t.housing?.lede || "Directement attribué aux régies sans mention de portails tiers."}</p>
+            <span className="section-eyebrow" style={{ color: 'var(--swiss-red)', fontWeight: 700, letterSpacing: '0.1em' }}>
+              {t.housing?.eyebrow || "LOGEMENT VÉRIFIÉ"}
+            </span>
+            <h2 className="section-title" style={{ color: '#fff', margin: '4px 0 8px' }}>
+              {t.housing?.title || "Offres vérifiées en Romandie"}
+            </h2>
+            <p className="section-sub" style={{ color: 'var(--muted)', margin: 0 }}>
+              {t.housing?.lede || "Directement attribué aux régies sans mention de portails tiers."}
+            </p>
           </div>
           <div style={{
             fontSize: 12,
@@ -109,10 +120,24 @@ function HousingSection({ t, lang, canton, onGenerate }) {
             borderRadius: 8,
             background: 'rgba(56,189,248,.08)',
             border: '1px solid rgba(56,189,248,.25)',
-            color: 'var(--accent-1)'
+            color: 'var(--sbb-blue)'
           }}>
             ⚡ {items.length} {lang === 'uk' ? 'пропозицій з реальними фото' : lang === 'de' ? 'Angebote mit echten Fotos' : lang === 'it' ? 'offerte con foto reali' : 'offres avec photos réelles'}
           </div>
+        </div>
+
+        {/* Canton filter chips */}
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 24 }}>
+          {['ALL', 'VD', 'GE', 'BE', 'FR', 'NE', 'VS', 'ZH', 'BS'].map(c => (
+            <button
+              key={c}
+              className={`btn ${selectedCanton === c ? 'primary' : 'ghost'}`}
+              onClick={() => setSelectedCanton(c)}
+              style={{ fontSize: 12, padding: '5px 12px', borderRadius: 8 }}
+            >
+              {c === 'ALL' ? (lang === 'uk' ? 'Усі кантони' : 'Tous cantons') : c}
+            </button>
+          ))}
         </div>
 
         <div className="housing-list">

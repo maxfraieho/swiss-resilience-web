@@ -6,11 +6,11 @@ function HeroV2({ side, setSide, t }) {
       <div className="v2-container">
         <div className="v2-hero-pill">
           <span className="v2-pulse-dot" aria-hidden="true"/>
-          <span>26 CANTONS · 4 LANGUES · MERKLE SHA-256</span>
+          <span>{t.hero?.pill || "ACCORD SUISSE · PERMIS S · 100% GRATUIT"}</span>
         </div>
         <h1 className="v2-hero-title">
-          {t.hero.line1}<br/>
-          <span className="v2-hero-accent">{t.hero.line2}</span>
+          {t.hero.line1 || t.hero.title1 || "Твоя дія у Швейцарії:"}<br/>
+          <span className="v2-hero-accent">{t.hero.line2 || t.hero.title2 || "житло, робота та спільнота."}</span>
         </h1>
         <p className="v2-hero-sub">{t.hero.lede}</p>
 
@@ -22,14 +22,14 @@ function HeroV2({ side, setSide, t }) {
             className="v2-btn v2-btn-primary v2-btn-tg btn tg lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>{t.hero?.ctaBot || "Ouvrir @SwissResilienceHubBot"}</span>
+            <span>{t.hero?.ctaBot || "Запустити АКОРД у Telegram"}</span>
           </a>
           <a
             href="/app/"
             className="v2-btn v2-btn-secondary btn primary lg"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
-            <span>{t.hero?.ctaApp || "Lancer la Mini App"}</span>
+            <span>{t.hero?.ctaApp || "Відкрити Mini App"}</span>
           </a>
         </div>
 
@@ -63,8 +63,8 @@ function HeroV2({ side, setSide, t }) {
               </svg>
             </span>
             <span className="v2-tab-body">
-              <span className="v2-tab-label">{t.tabs.solidarity}</span>
-              <span className="v2-tab-sub">{t.tabs.solSub}</span>
+              <span className="v2-tab-label">{t.tabs.solidarity || t.tabs.volunteers}</span>
+              <span className="v2-tab-sub">{t.tabs.solSub || t.tabs.volunteersSub}</span>
             </span>
           </button>
         </div>
@@ -83,4 +83,51 @@ function HeroV2({ side, setSide, t }) {
   );
 }
 
-Object.assign(window, { HeroV2 });
+function FourPillars({ t }) {
+  const p = t.pillars || {
+    eyebrow: "POURQUOI L'ACCORD ?",
+    title: "Quatre piliers de confiance, sans jargon.",
+    sub: "Un outil d'action directe conçu pour la réalité suisse.",
+    items: [
+      { idx: "01", cls: "pillar-1", icon: "⚡", title: "Vitesse décisive", body: "Alertes Telegram en moins de 60 secondes.", kpi: { n: "< 60 s", l: "temps de signal" } },
+      { idx: "02", cls: "pillar-2", icon: "🤖", title: "Copilote IA 24/7", body: "Normes suisses pour CV et lettres de motivation.", kpi: { n: "Claude · GPT", l: "modèles suisses" } },
+      { idx: "03", cls: "pillar-3", icon: "🤝", title: "Mentors suisses", body: "Réseau de bénévoles suisses (Benevol).", kpi: { n: "148+", l: "mentors actifs" } },
+      { idx: "04", cls: "pillar-4", icon: "🛡️", title: "Conformité totale", body: "100% gratuit selon la loi LSE et Art. 262 CO.", kpi: { n: "LPD · LSE", l: "cadre légal" } }
+    ]
+  };
+
+  return (
+    <section className="pillars-section" id="pillars" style={{ padding: '40px 0', borderBottom: '1px solid var(--line-2)' }}>
+      <div className="v2-container">
+        <div className="section-head" style={{ textAlign: 'center', maxWidth: 700, margin: '0 auto 32px' }}>
+          <span className="eyebrow" style={{ fontSize: 11.5, letterSpacing: '0.12em', color: 'var(--swiss-red)', textTransform: 'uppercase', fontWeight: 700 }}>{p.eyebrow}</span>
+          <h2 className="section-title" style={{ fontSize: 26, fontWeight: 800, margin: '6px 0 10px', letterSpacing: '-0.02em', color: '#fff' }}>{p.title}</h2>
+          <p className="section-sub" style={{ fontSize: 14, color: 'var(--muted)', margin: 0 }}>{p.sub}</p>
+        </div>
+        <div className="pillar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+          {p.items.map((it) => (
+            <article key={it.idx} className={`pillar-card ${it.cls}`} style={{
+              background: 'rgba(15,23,42,.65)', border: '1px solid var(--line-2)', borderRadius: 16, padding: 20,
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
+            }}>
+              <div>
+                <div className="pillar-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <span className="pillar-idx" style={{ fontFamily: 'var(--f-mono)', fontSize: 12, color: 'var(--muted)', fontWeight: 700 }}>{it.idx}</span>
+                  <span className="pillar-icon" style={{ fontSize: 22 }} aria-hidden="true">{it.icon}</span>
+                </div>
+                <h3 className="pillar-title" style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>{it.title}</h3>
+                <p className="pillar-body" style={{ fontSize: 13, color: 'var(--fg-3)', lineHeight: 1.5, margin: '0 0 16px' }}>{it.body}</p>
+              </div>
+              <div className="pillar-kpi" style={{ borderTop: '1px solid var(--line-1)', paddingTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <span className="kpi-num" style={{ fontFamily: 'var(--f-mono)', fontSize: 14, fontWeight: 700, color: '#10B981' }}>{it.kpi.n}</span>
+                <span className="kpi-lbl" style={{ fontSize: 11.5, color: 'var(--muted)' }}>{it.kpi.l}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { HeroV2, FourPillars });

@@ -7,21 +7,23 @@ function FooterV2({ t }) {
           <div className="v2-foot-col">
             <div className="v2-brand" style={{ marginBottom: 14 }}>
               <span className="v2-brand-badge">
-                <BrandMark size={20}/>
+                <BrandMark size={24}/>
               </span>
-              <span className="v2-brand-name">SwissRelief<span>Pan-Swiss 2.6</span></span>
+              <span className="v2-brand-name">ACCORD<span>L'Accord Suisse · Permis S</span></span>
             </div>
-            <p>{t.footer.about}</p>
-            <p className="v2-foot-url">violin-integration.works · swiss-resilience-web.pages.dev</p>
+            <p>{t.footer?.about || "Plateforme souveraine d'insertion et d'intégration territoriale pour la Suisse."}</p>
+            <p className="v2-foot-url">violin-integration.works · @SwissResilienceHubBot</p>
           </div>
           <div className="v2-foot-col">
             <h4>Modules</h4>
             <ul>
+              <li><a href="#housing">Logement vérifié (EVAM / SBB)</a></li>
+              <li><a href="#prof">Offres d'emploi &amp; CV (LEI)</a></li>
               <li><a href="#calc">Barèmes cantonaux (26)</a></li>
-              <li><a href="#prof">Radar CH-ISCO-19</a></li>
+              <li><a href="#dossier">Dossier régie 1-Click (USPI)</a></li>
               <li><a href="#sublease">Sous-location 262 CO</a></li>
-              <li><a href="#mentors">Mentors Benevol</a></li>
-              <li><a href="#beta">Transparence Merkle</a></li>
+              <li><a href="#mentors">Mentors Benevol Suisse</a></li>
+              <li><a href="#beta">Transparence Bêta</a></li>
             </ul>
           </div>
           <div className="v2-foot-col">
