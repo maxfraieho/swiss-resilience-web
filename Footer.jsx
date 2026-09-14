@@ -1,4 +1,4 @@
-// SwissRelief 2.6 — Legal footer with compliance chip strip & direct info links
+// ACCORD Suisse — Legal and accessible footer with verified working links
 function FooterV2({ t, onOpenInfo, lang = 'uk' }) {
   const isUk = lang === 'uk';
 
@@ -6,51 +6,69 @@ function FooterV2({ t, onOpenInfo, lang = 'uk' }) {
     <footer className="v2-footer">
       <div className="v2-container">
         <div className="v2-foot-grid">
+          {/* Column 1: Brand & Purpose */}
           <div className="v2-foot-col">
             <div className="v2-brand" style={{ marginBottom: 14 }}>
               <span className="v2-brand-badge">
                 <BrandMark size={24}/>
               </span>
-              <span className="v2-brand-name">ACCORD<span>{isUk ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'}</span></span>
+              <span className="v2-brand-name">
+                ACCORD
+                <span>{isUk ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'}</span>
+              </span>
             </div>
-            <p>{t?.footer?.about || (isUk ? "Суверенна цифрова платформа прямої дії для гідного житла, легальної праці та взаєморозуміння у Швейцарії." : "Plateforme souveraine d'insertion et d'intégration territoriale pour la Suisse.")}</p>
-            <p className="v2-foot-url">violin-integration.works · @SwissResilienceHubBot</p>
+            <p style={{ lineHeight: 1.6, color: '#94A3B8', fontSize: 13 }}>
+              {isUk
+                ? "Вільний волонтерський проєкт взаємодопомоги у Швейцарії: перевірені квартири від агенцій, легальна робота та підтримка місцевих жителів без посередників і комісій."
+                : "Plateforme citoyenne et bénévole pour le logement digne, l'emploi légal et l'intégration en Suisse Romande. 100% gratuit et sans intermédiaire."}
+            </p>
+            <p className="v2-foot-url" style={{ marginTop: 10 }}>
+              <a
+                href="https://t.me/SwissResilienceHubBot"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#38BDF8', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 600 }}
+              >
+                <span>✈️</span> @SwissResilienceHubBot
+              </a>
+            </p>
           </div>
 
+          {/* Column 2: Module Services */}
           <div className="v2-foot-col">
-            <h4>{isUk ? 'Модулі сервісу' : 'Modules'}</h4>
+            <h4>{isUk ? 'Сервіси' : 'Services'}</h4>
             <ul>
-              <li><a href="#housing">{isUk ? 'Житло (EVAM / SBB)' : 'Logement vérifié (EVAM / SBB)'}</a></li>
+              <li><a href="#housing">{isUk ? 'Житло від режі (EVAM/SBB)' : 'Logement vérifié (EVAM / SBB)'}</a></li>
               <li><a href="#prof">{isUk ? 'Робота та резюме (LEI)' : 'Offres d\'emploi & CV (LEI)'}</a></li>
-              <li><a href="#calc">{isUk ? 'Кантональні норми (26)' : 'Barèmes cantonaux (26)'}</a></li>
-              <li><a href="#dossier">{isUk ? 'Досьє для режі 1-Click' : 'Dossier régie 1-Click (USPI)'}</a></li>
-              <li><a href="#sublease">{isUk ? 'Суборенда (ст. 262 CO)' : 'Sous-location 262 CO'}</a></li>
-              <li><a href="#mentors">{isUk ? 'Ментори Benevol Suisse' : 'Mentors Benevol Suisse'}</a></li>
-              <li><a href="#beta">{isUk ? 'Вільна бета-версія' : 'Transparence Bêta'}</a></li>
+              <li><a href="#calc">{isUk ? 'Калькулятор норм (26 кантонів)' : 'Calculateur plafonds (26 cantons)'}</a></li>
+              <li><a href="#dossier">{isUk ? 'Досьє для режі (1-Click)' : 'Dossier régie 1-Click (USPI)'}</a></li>
+              <li><a href="#sublease">{isUk ? 'Суборенда кімнати (ст. 262 CO)' : 'Sous-location solidaire (262 CO)'}</a></li>
+              <li><a href="#mentors">{isUk ? 'Швейцарські ментори Benevol' : 'Mentors bénévoles Benevol'}</a></li>
             </ul>
           </div>
 
+          {/* Column 3: Information & Guides */}
           <div className="v2-foot-col">
-            <h4>{isUk ? 'Про проєкт та інструкції' : 'L\'Accord Suisse'}</h4>
+            <h4>{isUk ? 'Корисне та довідка' : 'Guide & À propos'}</h4>
             <ul>
               <li>
-                <a href="#about" onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('about'); else window.location.hash = 'about'; }}>
-                  🏛️ {t?.nav?.about || (isUk ? 'Про проєкт' : 'À propos')}
-                </a>
-              </li>
-              <li>
                 <a href="#guide" onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('guide'); else window.location.hash = 'guide'; }}>
-                  📖 {t?.nav?.guide || (isUk ? 'Як користуватись' : 'Mode d\'emploi')}
+                  📖 {isUk ? 'Як користуватись сервісом' : 'Mode d\'emploi'}
                 </a>
               </li>
               <li>
                 <a href="#why" onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('why'); else window.location.hash = 'why'; }}>
-                  ⭐ {t?.nav?.why || (isUk ? 'Чому ми кращі' : 'Pourquoi ACCORD ?')}
+                  ⭐ {isUk ? 'Чому ми кращі (порівняння)' : 'Pourquoi ACCORD (comparatif)'}
                 </a>
               </li>
               <li>
-                <a href="/privacy" onClick={(e) => { if (onOpenInfo && window.innerWidth > 600) { e.preventDefault(); onOpenInfo('privacy'); } }}>
-                  🛡️ {t?.nav?.privacy || (isUk ? 'Політика конфіденційності (nDSG)' : 'Confidentialité (nLPD)')}
+                <a href="#about" onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('about'); else window.location.hash = 'about'; }}>
+                  🏛️ {isUk ? 'Про проєкт АКОРД' : 'À propos du projet'}
+                </a>
+              </li>
+              <li>
+                <a href="/privacy">
+                  🛡️ {isUk ? 'Політика конфіденційності (nDSG)' : 'Confidentialité (nLPD / RGPD)'}
                 </a>
               </li>
               <li>
@@ -61,34 +79,52 @@ function FooterV2({ t, onOpenInfo, lang = 'uk' }) {
             </ul>
           </div>
 
+          {/* Column 4: Official Swiss Portals (All working external links) */}
           <div className="v2-foot-col">
-            <h4>{isUk ? 'Закон та нагляд' : 'Conformité & Droit'}</h4>
+            <h4>{isUk ? 'Офіційні ресурси Швейцарії' : 'Ressources officielles'}</h4>
             <ul>
-              <li><a href="/privacy">nDSG / RGPD · Protection données</a></li>
-              <li><a href="https://www.edoeb.admin.ch" target="_blank" rel="noopener">EDÖB / PFPDT (Bern) ↗</a></li>
-              <li><a>Art. 262 CO · Sous-location</a></li>
-              <li><a>Art. 21a LEI · Priorité ORP</a></li>
-              <li><a>Art. 394 CO · Mandat gratuit</a></li>
-              <li><a>Art. 60–79 CC · Association</a></li>
-              <li><a>Loi LSE/AVG · 100% Gratuit</a></li>
+              <li>
+                <a href="https://www.fedlex.admin.ch" target="_blank" rel="noopener noreferrer">
+                  🇨🇭 Fedlex · Закони Швейцарії (CO / LEI) ↗
+                </a>
+              </li>
+              <li>
+                <a href="https://www.edoeb.admin.ch" target="_blank" rel="noopener noreferrer">
+                  🏛️ EDÖB · Захист персональних даних ↗
+                </a>
+              </li>
+              <li>
+                <a href="https://www.asloca.ch" target="_blank" rel="noopener noreferrer">
+                  🏢 ASLOCA · Захист прав орендарів ↗
+                </a>
+              </li>
+              <li>
+                <a href="https://www.seco.admin.ch" target="_blank" rel="noopener noreferrer">
+                  💼 SECO · Ринок праці Швейцарії ↗
+                </a>
+              </li>
+              <li>
+                <a href="https://www.benevol.ch" target="_blank" rel="noopener noreferrer">
+                  🤝 Benevol Suisse · Мережа волонтерів ↗
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="v2-compliance-row">
-          <span className="v2-comp-chip">SKOS · CH</span>
-          <span className="v2-comp-chip">CCNT / CCT</span>
-          <span className="v2-comp-chip">Benevol Suisse</span>
-          <span className="v2-comp-chip">USPI · ASLOCA</span>
-          <span className="v2-comp-chip">SECO · Art. 21a LEI</span>
-          <span className="v2-comp-chip cyan">nDSG / RGPD</span>
-          <span className="v2-comp-chip">WCAG 2.1 AA</span>
-          <span className="v2-comp-chip">TMA v7.10</span>
+        {/* Clean, meaningful trust badges */}
+        <div className="v2-compliance-row" style={{ marginTop: 24 }}>
+          <span className="v2-comp-chip">✓ 100% Безкоштовно (ст. 2 LSE)</span>
+          <span className="v2-comp-chip">✓ Офіційні ліміти 26 кантонів</span>
+          <span className="v2-comp-chip cyan">✓ Захист даних (nDSG / RGPD)</span>
+          <span className="v2-comp-chip">✓ Спільнота волонтерів Benevol</span>
         </div>
+
+        {/* Human, clear legal statement */}
         <div className="v2-foot-legal">
-          © 2026 ACCORD Suisse / Swiss Resilience — Association en cours de constitution · Genève / Vaud · Art. 60–79 CC Suisse.
+          © 2026 АКОРД Швейцарія (ACCORD Suisse) · Некомерційна волонтерська ініціатива взаємодопомоги. Ініціатор: Arsen Kovalenko (Avenue du Mont-Blanc 29, 1196 Gland).
           <br/>
-          Initiative citoyenne souveraine d'action directe initiée par Arsen Kovalenko (Avenue du Mont-Blanc 29, 1196 Gland). Données officielles (SKOS, EVAM, cantons, SECO, régies officielles mandatées, Tribunal fédéral). Strictement gratuit et sans commission.
+          Усі дані надходять з офіційних джерел (кантони, SECO, офіційні житлові агенції). Сервіс створений для людей і ніколи не бере грошей за пошук роботи чи житла.
         </div>
       </div>
     </footer>

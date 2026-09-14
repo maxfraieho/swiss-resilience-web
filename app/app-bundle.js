@@ -606,33 +606,7 @@ function NavV2({
       color: 'var(--fg-2)',
       textDecoration: 'none'
     }
-  }, nl.mentors), /*#__PURE__*/React.createElement("a", {
-    href: "#guide",
-    onClick: e => {
-      e.preventDefault();
-      if (onOpenInfo) onOpenInfo('guide');else window.location.hash = 'guide';
-    },
-    className: "v2-nav-link",
-    style: {
-      fontSize: 13,
-      fontWeight: 600,
-      color: '#38BDF8',
-      textDecoration: 'none'
-    }
-  }, "\uD83D\uDCD6 ", nl.guide), /*#__PURE__*/React.createElement("a", {
-    href: "#about",
-    onClick: e => {
-      e.preventDefault();
-      if (onOpenInfo) onOpenInfo('about');else window.location.hash = 'about';
-    },
-    className: "v2-nav-link",
-    style: {
-      fontSize: 13,
-      fontWeight: 600,
-      color: 'var(--fg-2)',
-      textDecoration: 'none'
-    }
-  }, "\uD83C\uDFDB\uFE0F ", nl.about)), /*#__PURE__*/React.createElement("div", {
+  }, nl.mentors)), /*#__PURE__*/React.createElement("div", {
     className: "v2-nav-actions"
   }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/SwissResilienceHubBot?start=web_nav",
@@ -2208,15 +2182,75 @@ function HeroV2({
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-container"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "v2-hero-pill"
+    className: "v2-hero-tabs",
+    role: "tablist",
+    "aria-label": "Public cible",
+    style: {
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: `v2-hero-tab tab-a ${side === 'a' ? 'active' : ''}`,
+    role: "tab",
+    "aria-selected": side === 'a',
+    onClick: () => setSide('a')
   }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-pulse-dot",
+    className: "v2-tab-icon",
     "aria-hidden": "true"
-  }), /*#__PURE__*/React.createElement("span", null, t.hero?.pill || "ACCORD SUISSE · PERMIS S · 100% GRATUIT")), /*#__PURE__*/React.createElement("h1", {
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "16",
+    height: "16",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "9",
+    cy: "7",
+    r: "4"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M23 21v-2a4 4 0 0 0-3-3.87"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: "M16 3.13a4 4 0 0 1 0 7.75"
+  }))), /*#__PURE__*/React.createElement("span", {
+    className: "v2-tab-body"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "v2-tab-label"
+  }, t?.tabs?.seekers || "Шукачам житла та роботи"), /*#__PURE__*/React.createElement("span", {
+    className: "v2-tab-sub"
+  }, t?.tabs?.seekersSub || "Статус S · Без посередників"))), /*#__PURE__*/React.createElement("button", {
+    className: `v2-hero-tab tab-b ${side === 'b' ? 'active' : ''}`,
+    role: "tab",
+    "aria-selected": side === 'b',
+    onClick: () => setSide('b')
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "v2-tab-icon",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "16",
+    height: "16",
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.79 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+  }))), /*#__PURE__*/React.createElement("span", {
+    className: "v2-tab-body"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "v2-tab-label"
+  }, t?.tabs?.solidarity || t?.tabs?.volunteers || "Швейцарським друзям"), /*#__PURE__*/React.createElement("span", {
+    className: "v2-tab-sub"
+  }, t?.tabs?.solSub || t?.tabs?.volunteersSub || "Господарям та волонтерам")))), /*#__PURE__*/React.createElement("h1", {
     className: "v2-hero-title"
-  }, t?.hero?.line1 || t?.hero?.title1 || "Твоя дія у Швейцарії:", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+  }, t?.hero?.line1 || t?.hero?.title1 || "Гідне житло, легальна робота —", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
     className: "v2-hero-accent"
-  }, t?.hero?.line2 || t?.hero?.title2 || "житло, робота та спільнота.")), /*#__PURE__*/React.createElement("p", {
+  }, t?.hero?.line2 || t?.hero?.title2 || "без шахраїв та посередників.")), /*#__PURE__*/React.createElement("p", {
     className: "v2-hero-sub"
   }, t?.hero?.lede || ""), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-cta-group hero-ctas"
@@ -2267,68 +2301,6 @@ function HeroV2({
       cursor: 'pointer'
     }
   }, /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCD6 ", t?.nav?.guide || "Як користуватись"))), /*#__PURE__*/React.createElement("div", {
-    className: "v2-hero-tabs",
-    role: "tablist",
-    "aria-label": "Public cible"
-  }, /*#__PURE__*/React.createElement("button", {
-    className: `v2-hero-tab tab-a ${side === 'a' ? 'active' : ''}`,
-    role: "tab",
-    "aria-selected": side === 'a',
-    onClick: () => setSide('a')
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-icon",
-    "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "16",
-    height: "16",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
-  }), /*#__PURE__*/React.createElement("circle", {
-    cx: "9",
-    cy: "7",
-    r: "4"
-  }), /*#__PURE__*/React.createElement("path", {
-    d: "M23 21v-2a4 4 0 0 0-3-3.87"
-  }), /*#__PURE__*/React.createElement("path", {
-    d: "M16 3.13a4 4 0 0 1 0 7.75"
-  }))), /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-body"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-label"
-  }, t?.tabs?.seekers || "Кандидати Permis S"), /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-sub"
-  }, t?.tabs?.seekersSub || "Житло, робота, досьє"))), /*#__PURE__*/React.createElement("button", {
-    className: `v2-hero-tab tab-b ${side === 'b' ? 'active' : ''}`,
-    role: "tab",
-    "aria-selected": side === 'b',
-    onClick: () => setSide('b')
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-icon",
-    "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement("svg", {
-    width: "16",
-    height: "16",
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: "2",
-    strokeLinecap: "round",
-    strokeLinejoin: "round"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.79 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-  }))), /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-body"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-label"
-  }, t?.tabs?.solidarity || t?.tabs?.volunteers || "Швейцарські волонтери"), /*#__PURE__*/React.createElement("span", {
-    className: "v2-tab-sub"
-  }, t?.tabs?.solSub || t?.tabs?.volunteersSub || "Підтримка та гостинність")))), /*#__PURE__*/React.createElement("div", {
     className: "v2-trust-grid"
   }, (t?.trust || []).map((m, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
@@ -5029,7 +5001,7 @@ Object.assign(window, {
 });
 
 // ==================== [Module: Footer.jsx] ====================
-// SwissRelief 2.6 — Legal footer with compliance chip strip & direct info links
+// ACCORD Suisse — Legal and accessible footer with verified working links
 function FooterV2({
   t,
   onOpenInfo,
@@ -5055,85 +5027,107 @@ function FooterV2({
     size: 24
   })), /*#__PURE__*/React.createElement("span", {
     className: "v2-brand-name"
-  }, "ACCORD", /*#__PURE__*/React.createElement("span", null, isUk ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'))), /*#__PURE__*/React.createElement("p", null, t?.footer?.about || (isUk ? "Суверенна цифрова платформа прямої дії для гідного житла, легальної праці та взаєморозуміння у Швейцарії." : "Plateforme souveraine d'insertion et d'intégration territoriale pour la Suisse.")), /*#__PURE__*/React.createElement("p", {
-    className: "v2-foot-url"
-  }, "violin-integration.works \xB7 @SwissResilienceHubBot")), /*#__PURE__*/React.createElement("div", {
+  }, "ACCORD", /*#__PURE__*/React.createElement("span", null, isUk ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'))), /*#__PURE__*/React.createElement("p", {
+    style: {
+      lineHeight: 1.6,
+      color: '#94A3B8',
+      fontSize: 13
+    }
+  }, isUk ? "Вільний волонтерський проєкт взаємодопомоги у Швейцарії: перевірені квартири від агенцій, легальна робота та підтримка місцевих жителів без посередників і комісій." : "Plateforme citoyenne et bénévole pour le logement digne, l'emploi légal et l'intégration en Suisse Romande. 100% gratuit et sans intermédiaire."), /*#__PURE__*/React.createElement("p", {
+    className: "v2-foot-url",
+    style: {
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/SwissResilienceHubBot",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    style: {
+      color: '#38BDF8',
+      textDecoration: 'none',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      fontWeight: 600
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\u2708\uFE0F"), " @SwissResilienceHubBot"))), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
-  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Модулі сервісу' : 'Modules'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Сервіси' : 'Services'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#housing"
-  }, isUk ? 'Житло (EVAM / SBB)' : 'Logement vérifié (EVAM / SBB)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Житло від режі (EVAM/SBB)' : 'Logement vérifié (EVAM / SBB)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#prof"
   }, isUk ? 'Робота та резюме (LEI)' : 'Offres d\'emploi & CV (LEI)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#calc"
-  }, isUk ? 'Кантональні норми (26)' : 'Barèmes cantonaux (26)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Калькулятор норм (26 кантонів)' : 'Calculateur plafonds (26 cantons)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#dossier"
-  }, isUk ? 'Досьє для режі 1-Click' : 'Dossier régie 1-Click (USPI)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Досьє для режі (1-Click)' : 'Dossier régie 1-Click (USPI)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#sublease"
-  }, isUk ? 'Суборенда (ст. 262 CO)' : 'Sous-location 262 CO')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Суборенда кімнати (ст. 262 CO)' : 'Sous-location solidaire (262 CO)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#mentors"
-  }, isUk ? 'Ментори Benevol Suisse' : 'Mentors Benevol Suisse')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
-    href: "#beta"
-  }, isUk ? 'Вільна бета-версія' : 'Transparence Bêta')))), /*#__PURE__*/React.createElement("div", {
+  }, isUk ? 'Швейцарські ментори Benevol' : 'Mentors bénévoles Benevol')))), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
-  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Про проєкт та інструкції' : 'L\'Accord Suisse'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
-    href: "#about",
-    onClick: e => {
-      e.preventDefault();
-      if (onOpenInfo) onOpenInfo('about');else window.location.hash = 'about';
-    }
-  }, "\uD83C\uDFDB\uFE0F ", t?.nav?.about || (isUk ? 'Про проєкт' : 'À propos'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Корисне та довідка' : 'Guide & À propos'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#guide",
     onClick: e => {
       e.preventDefault();
       if (onOpenInfo) onOpenInfo('guide');else window.location.hash = 'guide';
     }
-  }, "\uD83D\uDCD6 ", t?.nav?.guide || (isUk ? 'Як користуватись' : 'Mode d\'emploi'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, "\uD83D\uDCD6 ", isUk ? 'Як користуватись сервісом' : 'Mode d\'emploi')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#why",
     onClick: e => {
       e.preventDefault();
       if (onOpenInfo) onOpenInfo('why');else window.location.hash = 'why';
     }
-  }, "\u2B50 ", t?.nav?.why || (isUk ? 'Чому ми кращі' : 'Pourquoi ACCORD ?'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
-    href: "/privacy",
+  }, "\u2B50 ", isUk ? 'Чому ми кращі (порівняння)' : 'Pourquoi ACCORD (comparatif)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "#about",
     onClick: e => {
-      if (onOpenInfo && window.innerWidth > 600) {
-        e.preventDefault();
-        onOpenInfo('privacy');
-      }
+      e.preventDefault();
+      if (onOpenInfo) onOpenInfo('about');else window.location.hash = 'about';
     }
-  }, "\uD83D\uDEE1\uFE0F ", t?.nav?.privacy || (isUk ? 'Політика конфіденційності (nDSG)' : 'Confidentialité (nLPD)'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, "\uD83C\uDFDB\uFE0F ", isUk ? 'Про проєкт АКОРД' : 'À propos du projet')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "/privacy"
+  }, "\uD83D\uDEE1\uFE0F ", isUk ? 'Політика конфіденційності (nDSG)' : 'Confidentialité (nLPD / RGPD)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "https://sonate-solidaire.me",
     target: "_blank",
     rel: "noopener noreferrer"
   }, "\uD83C\uDFBB Sonate Solidaire (Arsen Kovalenko) \u2197")))), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
-  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Закон та нагляд' : 'Conformité & Droit'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
-    href: "/privacy"
-  }, "nDSG / RGPD \xB7 Protection donn\xE9es")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Офіційні ресурси Швейцарії' : 'Ressources officielles'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "https://www.fedlex.admin.ch",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "\uD83C\uDDE8\uD83C\uDDED Fedlex \xB7 \u0417\u0430\u043A\u043E\u043D\u0438 \u0428\u0432\u0435\u0439\u0446\u0430\u0440\u0456\u0457 (CO / LEI) \u2197")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "https://www.edoeb.admin.ch",
     target: "_blank",
-    rel: "noopener"
-  }, "ED\xD6B / PFPDT (Bern) \u2197")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 262 CO \xB7 Sous-location")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 21a LEI \xB7 Priorit\xE9 ORP")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 394 CO \xB7 Mandat gratuit")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 60\u201379 CC \xB7 Association")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Loi LSE/AVG \xB7 100% Gratuit"))))), /*#__PURE__*/React.createElement("div", {
-    className: "v2-compliance-row"
+    rel: "noopener noreferrer"
+  }, "\uD83C\uDFDB\uFE0F ED\xD6B \xB7 \u0417\u0430\u0445\u0438\u0441\u0442 \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u0438\u0445 \u0434\u0430\u043D\u0438\u0445 \u2197")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "https://www.asloca.ch",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "\uD83C\uDFE2 ASLOCA \xB7 \u0417\u0430\u0445\u0438\u0441\u0442 \u043F\u0440\u0430\u0432 \u043E\u0440\u0435\u043D\u0434\u0430\u0440\u0456\u0432 \u2197")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "https://www.seco.admin.ch",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "\uD83D\uDCBC SECO \xB7 \u0420\u0438\u043D\u043E\u043A \u043F\u0440\u0430\u0446\u0456 \u0428\u0432\u0435\u0439\u0446\u0430\u0440\u0456\u0457 \u2197")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "https://www.benevol.ch",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "\uD83E\uDD1D Benevol Suisse \xB7 \u041C\u0435\u0440\u0435\u0436\u0430 \u0432\u043E\u043B\u043E\u043D\u0442\u0435\u0440\u0456\u0432 \u2197"))))), /*#__PURE__*/React.createElement("div", {
+    className: "v2-compliance-row",
+    style: {
+      marginTop: 24
+    }
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip"
-  }, "SKOS \xB7 CH"), /*#__PURE__*/React.createElement("span", {
+  }, "\u2713 100% \u0411\u0435\u0437\u043A\u043E\u0448\u0442\u043E\u0432\u043D\u043E (\u0441\u0442. 2 LSE)"), /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip"
-  }, "CCNT / CCT"), /*#__PURE__*/React.createElement("span", {
-    className: "v2-comp-chip"
-  }, "Benevol Suisse"), /*#__PURE__*/React.createElement("span", {
-    className: "v2-comp-chip"
-  }, "USPI \xB7 ASLOCA"), /*#__PURE__*/React.createElement("span", {
-    className: "v2-comp-chip"
-  }, "SECO \xB7 Art. 21a LEI"), /*#__PURE__*/React.createElement("span", {
+  }, "\u2713 \u041E\u0444\u0456\u0446\u0456\u0439\u043D\u0456 \u043B\u0456\u043C\u0456\u0442\u0438 26 \u043A\u0430\u043D\u0442\u043E\u043D\u0456\u0432"), /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip cyan"
-  }, "nDSG / RGPD"), /*#__PURE__*/React.createElement("span", {
+  }, "\u2713 \u0417\u0430\u0445\u0438\u0441\u0442 \u0434\u0430\u043D\u0438\u0445 (nDSG / RGPD)"), /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip"
-  }, "WCAG 2.1 AA"), /*#__PURE__*/React.createElement("span", {
-    className: "v2-comp-chip"
-  }, "TMA v7.10")), /*#__PURE__*/React.createElement("div", {
+  }, "\u2713 \u0421\u043F\u0456\u043B\u044C\u043D\u043E\u0442\u0430 \u0432\u043E\u043B\u043E\u043D\u0442\u0435\u0440\u0456\u0432 Benevol")), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-legal"
-  }, "\xA9 2026 ACCORD Suisse / Swiss Resilience \u2014 Association en cours de constitution \xB7 Gen\xE8ve / Vaud \xB7 Art. 60\u201379 CC Suisse.", /*#__PURE__*/React.createElement("br", null), "Initiative citoyenne souveraine d'action directe initi\xE9e par Arsen Kovalenko (Avenue du Mont-Blanc 29, 1196 Gland). Donn\xE9es officielles (SKOS, EVAM, cantons, SECO, r\xE9gies officielles mandat\xE9es, Tribunal f\xE9d\xE9ral). Strictement gratuit et sans commission.")));
+  }, "\xA9 2026 \u0410\u041A\u041E\u0420\u0414 \u0428\u0432\u0435\u0439\u0446\u0430\u0440\u0456\u044F (ACCORD Suisse) \xB7 \u041D\u0435\u043A\u043E\u043C\u0435\u0440\u0446\u0456\u0439\u043D\u0430 \u0432\u043E\u043B\u043E\u043D\u0442\u0435\u0440\u0441\u044C\u043A\u0430 \u0456\u043D\u0456\u0446\u0456\u0430\u0442\u0438\u0432\u0430 \u0432\u0437\u0430\u0454\u043C\u043E\u0434\u043E\u043F\u043E\u043C\u043E\u0433\u0438. \u0406\u043D\u0456\u0446\u0456\u0430\u0442\u043E\u0440: Arsen Kovalenko (Avenue du Mont-Blanc 29, 1196 Gland).", /*#__PURE__*/React.createElement("br", null), "\u0423\u0441\u0456 \u0434\u0430\u043D\u0456 \u043D\u0430\u0434\u0445\u043E\u0434\u044F\u0442\u044C \u0437 \u043E\u0444\u0456\u0446\u0456\u0439\u043D\u0438\u0445 \u0434\u0436\u0435\u0440\u0435\u043B (\u043A\u0430\u043D\u0442\u043E\u043D\u0438, SECO, \u043E\u0444\u0456\u0446\u0456\u0439\u043D\u0456 \u0436\u0438\u0442\u043B\u043E\u0432\u0456 \u0430\u0433\u0435\u043D\u0446\u0456\u0457). \u0421\u0435\u0440\u0432\u0456\u0441 \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u0438\u0439 \u0434\u043B\u044F \u043B\u044E\u0434\u0435\u0439 \u0456 \u043D\u0456\u043A\u043E\u043B\u0438 \u043D\u0435 \u0431\u0435\u0440\u0435 \u0433\u0440\u043E\u0448\u0435\u0439 \u0437\u0430 \u043F\u043E\u0448\u0443\u043A \u0440\u043E\u0431\u043E\u0442\u0438 \u0447\u0438 \u0436\u0438\u0442\u043B\u0430.")));
 }
 Object.assign(window, {
   FooterV2
