@@ -12,7 +12,11 @@
 
 **Domaine de production :** `https://violin-integration.works/`  
 **Application Telegram (TMA) :** `https://violin-integration.works/app/`  
-**Bot Telegram :** `@SwissResilienceHubBot` (Alias public : `@AccordSwissBot`)  
+**Bot Telegram :** `@SwissResilienceHubBot` (Nom affiché : `ACCORD | Швейцарія 🇨🇭`)  
+**Dépôt GitHub officiel :** `https://github.com/maxfraieho/swiss-resilience-web`  
+**Emplacement des fichiers dans le projet :**  
+- Logo officiel : `accord_logo.jpg`, `assets/accord_logo.jpg`, `mini-app/accord_logo.jpg`  
+- Code source de base : `index.html`, `styles.css`, `app.jsx`, `HousingCards.jsx`, `ProfessionSelector.jsx`  
 **Architecture Technique :** React 18 UMD + CSS Tokens Vanilla + Ahead-of-Time Bundle Compilation (72 KB)  
 
 ---
