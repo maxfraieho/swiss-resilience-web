@@ -1162,7 +1162,77 @@ if (typeof window !== 'undefined') {
     }
   });
 
-  // 6. Synchronize window.I18N
+  // 6. Unified Navigation & Information labels
+  var NAV_STRINGS = {
+    uk: {
+      housing: "Житло",
+      jobs: "Робота",
+      calc: "Калькулятор",
+      dossier: "Досьє",
+      sublease: "Суборенда",
+      mentors: "Ментори",
+      about: "Про проєкт",
+      guide: "Як користуватись",
+      why: "Чому ми кращі",
+      privacy: "Конфіденційність"
+    },
+    fr: {
+      housing: "Logement",
+      jobs: "Emplois",
+      calc: "Calculateur",
+      dossier: "Dossier",
+      sublease: "Sous-location",
+      mentors: "Mentors",
+      about: "À propos",
+      guide: "Mode d'emploi",
+      why: "Pourquoi nous",
+      privacy: "Confidentialité"
+    },
+    de: {
+      housing: "Wohnen",
+      jobs: "Stellen",
+      calc: "Rechner",
+      dossier: "Dossier",
+      sublease: "Untermiete",
+      mentors: "Mentoren",
+      about: "Über uns",
+      guide: "Anleitung",
+      why: "Warum wir",
+      privacy: "Datenschutz"
+    },
+    it: {
+      housing: "Alloggio",
+      jobs: "Lavoro",
+      calc: "Calcolatore",
+      dossier: "Dossier",
+      sublease: "Subaffitto",
+      mentors: "Mentori",
+      about: "Chi siamo",
+      guide: "Guida",
+      why: "Perché noi",
+      privacy: "Privacy"
+    },
+    en: {
+      housing: "Housing",
+      jobs: "Jobs",
+      calc: "Calculator",
+      dossier: "Dossier",
+      sublease: "Sublease",
+      mentors: "Mentors",
+      about: "About project",
+      guide: "User Guide",
+      why: "Why ACCORD",
+      privacy: "Privacy Policy"
+    }
+  };
+
+  ['fr', 'de', 'it', 'uk', 'en'].forEach(function(l) {
+    if (window.SR_I18N[l]) {
+      window.SR_I18N[l].nav = NAV_STRINGS[l] || NAV_STRINGS.fr;
+    }
+  });
+
+  // 7. Synchronize window.I18N
   window.I18N = window.SR_I18N;
 }
 })();

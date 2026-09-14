@@ -86,6 +86,22 @@ function App() {
   const [income, setIncome] = React.useState(() => Number(safeStorageGet('sr26-income', 4800)) || 4800);
   const [drawerOpen, setDrawer] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
+  const [infoModal, setInfoModal] = React.useState({ open: false, tab: 'about' });
+
+  const openInfo = (tab = 'about') => {
+    setInfoModal({ open: true, tab });
+    try { window.location.hash = tab; } catch (e) {}
+  };
+
+  const closeInfo = () => {
+    setInfoModal(prev => ({ ...prev, open: false }));
+    const h = window.location.hash.replace('#', '');
+    if (['about', 'guide', 'why', 'privacy'].includes(h)) {
+      try {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch (e) {}
+    }
+  };
 
   // Persistence
   React.useEffect(() => {
@@ -126,7 +142,9 @@ function App() {
     const checkDeepLink = () => {
       try {
         const h = window.location.hash.replace('#', '');
-        if (['housing', 'calc', 'dossier', 'prof', 'sublease', 'mentors', 'beta'].includes(h)) {
+        if (['about', 'guide', 'why', 'privacy'].includes(h)) {
+          setInfoModal({ open: true, tab: h });
+        } else if (['housing', 'calc', 'dossier', 'prof', 'sublease', 'mentors', 'beta'].includes(h)) {
           setService(h);
           if (['sublease', 'mentors'].includes(h)) setSide('b');
           else if (['housing', 'calc', 'dossier', 'prof'].includes(h)) setSide('a');
@@ -191,6 +209,18 @@ function App() {
             </div>
           </div>
           <div className="tma-actions">
+            <button
+              onClick={() => openInfo('guide')}
+              aria-label="Mode d'emploi"
+              style={{
+                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(148,163,184,0.2)',
+                borderRadius: 8, padding: '4px 8px', fontSize: 11.5, color: '#38BDF8', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 4
+              }}
+            >
+              <span>📖</span>
+              <span>{lang === 'uk' ? 'Гід' : 'Guide'}</span>
+            </button>
             <button
               className="v2-lang-btn"
               onClick={() => {
@@ -289,6 +319,14 @@ function App() {
             <span>{t.svc?.mentors || "Ментори"}</span>
           </button>
         </nav>
+
+        <InfoModal
+          isOpen={infoModal.open}
+          onClose={closeInfo}
+          initialTab={infoModal.tab}
+          lang={lang}
+          t={t}
+        />
       </div>
     );
   }
@@ -304,14 +342,15 @@ function App() {
         setSide={setSide}
         onOpenDrawer={() => setDrawer(true)}
         onOpenDonate={openTelegramDonate}
+        onOpenInfo={openInfo}
         t={t}
       />
       <ServiceSwitcher activeId={service} onPick={pickService} t={t}/>
       <main>
-        <HeroV2 side={side} setSide={setSide} t={t}/>
+        <HeroV2 side={side} setSide={setSide} onOpenInfo={openInfo} t={t}/>
         {side === 'a' ? (
           <React.Fragment>
-            <FourPillars t={t}/>
+            <FourPillars onOpenInfo={openInfo} t={t}/>
             <HousingSection
               t={t}
               lang={lang}
@@ -335,14 +374,14 @@ function App() {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <FourPillars t={t}/>
+            <FourPillars onOpenInfo={openInfo} t={t}/>
             <SubleaseWizard t={t}/>
             <BenevolMentors t={t}/>
           </React.Fragment>
         )}
         <BetaSection onOpenDonate={openTelegramDonate} t={t}/>
       </main>
-      <FooterV2 t={t}/>
+      <FooterV2 t={t} onOpenInfo={openInfo} lang={lang}/>
 
       {drawerOpen && (
         <MobileDrawer
@@ -355,9 +394,18 @@ function App() {
           onClose={() => setDrawer(false)}
           onOpenDonate={openTelegramDonate}
           onDonate={openTelegramDonate}
+          onOpenInfo={openInfo}
           t={t}
         />
       )}
+
+      <InfoModal
+        isOpen={infoModal.open}
+        onClose={closeInfo}
+        initialTab={infoModal.tab}
+        lang={lang}
+        t={t}
+      />
     </React.Fragment>
   );
 }

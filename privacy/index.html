@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Політика конфіденційності (nDSG / RGPD) · ACCORD Suisse</title>
+  <meta name="description" content="Політика конфіденційності та захисту персональних даних ACCORD Suisse. Відповідність швейцарському закону nDSG та регламенту ЄС GDPR."/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/jpeg" href="/accord_logo.jpg"/>
+  <link rel="stylesheet" href="/colors_and_type.css?v=2.7.1"/>
+  <link rel="stylesheet" href="/kit-v2.css?v=2.7.1"/>
+  <link rel="stylesheet" href="/styles.css?v=2.7.1"/>
+
+  <style>
+    body {
+      background: #070B12;
+      color: #F8FAFC;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .priv-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 18, 32, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      padding: 12px 20px;
+    }
+    .priv-header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .priv-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .priv-brand-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 0 12px rgba(213, 43, 30, 0.35);
+    }
+    .priv-brand-name {
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+    }
+    .priv-brand-sub {
+      font-size: 11px;
+      color: #94A3B8;
+      display: block;
+    }
+    .priv-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .priv-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      color: #E2E8F0;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all .15s;
+    }
+    .priv-back-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-color: #38BDF8;
+    }
+    .priv-lang-select {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 8px;
+      color: #F8FAFC;
+      padding: 6px 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .priv-lang-select option {
+      background: #0D1424;
+      color: #fff;
+    }
+    .priv-container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    .priv-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(213, 43, 30, 0.12);
+      border: 1px solid rgba(213, 43, 30, 0.3);
+      color: #F87171;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .priv-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 10px;
+      color: #fff;
+    }
+    .priv-subtitle {
+      font-size: 14px;
+      color: #94A3B8;
+      margin-bottom: 32px;
+    }
+    .priv-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin-bottom: 18px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .priv-card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #38BDF8;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .priv-card-body {
+      font-size: 13.5px;
+      color: #CBD5E1;
+      line-height: 1.65;
+      white-space: pre-line;
+    }
+    .priv-card-body b {
+      color: #fff;
+    }
+    .priv-footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      background: #0B1220;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 12.5px;
+      color: #94A3B8;
+    }
+    .priv-footer a {
+      color: #38BDF8;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="priv-header">
+    <div class="priv-header-inner">
+      <a href="/" class="priv-brand" aria-label="Accueil ACCORD">
+        <img src="/accord_logo.jpg" alt="ACCORD" class="priv-brand-img" onerror="this.style.display='none'"/>
+        <div>
+          <span class="priv-brand-name">ACCORD Suisse</span>
+          <span class="priv-brand-sub">Permis S · Romandie</span>
+        </div>
+      </a>
+
+      <div class="priv-actions">
+        <select id="langSelect" class="priv-lang-select" aria-label="Langue">
+          <option value="uk">🇺🇦 Українська</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+        <a href="/" class="priv-back-btn" id="backBtn">
+          ← <span id="backText">На головну</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="priv-container">
+    <div class="priv-badge" id="privBadge">⚖️ nDSG / LPD · RGPD</div>
+    <h1 class="priv-title" id="privTitle">Політика конфіденційності</h1>
+    <div class="priv-subtitle" id="privSubtitle">Останнє оновлення: 14 вересня 2026 року · Відповідність швейцарському закону nDSG та європейському GDPR</div>
+
+    <div id="sectionsContainer"></div>
+  </main>
+
+  <footer class="priv-footer">
+    <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px;">
+      <div>
+        ACCORD Suisse &amp; Sonate Solidaire · Avenue du Mont-Blanc 29, 1196 Gland (Vaud) · <a href="mailto:arsen.k111999@gmail.com">arsen.k111999@gmail.com</a>
+      </div>
+      <div>
+        Офіційний наглядовий орган Швейцарії: <a href="https://www.edoeb.admin.ch" target="_blank" rel="noopener">Préposé fédéral à la protection des données (EDÖB / PFPDT), Bern</a>
+      </div>
+      <div style="margin-top: 10px;">
+        <a href="https://t.me/SwissResilienceHubBot" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); padding: 6px 14px; border-radius: 8px; color: #38BDF8; font-weight: 600;">
+          ✈️ Telegram-бот @SwissResilienceHubBot
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const PRIVACY_DATA = {
+      uk: {
+        title: "Політика конфіденційності",
+        updated: "Останнє оновлення: 14 вересня 2026 року · Відповідність nDSG та GDPR · sonate-solidaire.me",
+        back: "На головну",
+        sections: [
+          {
+            title: "1. Відповідальна особа",
+            content: `Відповідальним за обробку даних на цьому веб-сайті є:
+
+Арсен Коваленко (Arsen Kovalenko)
+ACCORD Suisse / Sonate Solidaire
+Avenue du Mont-Blanc 29
+1196 Gland, Vaud, Швейцарія
+
+E-mail: arsen.k111999@gmail.com
+Телефон: +41 78 326 11 12`
+          },
+          {
+            title: "2. Зібрані дані",
+            content: `Ми збираємо та обробляємо такі дані:
+
+• Локальні налаштування інтерфейсу: обрана мова, кантон та параметри калькулятора (зберігаються локально у вашому браузері через localStorage).
+• Telegram Bot / Mini App: ідентифікатор користувача Telegram (ID) виключно для доставки запитаних сповіщень про житло та роботу.
+• Технічні дані: журнали сервера Cloudflare (анонімізована IP-адреса, дата й час, запитувана сторінка) для захисту від DDoS та кібератак.`
+          },
+          {
+            title: "3. Мета обробки",
+            content: `Ми обробляємо ваші дані з такими цілями:
+
+• Надання безоплатного доступу до бази перевіреного житла та вакансій.
+• Створення офіційного досьє для режі (Dossier de candidature Art. 253 CO) на стороні клієнта.
+• Забезпечення технічної безпеки, захисту від зловживань та високої швидкості завантаження.`
+          },
+          {
+            title: "4. Правова основа (nDSG / GDPR)",
+            content: `Обробка ваших персональних даних здійснюється на основі:
+
+• Ст. 6 п. 1 літ. a GDPR / Ст. 31 нового швейцарського Закону nDSG: Згода користувача.
+• Ст. 6 п. 1 літ. b GDPR / Ст. 31 nDSG: Виконання запиту користувача (генерація документів, сповіщення).
+• Ст. 6 п. 1 літ. f GDPR / Ст. 31 nDSG: Законні інтереси (безпека серверної інфраструктури, статистика).`
+          },
+          {
+            title: "5. Відсутність комерційного продажу даних",
+            content: `ACCORD Suisse діє згідно з Федеральним законом про службу зайнятості (LSE/AVG), ст. 2 якого прямо забороняє стягувати плату з шукачів роботи. Ми ніколи не продаємо, не передаємо і не здаємо в оренду ваші персональні дані третім особам чи комерційним посередникам.`
+          },
+          {
+            title: "6. Файли Cookies та LocalStorage",
+            content: `Наш сайт використовує суто технічне локальне сховище (localStorage):
+
+• sr26-lang / sr-v2-lang: збереження обраної мови інтерфейсу.
+• sr26-canton: збереження обраного кантону для розрахунку лімітів EVAM / SKOS.
+• sr26-status / sr26-income: розрахунок 33% стелі оренди.
+Ви можете в будь-який момент очистити ці дані в налаштуваннях вашого браузера.`
+          },
+          {
+            title: "7. Термін зберігання",
+            content: `• Локальні налаштування браузера: до моменту очищення кешу користувачем.
+• Telegram-сповіщення: до зупинки бота або команди /stop.
+• Журнали сервера Cloudflare: 30 днів.`
+          },
+          {
+            title: "8. Ваші права згідно зі швейцарським nDSG та GDPR",
+            content: `Згідно зі швейцарським законом про захист даних (nDSG) та європейським GDPR, ви маєте такі права:
+
+• Право на доступ до збережених даних.
+• Право на виправлення або повне видалення даних.
+• Право на обмеження або заперечення проти обробки.
+• Право на відкликання згоди в будь-який момент без негативних наслідків.
+
+Для реалізації ваших прав зв'яжіться: arsen.k111999@gmail.com.`
+          },
+          {
+            title: "9. Міжнародна передача та безпека даних",
+            content: `Ми використовуємо мережу Cloudflare (Cloudflare Inc., США / ЄС) для захисту від DDoS та кешування, що відповідає Swiss-US Data Privacy Framework та ст. 16 nDSG / ст. 46 GDPR. Усі з'єднання захищені протоколом HTTPS з шифруванням TLS 1.3.`
+          },
+          {
+            title: "10. Наглядовий орган Швейцарії",
+            content: `Компетентний наглядовий орган у сфері захисту даних у Швейцарії:
+
+Федеральний уповноважений із захисту даних та інформації (EDÖB / PFPDT)
+Feldeggweg 1
+3003 Bern, Швейцарія
+Веб-сайт: www.edoeb.admin.ch`
+          },
+          {
+            title: "11. Контактна інформація",
+            content: `З усіх питань захисту персональних даних звертайтесь:
+
+Арсен Коваленко
+ACCORD Suisse / Sonate Solidaire
+Avenue du Mont-Blanc 29, 1196 Gland, Vaud, Швейцарія
+E-mail: arsen.k111999@gmail.com
+Телефон: +41 78 326 11 12`
+          }
+        ]
+      },
+      fr: {
+        title: "Politique de confidentialité",
+        updated: "Dernière mise à jour : 14 septembre 2026 · Conforme nLPD & RGPD · sonate-solidaire.me",
+        back: "Retour à l'accueil",
+        sections: [
+          {
+            title: "1. Responsable du traitement",
+            content: `Le responsable du traitement des données sur ce site est :
+
+Arsen Kovalenko
+ACCORD Suisse / Sonate Solidaire
+Avenue du Mont-Blanc 29
+1196 Gland, Vaud, Suisse
+
+E-mail : arsen.k111999@gmail.com
+Téléphone : +41 78 326 11 12`
+          },
+          {
+            title: "2. Données collectées",
+            content: `Nous collectons et traitons les données suivantes :
+
+• Préférences locales : langue d'affichage, canton sélectionné, barèmes EVAM et critères du calculateur (stockées localement dans le navigateur via localStorage).
+• Bot Telegram / Mini App : identifiant Telegram pour la transmission exclusive des alertes de logement ou d'emploi sollicitées.
+• Données techniques : journaux de requêtes serveur Cloudflare (adresse IP anonymisée, horodatage, page consultée) pour la protection contre les attaques DDoS.`
+          },
+          {
+            title: "3. Finalités du traitement",
+            content: `Le traitement des données poursuit les buts exclusifs suivants :
+
+• Fourniture gratuite de l'accès aux offres vérifiées de logement et d'emploi.
+• Génération locale du dossier de candidature pour la régie (Art. 253 CO).
+• Sécurisation technique et stabilité de la plateforme.`
+          },
+          {
+            title: "4. Base juridique (nLPD / RGPD)",
+            content: `Le traitement repose sur :
+
+• Art. 6 par. 1 let. a RGPD / Art. 31 nLPD : Consentement de l'utilisateur.
+• Art. 6 par. 1 let. b RGPD / Art. 31 nLPD : Exécution de la demande de service.
+• Art. 6 par. 1 let. f RGPD / Art. 31 nLPD : Intérêts légitimes (sécurité du réseau et de l'information).`
+          },
+          {
+            title: "5. Gratuité absolue et interdiction de cession",
+            content: `Conformément à la Loi fédérale sur le service de l'emploi (LSE/AVG), la plateforme est 100% bénévole et gratuite. Aucune donnée n'est vendue ni communiquée à des tiers commerciaux ou intermédiaires payants.`
+          },
+          {
+            title: "6. Stockage local et cookies",
+            content: `Notre site utilise le stockage local (localStorage) strictement technique :
+• sr26-lang / sr-v2-lang : langue de navigation.
+• sr26-canton : canton pour les barèmes EVAM / SKOS.
+• sr26-status / sr26-income : calcul du plafond d'effort financier de 33%.
+Vous pouvez réinitialiser ces données à tout moment dans les paramètres de votre navigateur.`
+          },
+          {
+            title: "7. Durée de conservation",
+            content: `• Préférences du navigateur : conservées jusqu'à effacement par l'utilisateur.
+• Alertes Telegram : conservées jusqu'à la commande /stop dans le bot.
+• Journaux serveur de sécurité Cloudflare : 30 jours maximum.`
+          },
+          {
+            title: "8. Vos droits (nLPD & RGPD)",
+            content: `Vous disposez d'un droit complet d'accès, de rectification, de suppression et de limitation de vos données. Pour exercer vos droits : arsen.k111999@gmail.com.`
+          },
+          {
+            title: "9. Sécurité et hébergement Cloudflare",
+            content: `La plateforme est hébergée sur l'infrastructure Cloudflare sous les garanties du Swiss-US Data Privacy Framework (Art. 16 nLPD). Les échanges sont intégralement chiffrés en HTTPS (TLS 1.3).`
+          },
+          {
+            title: "10. Autorité de surveillance suisse",
+            content: `Préposé fédéral à la protection des données et à la transparence (PFPDT / EDÖB) :
+Feldeggweg 1, 3003 Berne, Suisse
+Site officiel : www.edoeb.admin.ch`
+          },
+          {
+            title: "11. Contact",
+            content: `Pour toute question relative à la protection des données :
+Arsen Kovalenko · Avenue du Mont-Blanc 29, 1196 Gland, Vaud, Suisse
+E-mail : arsen.k111999@gmail.com · Téléphone : +41 78 326 11 12`
+          }
+        ]
+      },
+      de: {
+        title: "Datenschutzerklärung",
+        updated: "Letzte Aktualisierung: 14. September 2026 · Konform mit nDSG & DSGVO · sonate-solidaire.me",
+        back: "Zurück zur Startseite",
+        sections: [
+          {
+            title: "1. Verantwortlicher",
+            content: `Verantwortlich für die Datenverarbeitung auf dieser Website ist:
+
+Arsen Kovalenko
+ACCORD Suisse / Sonate Solidaire
+Avenue du Mont-Blanc 29
+1196 Gland, Vaud, Schweiz
+
+E-Mail: arsen.k111999@gmail.com
+Telefon: +41 78 326 11 12`
+          },
+          {
+            title: "2. Erhobene Daten",
+            content: `Wir erheben und verarbeiten folgende Daten:
+
+• Lokale Präferenzen: Gewählte Sprache, Kanton und Rechner-Einstellungen (lokal im Browser via localStorage).
+• Telegram Bot / Mini App: Telegram-ID ausschließlich für angeforderte Benachrichtigungen.
+• Technische Daten: Server-Logs von Cloudflare (anonymisierte IP, Datum, Uhrzeit, Seite) zur DDoS-Abwehr.`
+          },
+          {
+            title: "3. Zweck der Verarbeitung",
+            content: `• Bereitstellung verifizierter Wohnungs- und Stellenangebote.
+• Erstellung des offiziellen Mietdossiers (Art. 253 OR).
+• Technische Absicherung und Systemstabilität.`
+          },
+          {
+            title: "4. Rechtsgrundlage (nDSG / DSGVO)",
+            content: `• Art. 6 Abs. 1 lit. a DSGVO / Art. 31 nDSG: Einwilligung.
+• Art. 6 Abs. 1 lit. b DSGVO / Art. 31 nDSG: Vertragserfüllung / Servicebereitstellung.
+• Art. 6 Abs. 1 lit. f DSGVO / Art. 31 nDSG: Berechtigte Interessen (Sicherheit).`
+          },
+          {
+            title: "5. Keine Weitergabe an Dritte & Kostenfreiheit",
+            content: `Gemäß Art. 2 des Arbeitsvermittlungsgesetzes (AVG) ist der Dienst für Arbeitssuchende 100% kostenlos. Wir verkaufen keine Daten an gewerbliche Dritte.`
+          },
+          {
+            title: "6. Lokaler Speicher (localStorage)",
+            content: `Technisch notwendige Speicherung zur Wahrung der gewählten Einstellungen (Sprache, Kanton, Rechnerwerte).`
+          },
+          {
+            title: "7. Speicherdauer",
+            content: `• Lokale Einstellungen: Bis zur Löschung im Browser.
+• Telegram-Alerts: Bis zum /stop Befehl.
+• Sicherheits-Logs: Maximal 30 Tage.`
+          },
+          {
+            title: "8. Ihre Rechte",
+            content: `Auskunft, Berichtigung, Löschung, Einschränkung und Widerruf jederzeit via arsen.k111999@gmail.com.`
+          },
+          {
+            title: "9. Datensicherheit & Cloudflare",
+            content: `HTTPS TLS 1.3 Verschlüsselung, Cloudflare Swiss-US Data Privacy Framework (Art. 16 nDSG).`
+          },
+          {
+            title: "10. Aufsichtsbehörde Schweiz",
+            content: `Eidgenössischer Datenschutz- und Öffentlichkeitsbeauftragter (EDÖB)
+Feldeggweg 1, 3003 Bern, Schweiz · www.edoeb.admin.ch`
+          },
+          {
+            title: "11. Kontakt",
+            content: `Arsen Kovalenko · Avenue du Mont-Blanc 29, 1196 Gland, Schweiz
+E-Mail: arsen.k111999@gmail.com · Telefon: +41 78 326 11 12`
+          }
+        ]
+      },
+      en: {
+        title: "Privacy Policy",
+        updated: "Last updated: September 14, 2026 · Compliant with Swiss nDSG & EU GDPR · sonate-solidaire.me",
+        back: "Back to Home",
+        sections: [
+          {
+            title: "1. Data Controller",
+            content: `The controller responsible for data processing on this website is:
+
+Arsen Kovalenko
+ACCORD Suisse / Sonate Solidaire
+Avenue du Mont-Blanc 29
+1196 Gland, Vaud, Switzerland
+
+E-mail: arsen.k111999@gmail.com
+Phone: +41 78 326 11 12`
+          },
+          {
+            title: "2. Collected Data",
+            content: `We collect and process the following data:
+
+• Local preferences: Language, canton, and calculator parameters stored locally via localStorage.
+• Telegram Bot / Mini App: Telegram user ID solely for delivering requested housing and job notifications.
+• Technical logs: Cloudflare server logs (anonymized IP, timestamp, requested URI) for DDoS mitigation.`
+          },
+          {
+            title: "3. Purpose of Processing",
+            content: `• Providing free access to verified housing and employment listings.
+• 1-Click rental application generation under Art. 253 CO.
+• Ensuring infrastructure security and resilience.`
+          },
+          {
+            title: "4. Legal Basis (nDSG / GDPR)",
+            content: `• Art. 6(1)(a) GDPR / Art. 31 Swiss nDSG: Consent.
+• Art. 6(1)(b) GDPR / Art. 31 Swiss nDSG: Performance of user service requests.
+• Art. 6(1)(f) GDPR / Art. 31 Swiss nDSG: Legitimate interests in security and uptime.`
+          },
+          {
+            title: "5. Non-Commercial & 100% Free",
+            content: `In accordance with the Swiss Employment Services Act (LSE/AVG), ACCORD Suisse never charges job seekers. We never sell, rent, or transfer personal data to commercial intermediaries.`
+          },
+          {
+            title: "6. LocalStorage & Cookies",
+            content: `Technically essential client storage for language and canton calculations. You can clear this data at any time in your browser settings.`
+          },
+          {
+            title: "7. Retention Period",
+            content: `• Client preferences: retained until cleared by user.
+• Telegram alerts: until the /stop command is sent.
+• Cloudflare security logs: 30 days.`
+          },
+          {
+            title: "8. Your Rights",
+            content: `Right to access, rectify, erase, restrict, and withdraw consent at any time: arsen.k111999@gmail.com.`
+          },
+          {
+            title: "9. International Transfers & Security",
+            content: `Hosted via Cloudflare under the Swiss-US Data Privacy Framework (Art. 16 nDSG) with full TLS 1.3 HTTPS encryption.`
+          },
+          {
+            title: "10. Swiss Supervisory Authority",
+            content: `Federal Data Protection and Information Commissioner (FDPIC / EDÖB)
+Feldeggweg 1, 3003 Bern, Switzerland · www.edoeb.admin.ch`
+          },
+          {
+            title: "11. Contact",
+            content: `Arsen Kovalenko · Avenue du Mont-Blanc 29, 1196 Gland, Switzerland
+E-mail: arsen.k111999@gmail.com · Phone: +41 78 326 11 12`
+          }
+        ]
+      }
+    };
+
+    function renderPrivacy(lang) {
+      const data = PRIVACY_DATA[lang] || PRIVACY_DATA.fr;
+      document.documentElement.lang = lang;
+      document.getElementById('privTitle').innerText = data.title;
+      document.getElementById('privSubtitle').innerText = data.updated;
+      document.getElementById('backText').innerText = data.back;
+
+      const container = document.getElementById('sectionsContainer');
+      container.innerHTML = data.sections.map(s => `
+        <section class="priv-card">
+          <h2 class="priv-card-title">${s.title}</h2>
+          <div class="priv-card-body">${s.content.replace(/\n/g, '<br/>')}</div>
+        </section>
+      `).join('');
+    }
+
+    const select = document.getElementById('langSelect');
+    // Try reading lang from localStorage or URL
+    const savedLang = localStorage.getItem('sr26-lang') || 'uk';
+    select.value = ['uk', 'fr', 'de', 'en'].includes(savedLang) ? savedLang : 'uk';
+    renderPrivacy(select.value);
+
+    select.addEventListener('change', (e) => {
+      renderPrivacy(e.target.value);
+      try { localStorage.setItem('sr26-lang', e.target.value); } catch(err) {}
+    });
+  </script>
+</body>
+</html>

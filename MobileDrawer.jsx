@@ -3,15 +3,15 @@
 // containing-block trap. 100dvh, inset:0, z-index 99999.
 // Contains 2×2 language grid (Anomalie 2 FIX).
 
-function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClose, onDonate, t }) {
+function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClose, onDonate, onOpenInfo, t }) {
   // Body scroll lock
   React.useEffect(() => {
     document.body.classList.add('no-scroll');
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
     return () => {
-      document.body.classList.remove('no-scroll');
       document.removeEventListener('keydown', onKey);
+      document.body.classList.remove('no-scroll');
     };
   }, [onClose]);
 
@@ -47,10 +47,10 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
       <div className="drawer" onClick={e => e.stopPropagation()}>
         <div className="drawer-head">
           <div className="brand">
-            <span className="brand-badge"><BrandMark size={20}/></span>
+            <span className="brand-badge"><BrandMark size={24}/></span>
             <span className="brand-name">
-              <span className="primary">SwissRelief</span>
-              <span className="badge">PAN-SWISS 2.6 · BÊTA 🇨🇭🇺🇦</span>
+              <span className="primary">ACCORD Suisse</span>
+              <span className="badge">PERMIS S · 100% GRATUIT 🇨🇭🇺🇦</span>
             </span>
           </div>
           <button className="drawer-close" onClick={onClose} aria-label="Fermer"><Ico.x/></button>
@@ -73,10 +73,10 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
                 className={`lang-cell ${l === lang ? 'active' : ''}`}
                 onClick={() => pickLang(l)}
               >
-                <span className="flag" aria-hidden="true">{window.LANG_FLAGS[l]}</span>
+                <span className="flag" aria-hidden="true">{window.LANG_FLAGS ? window.LANG_FLAGS[l] : l}</span>
                 <div style={{display:'flex', flexDirection:'column', gap:2, minWidth:0}}>
-                  <span>{window.SR_I18N[l]?.lang || l.toUpperCase()}</span>
-                  <span className="code">{window.LANG_CODES[l]}</span>
+                  <span>{window.SR_I18N && window.SR_I18N[l]?.lang ? window.SR_I18N[l].lang : l.toUpperCase()}</span>
+                  <span className="code">{window.LANG_CODES ? window.LANG_CODES[l] : l.toUpperCase()}</span>
                 </div>
               </button>
             ))}
@@ -93,10 +93,10 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
           </div>
           <div className="dossier-status-toggle">
             <button className={side === 'a' ? 'active' : ''} onClick={() => { setSide('a'); onClose(); }}>
-              {t.tabs.seekers}
+              {t.tabs?.seekers || "Шукачі (Permis S)"}
             </button>
             <button className={side === 'b' ? 'active' : ''} onClick={() => { setSide('b'); onClose(); }}>
-              {t.tabs.solidarity}
+              {t.tabs?.solidarity || "Швейцарські волонтери"}
             </button>
           </div>
         </div>
@@ -127,6 +127,50 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
           </div>
         </div>
 
+        {/* Information Hub */}
+        <div className="drawer-section">
+          <div className="drawer-section-title">
+            {lang === 'uk' ? 'Довідка та правила'
+             : lang === 'de' ? 'Informationen & Regeln'
+             : lang === 'it' ? 'Informazioni e regole'
+             : 'Informations & Règles'}
+          </div>
+          <div className="svc-list">
+            <button className="svc-item" onClick={() => { onClose(); if (onOpenInfo) onOpenInfo('guide'); else window.location.hash = 'guide'; }}>
+              <div className="icon">📖</div>
+              <div className="info">
+                <div className="label">{t?.nav?.guide || (lang === 'uk' ? 'Як користуватись' : 'Mode d\'emploi')}</div>
+                <div className="sub">{lang === 'uk' ? 'Покроковий алгоритм дій' : 'Guide pas-à-pas'}</div>
+              </div>
+              <Ico.arrow className="arrow"/>
+            </button>
+            <button className="svc-item" onClick={() => { onClose(); if (onOpenInfo) onOpenInfo('why'); else window.location.hash = 'why'; }}>
+              <div className="icon">⭐</div>
+              <div className="info">
+                <div className="label">{t?.nav?.why || (lang === 'uk' ? 'Чому ми кращі' : 'Pourquoi ACCORD ?')}</div>
+                <div className="sub">{lang === 'uk' ? 'Порівняння з посередниками' : 'Comparatif avec intermédiaires'}</div>
+              </div>
+              <Ico.arrow className="arrow"/>
+            </button>
+            <button className="svc-item" onClick={() => { onClose(); if (onOpenInfo) onOpenInfo('about'); else window.location.hash = 'about'; }}>
+              <div className="icon">🏛️</div>
+              <div className="info">
+                <div className="label">{t?.nav?.about || (lang === 'uk' ? 'Про проєкт' : 'À propos')}</div>
+                <div className="sub">{lang === 'uk' ? 'Місія, засновник та статус' : 'Statuts, mission & Sonate Solidaire'}</div>
+              </div>
+              <Ico.arrow className="arrow"/>
+            </button>
+            <button className="svc-item" onClick={() => { onClose(); if (onOpenInfo) onOpenInfo('privacy'); else window.location.hash = 'privacy'; }}>
+              <div className="icon">🛡️</div>
+              <div className="info">
+                <div className="label">{t?.nav?.privacy || (lang === 'uk' ? 'Конфіденційність' : 'Confidentialité')}</div>
+                <div className="sub">nDSG / RGPD · Arsen Kovalenko</div>
+              </div>
+              <Ico.arrow className="arrow"/>
+            </button>
+          </div>
+        </div>
+
         {/* Actions */}
         <div className="drawer-actions">
           <a
@@ -149,7 +193,7 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
         </div>
 
         <div className="drawer-legal">
-          Association Swiss Resilience en cours de constitution<br/>
+          Association Swiss Resilience / ACCORD en cours de constitution<br/>
           (Art. 60–79 CC Suisse) · Merkle SHA-256
         </div>
       </div>
@@ -159,7 +203,4 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
   return ReactDOM.createPortal(drawer, document.body);
 }
 
-window.MobileDrawer = MobileDrawer;
-
 Object.assign(window, { MobileDrawer });
-

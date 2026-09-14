@@ -1,6 +1,6 @@
 // SwissRelief 2.6 — Hero with SHORT title, two-sided tab switcher, trust badges.
 // Uses fluid grid `repeat(auto-fit, minmax(220px, 1fr))` for badges (ADR-017 anomaly #4 fix).
-function HeroV2({ side, setSide, t }) {
+function HeroV2({ side, setSide, onOpenInfo, t }) {
   return (
     <section className="v2-hero" id="top">
       <div className="v2-container">
@@ -31,6 +31,13 @@ function HeroV2({ side, setSide, t }) {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg>
             <span>{t?.hero?.ctaApp || "Відкрити Mini App"}</span>
           </a>
+          <button
+            onClick={() => onOpenInfo ? onOpenInfo('guide') : (window.location.hash = 'guide')}
+            className="v2-btn v2-btn-secondary btn ghost lg"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}
+          >
+            <span>📖 {t?.nav?.guide || "Як користуватись"}</span>
+          </button>
         </div>
 
         <div className="v2-hero-tabs" role="tablist" aria-label="Public cible">
@@ -83,7 +90,7 @@ function HeroV2({ side, setSide, t }) {
   );
 }
 
-function FourPillars({ t }) {
+function FourPillars({ onOpenInfo, t }) {
   const p = t?.pillars || {
     eyebrow: "POURQUOI L'ACCORD ?",
     title: "Quatre piliers de confiance, sans jargon.",
@@ -124,6 +131,31 @@ function FourPillars({ t }) {
               </div>
             </article>
           ))}
+        </div>
+
+        {/* Action buttons to open deep-dive modals */}
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12, marginTop: 28 }}>
+          <button
+            onClick={() => onOpenInfo ? onOpenInfo('why') : (window.location.hash = 'why')}
+            className="btn ghost"
+            style={{ padding: '8px 16px', fontSize: 13, cursor: 'pointer', borderColor: 'rgba(16,185,129,0.3)', color: '#34D399' }}
+          >
+            ⭐ {t?.nav?.why ? `Порівняння: ${t.nav.why}` : "Чому ми кращий варіант"}
+          </button>
+          <button
+            onClick={() => onOpenInfo ? onOpenInfo('guide') : (window.location.hash = 'guide')}
+            className="btn ghost"
+            style={{ padding: '8px 16px', fontSize: 13, cursor: 'pointer', borderColor: 'rgba(56,189,248,0.3)', color: '#38BDF8' }}
+          >
+            📖 {t?.nav?.guide || "Як користуватись"}
+          </button>
+          <button
+            onClick={() => onOpenInfo ? onOpenInfo('about') : (window.location.hash = 'about')}
+            className="btn ghost"
+            style={{ padding: '8px 16px', fontSize: 13, cursor: 'pointer' }}
+          >
+            🏛️ {t?.nav?.about || "Про проєкт АКОРД"}
+          </button>
         </div>
       </div>
     </section>

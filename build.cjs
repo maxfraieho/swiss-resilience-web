@@ -11,6 +11,7 @@ const files = [
   'Nav.jsx',
   'ServiceSwitcher.jsx',
   'MobileDrawer.jsx',
+  'InfoModal.jsx',
   'Hero.jsx',
   'CantonCalculator.jsx',
   'HousingCards.jsx',

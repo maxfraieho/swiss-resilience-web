@@ -11,7 +11,7 @@ function TopBannerV2({ t }) {
   );
 }
 
-function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) {
+function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, onOpenInfo, t }) {
   const [langOpen, setLangOpen] = React.useState(false);
   const FLAGS = { fr: "🇫🇷", de: "🇩🇪", it: "🇮🇹", uk: "🇺🇦", en: "🇬🇧" };
   const NAMES = { fr: "Français", de: "Deutsch", it: "Italiano", uk: "Українська", en: "English" };
@@ -29,10 +29,10 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
   }, []);
 
   const navLabels = {
-    uk: { housing: "Житло", jobs: "Вакансії", calc: "Калькулятор", dossier: "Досьє", sublease: "Суборенда", mentors: "Ментори" },
-    fr: { housing: "Logement", jobs: "Emplois", calc: "Calculateur", dossier: "Dossier", sublease: "Sous-location", mentors: "Mentors" },
-    de: { housing: "Wohnen", jobs: "Stellen", calc: "Rechner", dossier: "Dossier", sublease: "Untermiete", mentors: "Mentoren" },
-    en: { housing: "Housing", jobs: "Jobs", calc: "Calculator", dossier: "Dossier", sublease: "Sublease", mentors: "Mentors" }
+    uk: { housing: "Житло", jobs: "Вакансії", calc: "Калькулятор", dossier: "Досьє", sublease: "Суборенда", mentors: "Ментори", guide: "Інструкція", about: "Про проєкт", why: "Чому ми", privacy: "Конфіденційність" },
+    fr: { housing: "Logement", jobs: "Emplois", calc: "Calculateur", dossier: "Dossier", sublease: "Sous-location", mentors: "Mentors", guide: "Mode d'emploi", about: "À propos", why: "Pourquoi nous", privacy: "Confidentialité" },
+    de: { housing: "Wohnen", jobs: "Stellen", calc: "Rechner", dossier: "Dossier", sublease: "Untermiete", mentors: "Mentoren", guide: "Anleitung", about: "Über uns", why: "Warum wir", privacy: "Datenschutz" },
+    en: { housing: "Housing", jobs: "Jobs", calc: "Calculator", dossier: "Dossier", sublease: "Sublease", mentors: "Mentors", guide: "User Guide", about: "About", why: "Why us", privacy: "Privacy" }
   };
   const nl = navLabels[lang] || navLabels.fr;
 
@@ -54,6 +54,8 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, t }) 
           <a href="#calc" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.calc}</a>
           <a href="#dossier" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.dossier}</a>
           <a href="#mentors" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.mentors}</a>
+          <a href="#guide" onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('guide'); else window.location.hash = 'guide'; }} className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: '#38BDF8', textDecoration: 'none' }}>📖 {nl.guide}</a>
+          <a href="#about" onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('about'); else window.location.hash = 'about'; }} className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>🏛️ {nl.about}</a>
         </nav>
 
         <div className="v2-nav-actions">

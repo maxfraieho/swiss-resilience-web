@@ -448,6 +448,7 @@ function NavV2({
   setSide,
   onOpenDrawer,
   onOpenDonate,
+  onOpenInfo,
   t
 }) {
   const [langOpen, setLangOpen] = React.useState(false);
@@ -493,7 +494,11 @@ function NavV2({
       calc: "Калькулятор",
       dossier: "Досьє",
       sublease: "Суборенда",
-      mentors: "Ментори"
+      mentors: "Ментори",
+      guide: "Інструкція",
+      about: "Про проєкт",
+      why: "Чому ми",
+      privacy: "Конфіденційність"
     },
     fr: {
       housing: "Logement",
@@ -501,7 +506,11 @@ function NavV2({
       calc: "Calculateur",
       dossier: "Dossier",
       sublease: "Sous-location",
-      mentors: "Mentors"
+      mentors: "Mentors",
+      guide: "Mode d'emploi",
+      about: "À propos",
+      why: "Pourquoi nous",
+      privacy: "Confidentialité"
     },
     de: {
       housing: "Wohnen",
@@ -509,7 +518,11 @@ function NavV2({
       calc: "Rechner",
       dossier: "Dossier",
       sublease: "Untermiete",
-      mentors: "Mentoren"
+      mentors: "Mentoren",
+      guide: "Anleitung",
+      about: "Über uns",
+      why: "Warum wir",
+      privacy: "Datenschutz"
     },
     en: {
       housing: "Housing",
@@ -517,7 +530,11 @@ function NavV2({
       calc: "Calculator",
       dossier: "Dossier",
       sublease: "Sublease",
-      mentors: "Mentors"
+      mentors: "Mentors",
+      guide: "User Guide",
+      about: "About",
+      why: "Why us",
+      privacy: "Privacy"
     }
   };
   const nl = navLabels[lang] || navLabels.fr;
@@ -589,7 +606,33 @@ function NavV2({
       color: 'var(--fg-2)',
       textDecoration: 'none'
     }
-  }, nl.mentors)), /*#__PURE__*/React.createElement("div", {
+  }, nl.mentors), /*#__PURE__*/React.createElement("a", {
+    href: "#guide",
+    onClick: e => {
+      e.preventDefault();
+      if (onOpenInfo) onOpenInfo('guide');else window.location.hash = 'guide';
+    },
+    className: "v2-nav-link",
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: '#38BDF8',
+      textDecoration: 'none'
+    }
+  }, "\uD83D\uDCD6 ", nl.guide), /*#__PURE__*/React.createElement("a", {
+    href: "#about",
+    onClick: e => {
+      e.preventDefault();
+      if (onOpenInfo) onOpenInfo('about');else window.location.hash = 'about';
+    },
+    className: "v2-nav-link",
+    style: {
+      fontSize: 13,
+      fontWeight: 600,
+      color: 'var(--fg-2)',
+      textDecoration: 'none'
+    }
+  }, "\uD83C\uDFDB\uFE0F ", nl.about)), /*#__PURE__*/React.createElement("div", {
     className: "v2-nav-actions"
   }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/SwissResilienceHubBot?start=web_nav",
@@ -973,6 +1016,7 @@ function MobileDrawer({
   setService,
   onClose,
   onDonate,
+  onOpenInfo,
   t
 }) {
   // Body scroll lock
@@ -983,8 +1027,8 @@ function MobileDrawer({
     };
     document.addEventListener('keydown', onKey);
     return () => {
-      document.body.classList.remove('no-scroll');
       document.removeEventListener('keydown', onKey);
+      document.body.classList.remove('no-scroll');
     };
   }, [onClose]);
   const pickLang = l => {
@@ -1064,14 +1108,14 @@ function MobileDrawer({
   }, /*#__PURE__*/React.createElement("span", {
     className: "brand-badge"
   }, /*#__PURE__*/React.createElement(BrandMark, {
-    size: 20
+    size: 24
   })), /*#__PURE__*/React.createElement("span", {
     className: "brand-name"
   }, /*#__PURE__*/React.createElement("span", {
     className: "primary"
-  }, "SwissRelief"), /*#__PURE__*/React.createElement("span", {
+  }, "ACCORD Suisse"), /*#__PURE__*/React.createElement("span", {
     className: "badge"
-  }, "PAN-SWISS 2.6 \xB7 B\xCATA \uD83C\uDDE8\uD83C\uDDED\uD83C\uDDFA\uD83C\uDDE6"))), /*#__PURE__*/React.createElement("button", {
+  }, "PERMIS S \xB7 100% GRATUIT \uD83C\uDDE8\uD83C\uDDED\uD83C\uDDFA\uD83C\uDDE6"))), /*#__PURE__*/React.createElement("button", {
     className: "drawer-close",
     onClick: onClose,
     "aria-label": "Fermer"
@@ -1092,16 +1136,16 @@ function MobileDrawer({
   }, /*#__PURE__*/React.createElement("span", {
     className: "flag",
     "aria-hidden": "true"
-  }, window.LANG_FLAGS[l]), /*#__PURE__*/React.createElement("div", {
+  }, window.LANG_FLAGS ? window.LANG_FLAGS[l] : l), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
       gap: 2,
       minWidth: 0
     }
-  }, /*#__PURE__*/React.createElement("span", null, window.SR_I18N[l]?.lang || l.toUpperCase()), /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, window.SR_I18N && window.SR_I18N[l]?.lang ? window.SR_I18N[l].lang : l.toUpperCase()), /*#__PURE__*/React.createElement("span", {
     className: "code"
-  }, window.LANG_CODES[l])))))), /*#__PURE__*/React.createElement("div", {
+  }, window.LANG_CODES ? window.LANG_CODES[l] : l.toUpperCase())))))), /*#__PURE__*/React.createElement("div", {
     className: "drawer-section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "drawer-section-title"
@@ -1113,13 +1157,13 @@ function MobileDrawer({
       setSide('a');
       onClose();
     }
-  }, t.tabs.seekers), /*#__PURE__*/React.createElement("button", {
+  }, t.tabs?.seekers || "Шукачі (Permis S)"), /*#__PURE__*/React.createElement("button", {
     className: side === 'b' ? 'active' : '',
     onClick: () => {
       setSide('b');
       onClose();
     }
-  }, t.tabs.solidarity))), /*#__PURE__*/React.createElement("div", {
+  }, t.tabs?.solidarity || "Швейцарські волонтери"))), /*#__PURE__*/React.createElement("div", {
     className: "drawer-section",
     style: {
       flex: 1
@@ -1143,6 +1187,76 @@ function MobileDrawer({
   }, s.sub)), /*#__PURE__*/React.createElement(Ico.arrow, {
     className: "arrow"
   }))))), /*#__PURE__*/React.createElement("div", {
+    className: "drawer-section"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "drawer-section-title"
+  }, lang === 'uk' ? 'Довідка та правила' : lang === 'de' ? 'Informationen & Regeln' : lang === 'it' ? 'Informazioni e regole' : 'Informations & Règles'), /*#__PURE__*/React.createElement("div", {
+    className: "svc-list"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "svc-item",
+    onClick: () => {
+      onClose();
+      if (onOpenInfo) onOpenInfo('guide');else window.location.hash = 'guide';
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "icon"
+  }, "\uD83D\uDCD6"), /*#__PURE__*/React.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "label"
+  }, t?.nav?.guide || (lang === 'uk' ? 'Як користуватись' : 'Mode d\'emploi')), /*#__PURE__*/React.createElement("div", {
+    className: "sub"
+  }, lang === 'uk' ? 'Покроковий алгоритм дій' : 'Guide pas-à-pas')), /*#__PURE__*/React.createElement(Ico.arrow, {
+    className: "arrow"
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "svc-item",
+    onClick: () => {
+      onClose();
+      if (onOpenInfo) onOpenInfo('why');else window.location.hash = 'why';
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "icon"
+  }, "\u2B50"), /*#__PURE__*/React.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "label"
+  }, t?.nav?.why || (lang === 'uk' ? 'Чому ми кращі' : 'Pourquoi ACCORD ?')), /*#__PURE__*/React.createElement("div", {
+    className: "sub"
+  }, lang === 'uk' ? 'Порівняння з посередниками' : 'Comparatif avec intermédiaires')), /*#__PURE__*/React.createElement(Ico.arrow, {
+    className: "arrow"
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "svc-item",
+    onClick: () => {
+      onClose();
+      if (onOpenInfo) onOpenInfo('about');else window.location.hash = 'about';
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "icon"
+  }, "\uD83C\uDFDB\uFE0F"), /*#__PURE__*/React.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "label"
+  }, t?.nav?.about || (lang === 'uk' ? 'Про проєкт' : 'À propos')), /*#__PURE__*/React.createElement("div", {
+    className: "sub"
+  }, lang === 'uk' ? 'Місія, засновник та статус' : 'Statuts, mission & Sonate Solidaire')), /*#__PURE__*/React.createElement(Ico.arrow, {
+    className: "arrow"
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "svc-item",
+    onClick: () => {
+      onClose();
+      if (onOpenInfo) onOpenInfo('privacy');else window.location.hash = 'privacy';
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "icon"
+  }, "\uD83D\uDEE1\uFE0F"), /*#__PURE__*/React.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "label"
+  }, t?.nav?.privacy || (lang === 'uk' ? 'Конфіденційність' : 'Confidentialité')), /*#__PURE__*/React.createElement("div", {
+    className: "sub"
+  }, "nDSG / RGPD \xB7 Arsen Kovalenko")), /*#__PURE__*/React.createElement(Ico.arrow, {
+    className: "arrow"
+  })))), /*#__PURE__*/React.createElement("div", {
     className: "drawer-actions"
   }, /*#__PURE__*/React.createElement("a", {
     href: "https://t.me/SwissResilienceHubBot?start=web_drawer",
@@ -1162,12 +1276,921 @@ function MobileDrawer({
     onClick: onClose
   }, /*#__PURE__*/React.createElement(Ico.heart, null), " ", t.beta?.donateBtn || "Soutenir via Telegram")), /*#__PURE__*/React.createElement("div", {
     className: "drawer-legal"
-  }, "Association Swiss Resilience en cours de constitution", /*#__PURE__*/React.createElement("br", null), "(Art. 60\u201379 CC Suisse) \xB7 Merkle SHA-256")));
+  }, "Association Swiss Resilience / ACCORD en cours de constitution", /*#__PURE__*/React.createElement("br", null), "(Art. 60\u201379 CC Suisse) \xB7 Merkle SHA-256")));
   return ReactDOM.createPortal(drawer, document.body);
 }
-window.MobileDrawer = MobileDrawer;
 Object.assign(window, {
   MobileDrawer
+});
+
+// ==================== [Module: InfoModal.jsx] ====================
+// ACCORD Suisse · Dedicated Information & Trust Hub Modal
+// Tabs: 'about' (Про проєкт), 'guide' (Як користуватись), 'why' (Чому ми кращі), 'privacy' (Конфіденційність nDSG/GDPR)
+// Fully reactive with multilingual support (UK, FR, DE, EN) and direct hash routing.
+
+function InfoModal({
+  isOpen,
+  onClose,
+  initialTab = 'about',
+  lang = 'uk',
+  t
+}) {
+  const [activeTab, setActiveTab] = React.useState(initialTab);
+  React.useEffect(() => {
+    if (initialTab) setActiveTab(initialTab);
+  }, [initialTab]);
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onKey = e => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    document.body.classList.add('no-scroll');
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.classList.remove('no-scroll');
+    };
+  }, [isOpen, onClose]);
+  if (!isOpen) return null;
+  const tabsMeta = {
+    uk: {
+      about: "Про проєкт",
+      guide: "Як користуватись",
+      why: "Чому ми кращі",
+      privacy: "Конфіденційність"
+    },
+    fr: {
+      about: "À propos",
+      guide: "Mode d'emploi",
+      why: "Pourquoi ACCORD ?",
+      privacy: "Confidentialité"
+    },
+    de: {
+      about: "Über uns",
+      guide: "Anleitung",
+      why: "Warum wir ?",
+      privacy: "Datenschutz"
+    },
+    en: {
+      about: "About project",
+      guide: "User Guide",
+      why: "Why ACCORD ?",
+      privacy: "Privacy Policy"
+    }
+  };
+  const tm = tabsMeta[lang] || tabsMeta.fr;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "info-modal-overlay",
+    onClick: onClose,
+    role: "dialog",
+    "aria-modal": "true",
+    style: {
+      position: 'fixed',
+      inset: 0,
+      zIndex: 10000,
+      background: 'rgba(7, 11, 18, 0.88)',
+      backdropFilter: 'blur(8px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '16px',
+      animation: 'fadeIn .2s ease-out'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "info-modal-card",
+    onClick: e => e.stopPropagation(),
+    style: {
+      background: '#0D1424',
+      border: '1px solid rgba(148, 163, 184, 0.2)',
+      borderRadius: 20,
+      width: '100%',
+      maxWidth: 880,
+      maxHeight: '90vh',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+      boxShadow: '0 24px 64px rgba(0,0,0,0.6)'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '18px 24px 14px',
+      borderBottom: '1px solid rgba(148, 163, 184, 0.15)',
+      background: 'rgba(15, 23, 42, 0.95)',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement(BrandMark, {
+    size: 28
+  }), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 800,
+      fontSize: 16,
+      color: '#fff',
+      letterSpacing: '-0.01em'
+    }
+  }, "ACCORD Suisse"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: '#94A3B8'
+    }
+  }, lang === 'uk' ? 'Довідковий та правовий хаб' : 'Hub d\'information & conformité'))), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    "aria-label": "Fermer",
+    style: {
+      background: 'rgba(255,255,255,0.06)',
+      border: 'none',
+      borderRadius: 8,
+      width: 32,
+      height: 32,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#94A3B8',
+      cursor: 'pointer',
+      fontSize: 18,
+      transition: 'all .15s'
+    }
+  }, "\u2715")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      overflowX: 'auto',
+      paddingBottom: 4
+    }
+  }, [{
+    id: 'about',
+    label: `🏛️ ${tm.about}`
+  }, {
+    id: 'guide',
+    label: `📖 ${tm.guide}`
+  }, {
+    id: 'why',
+    label: `⭐ ${tm.why}`
+  }, {
+    id: 'privacy',
+    label: `🛡️ ${tm.privacy}`
+  }].map(tab => /*#__PURE__*/React.createElement("button", {
+    key: tab.id,
+    onClick: () => {
+      setActiveTab(tab.id);
+      try {
+        window.location.hash = tab.id;
+      } catch (e) {}
+    },
+    style: {
+      padding: '7px 14px',
+      borderRadius: 8,
+      fontSize: 12.5,
+      fontWeight: 700,
+      whiteSpace: 'nowrap',
+      border: 'none',
+      cursor: 'pointer',
+      transition: 'all .15s',
+      background: activeTab === tab.id ? '#D52B1E' : 'rgba(255,255,255,0.06)',
+      color: activeTab === tab.id ? '#fff' : '#CBD5E1',
+      boxShadow: activeTab === tab.id ? '0 2px 8px rgba(213,43,30,0.4)' : 'none'
+    }
+  }, tab.label)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '24px',
+      overflowY: 'auto',
+      color: '#E2E8F0',
+      lineHeight: 1.6,
+      fontSize: 13.5
+    }
+  }, activeTab === 'about' && /*#__PURE__*/React.createElement(AboutTab, {
+    lang: lang
+  }), activeTab === 'guide' && /*#__PURE__*/React.createElement(GuideTab, {
+    lang: lang
+  }), activeTab === 'why' && /*#__PURE__*/React.createElement(WhyTab, {
+    lang: lang
+  }), activeTab === 'privacy' && /*#__PURE__*/React.createElement(PrivacyTab, {
+    lang: lang
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '12px 24px',
+      borderTop: '1px solid rgba(148, 163, 184, 0.15)',
+      background: 'rgba(15, 23, 42, 0.95)',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: '#94A3B8'
+    }
+  }, "violin-integration.works \xB7 @SwissResilienceHubBot \xB7 ", /*#__PURE__*/React.createElement("a", {
+    href: "/privacy",
+    style: {
+      color: '#38BDF8',
+      textDecoration: 'none'
+    }
+  }, "/privacy \u2197")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("a", {
+    href: "https://t.me/SwissResilienceHubBot",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    className: "btn primary",
+    style: {
+      padding: '7px 14px',
+      fontSize: 12.5,
+      textDecoration: 'none'
+    }
+  }, "Telegram Bot"), /*#__PURE__*/React.createElement("button", {
+    onClick: onClose,
+    className: "btn ghost",
+    style: {
+      padding: '7px 14px',
+      fontSize: 12.5
+    }
+  }, lang === 'uk' ? 'Закрити' : 'Fermer')))));
+}
+
+// --------------------------------------------------------------------------
+// 1. TAB: ПРО ПРОЄКТ (ABOUT)
+// --------------------------------------------------------------------------
+function AboutTab({
+  lang
+}) {
+  if (lang === 'uk') {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+      style: {
+        fontSize: 22,
+        fontWeight: 800,
+        color: '#fff',
+        marginTop: 0,
+        marginBottom: 8
+      }
+    }, "\u041F\u0440\u043E \u043F\u0440\u043E\u0454\u043A\u0442 \u0410\u041A\u041E\u0420\u0414 (L'Accord Suisse)"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        color: 'var(--muted)',
+        fontSize: 14,
+        marginBottom: 20
+      }
+    }, "\u0421\u0443\u0432\u0435\u0440\u0435\u043D\u043D\u0430 \u0446\u0438\u0444\u0440\u043E\u0432\u0430 \u043F\u043B\u0430\u0442\u0444\u043E\u0440\u043C\u0430 \u043F\u0440\u044F\u043C\u043E\u0457 \u0434\u0456\u0457 \u0434\u043B\u044F \u0433\u0456\u0434\u043D\u043E\u0433\u043E \u0436\u0438\u0442\u043B\u0430, \u043B\u0435\u0433\u0430\u043B\u044C\u043D\u043E\u0457 \u043F\u0440\u0430\u0446\u0456 \u0442\u0430 \u0432\u0437\u0430\u0454\u043C\u043E\u0440\u043E\u0437\u0443\u043C\u0456\u043D\u043D\u044F \u0443 \u0428\u0432\u0435\u0439\u0446\u0430\u0440\u0456\u0457."), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: 16,
+        marginBottom: 24
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: 12,
+        padding: 16
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 15,
+        fontWeight: 700,
+        color: '#38BDF8',
+        marginBottom: 6
+      }
+    }, "\uD83C\uDFDB\uFE0F \u041C\u0456\u0441\u0456\u044F \u043F\u043B\u0430\u0442\u0444\u043E\u0440\u043C\u0438"), /*#__PURE__*/React.createElement("div", null, "\u0410\u041A\u041E\u0420\u0414 \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043E \u0434\u043B\u044F \u0443\u0441\u0443\u043D\u0435\u043D\u043D\u044F \u0431\u044E\u0440\u043E\u043A\u0440\u0430\u0442\u0438\u0447\u043D\u0438\u0445 \u043F\u0435\u0440\u0435\u043F\u043E\u043D \u0442\u0430 \u0432\u0438\u0441\u043D\u0430\u0436\u043B\u0438\u0432\u043E\u0433\u043E \u043E\u0447\u0456\u043A\u0443\u0432\u0430\u043D\u043D\u044F \u0434\u043B\u044F \u0443\u043A\u0440\u0430\u0457\u043D\u0446\u0456\u0432 \u0456\u0437 \u0442\u0438\u043C\u0447\u0430\u0441\u043E\u0432\u0438\u043C \u0437\u0430\u0445\u0438\u0441\u0442\u043E\u043C (Permis S). \u041D\u0430\u0448\u0430 \u043C\u0435\u0442\u0430 \u2014 \u043D\u0430\u0434\u0430\u0442\u0438 \u043A\u043E\u0436\u043D\u0456\u0439 \u0440\u043E\u0434\u0438\u043D\u0456 \u0456\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442 \u0434\u043B\u044F \u0441\u0430\u043C\u043E\u0441\u0442\u0456\u0439\u043D\u043E\u0433\u043E, \u0433\u0456\u0434\u043D\u043E\u0433\u043E \u043F\u043E\u0448\u0443\u043A\u0443 \u0436\u0438\u0442\u043B\u0430 \u0442\u0430 \u0440\u043E\u0431\u043E\u0442\u0438 \u0431\u0435\u0437 \u043F\u043E\u0441\u0435\u0440\u0435\u0434\u043D\u0438\u043A\u0456\u0432 \u0456 \u043A\u043E\u043C\u0456\u0441\u0456\u0439.")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: 'rgba(255,255,255,0.03)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: 12,
+        padding: 16
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 15,
+        fontWeight: 700,
+        color: '#10B981',
+        marginBottom: 6
+      }
+    }, "\uD83C\uDFBB \u0427\u043E\u043C\u0443 \u043D\u0430\u0437\u0432\u0430 \xAB\u0410\u041A\u041E\u0420\u0414\xBB?"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "L'Accord de bail:"), " \u041E\u0444\u0456\u0446\u0456\u0439\u043D\u0430 \u0437\u0433\u043E\u0434\u0430 \u0440\u0435\u0436\u0456 \u043D\u0430 \u043E\u0440\u0435\u043D\u0434\u0443 \u043A\u0432\u0430\u0440\u0442\u0438\u0440\u0438.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", null, "L'Accord de travail:"), " \u041F\u0456\u0434\u043F\u0438\u0441\u0430\u043D\u0438\u0439 \u0442\u0440\u0443\u0434\u043E\u0432\u0438\u0439 \u0434\u043E\u0433\u043E\u0432\u0456\u0440 (LEI / CCT).", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", null, "L'Accord mutuel:"), " \u0421\u0443\u0441\u043F\u0456\u043B\u044C\u043D\u0430 \u0437\u043B\u0430\u0433\u043E\u0434\u0430 \u0442\u0430 \u0432\u0437\u0430\u0454\u043C\u043E\u043F\u043E\u0432\u0430\u0433\u0430.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", null, "\u0413\u0430\u0440\u043C\u043E\u043D\u0456\u044F \u0441\u0442\u0440\u0443\u043D:"), " \u0417\u0432'\u044F\u0437\u043E\u043A \u0456\u0437 \u043A\u0443\u043B\u044C\u0442\u0443\u0440\u043D\u0438\u043C \u043F\u0440\u043E\u0454\u043A\u0442\u043E\u043C \u0441\u043E\u043B\u0456\u0434\u0430\u0440\u043D\u043E\u0441\u0442\u0456 \u0441\u043A\u0440\u0438\u043F\u0430\u043B\u044F \u0410\u0440\u0441\u0435\u043D\u0430 \u041A\u043E\u0432\u0430\u043B\u0435\u043D\u043A\u0430 ", /*#__PURE__*/React.createElement("em", null, "Sonate Solidaire"), " (", /*#__PURE__*/React.createElement("a", {
+      href: "https://sonate-solidaire.me",
+      target: "_blank",
+      rel: "noopener",
+      style: {
+        color: '#38BDF8'
+      }
+    }, "sonate-solidaire.me"), ")."))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: 'rgba(213,43,30,0.06)',
+        border: '1px solid rgba(213,43,30,0.2)',
+        borderRadius: 12,
+        padding: 18,
+        marginBottom: 20
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 15,
+        fontWeight: 700,
+        color: '#F87171',
+        marginBottom: 6
+      }
+    }, "\u2696\uFE0F \u041D\u0435\u043A\u043E\u043C\u0435\u0440\u0446\u0456\u0439\u043D\u0438\u0439 \u0441\u0442\u0430\u0442\u0443\u0441 \u0442\u0430 \u0441\u0442\u0430\u043D\u0434\u0430\u0440\u0442\u0438"), /*#__PURE__*/React.createElement("div", null, "\u0410\u0441\u043E\u0446\u0456\u0430\u0446\u0456\u044F Swiss Resilience \u043F\u0435\u0440\u0435\u0431\u0443\u0432\u0430\u0454 \u0432 \u043F\u0440\u043E\u0446\u0435\u0441\u0456 \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043D\u044F (\u0441\u0442. 60\u201379 \u0426\u0438\u0432\u0456\u043B\u044C\u043D\u043E\u0433\u043E \u043A\u043E\u0434\u0435\u043A\u0441\u0443 \u0428\u0432\u0435\u0439\u0446\u0430\u0440\u0456\u0457 CC). \u0414\u0456\u044F\u043B\u044C\u043D\u0456\u0441\u0442\u044C \u0454 \u043D\u0430 100% \u0432\u043E\u043B\u043E\u043D\u0442\u0435\u0440\u0441\u044C\u043A\u043E\u044E, \u0441\u0435\u0440\u0432\u0456\u0441\u0438 \u043D\u0430\u0434\u0430\u044E\u0442\u044C\u0441\u044F \u0430\u0431\u0441\u043E\u043B\u044E\u0442\u043D\u043E \u0431\u0435\u0437\u043A\u043E\u0448\u0442\u043E\u0432\u043D\u043E \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u043D\u043E \u0434\u043E \u0424\u0435\u0434\u0435\u0440\u0430\u043B\u044C\u043D\u043E\u0433\u043E \u0437\u0430\u043A\u043E\u043D\u0443 \u043F\u0440\u043E \u0441\u043B\u0443\u0436\u0431\u0443 \u0437\u0430\u0439\u043D\u044F\u0442\u043E\u0441\u0442\u0456 (LSE/AVG), \u044F\u043A\u0438\u0439 \u043F\u0440\u044F\u043C\u043E \u0437\u0430\u0431\u043E\u0440\u043E\u043D\u044F\u0454 \u0441\u0442\u044F\u0433\u0443\u0432\u0430\u0442\u0438 \u043F\u043B\u0430\u0442\u0443 \u0437 \u0448\u0443\u043A\u0430\u0447\u0456\u0432 \u0440\u043E\u0431\u043E\u0442\u0438.")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: '#94A3B8',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        paddingTop: 14
+      }
+    }, /*#__PURE__*/React.createElement("b", null, "\u0406\u043D\u0456\u0446\u0456\u0430\u0442\u043E\u0440 \u0442\u0430 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0430\u043B\u044C\u043D\u0430 \u043E\u0441\u043E\u0431\u0430:"), " Arsen Kovalenko \xB7 Avenue du Mont-Blanc 29, 1196 Gland (Vaud) \xB7 E-mail: arsen.k111999@gmail.com \xB7 \u0422\u0435\u043B\u0435\u0444\u043E\u043D: +41 78 326 11 12"));
+  }
+
+  // French default
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: '#fff',
+      marginTop: 0,
+      marginBottom: 8
+    }
+  }, "\xC0 propos de l'ACCORD Suisse"), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: 'var(--muted)',
+      fontSize: 14,
+      marginBottom: 20
+    }
+  }, "Plateforme souveraine d'action directe pour le logement digne, l'emploi l\xE9gal et l'int\xE9gration en Suisse."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: 16,
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'rgba(255,255,255,0.03)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 700,
+      color: '#38BDF8',
+      marginBottom: 6
+    }
+  }, "\uD83C\uDFDB\uFE0F Notre Mission"), /*#__PURE__*/React.createElement("div", null, "L'ACCORD a \xE9t\xE9 con\xE7u pour \xE9liminer les interm\xE9diaires abusifs et les frais clandestins. Nous offrons aux b\xE9n\xE9ficiaires du Permis S et aux employeurs suisses un outil direct, souverain et sans friction technique.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'rgba(255,255,255,0.03)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      borderRadius: 12,
+      padding: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 700,
+      color: '#10B981',
+      marginBottom: 6
+    }
+  }, "\uD83C\uDFBB Pourquoi \xAB ACCORD \xBB ?"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("b", null, "L'Accord de bail :"), " Validation de candidature par la g\xE9rance.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", null, "L'Accord de travail :"), " Contrat d'embauche conforme CCT/CCNT.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", null, "L'Accord mutuel :"), " Concorde et confiance r\xE9ciproque.", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("b", null, "Harmonie musicale :"), " Synergie avec l'initiative culturelle ", /*#__PURE__*/React.createElement("em", null, "Sonate Solidaire"), " du violoniste Arsen Kovalenko (", /*#__PURE__*/React.createElement("a", {
+    href: "https://sonate-solidaire.me",
+    target: "_blank",
+    rel: "noopener",
+    style: {
+      color: '#38BDF8'
+    }
+  }, "sonate-solidaire.me"), ")."))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'rgba(213,43,30,0.06)',
+      border: '1px solid rgba(213,43,30,0.2)',
+      borderRadius: 12,
+      padding: 18,
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 15,
+      fontWeight: 700,
+      color: '#F87171',
+      marginBottom: 6
+    }
+  }, "\u2696\uFE0F Cadre l\xE9gal et gratuit\xE9"), /*#__PURE__*/React.createElement("div", null, "Association Swiss Resilience en cr\xE9ation (Art. 60\u201379 CC). 100% b\xE9n\xE9vole et conforme \xE0 la loi f\xE9d\xE9rale sur le service de l'emploi (LSE/AVG), garantissant la stricte gratuit\xE9 pour tous les candidats.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: '#94A3B8',
+      borderTop: '1px solid rgba(255,255,255,0.08)',
+      paddingTop: 14
+    }
+  }, /*#__PURE__*/React.createElement("b", null, "Contact r\xE9f\xE9rent :"), " Arsen Kovalenko \xB7 Avenue du Mont-Blanc 29, 1196 Gland (Vaud) \xB7 E-mail : arsen.k111999@gmail.com \xB7 T\xE9l\xE9phone : +41 78 326 11 12"));
+}
+
+// --------------------------------------------------------------------------
+// 2. TAB: ЯК КОРИСТУВАТИСЬ (GUIDE)
+// --------------------------------------------------------------------------
+function GuideTab({
+  lang
+}) {
+  const stepsUk = [{
+    n: "01",
+    t: "Пошук житла з реальними фото",
+    d: "Оберіть вкладку «Житло». Перевіряйте квартири з реальними фото, прямим закріпленням за режі (без сайтів-агрегаторів) та розрахунком часу CFF/SBB до найближчого вокзалу."
+  }, {
+    n: "02",
+    t: "Калькулятор кантональних лімітів",
+    d: "У вкладці «Калькулятор» оберіть свій кантон (EVAM у Vaud, Hospice Général у Genève тощо) та перевірте, чи вписується вартість оренди в офіційні норми соціальної допомоги та правило 33% зарплати."
+  }, {
+    n: "03",
+    t: "Генератор досьє для режі в 1 клік",
+    d: "Введіть свої дані та статус у вкладці «Досьє». Платформа створить офіційний лист-заявку французькою або німецькою мовою з повним пакетом додатків (Art. 253 CO), готовий для передачі до режі."
+  }, {
+    n: "04",
+    t: "Вакансії та швейцарське CV",
+    d: "У вкладці «Робота» переглядайте 63 актуальні пропозиції, відсортовані за ст. 17 LEI (миттєвий найм) та ст. 21a LEI (пріоритет ORP). Ознайомтеся зі швейцарським стандартом резюме та створіть мотиваційний лист."
+  }, {
+    n: "05",
+    t: "Суборенда та швейцарські наставники",
+    d: "Розрахуйте законну частку оплати кімнати за ст. 262 CO (максимум 20% за меблі). Подайте запит на волонтерський супровід від швейцарців мережі Benevol (ст. 394 CO)."
+  }, {
+    n: "06",
+    t: "Підключення бота @SwissResilienceHubBot",
+    d: "Запустіть Telegram-бота для отримання персональних сповіщень швидше за 60 секунд. Відгукуйтесь першими, поки оголошення не отримало сотні відгуків."
+  }];
+  const stepsFr = [{
+    n: "01",
+    t: "Trouver un logement vérifié",
+    d: "Consultez la section « Logement ». Chaque bien est attribué factuellement à sa gérance, avec calcul précis du temps CFF/SBB et conformité aux barèmes EVAM."
+  }, {
+    n: "02",
+    t: "Calculer les plafonds cantonaux",
+    d: "Vérifiez dans le « Calculateur » si le loyer respecte les barèmes officiels de votre canton et la règle impérative des 33% de vos revenus nets."
+  }, {
+    n: "03",
+    t: "Générer son dossier de régie 1-clic",
+    d: "Renseignez vos coordonnées dans le « Dossier ». L'application compose automatiquement la lettre de candidature formelle selon l'Art. 253 CO."
+  }, {
+    n: "04",
+    t: "Emplois et standard CV suisse",
+    d: "Explorez les 63 offres réelles, le radar de priorité Art. 21a LEI, et suivez le guide pas-à-pas pour adapter votre CV aux exigences des recruteurs suisses."
+  }, {
+    n: "05",
+    t: "Sous-location & Réseau de mentors",
+    d: "Estimez une participation équitable pour une chambre selon l'Art. 262 CO. Rejoignez ou sollicitez l'accompagnement citoyen bénévole Benevol (Art. 394 CO)."
+  }, {
+    n: "06",
+    t: "Alertes via @SwissResilienceHubBot",
+    d: "Activez le bot Telegram pour recevoir les nouvelles annonces en moins de 60 secondes chrono et postuler avant la saturation des régies."
+  }];
+  const steps = lang === 'uk' ? stepsUk : stepsFr;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: '#fff',
+      marginTop: 0,
+      marginBottom: 8
+    }
+  }, lang === 'uk' ? 'Як користуватись платформою АКОРД' : 'Mode d\'emploi de la plateforme ACCORD'), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: 'var(--muted)',
+      fontSize: 14,
+      marginBottom: 20
+    }
+  }, lang === 'uk' ? 'Простий покроковий алгоритм для швидкого отримання житла, роботи та легального захисту.' : 'Guide méthodique pour réussir vos démarches de logement et d\'emploi en Suisse Romande.'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+      gap: 14
+    }
+  }, steps.map(s => /*#__PURE__*/React.createElement("div", {
+    key: s.n,
+    style: {
+      background: 'rgba(255,255,255,0.03)',
+      border: '1px solid rgba(148, 163, 184, 0.15)',
+      borderRadius: 12,
+      padding: 16,
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: 'var(--f-mono)',
+      fontSize: 12,
+      fontWeight: 800,
+      color: '#D52B1E'
+    }
+  }, "\u041A\u0420\u041E\u041A ", s.n)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14.5,
+      fontWeight: 700,
+      color: '#fff',
+      marginBottom: 6
+    }
+  }, s.t), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      color: '#94A3B8',
+      lineHeight: 1.5
+    }
+  }, s.d)))));
+}
+
+// --------------------------------------------------------------------------
+// 3. TAB: ЧОМУ МИ КРАЩІ (WHY ACCORD / COMPARISON)
+// --------------------------------------------------------------------------
+function WhyTab({
+  lang
+}) {
+  const isUk = lang === 'uk';
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: '#fff',
+      marginTop: 0,
+      marginBottom: 8
+    }
+  }, isUk ? 'Чому АКОРД — найефективніший вибір?' : 'Pourquoi l\'ACCORD est la meilleure solution ?'), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: 'var(--muted)',
+      fontSize: 14,
+      marginBottom: 20
+    }
+  }, isUk ? 'Пряме порівняння: АКОРД проти комерційних посередників та звичайних дощок оголошень.' : 'Comparatif objectif entre l\'ACCORD Suisse, les intermédiaires payants et les portails généralistes.'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      overflowX: 'auto',
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      fontSize: 12.5,
+      textAlign: 'left'
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: '2px solid rgba(148, 163, 184, 0.25)',
+      color: '#94A3B8'
+    }
+  }, /*#__PURE__*/React.createElement("th", {
+    style: {
+      padding: '10px 12px'
+    }
+  }, isUk ? 'Критерій' : 'Critère'), /*#__PURE__*/React.createElement("th", {
+    style: {
+      padding: '10px 12px',
+      color: '#F87171'
+    }
+  }, isUk ? 'Платні «посередники»' : 'Intermédiaires payants'), /*#__PURE__*/React.createElement("th", {
+    style: {
+      padding: '10px 12px',
+      color: '#FBBF24'
+    }
+  }, isUk ? 'Звичайні сайти (ImmoScout)' : 'Portails classiques'), /*#__PURE__*/React.createElement("th", {
+    style: {
+      padding: '10px 12px',
+      color: '#34D399',
+      background: 'rgba(16,185,129,0.08)',
+      borderRadius: '6px 6px 0 0'
+    }
+  }, isUk ? '✓ АКОРД Швейцарія' : '✓ L\'ACCORD Suisse'))), /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: '1px solid rgba(148, 163, 184, 0.1)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      fontWeight: 700
+    }
+  }, isUk ? 'Вартість' : 'Tarification'), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#F87171'
+    }
+  }, "50 \u2013 800 CHF"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px'
+    }
+  }, "\u041F\u043B\u0430\u0442\u043D\u0456 \u043F\u0456\u0434\u043F\u0438\u0441\u043A\u0438 Pro"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#34D399',
+      fontWeight: 700,
+      background: 'rgba(16,185,129,0.05)'
+    }
+  }, isUk ? '100% Безкоштовно (ст. 2 LSE)' : '100% Gratuit (Loi LSE)')), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: '1px solid rgba(148, 163, 184, 0.1)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      fontWeight: 700
+    }
+  }, isUk ? 'Швидкість сигналу' : 'Délai d\'alerte'), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#F87171'
+    }
+  }, "\u0412\u0440\u0443\u0447\u043D\u0443 / \u0456\u0437 \u0437\u0430\u043F\u0456\u0437\u043D\u0435\u043D\u043D\u044F\u043C"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px'
+    }
+  }, "Email \u0447\u0435\u0440\u0435\u0437 2\u201312 \u0433\u043E\u0434\u0438\u043D"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#34D399',
+      fontWeight: 700,
+      background: 'rgba(16,185,129,0.05)'
+    }
+  }, isUk ? '< 60 секунд у Telegram' : '< 60 s via Telegram')), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: '1px solid rgba(148, 163, 184, 0.1)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      fontWeight: 700
+    }
+  }, isUk ? 'Кантональні норми' : 'Barèmes cantonaux'), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#F87171'
+    }
+  }, "\u0406\u0433\u043D\u043E\u0440\u0443\u044E\u0442\u044C \u043D\u043E\u0440\u043C\u0438 \u043A\u0430\u043D\u0442\u043E\u043D\u0443"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px'
+    }
+  }, "\u0412\u0456\u0434\u0441\u0443\u0442\u043D\u044F \u043F\u0435\u0440\u0435\u0432\u0456\u0440\u043A\u0430"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#34D399',
+      fontWeight: 700,
+      background: 'rgba(16,185,129,0.05)'
+    }
+  }, isUk ? 'Офіційні ліміти 26 кантонів' : '26 cantons intégrés (EVAM/SKOS)')), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: '1px solid rgba(148, 163, 184, 0.1)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      fontWeight: 700
+    }
+  }, isUk ? 'Пакет для режі' : 'Dossier de régie'), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#F87171'
+    }
+  }, "\u041F\u043B\u0430\u0442\u043D\u0435 \u0441\u043A\u043B\u0430\u0434\u0430\u043D\u043D\u044F"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px'
+    }
+  }, "\u0421\u0430\u043C\u043E\u0441\u0442\u0456\u0439\u043D\u043E \u0431\u0435\u0437 \u0437\u0440\u0430\u0437\u043A\u0430"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#34D399',
+      fontWeight: 700,
+      background: 'rgba(16,185,129,0.05)'
+    }
+  }, isUk ? '1-Click USPI (PDF/A)' : '1-Click USPI conforme Art. 253 CO')), /*#__PURE__*/React.createElement("tr", {
+    style: {
+      borderBottom: '1px solid rgba(148, 163, 184, 0.1)'
+    }
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      fontWeight: 700
+    }
+  }, isUk ? 'Супровід волонтерів' : 'Mentorat citoyen'), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#F87171'
+    }
+  }, "\u0412\u0456\u0434\u0441\u0443\u0442\u043D\u0456\u0439"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px'
+    }
+  }, "\u0412\u0456\u0434\u0441\u0443\u0442\u043D\u0456\u0439"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: '10px 12px',
+      color: '#34D399',
+      fontWeight: 700,
+      background: 'rgba(16,185,129,0.05)'
+    }
+  }, isUk ? 'Мережа Benevol (ст. 394 CO)' : 'Réseau Benevol Suisse officiel'))))));
+}
+
+// --------------------------------------------------------------------------
+// 4. TAB: ПОЛІТИКА КОНФІДЕНЦІЙНОСТІ (PRIVACY nDSG / GDPR — 12 SECTIONS)
+// --------------------------------------------------------------------------
+function PrivacyTab({
+  lang
+}) {
+  const isUk = lang === 'uk';
+  const sectionsUk = [{
+    title: "1. Відповідальна особа",
+    content: `Відповідальним за обробку даних на цьому веб-сайті є:
+
+Арсен Коваленко (Arsen Kovalenko)
+ACCORD Suisse / Sonate Solidaire
+Avenue du Mont-Blanc 29
+1196 Gland, Vaud, Швейцарія
+
+E-mail: arsen.k111999@gmail.com
+Телефон: +41 78 326 11 12`
+  }, {
+    title: "2. Зібрані дані",
+    content: `Ми збираємо такі дані:
+
+• Локальні налаштування інтерфейсу: обрана мова, статус захисту, обраний кантон та параметри калькулятора (зберігаються локально у вашому браузері через localStorage).
+• Telegram Bot / Mini App: ідентифікатор користувача Telegram (ID) виключно для доставки запитаних сповіщень про житло та роботу.
+• Технічні дані: журнали сервера Cloudflare (анонімізована IP-адреса, дата й час, запитувана сторінка) для захисту від DDoS та кібератак.`
+  }, {
+    title: "3. Мета обробки",
+    content: `Ми обробляємо ваші дані виключно з такими цілями:
+
+• Надання безоплатного доступу до бази перевіреного житла та вакансій.
+• Створення офіційного досьє для режі (Dossier de candidature Art. 253 CO) на стороні клієнта.
+• Забезпечення технічної безпеки, захисту від зловживань та високої швидкості завантаження.`
+  }, {
+    title: "4. Правова основа (nDSG / GDPR)",
+    content: `Обробка персональних даних здійснюється на основі:
+
+• Ст. 6 п. 1 літ. a GDPR / Ст. 31 нового швейцарського Закону nDSG: Згода користувача.
+• Ст. 6 п. 1 літ. b GDPR / Ст. 31 nDSG: Виконання запиту користувача (генерація документів, сповіщення).
+• Ст. 6 п. 1 літ. f GDPR / Ст. 31 nDSG: Законні інтереси (безпека серверної інфраструктури, запобігання шахрайству).`
+  }, {
+    title: "5. Відсутність продажу даних та безкоштовність",
+    content: `ACCORD Suisse діє згідно з Федеральним законом про службу зайнятості (LSE/AVG), ст. 2 якого категорично забороняє стягувати плату з шукачів роботи. Ми ніколи не продаємо, не здаємо в оренду і не передаємо персональні дані комерційним рекламодавцям чи посередникам.`
+  }, {
+    title: "6. Зберігання та файли Cookies / LocalStorage",
+    content: `Наш сайт використовує технічно необхідне локальне сховище (localStorage):
+
+• sr26-lang / sr-v2-lang: збереження обраної мови інтерфейсу.
+• sr26-canton: збереження обраного кантону для розрахунку EVAM / SKOS.
+• sr26-status / sr26-income: розрахунок 33% стелі оренди.
+Ви можете в будь-який момент очистити ці дані в налаштуваннях вашого браузера або натиснувши "Очистити" у футері сайту.`
+  }, {
+    title: "7. Термін зберігання",
+    content: `• Локальні налаштування браузера: до моменту очищення кешу користувачем.
+• Telegram-сповіщення: до зупинки бота або введення команди /stop.
+• Журнали безпеки Cloudflare: 30 днів.`
+  }, {
+    title: "8. Ваші права згідно з nDSG та GDPR",
+    content: `Згідно зі швейцарським законодавством (nDSG) та європейським регламентом GDPR, ви маєте право:
+
+• Право на доступ до ваших даних.
+• Право на виправлення або повне видалення.
+• Право на обмеження або припинення обробки.
+• Право на відкликання згоди в будь-який момент.
+
+Для реалізації будь-якого з цих прав звертайтесь безпосередньо до Арсена Коваленка: arsen.k111999@gmail.com.`
+  }, {
+    title: "9. Міжнародна передача та безпека інфраструктури",
+    content: `Сайт розміщено в мережі Cloudflare (Cloudflare Inc., США / ЄС) відповідно до рамкової угоди Swiss-US Data Privacy Framework та гарантій ст. 16 nDSG / ст. 46 GDPR. Увесь трафік шифрується за протоколом HTTPS (TLS 1.3).`
+  }, {
+    title: "10. Наглядовий орган Швейцарії",
+    content: `Компетентний наглядовий орган у сфері захисту даних у Швейцарії:
+
+Федеральний уповноважений із захисту даних та інформації (EDÖB / PFPDT)
+Feldeggweg 1, 3003 Bern, Швейцарія
+Веб-сайт: www.edoeb.admin.ch`
+  }, {
+    title: "11. Контакти та супровід",
+    content: `З усіх питань конфіденційності та захисту даних:
+Арсен Коваленко · Avenue du Mont-Blanc 29, 1196 Gland, Vaud, Швейцарія
+E-mail: arsen.k111999@gmail.com · Телефон: +41 78 326 11 12`
+  }];
+  const sectionsFr = [{
+    title: "1. Responsable du traitement",
+    content: `Le responsable du traitement des données sur ce site est :
+
+Arsen Kovalenko
+ACCORD Suisse / Sonate Solidaire
+Avenue du Mont-Blanc 29
+1196 Gland, Vaud, Suisse
+
+E-mail : arsen.k111999@gmail.com
+Téléphone : +41 78 326 11 12`
+  }, {
+    title: "2. Données collectées",
+    content: `Nous collectons et traitons les données suivantes :
+
+• Préférences locales d'interface : langue choisie, canton de référence, statut de protection et critères de calcul (stockées localement via localStorage).
+• Bot Telegram / Mini App : identifiant Telegram pour la transmission exclusive des alertes de logement ou d'emploi sollicitées.
+• Données techniques : journaux de requêtes serveur Cloudflare (adresse IP anonymisée, horodatage, page consultée) pour la protection contre les attaques DDoS.`
+  }, {
+    title: "3. Finalités du traitement",
+    content: `Le traitement des données poursuit les buts exclusifs suivants :
+
+• Fourniture gratuite de l'accès aux offres vérifiées de logement et d'emploi.
+• Génération locale du dossier de candidature pour la régie (Art. 253 CO).
+• Sécurisation technique et stabilité de la plateforme.`
+  }, {
+    title: "4. Base juridique (nLPD / RGPD)",
+    content: `Le traitement repose sur :
+
+• Art. 6 par. 1 let. a RGPD / Art. 31 nLPD : Consentement de l'utilisateur.
+• Art. 6 par. 1 let. b RGPD / Art. 31 nLPD : Exécution de la demande de service.
+• Art. 6 par. 1 let. f RGPD / Art. 31 nLPD : Intérêts légitimes (sécurité du réseau et de l'information).`
+  }, {
+    title: "5. Gratuité absolue et interdiction de cession",
+    content: `Conformément à la Loi fédérale sur le service de l'emploi (LSE/AVG), la plateforme est 100% bénévole et gratuite. Aucune donnée n'est vendue ni communiquée à des tiers commerciaux ou intermédiaires payants.`
+  }, {
+    title: "6. Stockage local et cookies",
+    content: `Notre site utilise le stockage local (localStorage) strictement technique :
+• sr26-lang / sr-v2-lang : langue de navigation.
+• sr26-canton : canton pour les barèmes EVAM / SKOS.
+• sr26-status / sr26-income : calcul du plafond d'effort financier de 33%.
+Vous pouvez réinitialiser ces données à tout moment dans les paramètres de votre navigateur.`
+  }, {
+    title: "7. Durée de conservation",
+    content: `• Préférences du navigateur : conservées jusqu'à effacement par l'utilisateur.
+• Alertes Telegram : conservées jusqu'à la commande /stop dans le bot.
+• Journaux serveur de sécurité Cloudflare : 30 jours maximum.`
+  }, {
+    title: "8. Vos droits (nLPD & RGPD)",
+    content: `Vous disposez d'un droit complet d'accès, de rectification, de suppression et de limitation de vos données. Pour exercer vos droits : arsen.k111999@gmail.com.`
+  }, {
+    title: "9. Sécurité et hébergement Cloudflare",
+    content: `La plateforme est hébergée sur l'infrastructure Cloudflare sous les garanties du Swiss-US Data Privacy Framework (Art. 16 nLPD). Les échanges sont intégralement chiffrés en HTTPS (TLS 1.3).`
+  }, {
+    title: "10. Autorité de surveillance suisse",
+    content: `Préposé fédéral à la protection des données et à la transparence (PFPDT / EDÖB) :
+Feldeggweg 1, 3003 Berne, Suisse
+Site officiel : www.edoeb.admin.ch`
+  }, {
+    title: "11. Contact",
+    content: `Pour toute question relative à la protection des données :
+Arsen Kovalenko · Avenue du Mont-Blanc 29, 1196 Gland, Vaud, Suisse
+E-mail : arsen.k111999@gmail.com · Téléphone : +41 78 326 11 12`
+  }];
+  const sections = isUk ? sectionsUk : sectionsFr;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      color: '#fff',
+      marginTop: 0,
+      marginBottom: 4
+    }
+  }, isUk ? 'Політика конфіденційності (nDSG / GDPR)' : 'Politique de confidentialité (nLPD / RGPD)'), /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: 'var(--muted)',
+      fontSize: 12.5,
+      marginBottom: 18
+    }
+  }, isUk ? 'Останнє оновлення: 14 вересня 2026 року · Відповідність швейцарському закону nDSG та GDPR · sonate-solidaire.me' : 'Dernière mise à jour : 14 septembre 2026 · Conforme à la loi fédérale suisse nLPD et au RGPD · sonate-solidaire.me'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 14
+    }
+  }, sections.map((s, idx) => /*#__PURE__*/React.createElement("div", {
+    key: idx,
+    style: {
+      background: 'rgba(255,255,255,0.03)',
+      border: '1px solid rgba(148, 163, 184, 0.12)',
+      borderRadius: 10,
+      padding: 14
+    }
+  }, /*#__PURE__*/React.createElement("h3", {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      color: '#38BDF8',
+      margin: '0 0 6px'
+    }
+  }, s.title), /*#__PURE__*/React.createElement("div", {
+    style: {
+      whiteSpace: 'pre-line',
+      fontSize: 13,
+      color: '#CBD5E1'
+    }
+  }, s.content)))));
+}
+Object.assign(window, {
+  InfoModal
 });
 
 // ==================== [Module: Hero.jsx] ====================
@@ -1176,6 +2199,7 @@ Object.assign(window, {
 function HeroV2({
   side,
   setSide,
+  onOpenInfo,
   t
 }) {
   return /*#__PURE__*/React.createElement("section", {
@@ -1233,7 +2257,16 @@ function HeroV2({
     "aria-hidden": "true"
   }, /*#__PURE__*/React.createElement("path", {
     d: "M3 12 12 3l9 9M5 10v10h14V10"
-  })), /*#__PURE__*/React.createElement("span", null, t?.hero?.ctaApp || "Відкрити Mini App"))), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("span", null, t?.hero?.ctaApp || "Відкрити Mini App")), /*#__PURE__*/React.createElement("button", {
+    onClick: () => onOpenInfo ? onOpenInfo('guide') : window.location.hash = 'guide',
+    className: "v2-btn v2-btn-secondary btn ghost lg",
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCD6 ", t?.nav?.guide || "Як користуватись"))), /*#__PURE__*/React.createElement("div", {
     className: "v2-hero-tabs",
     role: "tablist",
     "aria-label": "Public cible"
@@ -1309,6 +2342,7 @@ function HeroV2({
   }, m.d))))));
 }
 function FourPillars({
+  onOpenInfo,
   t
 }) {
   const p = t?.pillars || {
@@ -1478,7 +2512,43 @@ function FourPillars({
       fontSize: 11.5,
       color: 'var(--muted)'
     }
-  }, it.kpi.l)))))));
+  }, it.kpi.l))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      gap: 12,
+      marginTop: 28
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => onOpenInfo ? onOpenInfo('why') : window.location.hash = 'why',
+    className: "btn ghost",
+    style: {
+      padding: '8px 16px',
+      fontSize: 13,
+      cursor: 'pointer',
+      borderColor: 'rgba(16,185,129,0.3)',
+      color: '#34D399'
+    }
+  }, "\u2B50 ", t?.nav?.why ? `Порівняння: ${t.nav.why}` : "Чому ми кращий варіант"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => onOpenInfo ? onOpenInfo('guide') : window.location.hash = 'guide',
+    className: "btn ghost",
+    style: {
+      padding: '8px 16px',
+      fontSize: 13,
+      cursor: 'pointer',
+      borderColor: 'rgba(56,189,248,0.3)',
+      color: '#38BDF8'
+    }
+  }, "\uD83D\uDCD6 ", t?.nav?.guide || "Як користуватись"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => onOpenInfo ? onOpenInfo('about') : window.location.hash = 'about',
+    className: "btn ghost",
+    style: {
+      padding: '8px 16px',
+      fontSize: 13,
+      cursor: 'pointer'
+    }
+  }, "\uD83C\uDFDB\uFE0F ", t?.nav?.about || "Про проєкт АКОРД"))));
 }
 Object.assign(window, {
   HeroV2,
@@ -3959,10 +5029,13 @@ Object.assign(window, {
 });
 
 // ==================== [Module: Footer.jsx] ====================
-// SwissRelief 2.6 — Legal footer with compliance chip strip
+// SwissRelief 2.6 — Legal footer with compliance chip strip & direct info links
 function FooterV2({
-  t
+  t,
+  onOpenInfo,
+  lang = 'uk'
 }) {
+  const isUk = lang === 'uk';
   return /*#__PURE__*/React.createElement("footer", {
     className: "v2-footer"
   }, /*#__PURE__*/React.createElement("div", {
@@ -3982,29 +5055,65 @@ function FooterV2({
     size: 24
   })), /*#__PURE__*/React.createElement("span", {
     className: "v2-brand-name"
-  }, "ACCORD", /*#__PURE__*/React.createElement("span", null, "L'Accord Suisse \xB7 Permis S"))), /*#__PURE__*/React.createElement("p", null, t.footer?.about || "Plateforme souveraine d'insertion et d'intégration territoriale pour la Suisse."), /*#__PURE__*/React.createElement("p", {
+  }, "ACCORD", /*#__PURE__*/React.createElement("span", null, isUk ? 'АКОРД Швейцарія · Permis S' : 'L\'Accord Suisse · Permis S'))), /*#__PURE__*/React.createElement("p", null, t?.footer?.about || (isUk ? "Суверенна цифрова платформа прямої дії для гідного житла, легальної праці та взаєморозуміння у Швейцарії." : "Plateforme souveraine d'insertion et d'intégration territoriale pour la Suisse.")), /*#__PURE__*/React.createElement("p", {
     className: "v2-foot-url"
   }, "violin-integration.works \xB7 @SwissResilienceHubBot")), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
-  }, /*#__PURE__*/React.createElement("h4", null, "Modules"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Модулі сервісу' : 'Modules'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#housing"
-  }, "Logement v\xE9rifi\xE9 (EVAM / SBB)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Житло (EVAM / SBB)' : 'Logement vérifié (EVAM / SBB)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#prof"
-  }, "Offres d'emploi & CV (LEI)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Робота та резюме (LEI)' : 'Offres d\'emploi & CV (LEI)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#calc"
-  }, "Bar\xE8mes cantonaux (26)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Кантональні норми (26)' : 'Barèmes cantonaux (26)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#dossier"
-  }, "Dossier r\xE9gie 1-Click (USPI)")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Досьє для режі 1-Click' : 'Dossier régie 1-Click (USPI)')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#sublease"
-  }, "Sous-location 262 CO")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Суборенда (ст. 262 CO)' : 'Sous-location 262 CO')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#mentors"
-  }, "Mentors Benevol Suisse")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+  }, isUk ? 'Ментори Benevol Suisse' : 'Mentors Benevol Suisse')), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
     href: "#beta"
-  }, "Transparence B\xEAta")))), /*#__PURE__*/React.createElement("div", {
+  }, isUk ? 'Вільна бета-версія' : 'Transparence Bêta')))), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
-  }, /*#__PURE__*/React.createElement("h4", null, "R\xE9f\xE9rences l\xE9gales"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 262 CO \xB7 Sous-location")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 21a LEI \xB7 Priorit\xE9 ORP")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 394 CO \xB7 Mandat gratuit")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 60\u201379 CC \xB7 Association")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 239 CO \xB7 Donation")))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Про проєкт та інструкції' : 'L\'Accord Suisse'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "#about",
+    onClick: e => {
+      e.preventDefault();
+      if (onOpenInfo) onOpenInfo('about');else window.location.hash = 'about';
+    }
+  }, "\uD83C\uDFDB\uFE0F ", t?.nav?.about || (isUk ? 'Про проєкт' : 'À propos'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "#guide",
+    onClick: e => {
+      e.preventDefault();
+      if (onOpenInfo) onOpenInfo('guide');else window.location.hash = 'guide';
+    }
+  }, "\uD83D\uDCD6 ", t?.nav?.guide || (isUk ? 'Як користуватись' : 'Mode d\'emploi'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "#why",
+    onClick: e => {
+      e.preventDefault();
+      if (onOpenInfo) onOpenInfo('why');else window.location.hash = 'why';
+    }
+  }, "\u2B50 ", t?.nav?.why || (isUk ? 'Чому ми кращі' : 'Pourquoi ACCORD ?'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "/privacy",
+    onClick: e => {
+      if (onOpenInfo && window.innerWidth > 600) {
+        e.preventDefault();
+        onOpenInfo('privacy');
+      }
+    }
+  }, "\uD83D\uDEE1\uFE0F ", t?.nav?.privacy || (isUk ? 'Політика конфіденційності (nDSG)' : 'Confidentialité (nLPD)'))), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "https://sonate-solidaire.me",
+    target: "_blank",
+    rel: "noopener noreferrer"
+  }, "\uD83C\uDFBB Sonate Solidaire (Arsen Kovalenko) \u2197")))), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-col"
-  }, /*#__PURE__*/React.createElement("h4", null, "Conformit\xE9"), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "LPD / GDPR-CH")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "SKOS Standards")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "USPI \xB7 ASLOCA")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Benevol Suisse")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "WCAG 2.1 AA"))))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h4", null, isUk ? 'Закон та нагляд' : 'Conformité & Droit'), /*#__PURE__*/React.createElement("ul", null, /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "/privacy"
+  }, "nDSG / RGPD \xB7 Protection donn\xE9es")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", {
+    href: "https://www.edoeb.admin.ch",
+    target: "_blank",
+    rel: "noopener"
+  }, "ED\xD6B / PFPDT (Bern) \u2197")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 262 CO \xB7 Sous-location")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 21a LEI \xB7 Priorit\xE9 ORP")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 394 CO \xB7 Mandat gratuit")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Art. 60\u201379 CC \xB7 Association")), /*#__PURE__*/React.createElement("li", null, /*#__PURE__*/React.createElement("a", null, "Loi LSE/AVG \xB7 100% Gratuit"))))), /*#__PURE__*/React.createElement("div", {
     className: "v2-compliance-row"
   }, /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip"
@@ -4018,13 +5127,13 @@ function FooterV2({
     className: "v2-comp-chip"
   }, "SECO \xB7 Art. 21a LEI"), /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip cyan"
-  }, "Merkle SHA-256"), /*#__PURE__*/React.createElement("span", {
+  }, "nDSG / RGPD"), /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip"
   }, "WCAG 2.1 AA"), /*#__PURE__*/React.createElement("span", {
     className: "v2-comp-chip"
   }, "TMA v7.10")), /*#__PURE__*/React.createElement("div", {
     className: "v2-foot-legal"
-  }, "\xA9 2026 SwissRelief \u2014 Association en cr\xE9ation \xB7 Gen\xE8ve / Vaud \xB7 Art. 60\u201379 CC Suisse.", /*#__PURE__*/React.createElement("br", null), "Plateforme souveraine d'intelligence territoriale. Donn\xE9es officielles (SKOS, cantons, SECO, r\xE9gies officielles mandat\xE9es, Tribunal f\xE9d\xE9ral) \xB7 Conformit\xE9 LCD/UWG Art. 5 & ADR-018 Source-Agnostique.")));
+  }, "\xA9 2026 ACCORD Suisse / Swiss Resilience \u2014 Association en cours de constitution \xB7 Gen\xE8ve / Vaud \xB7 Art. 60\u201379 CC Suisse.", /*#__PURE__*/React.createElement("br", null), "Initiative citoyenne souveraine d'action directe initi\xE9e par Arsen Kovalenko (Avenue du Mont-Blanc 29, 1196 Gland). Donn\xE9es officielles (SKOS, EVAM, cantons, SECO, r\xE9gies officielles mandat\xE9es, Tribunal f\xE9d\xE9ral). Strictement gratuit et sans commission.")));
 }
 Object.assign(window, {
   FooterV2
@@ -4111,6 +5220,31 @@ function App() {
   const [income, setIncome] = React.useState(() => Number(safeStorageGet('sr26-income', 4800)) || 4800);
   const [drawerOpen, setDrawer] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
+  const [infoModal, setInfoModal] = React.useState({
+    open: false,
+    tab: 'about'
+  });
+  const openInfo = (tab = 'about') => {
+    setInfoModal({
+      open: true,
+      tab
+    });
+    try {
+      window.location.hash = tab;
+    } catch (e) {}
+  };
+  const closeInfo = () => {
+    setInfoModal(prev => ({
+      ...prev,
+      open: false
+    }));
+    const h = window.location.hash.replace('#', '');
+    if (['about', 'guide', 'why', 'privacy'].includes(h)) {
+      try {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch (e) {}
+    }
+  };
 
   // Persistence
   React.useEffect(() => {
@@ -4155,7 +5289,12 @@ function App() {
     const checkDeepLink = () => {
       try {
         const h = window.location.hash.replace('#', '');
-        if (['housing', 'calc', 'dossier', 'prof', 'sublease', 'mentors', 'beta'].includes(h)) {
+        if (['about', 'guide', 'why', 'privacy'].includes(h)) {
+          setInfoModal({
+            open: true,
+            tab: h
+          });
+        } else if (['housing', 'calc', 'dossier', 'prof', 'sublease', 'mentors', 'beta'].includes(h)) {
           setService(h);
           if (['sublease', 'mentors'].includes(h)) setSide('b');else if (['housing', 'calc', 'dossier', 'prof'].includes(h)) setSide('a');
         } else if (h === 'jobs') {
@@ -4219,6 +5358,21 @@ function App() {
     }, "Permis S \xB7 Romandie"))), /*#__PURE__*/React.createElement("div", {
       className: "tma-actions"
     }, /*#__PURE__*/React.createElement("button", {
+      onClick: () => openInfo('guide'),
+      "aria-label": "Mode d'emploi",
+      style: {
+        background: 'rgba(255,255,255,0.06)',
+        border: '1px solid rgba(148,163,184,0.2)',
+        borderRadius: 8,
+        padding: '4px 8px',
+        fontSize: 11.5,
+        color: '#38BDF8',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4
+      }
+    }, /*#__PURE__*/React.createElement("span", null, "\uD83D\uDCD6"), /*#__PURE__*/React.createElement("span", null, lang === 'uk' ? 'Гід' : 'Guide')), /*#__PURE__*/React.createElement("button", {
       className: "v2-lang-btn",
       onClick: () => {
         const order = ['uk', 'fr', 'de', 'en'];
@@ -4371,7 +5525,13 @@ function App() {
       r: "4"
     }), /*#__PURE__*/React.createElement("path", {
       d: "M23 21v-2a4 4 0 0 0-3-3.87"
-    })), /*#__PURE__*/React.createElement("span", null, t.svc?.mentors || "Ментори"))));
+    })), /*#__PURE__*/React.createElement("span", null, t.svc?.mentors || "Ментори"))), /*#__PURE__*/React.createElement(InfoModal, {
+      isOpen: infoModal.open,
+      onClose: closeInfo,
+      initialTab: infoModal.tab,
+      lang: lang,
+      t: t
+    }));
   }
 
   // Full Desktop & Mobile Web Experience
@@ -4384,6 +5544,7 @@ function App() {
     setSide: setSide,
     onOpenDrawer: () => setDrawer(true),
     onOpenDonate: openTelegramDonate,
+    onOpenInfo: openInfo,
     t: t
   }), /*#__PURE__*/React.createElement(ServiceSwitcher, {
     activeId: service,
@@ -4392,8 +5553,10 @@ function App() {
   }), /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement(HeroV2, {
     side: side,
     setSide: setSide,
+    onOpenInfo: openInfo,
     t: t
   }), side === 'a' ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(FourPillars, {
+    onOpenInfo: openInfo,
     t: t
   }), /*#__PURE__*/React.createElement(HousingSection, {
     t: t,
@@ -4415,6 +5578,7 @@ function App() {
     lang: lang,
     prefill: dossierPrefill
   })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(FourPillars, {
+    onOpenInfo: openInfo,
     t: t
   }), /*#__PURE__*/React.createElement(SubleaseWizard, {
     t: t
@@ -4424,7 +5588,9 @@ function App() {
     onOpenDonate: openTelegramDonate,
     t: t
   })), /*#__PURE__*/React.createElement(FooterV2, {
-    t: t
+    t: t,
+    onOpenInfo: openInfo,
+    lang: lang
   }), drawerOpen && /*#__PURE__*/React.createElement(MobileDrawer, {
     lang: lang,
     setLang: setLang,
@@ -4435,6 +5601,13 @@ function App() {
     onClose: () => setDrawer(false),
     onOpenDonate: openTelegramDonate,
     onDonate: openTelegramDonate,
+    onOpenInfo: openInfo,
+    t: t
+  }), /*#__PURE__*/React.createElement(InfoModal, {
+    isOpen: infoModal.open,
+    onClose: closeInfo,
+    initialTab: infoModal.tab,
+    lang: lang,
     t: t
   }));
 }
