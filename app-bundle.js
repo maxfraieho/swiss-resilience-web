@@ -4300,9 +4300,7 @@ function SubleaseWizard({
     className: "v2-container"
   }, /*#__PURE__*/React.createElement("div", {
     className: "v2-section-head"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "v2-eyebrow"
-  }, sub.eyebrow || "Module 03 · Solidarité Suisse"), /*#__PURE__*/React.createElement("h2", {
+  }, /*#__PURE__*/React.createElement("h2", {
     className: "v2-section-title"
   }, sub.title || "Héberger en toute légalité (Art. 262 CO)"), /*#__PURE__*/React.createElement("p", {
     className: "v2-section-sub"

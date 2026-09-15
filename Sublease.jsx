@@ -23,7 +23,6 @@ function SubleaseWizard({ t }) {
     <section id="sublease" className="v2-section">
       <div className="v2-container">
         <div className="v2-section-head">
-          <span className="v2-eyebrow">{sub.eyebrow || "Module 03 · Solidarité Suisse"}</span>
           <h2 className="v2-section-title">{sub.title || "Héberger en toute légalité (Art. 262 CO)"}</h2>
           <p className="v2-section-sub">{sub.lede || "Calcul d'une juste participation aux frais et plafonnement légal."}</p>
         </div>

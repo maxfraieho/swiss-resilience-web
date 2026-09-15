@@ -81,7 +81,6 @@ window.SR_I18N = {
       "stellenBody": "Taux de chômage national ≥ 5%. Le poste doit être réservé aux inscrits ORP pendant 5 jours ouvrables avant toute diffusion publique."
     },
     "sublease": {
-      "eyebrow": "Module 03 · Solidarité Suisse — Logement chez l'habitant",
       "title": "Sous-location solidaire (Art. 262 CO)",
       "lede": "Accueillez un Permis S en toute sécurité juridique. Calcul de la juste participation, plafond mobilier 20%, notification formelle à la gérance.",
       "shield": "Bouclier juridique du locataire — Art. 262 CO",
@@ -247,7 +246,6 @@ window.SR_I18N = {
       "stellenBody": "Arbeitslosenquote ≥ 5%. Diese Stelle ist während 5 Arbeitstagen exklusiv für RAV-Gemeldete reserviert."
     },
     "sublease": {
-      "eyebrow": "Modul 03 · Schweizer Solidarität — Wohnraum teilen",
       "title": "Solidarische Untermiete (Art. 262 OR)",
       "lede": "Geflüchtete mit Status S rechtssicher aufnehmen. Berechnung des fairen Kostenanteils, 20% Möblierungszuschlag, Meldung an die Verwaltung.",
       "shield": "Rechtsschutz des Mieters — Art. 262 OR",
@@ -413,7 +411,6 @@ window.SR_I18N = {
       "stellenBody": "Tasso di disoccupazione ≥ 5%. Il posto è riservato agli iscritti URC per 5 giorni lavorativi prima della diffusione pubblica."
     },
     "sublease": {
-      "eyebrow": "Modulo 03 · Solidarietà Svizzera — Condivisione alloggio",
       "title": "Sublocazione solidale (Art. 262 CO)",
       "lede": "Accogliete un titolare di Permesso S in sicurezza giuridica. Calcolo della giusta partecipazione, tetto mobilio 20%, notifica formale.",
       "shield": "Scudo legale dell'inquilino — Art. 262 CO",
@@ -579,7 +576,6 @@ window.SR_I18N = {
       "stellenBody": "Рівень безробіття ≥ 5%. Вакансія має бути доступна виключно зареєстрованим в ORP/RAV протягом 5 робочих днів до публікації."
     },
     "sublease": {
-      "eyebrow": "Модуль 03 · Солідарність Швейцарії — Проживання в родинах",
       "title": "Законна суборенда (ст. 262 CO)",
       "lede": "Приймайте людину зі статусом S у повній юридичній безпеці. Розрахунок справедливої частки, ліміт меблів 20%, офіційне повідомлення герансу.",
       "shield": "Юридичний щит орендаря — ст. 262 CO",

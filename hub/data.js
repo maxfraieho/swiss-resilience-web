@@ -255,7 +255,6 @@ window.I18N = {
       noResults: "Aucune profession ne correspond à ces critères. Veuillez élargir le filtre de qualification."
     },
     sublease: {
-      eyebrow: "Module 03 · Solidarité Suisse — Logement chez l'habitant",
       title: "Héberger en toute légalité : guide de sous-location (Art. 262 CO)",
       lede: "Accueillez un bénéficiaire du Permis S en toute sécurité juridique. Droit impératif du locataire, calcul d'une juste participation aux frais, plafonnement légal des meubles à 20% et avis formel à la gérance.",
       shield: "Bouclier juridique du locataire — Art. 262 CO",
@@ -411,7 +410,6 @@ window.I18N = {
       noResults: "Keine Berufe für diese Kriterien gefunden. Bitte erweitern Sie den Qualifikationsfilter."
     },
     sublease: {
-      eyebrow: "Modul 03 · Schweizer Solidarität — Privates Wohnen",
       title: "Rechtssicher untervermieten: Leitfaden für Gastgeber (Art. 262 OR)",
       lede: "Geben Sie Menschen mit Status S ein sicheres Zuhause. Gesetzliches Untermietrecht des Mieters, faire Kostenaufteilung, transparente Möblierungspauschale bis 20% und offizielle Vermieter-Mitteilung.",
       shield: "Gesetzlicher Schutz für Mieter — Art. 262 OR",
@@ -567,7 +565,6 @@ window.I18N = {
       noResults: "Nessuna professione corrisponde ai criteri selezionati. Provate ad ampliare i filtri."
     },
     sublease: {
-      eyebrow: "Modulo 03 · Solidarietà Svizzera — Ospitalità Privata",
       title: "Subaffittare in sicurezza: guida pratica per residenti (Art. 262 CO)",
       lede: "Accogliete persone con Permesso S con piena tranquillità legale. Diritto inderogabile alla sublocazione, equa ripartizione dei costi, limite arredo al 20% e notifica formale alla gérance.",
       shield: "Scudo legale del conduttore — Art. 262 CO",
@@ -723,7 +720,6 @@ window.I18N = {
       noResults: "За вказаними параметрами посад не знайдено. Будь ласка, розширте фільтр кваліфікації."
     },
     sublease: {
-      eyebrow: "Модуль 03 · Солідарність Швейцарців — Проживання в Родинах",
       title: "Легальна гостинність: безпечна суборенда кімнати (ст. 262 CO)",
       lede: "Швейцарські наймачі мають законне право здавати кімнати українцям. Справедливий розрахунок частки житла, обмеження націнки за меблі до 20% та юридично грамотне повідомлення орендодавцю.",
       shield: "Захист головного наймача — ст. 262 Швейцарського кодексу зобов'язань",
