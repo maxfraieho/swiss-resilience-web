@@ -914,7 +914,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "matran-1970-86360599",
     "pk": 86360599,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1753",
     "city_name": "Matran",
     "rooms": 1.0,
@@ -1109,7 +1109,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "albeuve-1790-86360588",
     "pk": 86360588,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1669",
     "city_name": "Albeuve",
     "rooms": 1.0,
@@ -1148,7 +1148,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "genève-920-86360587",
     "pk": 86360587,
-    "canton": "VD",
+    "canton": "GE",
     "postal_code": "1200",
     "city_name": "Genf",
     "rooms": 1.0,
@@ -1187,7 +1187,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "martigny-1790-86360586",
     "pk": 86360586,
-    "canton": "VD",
+    "canton": "VS",
     "postal_code": "1920",
     "city_name": "Martigny",
     "rooms": 1.0,
@@ -1304,7 +1304,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "arconciel-1610-86360580",
     "pk": 86360580,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1732",
     "city_name": "Arconciel",
     "rooms": 1.5,
@@ -1343,7 +1343,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "vernayaz-1360-86360579",
     "pk": 86360579,
-    "canton": "VD",
+    "canton": "VS",
     "postal_code": "1904",
     "city_name": "Vernayaz",
     "rooms": 1.5,
@@ -1499,7 +1499,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "geneva-1610-86360307",
     "pk": 86360307,
-    "canton": "VD",
+    "canton": "GE",
     "postal_code": "1209",
     "city_name": "Geneva",
     "rooms": 1.0,
@@ -1616,7 +1616,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "charrat-1560-86360292",
     "pk": 86360292,
-    "canton": "VD",
+    "canton": "VS",
     "postal_code": "1906",
     "city_name": "Charrat",
     "rooms": 1.0,
@@ -1655,7 +1655,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "fribourg-2000-86360175",
     "pk": 86360175,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1700",
     "city_name": "Freiburg",
     "rooms": 1.5,
@@ -1694,7 +1694,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "monthey-1920-86360172",
     "pk": 86360172,
-    "canton": "VD",
+    "canton": "VS",
     "postal_code": "1870",
     "city_name": "Monthey",
     "rooms": 1.0,
@@ -1811,7 +1811,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "miex-1670-86360019",
     "pk": 86360019,
-    "canton": "VD",
+    "canton": "VS",
     "postal_code": "1896",
     "city_name": "Miex",
     "rooms": 1.5,
@@ -1850,7 +1850,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "givisiez-1230-86360006",
     "pk": 86360006,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1762",
     "city_name": "Givisiez",
     "rooms": 2.0,
@@ -1928,7 +1928,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "rechthalten-2250-86359609",
     "pk": 86359609,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1718",
     "city_name": "Rechthalten",
     "rooms": 1.0,
@@ -2123,7 +2123,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "fribourg-1870-86359196",
     "pk": 86359196,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1700",
     "city_name": "Freiburg",
     "rooms": 1.5,
@@ -2162,7 +2162,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "versoix-1080-86359114",
     "pk": 86359114,
-    "canton": "VD",
+    "canton": "GE",
     "postal_code": "1290",
     "city_name": "Versoix",
     "rooms": 2.0,
@@ -2201,7 +2201,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "grolley-2040-86359110",
     "pk": 86359110,
-    "canton": "VD",
+    "canton": "FR",
     "postal_code": "1772",
     "city_name": "Grolley",
     "rooms": 3.5,
@@ -2279,7 +2279,7 @@ window.HOUSING_LISTINGS = [
   {
     "id": "versoix-1450-86359103",
     "pk": 86359103,
-    "canton": "VD",
+    "canton": "GE",
     "postal_code": "1290",
     "city_name": "Versoix",
     "rooms": 1.0,

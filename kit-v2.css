@@ -734,3 +734,22 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255, 255, 255, 0.16);
 }
 
+/* ================= PILLARS / PRINCIPES DE CONFIANCE ================= */
+.pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+@media (max-width: 1080px) {
+  .pillar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .pillar-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+

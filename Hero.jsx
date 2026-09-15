@@ -90,7 +90,7 @@ function HeroV2({ side, setSide, onOpenInfo, t }) {
 function FourPillars({ onOpenInfo, t }) {
   const p = t?.pillars || {
     eyebrow: "POURQUOI L'ACCORD ?",
-    title: "Quatre piliers de confiance, sans jargon.",
+    title: "Principes de confiance",
     sub: "Un outil d'action directe conçu pour la réalité suisse.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Vitesse décisive", body: "Alertes Telegram en moins de 60 secondes.", kpi: { n: "< 60 s", l: "temps de signal" } },
@@ -108,7 +108,7 @@ function FourPillars({ onOpenInfo, t }) {
           <h2 className="section-title" style={{ fontSize: 26, fontWeight: 800, margin: '6px 0 10px', letterSpacing: '-0.02em', color: '#fff' }}>{p.title}</h2>
           <p className="section-sub" style={{ fontSize: 14, color: 'var(--muted)', margin: 0 }}>{p.sub}</p>
         </div>
-        <div className="pillar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+        <div className="pillar-grid">
           {(p.items || []).map((it) => (
             <article key={it.idx} className={`pillar-card ${it.cls}`} style={{
               background: 'rgba(15,23,42,.65)', border: '1px solid var(--line-2)', borderRadius: 16, padding: 20,

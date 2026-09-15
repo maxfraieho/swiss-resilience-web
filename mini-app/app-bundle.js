@@ -2319,7 +2319,7 @@ function FourPillars({
 }) {
   const p = t?.pillars || {
     eyebrow: "POURQUOI L'ACCORD ?",
-    title: "Quatre piliers de confiance, sans jargon.",
+    title: "Principes de confiance",
     sub: "Un outil d'action directe conçu pour la réalité suisse.",
     items: [{
       idx: "01",
@@ -2405,12 +2405,7 @@ function FourPillars({
       margin: 0
     }
   }, p.sub)), /*#__PURE__*/React.createElement("div", {
-    className: "pillar-grid",
-    style: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-      gap: 16
-    }
+    className: "pillar-grid"
   }, (p.items || []).map(it => /*#__PURE__*/React.createElement("article", {
     key: it.idx,
     className: `pillar-card ${it.cls}`,
@@ -2934,13 +2929,63 @@ function HousingSection({
   React.useEffect(() => {
     if (propCanton) setSelectedCanton(propCanton);
   }, [propCanton]);
+  React.useEffect(() => {
+    setLimit(9);
+  }, [selectedCanton]);
   const allItems = React.useMemo(() => {
     return window.SR_HOUSING || window.HOUSING_LISTINGS || [];
   }, []);
+  const availableCantons = React.useMemo(() => {
+    const counts = {
+      ALL: allItems.length
+    };
+    allItems.forEach(h => {
+      if (h.canton) {
+        counts[h.canton] = (counts[h.canton] || 0) + 1;
+      }
+    });
+    // Cantons in order: ALL, VD, FR, VS, GE or any others present
+    const standardOrder = ['ALL', 'VD', 'FR', 'VS', 'GE'];
+    const extraCantons = Object.keys(counts).filter(c => !standardOrder.includes(c));
+    const cantons = [...standardOrder, ...extraCantons].filter(c => c === 'ALL' || counts[c] && counts[c] > 0);
+    return {
+      cantons,
+      counts
+    };
+  }, [allItems]);
+  const CANTON_LABELS = {
+    VD: {
+      fr: 'VD · Vaud',
+      uk: 'VD · Во (Vaud)',
+      de: 'VD · Waadt',
+      it: 'VD · Vaud',
+      en: 'VD · Vaud'
+    },
+    FR: {
+      fr: 'FR · Fribourg',
+      uk: 'FR · Фрібур (Fribourg)',
+      de: 'FR · Freiburg',
+      it: 'FR · Friburgo',
+      en: 'FR · Fribourg'
+    },
+    VS: {
+      fr: 'VS · Valais',
+      uk: 'VS · Вале (Valais)',
+      de: 'VS · Wallis',
+      it: 'VS · Vallese',
+      en: 'VS · Valais'
+    },
+    GE: {
+      fr: 'GE · Genève',
+      uk: 'GE · Женева (Genève)',
+      de: 'GE · Genf',
+      it: 'GE · Ginevra',
+      en: 'GE · Geneva'
+    }
+  };
   const items = React.useMemo(() => {
     if (!selectedCanton || selectedCanton === 'ALL') return allItems;
-    const filtered = allItems.filter(h => h.canton === selectedCanton);
-    return filtered.length > 0 ? filtered : allItems;
+    return allItems.filter(h => h.canton === selectedCanton);
   }, [selectedCanton, allItems]);
   const visibleItems = items.slice(0, limit);
   return /*#__PURE__*/React.createElement("section", {
@@ -2993,20 +3038,52 @@ function HousingSection({
   }, "\u26A1 ", items.length, " ", lang === 'uk' ? 'пропозицій з реальними фото' : lang === 'de' ? 'Angebote mit echten Fotos' : lang === 'it' ? 'offerte con foto reali' : 'offres avec photos réelles')), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
-      gap: 6,
+      gap: 8,
       flexWrap: 'wrap',
       marginBottom: 24
-    }
-  }, ['ALL', 'VD', 'GE', 'BE', 'FR', 'NE', 'VS', 'ZH', 'BS'].map(c => /*#__PURE__*/React.createElement("button", {
+    },
+    role: "tablist",
+    "aria-label": "Filtre par canton"
+  }, availableCantons.cantons.map(c => /*#__PURE__*/React.createElement("button", {
     key: c,
     className: `btn ${selectedCanton === c ? 'primary' : 'ghost'}`,
     onClick: () => setSelectedCanton(c),
+    role: "tab",
+    "aria-selected": selectedCanton === c,
     style: {
-      fontSize: 12,
-      padding: '5px 12px',
-      borderRadius: 8
+      fontSize: 12.5,
+      padding: '6px 14px',
+      borderRadius: 8,
+      fontWeight: selectedCanton === c ? 700 : 500,
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      cursor: 'pointer'
     }
-  }, c === 'ALL' ? lang === 'uk' ? 'Усі кантони' : 'Tous cantons' : c))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, c === 'ALL' ? lang === 'uk' ? 'Усі кантони' : lang === 'de' ? 'Alle Kantone' : lang === 'it' ? 'Tutti i cantoni' : 'Tous cantons' : CANTON_LABELS[c]?.[lang] || CANTON_LABELS[c]?.fr || c), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      padding: '1px 6px',
+      borderRadius: 10,
+      background: selectedCanton === c ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.08)',
+      color: selectedCanton === c ? '#fff' : 'var(--muted)',
+      fontWeight: 700
+    }
+  }, availableCantons.counts[c] || 0)))), items.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: 'center',
+      padding: '48px 20px',
+      background: 'rgba(15,23,42,0.4)',
+      borderRadius: 16,
+      border: '1px dashed var(--line-2)'
+    }
+  }, /*#__PURE__*/React.createElement("p", {
+    style: {
+      color: 'var(--muted)',
+      fontSize: 15,
+      margin: 0
+    }
+  }, lang === 'uk' ? 'Наразі немає активних пропозицій у цьому кантоні.' : 'Aucun logement actif pour ce canton actuellement.')) : /*#__PURE__*/React.createElement("div", {
     className: "housing-list"
   }, visibleItems.map(it => /*#__PURE__*/React.createElement(HousingCard, {
     key: it.id,

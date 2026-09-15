@@ -995,7 +995,7 @@ const SR_I18N = {
 const ACCORD_PILLARS = {
   uk: {
     eyebrow: "Чому АКОРД ?",
-    title: "Чотири стовпи довіри, без складних термінів.",
+    title: "Принципи довіри",
     sub: "Прямий інструмент дії — у дусі знайомої цифрової зручності — створений для швейцарських реалій: швидкість, юридична точність і гідність.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Швидкість, яка вирішує все", body: "Сповіщення в Telegram за лічені секунди після появи нової пропозиції. Відгукуйтесь першими — до напливу сотень інших кандидатів.", kpi: { n: "< 60 с", l: "швидкість сигналу" } },
@@ -1006,7 +1006,7 @@ const ACCORD_PILLARS = {
   },
   fr: {
     eyebrow: "POURQUOI L'ACCORD ?",
-    title: "Quatre piliers de confiance, sans jargon.",
+    title: "Principes de confiance",
     sub: "Un outil d'action directe — dans l'esprit de simplicité numérique — conçu pour la réalité suisse : rapidité, précision juridique et dignité.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "La vitesse qui change tout", body: "Alertes Telegram en quelques secondes après parution. Postulez en premier, avant l'afflux de centaines d'autres dossiers.", kpi: { n: "< 60 s", l: "vitesse de signal" } },
@@ -1017,7 +1017,7 @@ const ACCORD_PILLARS = {
   },
   de: {
     eyebrow: "WARUM AKKORD ?",
-    title: "Vier Säulen des Vertrauens, ohne Fachjargon.",
+    title: "Grundsätze des Vertrauens",
     sub: "Ein direktes Handlungsinstrument für Schweizer Realitäten: Schnelligkeit, Rechtssicherheit und Würde.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Geschwindigkeit entscheidet", body: "Telegram-Benachrichtigungen innerhalb von Sekunden nach Veröffentlichung.", kpi: { n: "< 60 s", l: "Signalzeit" } },
@@ -1028,7 +1028,7 @@ const ACCORD_PILLARS = {
   },
   en: {
     eyebrow: "WHY ACCORD ?",
-    title: "Four pillars of trust, zero jargon.",
+    title: "Principles of Trust",
     sub: "A direct empowerment tool engineered for Swiss realities: speed, legal precision, and human dignity.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Speed that changes everything", body: "Telegram notifications in seconds. Apply first before hundreds of candidates crowd in.", kpi: { n: "< 60 s", l: "signal speed" } },

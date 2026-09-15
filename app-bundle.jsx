@@ -1269,7 +1269,7 @@ function HeroV2({ side, setSide, onOpenInfo, t }) {
 function FourPillars({ onOpenInfo, t }) {
   const p = t?.pillars || {
     eyebrow: "POURQUOI L'ACCORD ?",
-    title: "Quatre piliers de confiance, sans jargon.",
+    title: "Principes de confiance",
     sub: "Un outil d'action directe conçu pour la réalité suisse.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Vitesse décisive", body: "Alertes Telegram en moins de 60 secondes.", kpi: { n: "< 60 s", l: "temps de signal" } },
@@ -1287,7 +1287,7 @@ function FourPillars({ onOpenInfo, t }) {
           <h2 className="section-title" style={{ fontSize: 26, fontWeight: 800, margin: '6px 0 10px', letterSpacing: '-0.02em', color: '#fff' }}>{p.title}</h2>
           <p className="section-sub" style={{ fontSize: 14, color: 'var(--muted)', margin: 0 }}>{p.sub}</p>
         </div>
-        <div className="pillar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+        <div className="pillar-grid">
           {(p.items || []).map((it) => (
             <article key={it.idx} className={`pillar-card ${it.cls}`} style={{
               background: 'rgba(15,23,42,.65)', border: '1px solid var(--line-2)', borderRadius: 16, padding: 20,
@@ -1601,14 +1601,38 @@ function HousingSection({ t, lang, canton: propCanton, onGenerate }) {
     if (propCanton) setSelectedCanton(propCanton);
   }, [propCanton]);
 
+  React.useEffect(() => {
+    setLimit(9);
+  }, [selectedCanton]);
+
   const allItems = React.useMemo(() => {
     return (window.SR_HOUSING || window.HOUSING_LISTINGS || []);
   }, []);
 
+  const availableCantons = React.useMemo(() => {
+    const counts = { ALL: allItems.length };
+    allItems.forEach(h => {
+      if (h.canton) {
+        counts[h.canton] = (counts[h.canton] || 0) + 1;
+      }
+    });
+    // Cantons in order: ALL, VD, FR, VS, GE or any others present
+    const standardOrder = ['ALL', 'VD', 'FR', 'VS', 'GE'];
+    const extraCantons = Object.keys(counts).filter(c => !standardOrder.includes(c));
+    const cantons = [...standardOrder, ...extraCantons].filter(c => c === 'ALL' || (counts[c] && counts[c] > 0));
+    return { cantons, counts };
+  }, [allItems]);
+
+  const CANTON_LABELS = {
+    VD: { fr: 'VD · Vaud', uk: 'VD · Во (Vaud)', de: 'VD · Waadt', it: 'VD · Vaud', en: 'VD · Vaud' },
+    FR: { fr: 'FR · Fribourg', uk: 'FR · Фрібур (Fribourg)', de: 'FR · Freiburg', it: 'FR · Friburgo', en: 'FR · Fribourg' },
+    VS: { fr: 'VS · Valais', uk: 'VS · Вале (Valais)', de: 'VS · Wallis', it: 'VS · Vallese', en: 'VS · Valais' },
+    GE: { fr: 'GE · Genève', uk: 'GE · Женева (Genève)', de: 'GE · Genf', it: 'GE · Ginevra', en: 'GE · Geneva' }
+  };
+
   const items = React.useMemo(() => {
     if (!selectedCanton || selectedCanton === 'ALL') return allItems;
-    const filtered = allItems.filter(h => h.canton === selectedCanton);
-    return filtered.length > 0 ? filtered : allItems;
+    return allItems.filter(h => h.canton === selectedCanton);
   }, [selectedCanton, allItems]);
 
   const visibleItems = items.slice(0, limit);
@@ -1642,24 +1666,63 @@ function HousingSection({ t, lang, canton: propCanton, onGenerate }) {
         </div>
 
         {/* Canton filter chips */}
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 24 }}>
-          {['ALL', 'VD', 'GE', 'BE', 'FR', 'NE', 'VS', 'ZH', 'BS'].map(c => (
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }} role="tablist" aria-label="Filtre par canton">
+          {availableCantons.cantons.map(c => (
             <button
               key={c}
               className={`btn ${selectedCanton === c ? 'primary' : 'ghost'}`}
               onClick={() => setSelectedCanton(c)}
-              style={{ fontSize: 12, padding: '5px 12px', borderRadius: 8 }}
+              role="tab"
+              aria-selected={selectedCanton === c}
+              style={{
+                fontSize: 12.5,
+                padding: '6px 14px',
+                borderRadius: 8,
+                fontWeight: selectedCanton === c ? 700 : 500,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                cursor: 'pointer'
+              }}
             >
-              {c === 'ALL' ? (lang === 'uk' ? 'Усі кантони' : 'Tous cantons') : c}
+              <span>
+                {c === 'ALL'
+                  ? (lang === 'uk' ? 'Усі кантони' : lang === 'de' ? 'Alle Kantone' : lang === 'it' ? 'Tutti i cantoni' : 'Tous cantons')
+                  : (CANTON_LABELS[c]?.[lang] || CANTON_LABELS[c]?.fr || c)}
+              </span>
+              <span style={{
+                fontSize: 11,
+                padding: '1px 6px',
+                borderRadius: 10,
+                background: selectedCanton === c ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.08)',
+                color: selectedCanton === c ? '#fff' : 'var(--muted)',
+                fontWeight: 700
+              }}>
+                {availableCantons.counts[c] || 0}
+              </span>
             </button>
           ))}
         </div>
 
-        <div className="housing-list">
-          {visibleItems.map(it => (
-            <HousingCard key={it.id} item={it} t={t} lang={lang} onGenerate={onGenerate}/>
-          ))}
-        </div>
+        {items.length === 0 ? (
+          <div style={{
+            textAlign: 'center',
+            padding: '48px 20px',
+            background: 'rgba(15,23,42,0.4)',
+            borderRadius: 16,
+            border: '1px dashed var(--line-2)'
+          }}>
+            <p style={{ color: 'var(--muted)', fontSize: 15, margin: 0 }}>
+              {lang === 'uk' ? 'Наразі немає активних пропозицій у цьому кантоні.' : 'Aucun logement actif pour ce canton actuellement.'}
+            </p>
+          </div>
+        ) : (
+          <div className="housing-list">
+            {visibleItems.map(it => (
+              <HousingCard key={it.id} item={it} t={t} lang={lang} onGenerate={onGenerate}/>
+            ))}
+          </div>
+        )}
 
         {limit < items.length && (
           <div style={{textAlign: 'center', marginTop: 32}}>

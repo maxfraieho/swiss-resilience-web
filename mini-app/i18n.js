@@ -500,39 +500,39 @@ window.SR_I18N = {
     }
   },
   "uk": {
-    "banner": "Офіційне публічне тестування · Асоціація Swiss Resilience створюється за ст. 60–79 ЦК Швейцарії. Без платних підписок.",
-    "donate": "Підтримати внеском",
+    "banner": "АКОРД Швейцарія · Вільний волонтерський проєкт житла та роботи для українців зі статусом S. Без посередників.",
+    "donate": "Підтримати проєкт",
     "hero": {
       "line1": "Гідне житло, легальна робота —",
       "line2": "без шахраїв та посередників.",
-      "lede": "Офіційні норми 26 кантонів (EVAM, Hospice Général, AOZ, GSI), моніторинг вакансій з пріоритетом RAV (ст. 21a LEI), солідарна суборенда (ст. 262 CO) та ментори Benevol. 100% безкоштовно у період Бета."
+      "lede": "Перевірені квартири від швейцарських режі, вакансії для людей зі статусом S, калькулятор офіційних норм 26 кантонів та допомога місцевих волонтерів. Прозоро, просто і без жодних оплат."
     },
     "tabs": {
-      "seekers": "Шукачі прихистку & Статус S",
-      "seekersSub": "Статус S · Прямий пошук",
-      "solidarity": "Швейцарська Солідарність",
-      "solSub": "Господарі & Ментори Benevol"
+      "seekers": "Шукачам житла та роботи",
+      "seekersSub": "Статус S · Без посередників",
+      "solidarity": "Швейцарським друзям",
+      "solSub": "Господарям та волонтерам"
     },
     "trust": [
       {
         "k": "26 кантонів",
         "v": "Офіційні норми",
-        "d": "EVAM · Hospice Général · AOZ · GSI · WSU · LAPS"
+        "d": "EVAM · Hospice Général · AOZ · GSI — реальні ліміти оплати"
       },
       {
         "k": "4 мови",
-        "v": "FR · DE · IT · UK",
-        "d": "Повний паритет мов · Рідна українська локалізація"
+        "v": "UA · FR · DE · EN",
+        "d": "Зручна та зрозуміла мова для кожного"
       },
       {
-        "k": "Ст. 60–79 CC",
-        "v": "Асоціація у процесі",
-        "d": "Некомерційна діяльність · Принцип Radical Honesty"
+        "k": "Волонтерство",
+        "v": "100% Безкоштовно",
+        "d": "Жодних платних послуг чи прихованих комісій"
       },
       {
-        "k": "Merkle SHA-256",
-        "v": "100% Прозорість",
-        "d": "Кожна пожертва криптографічно підтверджується"
+        "k": "Підтримка",
+        "v": "Швейцарські друзі",
+        "d": "Реальні люди, готові підказати та допомогти (Benevol)"
       }
     ],
     "svc": {
@@ -995,7 +995,7 @@ const SR_I18N = {
 const ACCORD_PILLARS = {
   uk: {
     eyebrow: "Чому АКОРД ?",
-    title: "Чотири стовпи довіри, без складних термінів.",
+    title: "Принципи довіри",
     sub: "Прямий інструмент дії — у дусі знайомої цифрової зручності — створений для швейцарських реалій: швидкість, юридична точність і гідність.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Швидкість, яка вирішує все", body: "Сповіщення в Telegram за лічені секунди після появи нової пропозиції. Відгукуйтесь першими — до напливу сотень інших кандидатів.", kpi: { n: "< 60 с", l: "швидкість сигналу" } },
@@ -1006,7 +1006,7 @@ const ACCORD_PILLARS = {
   },
   fr: {
     eyebrow: "POURQUOI L'ACCORD ?",
-    title: "Quatre piliers de confiance, sans jargon.",
+    title: "Principes de confiance",
     sub: "Un outil d'action directe — dans l'esprit de simplicité numérique — conçu pour la réalité suisse : rapidité, précision juridique et dignité.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "La vitesse qui change tout", body: "Alertes Telegram en quelques secondes après parution. Postulez en premier, avant l'afflux de centaines d'autres dossiers.", kpi: { n: "< 60 s", l: "vitesse de signal" } },
@@ -1017,7 +1017,7 @@ const ACCORD_PILLARS = {
   },
   de: {
     eyebrow: "WARUM AKKORD ?",
-    title: "Vier Säulen des Vertrauens, ohne Fachjargon.",
+    title: "Grundsätze des Vertrauens",
     sub: "Ein direktes Handlungsinstrument für Schweizer Realitäten: Schnelligkeit, Rechtssicherheit und Würde.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Geschwindigkeit entscheidet", body: "Telegram-Benachrichtigungen innerhalb von Sekunden nach Veröffentlichung.", kpi: { n: "< 60 s", l: "Signalzeit" } },
@@ -1028,7 +1028,7 @@ const ACCORD_PILLARS = {
   },
   en: {
     eyebrow: "WHY ACCORD ?",
-    title: "Four pillars of trust, zero jargon.",
+    title: "Principles of Trust",
     sub: "A direct empowerment tool engineered for Swiss realities: speed, legal precision, and human dignity.",
     items: [
       { idx: "01", cls: "pillar-1", icon: "⚡", title: "Speed that changes everything", body: "Telegram notifications in seconds. Apply first before hundreds of candidates crowd in.", kpi: { n: "< 60 s", l: "signal speed" } },
@@ -1162,7 +1162,77 @@ if (typeof window !== 'undefined') {
     }
   });
 
-  // 6. Synchronize window.I18N
+  // 6. Unified Navigation & Information labels
+  var NAV_STRINGS = {
+    uk: {
+      housing: "Житло",
+      jobs: "Робота",
+      calc: "Калькулятор",
+      dossier: "Досьє",
+      sublease: "Суборенда",
+      mentors: "Ментори",
+      about: "Про проєкт",
+      guide: "Як користуватись",
+      why: "Чому ми кращі",
+      privacy: "Конфіденційність"
+    },
+    fr: {
+      housing: "Logement",
+      jobs: "Emplois",
+      calc: "Calculateur",
+      dossier: "Dossier",
+      sublease: "Sous-location",
+      mentors: "Mentors",
+      about: "À propos",
+      guide: "Mode d'emploi",
+      why: "Pourquoi nous",
+      privacy: "Confidentialité"
+    },
+    de: {
+      housing: "Wohnen",
+      jobs: "Stellen",
+      calc: "Rechner",
+      dossier: "Dossier",
+      sublease: "Untermiete",
+      mentors: "Mentoren",
+      about: "Über uns",
+      guide: "Anleitung",
+      why: "Warum wir",
+      privacy: "Datenschutz"
+    },
+    it: {
+      housing: "Alloggio",
+      jobs: "Lavoro",
+      calc: "Calcolatore",
+      dossier: "Dossier",
+      sublease: "Subaffitto",
+      mentors: "Mentori",
+      about: "Chi siamo",
+      guide: "Guida",
+      why: "Perché noi",
+      privacy: "Privacy"
+    },
+    en: {
+      housing: "Housing",
+      jobs: "Jobs",
+      calc: "Calculator",
+      dossier: "Dossier",
+      sublease: "Sublease",
+      mentors: "Mentors",
+      about: "About project",
+      guide: "User Guide",
+      why: "Why ACCORD",
+      privacy: "Privacy Policy"
+    }
+  };
+
+  ['fr', 'de', 'it', 'uk', 'en'].forEach(function(l) {
+    if (window.SR_I18N[l]) {
+      window.SR_I18N[l].nav = NAV_STRINGS[l] || NAV_STRINGS.fr;
+    }
+  });
+
+  // 7. Synchronize window.I18N
   window.I18N = window.SR_I18N;
 }
 })();
