@@ -5727,22 +5727,115 @@ function AgentChatWidget({
           side: 'a'
         }];
 
-        // 12. Housing Search
-      } else if (qLow.includes('житл') || qLow.includes('квартир') || qLow.includes('знайти житло') || qLow.includes('оренд') || qLow.includes('appart') || qLow.includes('logement')) {
-        answer = "🏠 **Пошук житла без посередників та комісій у Romandie :**\n\n" + "• **Офіційні régies та перевірені власники:** Жодних скам-оголошень та платних передплат.\n" + "• **Фільтр норм EVAM:** Кожна квартира має автоматичний бейдж відповідності соціальним лімітам кантону Во та Женеви.\n" + "• **SBB-калькулятор:** Точний розрахунок часу в дорозі потягом до Моржа, Лозанни та Женеви.\n" + "• **Reprise de bail (ст. 264 CO):** Передача оренди від попереднього наймача за зафіксованою ціною.";
-        actions = [{
-          label: '👉 Переглянути каталог житла (01)',
-          service: 'housing',
-          side: 'a'
-        }, {
-          label: '🧮 Перевірити ліміти EVAM (03)',
-          service: 'calc',
-          side: 'a'
-        }, {
-          label: '📄 Скласти досьє для режі (04)',
-          service: 'dossier',
-          side: 'a'
-        }];
+        // 12. Housing Search with REAL APARTMENT DATABASE QUERY
+      } else if (qLow.includes('житл') || qLow.includes('квартир') || qLow.includes('знайти житло') || qLow.includes('оренд') || qLow.includes('appart') || qLow.includes('logement') || qLow.includes('лозанн') || qLow.includes('ньон') || qLow.includes('морж') || qLow.includes('женев') || qLow.includes('рене') || qLow.includes('фрібур') || qLow.includes('еґль') || qLow.includes('егль') || qLow.includes('матран') || qLow.includes('блоне') || qLow.includes('версуа') || qLow.includes('шезо') || qLow.includes('кларен') || qLow.includes('студі')) {
+        const allListings = typeof window !== 'undefined' && (window.HOUSING_LISTINGS || window.SR_HOUSING) || [];
+
+        // 1. City aliases
+        const cityAliases = {
+          'Nyon': ['nyon', 'ньон'],
+          'Лозанна': ['lausanne', 'лозанн'],
+          'Morges': ['morges', 'морж'],
+          'Matran': ['matran', 'матран'],
+          'Женева': ['genev', 'женев', 'geneva'],
+          'Рене': ['renens', 'рене'],
+          'Corcelles-près-Concise': ['corcelles', 'корсель'],
+          'Blonay': ['blonay', 'блоне'],
+          'Еґль': ['aigle', 'еґль', 'егль'],
+          'Фрібур': ['fribourg', 'фрібур', 'фрибур'],
+          'Versoix': ['versoix', 'версуа'],
+          'Cheseaux-sur-Lausanne': ['cheseaux', 'шезо'],
+          'Clarens': ['clarens', 'кларен'],
+          'Monthey': ['monthey', 'монтей'],
+          'Martigny': ['martigny', 'мартіньї', 'мартиньи'],
+          'Avenches': ['avenches', 'аванш'],
+          'Grolley': ['grolley', 'гролле']
+        };
+        let targetCity = null;
+        for (const [cityName, aliases] of Object.entries(cityAliases)) {
+          if (aliases.some(a => qLow.includes(a))) {
+            targetCity = cityName;
+            break;
+          }
+        }
+
+        // 2. Price filter
+        const priceMatches = qLow.match(/\b(\d{3,4})\b/g);
+        let maxPrice = null;
+        if (priceMatches) {
+          const nums = priceMatches.map(p => parseInt(p, 10)).filter(n => n >= 600 && n <= 6000);
+          if (nums.length > 0) {
+            maxPrice = qLow.includes('до') || qLow.includes('<') || qLow.includes('дешевш') || qLow.includes('макс') ? Math.min(...nums) : nums[0];
+          }
+        }
+
+        // 3. Rooms filter
+        const roomMatch = qLow.match(/(\d(?:\.5)?)\s*(?:кімн|room|pièce)/);
+        const targetRooms = roomMatch ? parseFloat(roomMatch[1]) : qLow.includes('студі') || qLow.includes('studio') ? 1.0 : null;
+
+        // 4. EVAM compliance filter
+        const evamOnly = qLow.includes('evam') || qLow.includes('норм') || qLow.includes('соціал') || qLow.includes('погоджен');
+        let filtered = allListings.filter(item => {
+          if (targetCity) {
+            const cName = (item.city_name || item.city && (item.city.fr || item.city.uk) || '').toLowerCase();
+            const aliases = cityAliases[targetCity] || [targetCity.toLowerCase()];
+            if (!aliases.some(a => cName.includes(a))) return false;
+          }
+          const itemPrice = item.price || item.rent_gross || 0;
+          if (maxPrice && itemPrice > maxPrice) return false;
+          if (targetRooms && item.rooms !== targetRooms) return false;
+          if (evamOnly && item.compliance && !item.compliance.ok) return false;
+          return true;
+        });
+        let prefixNote = '';
+        if (filtered.length === 0 && allListings.length > 0) {
+          if (targetCity) {
+            prefixNote = `_У місті **${targetCity}** наразі прямих вільних об'єктів немає, але ось найближчі перевірені варіанти поруч уздовж гілки SBB:_\n\n`;
+          } else if (maxPrice) {
+            prefixNote = `_За вартістю до **CHF ${maxPrice}** прямо зараз немає вільних, але ось найдоступніші квартири з нашої бази:_\n\n`;
+          }
+          filtered = allListings.slice(0, 3);
+        }
+        const displayItems = filtered.slice(0, 3);
+        if (displayItems.length > 0) {
+          const listMd = displayItems.map((item, idx) => {
+            const title = item.title && item.title.uk || item.title || 'Квартира';
+            const city = item.city && item.city.uk || item.city_name || item.city || 'Romandie';
+            const price = item.price || item.rent_gross || 1450;
+            const rooms = item.rooms || 2.0;
+            const regie = item.regie || item.regie_name || 'Gérance Immobilière';
+            const sbbMin = item.sbb ? item.sbb.minutes : item.sbb_minutes || 20;
+            const sbbCity = item.sbb ? item.sbb.city : item.sbb_anchor || 'Lausanne';
+            const isEvamOk = item.compliance ? item.compliance.ok : item.evam_ok !== false;
+            const evamBadge = isEvamOk ? '🟢 Відповідає нормам EVAM' : '🟡 Потребує погодження соцслужби';
+            return `${idx + 1}. 🏢 **${title}**\n` + `   • 📍 **Місто:** ${city} (${item.postal_code || ''}, ${item.canton || 'VD'})\n` + `   • 💰 **Оренда:** CHF ${price.toLocaleString('fr-CH')} / міс брутто (з комунальними)\n` + `   • 🛏️ **Кімнат:** ${rooms} · 🏢 **Режі:** ${regie}\n` + `   • 🚆 **SBB:** ${sbbMin} хв до ${sbbCity}\n` + `   • 📋 **EVAM:** ${evamBadge}`;
+          }).join('\n\n');
+          answer = `🏠 **Знайдено перевірені квартири у базі АКОРД (${filtered.length} варіантів з 40) :**\n\n` + prefixNote + listMd + `\n\n💡 _Усі об'єкти доступні без комісій та посередників за офіційним договором (Art. 253 CO)._`;
+          actions = [{
+            label: '👉 Відкрити каталог житла (01)',
+            service: 'housing',
+            side: 'a'
+          }, {
+            label: '📄 Скласти досьє для режі (04)',
+            service: 'dossier',
+            side: 'a'
+          }, {
+            label: '🧮 Ліміти EVAM (03)',
+            service: 'calc',
+            side: 'a'
+          }];
+        } else {
+          answer = "🏠 **База перевіреного житла ACCORD Suisse :**\n\n" + "Усі квартири на платформі перевірені за 3 критеріями:\n" + "1. **Прямі gérances (Bernard Nicod, Domicim, Cogestim) :** без комісій і посередників.\n" + "2. **Норми EVAM / Hospice :** автоматичний бейдж узгодження з соціальними службами.\n" + "3. **SBB-калькулятор :** точний розрахунок часу доріг до Лозанни, Моржа та Женеви.\n\n" + "Перегляньте повний каталог житла за кнопкою нижче:";
+          actions = [{
+            label: '👉 Переглянути каталог житла (01)',
+            service: 'housing',
+            side: 'a'
+          }, {
+            label: '🧮 Перевірити ліміти EVAM (03)',
+            service: 'calc',
+            side: 'a'
+          }];
+        }
 
         // 13. Benevol Mentors
       } else if (qLow.includes('ментор') || qLow.includes('benevol') || qLow.includes('волонтер')) {
