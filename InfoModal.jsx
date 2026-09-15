@@ -255,56 +255,211 @@ function AboutTab({ lang }) {
 }
 
 // --------------------------------------------------------------------------
-// 2. TAB: ЯК КОРИСТУВАТИСЬ (GUIDE)
+// 2. TAB: ЯК КОРИСТУВАТИСЬ (GUIDE) — MULTI-ROLE DOCUMENTATION (CLIENTS & ADMIN)
 // --------------------------------------------------------------------------
 function GuideTab({ lang }) {
-  const stepsUk = [
-    { n: "01", t: "Пошук житла з реальними фото", d: "Оберіть вкладку «Житло». Перевіряйте квартири з реальними фото, прямим закріпленням за режі (без сайтів-агрегаторів) та розрахунком часу CFF/SBB до найближчого вокзалу." },
-    { n: "02", t: "Калькулятор кантональних лімітів", d: "У вкладці «Калькулятор» оберіть свій кантон (EVAM у Vaud, Hospice Général у Genève тощо) та перевірте, чи вписується вартість оренди в офіційні норми соціальної допомоги та правило 33% зарплати." },
-    { n: "03", t: "Генератор досьє для режі в 1 клік", d: "Введіть свої дані та статус у вкладці «Досьє». Платформа створить офіційний лист-заявку французькою або німецькою мовою з повним пакетом додатків (Art. 253 CO), готовий для передачі до режі." },
-    { n: "04", t: "Вакансії та швейцарське CV", d: "У вкладці «Робота» переглядайте 63 актуальні пропозиції, відсортовані за ст. 17 LEI (миттєвий найм) та ст. 21a LEI (пріоритет ORP). Ознайомтеся зі швейцарським стандартом резюме та створіть мотиваційний лист." },
-    { n: "05", t: "Суборенда та швейцарські наставники", d: "Розрахуйте законну частку оплати кімнати за ст. 262 CO (максимум 20% за меблі). Подайте запит на волонтерський супровід від швейцарців мережі Benevol (ст. 394 CO)." },
-    { n: "06", t: "Підключення бота @SwissResilienceHubBot", d: "Запустіть Telegram-бота для отримання персональних сповіщень швидше за 60 секунд. Відгукуйтесь першими, поки оголошення не отримало сотні відгуків." }
-  ];
+  const [role, setRole] = React.useState('seekers');
+  const isUk = lang === 'uk';
+  const isFr = lang === 'fr';
+  const isDe = lang === 'de';
 
-  const stepsFr = [
-    { n: "01", t: "Trouver un logement vérifié", d: "Consultez la section « Logement ». Chaque bien est attribué factuellement à sa gérance, avec calcul précis du temps CFF/SBB et conformité aux barèmes EVAM." },
-    { n: "02", t: "Calculer les plafonds cantonaux", d: "Vérifiez dans le « Calculateur » si le loyer respecte les barèmes officiels de votre canton et la règle impérative des 33% de vos revenus nets." },
-    { n: "03", t: "Générer son dossier de régie 1-clic", d: "Renseignez vos coordonnées dans le « Dossier ». L'application compose automatiquement la lettre de candidature formelle selon l'Art. 253 CO." },
-    { n: "04", t: "Emplois et standard CV suisse", d: "Explorez les 63 offres réelles, le radar de priorité Art. 21a LEI, et suivez le guide pas-à-pas pour adapter votre CV aux exigences des recruteurs suisses." },
-    { n: "05", t: "Sous-location & Réseau de mentors", d: "Estimez une participation équitable pour une chambre selon l'Art. 262 CO. Rejoignez ou sollicitez l'accompagnement citoyen bénévole Benevol (Art. 394 CO)." },
-    { n: "06", t: "Alertes via @SwissResilienceHubBot", d: "Activez le bot Telegram pour recevoir les nouvelles annonces en moins de 60 secondes chrono et postuler avant la saturation des régies." }
-  ];
+  const roleMeta = {
+    uk: {
+      seekers: { label: "🎯 Шукачам (Permis S)", title: "Інструкція для шукачів житла та роботи", desc: "Покроковий алгоритм дій для швидкого отримання житла від режі та легальної роботи без посередників і комісій." },
+      hosts:   { label: "🤝 Господарям (ст. 262)", title: "Посібник для швейцарських господарів", desc: "Легальна суборенда за ст. 262 CO, прозорий розрахунок без зловживань та менторство Benevol." },
+      copilot: { label: "🤖 ШІ-Копілот і Голос", title: "Як користуватись ШІ-Копілотом ACCORD", desc: "Автономний діалог 24/7, швидкі кнопки переходу та голосові повідомлення Whisper STT у Telegram." },
+      admin:   { label: "⚙️ Адміністратору", title: "Керівництво адміністратора та оператора", desc: "Швидкий довідник керування демоном бота, моніторингу шлюзів .184 / .251 та збірки бандлу." }
+    },
+    fr: {
+      seekers: { label: "🎯 Candidats (Permis S)", title: "Mode d'emploi pour candidats Permis S", desc: "Guide méthodique pour obtenir un logement vérifié de régie et un emploi légal sans frais d'intermédiaires." },
+      hosts:   { label: "🤝 Hôtes (Art. 262 CO)", title: "Guide pour les hôtes suisses solidaires", desc: "Sous-location légale Art. 262 CO, plafonnement mobilier à 20% et mentorat citoyen Benevol." },
+      copilot: { label: "🤖 Co-pilote & Vocal", title: "Utilisation du Co-pilote IA & Vocal", desc: "Assistance interactive 24/7, boutons d'action et messages vocaux Whisper STT sur Telegram." },
+      admin:   { label: "⚙️ Administration", title: "Guide d'exploitation & Administration", desc: "Gestion du démon de bot, surveillance des passerelles .184/.251 et compilation du bundle." }
+    },
+    de: {
+      seekers: { label: "🎯 Status S Suchende", title: "Anleitung für Status S Suchende", desc: "Schritt-für-Schritt-Leitfaden für Wohnungen von Verwaltungen und legale Arbeit ohne Vermittlungsgebühren." },
+      hosts:   { label: "🤝 Gastgeber (Art. 262)", title: "Leitfaden für Schweizer Gastgeber", desc: "Rechtssichere Untermiete nach Art. 262 OR, Möblierungszuschlag max. 20% und Benevol-Mentorat." },
+      copilot: { label: "🤖 KI-Copilot & Sprache", title: "Nutzung des KI-Copiloten & Whisper", desc: "24/7 Interaktiver Dialog, Aktionsknöpfe und Sprachnachrichten via Whisper STT im Telegram-Bot." },
+      admin:   { label: "⚙️ Administration", title: "Betriebshandbuch & Administration", desc: "Bot-Daemon-Verwaltung, Statusprüfung der Gateways .184/.251 und Bundle-Kompilierung." }
+    },
+    en: {
+      seekers: { label: "🎯 Seekers (Permis S)", title: "User Guide for Permis S Beneficiaries", desc: "Step-by-step roadmap to verified housing and legal employment without exploitative fees." },
+      hosts:   { label: "🤝 Swiss Hosts (Art. 262)", title: "Guide for Swiss Solidarity Hosts", desc: "Legal Art. 262 CO subleases, 20% furniture cap compliance, and Benevol mentorship." },
+      copilot: { label: "🤖 AI Co-Pilot & Voice", title: "How to use AI Co-Pilot & Whisper Voice", desc: "24/7 interactive widget, 1-click action triggers, and Whisper STT voice notes in Telegram." },
+      admin:   { label: "⚙️ Administrator", title: "Operator & Platform Administrator Guide", desc: "Bot daemon lifecycle management, .184/.251 gateway health, and bundle builds." }
+    }
+  };
 
-  const steps = lang === 'uk' ? stepsUk : stepsFr;
+  const rm = roleMeta[lang] || roleMeta.fr;
+  const currentRole = rm[role] || rm.seekers;
+
+  const stepsData = {
+    seekers: {
+      uk: [
+        { n: "01", t: "Пошук житла від режі та Reprise de bail", b: "Art. 264 CO", d: "Оберіть вкладку «Житло». Переглядайте верифіковані квартири з реальними фото, закріплені за офіційними агенціями (Bernard Nicod, Cogestim, Wincasa). Шукайте позначки «Reprise de bail» (передача чинного договору без підвищення ціни) та розрахунок часу CFF/SBB до вокзалів." },
+        { n: "02", t: "Калькулятор кантональних лімітів EVAM", b: "EVAM / 33%", d: "У вкладці «Калькулятор» оберіть кантон Во або Женеву та склад сім'ї. Перевірте, чи вписується чиста оренда та комунальні у соціальні норми (наприклад, CHF 1'350–2'050 для 3 осіб у Во) та правило 33% заробітної плати." },
+        { n: "03", t: "Генератор досьє для режі в 1 клік", b: "Art. 253 CO / USPI", d: "Заповніть коротку форму у вкладці «Досьє». Платформа створить офіційний лист-заявку французькою або німецькою мовою за стандартом USPI з переліком обов'язкових додатків: Permis S, витяг з реєстру боргів (Office des poursuites) та гарантія EVAM." },
+        { n: "04", t: "Вакансії та захищене вікно ст. 21a LEI", b: "Art. 17 & 21a LEI", d: "У вкладці «Робота» переглядайте 63 реальні вакансії. Використовуйте перевагу 5-денного захищеного вікна RAV/ORP (ст. 21a LEI) та завантажте зразок резюме, адаптованого під швейцарські кадрові стандарти." },
+        { n: "05", t: "Безоплатний супровід менторів Benevol", b: "Art. 394 CO", d: "У вкладці «Ментори» подайте запит на волонтерську підтримку від швейцарських громадян (розмовна практика французької, спільні візити на огляди житла, консультації з оформлення)." }
+      ],
+      fr: [
+        { n: "01", t: "Logement vérifié de régie & Reprise de bail", b: "Art. 264 CO", d: "Consultez la section « Logement ». Chaque bien est attribué factuellement à sa gérance (Bernard Nicod, Cogestim, etc.) avec calcul précis du temps CFF/SBB et repérage prioritaire des reprises de bail sans hausse de loyer." },
+        { n: "02", t: "Calculateur des plafonds cantonaux EVAM", b: "EVAM / 33%", d: "Vérifiez dans le « Calculateur » si le loyer respecte les barèmes officiels de votre canton (ex. CHF 1'350–2'050 pour 3 personnes à Vaud) et la règle impérative des 33% de vos revenus nets." },
+        { n: "03", t: "Générateur de dossier de régie 1-clic", b: "Art. 253 CO / USPI", d: "Renseignez vos coordonnées dans le « Dossier ». L'application compose automatiquement la lettre de candidature formelle aux standards USPI avec la liste des pièces justificatives (Permis S, poursuites vierges, attestation EVAM)." },
+        { n: "04", t: "Offres d'emploi & Priorité indigène Art. 21a LEI", b: "Art. 17 & 21a LEI", d: "Explorez 63 offres réelles, exploitez la fenêtre de priorité ORP/RAV de 5 jours réservée aux résidents, et suivez le modèle suisse pour optimiser votre CV." },
+        { n: "05", t: "Accompagnement bénévole Benevol", b: "Art. 394 CO", d: "Dans la section « Mentors », sollicitez un accompagnement citoyen gratuit (Art. 394 CO) pour la pratique du français et les visites communes de logements." }
+      ]
+    },
+    hosts: {
+      uk: [
+        { n: "01", t: "Легальна суборенда кімнати за законом", b: "Art. 262 CO", d: "Швейцарські господарі та чинні орендарі мають законне право здавати частину житла бенефіціарам статусу S. Формула справедливої частки: (Кімнати кімнати / Загальні кімнати) * Оренда + Комунальні." },
+        { n: "02", t: "Ліміт націнки за умеблювання (max 20%)", b: "Юридичний щит", d: "Згідно зі швейцарською судовою практикою, максимальна надбавка за вміст меблів не може перевищувати 20% від базової ставки. Це захищає вас від звинувачень у здирництві (loyer usuraire)." },
+        { n: "03", t: "Офіційне повідомлення режі (Notification)", b: "Art. 262 al. 1 CO", d: "Закон вимагає повідомити орендодавця про умови суборенди. Майстер суборенди сформує офіційний лист французькою мовою для вашої режі. Орендодавець не має права відмовити без поважних причин." },
+        { n: "04", t: "Участь у волонтерській мережі Benevol", b: "Art. 394 CO", d: "Приєднуйтесь як цивільний наставник. Формат безоплатного доручення (contrat de mandat gratuit) повністю виключає податкові, трудові або юридичні ризики для швейцарських помічників." }
+      ],
+      fr: [
+        { n: "01", t: "Sous-location légale et transparente", b: "Art. 262 CO", d: "Les locataires principaux ont le droit légal de sous-louer une partie de leur logement. Formule équitable : (Pièces occupées / Total pièces) * Loyer net + Charges réelles." },
+        { n: "02", t: "Plafond de majoration pour meubles (max 20%)", b: "Bouclier juridique", d: "Conformément à la jurisprudence du Tribunal fédéral, la majoration pour mobilier ne doit pas dépasser 20%. Cela vous met à l'abri de toute contestation pour loyer abusif." },
+        { n: "03", t: "Notification officielle à la gérance", b: "Art. 262 al. 1 CO", d: "Le formulaire génère automatiquement la lettre de communication formelle destinée à votre régie. Le bailleur ne peut refuser son consentement sauf motifs légitimes stricts." },
+        { n: "04", t: "Engagement bénévole citoyen Benevol", b: "Art. 394 CO", d: "Devenez mentor bénévole. Le contrat de mandat gratuit (Art. 394 CO) garantit l'absence totale de contraintes contractuelles ou fiscales d'un rapport de travail." }
+      ]
+    },
+    copilot: {
+      uk: [
+        { n: "01", t: "Діалоговий віджет 24/7 на сайті та в Mini App", b: "ШІ-Агент", d: "Натискайте червону круглу кнопку «🤖 ШІ-Копілот» у нижньому кутку екрана. Ставте запитання будь-якою мовою про норми EVAM, статті законів (CO, LEI), процедури режі або розклад SBB." },
+        { n: "02", t: "Інтерактивні кнопки дій у відповідях", b: "1-Click Дії", d: "Кожна відповідь копілота містить кнопки швидкого переходу (наприклад, «🧮 Ліміти EVAM» або «📄 Досьє для режі»), які автоматично відкривають потрібний інструмент з уже підставленими параметрами." },
+        { n: "03", t: "Голосові повідомлення через Whisper STT у Telegram", b: "Whisper AI", d: "У боті @SwissResilienceHubBot надсилайте аудіо- або голосові повідомлення. Вбудована модель Whisper STT локально розпізнає голос та надає точну юридичну консультацію за 2 секунди." }
+      ],
+      fr: [
+        { n: "01", t: "Widget interactif 24/7 Web & Mini App", b: "Agent IA", d: "Cliquez sur le bouton flottant « 🤖 Co-pilote IA » en bas à droite. Posez librement vos questions sur les barèmes EVAM, les articles CO/LEI, les régies ou les liaisons CFF." },
+        { n: "02", t: "Boutons d'action intégrés 1-clic", b: "Navigation fluide", d: "Chaque réponse propose des boutons directionnels (ex. « 🧮 Plafonds EVAM », « 📄 Générer Dossier ») pré-remplissant instantanément les formulaires du portail." },
+        { n: "03", t: "Messages vocaux via Whisper STT sur Telegram", b: "Whisper Vocal", d: "Dans le bot @SwissResilienceHubBot, envoyez des notes vocales. Le moteur Whisper STT convertit la voix en texte et formule une réponse juridique précise sans délai." }
+      ]
+    },
+    admin: {
+      uk: [
+        { n: "01", t: "Архітектура системи та внутрішні шлюзи", b: "Edge / .184 / .251", d: "Клієнтський рівень: статичний бандл React (web/app-bundle.js) у Cloudflare CDN. Серверний рівень: Telegram-бот на Python, ШІ-шлюз на http://192.168.1.184:8082 та граф знань Utopia DB на http://192.168.1.251:9922." },
+        { n: "02", t: "Керування демоном бота (start_bot_daemon.sh)", b: "CLI Демон", d: "Команди керування: bash scripts/start_bot_daemon.sh {start|stop|restart|status|supervise}. Режим supervise забезпечує безперервний перезапуск бота при збоях." },
+        { n: "03", t: "Збірка та синхронізація фронтенду", b: "node web/build.cjs", d: "Після будь-яких правок у web/*.jsx виконайте «node web/build.cjs». Скрипт транскомпілює код через Babel та оновлює бандли в /web/, /hub/, /app/ та /mini-app/." },
+        { n: "04", t: "Повний технічний та операційний посібник", b: "Документація", d: "Детальні інструкції для Арсена Коваленка та координаторів зібрано у файлі docs/USER_AND_ADMIN_GUIDE.md (архітектура, безпека даних, логи та відновлення)." }
+      ],
+      fr: [
+        { n: "01", t: "Architecture système et passerelles internes", b: "Edge / .184 / .251", d: "Couche client : bundle React statique sans dépendance d'exécution. Couche serveur : bot Telegram Python, passerelle LLM (http://192.168.1.184:8082) et Utopia DB (http://192.168.1.251:9922)." },
+        { n: "02", t: "Gestion du démon bot (start_bot_daemon.sh)", b: "CLI Démon", d: "Commandes du cycle de vie : bash scripts/start_bot_daemon.sh {start|stop|restart|status|supervise}. Le mode supervise relance automatiquement le processus en cas d'interruption." },
+        { n: "03", t: "Compilation du bundle frontend", b: "node web/build.cjs", d: "Après modification des fichiers web/*.jsx, exécutez « node web/build.cjs ». Il compile le code via Babel et synchronise les répertoires hub, app et mini-app." },
+        { n: "04", t: "Manuel d'exploitation complet", b: "Documentation", d: "Retrouvez l'intégralité des spécifications d'administration dans le fichier docs/USER_AND_ADMIN_GUIDE.md du référentiel." }
+      ]
+    }
+  };
+
+  const stepsList = (stepsData[role] && (stepsData[role][lang] || stepsData[role].uk)) || stepsData.seekers.uk;
 
   return (
     <div>
-      <h2 style={{ fontSize: 22, fontWeight: 800, color: '#fff', marginTop: 0, marginBottom: 8 }}>
-        {lang === 'uk' ? 'Як користуватись платформою АКОРД' : 'Mode d\'emploi de la plateforme ACCORD'}
-      </h2>
-      <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 20 }}>
-        {lang === 'uk'
-          ? 'Простий покроковий алгоритм для швидкого отримання житла, роботи та легального захисту.'
-          : 'Guide méthodique pour réussir vos démarches de logement et d\'emploi en Suisse Romande.'}
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
+        <div>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#fff', margin: '0 0 4px' }}>
+            {currentRole.title}
+          </h2>
+          <p style={{ color: 'var(--muted)', fontSize: 13, margin: 0 }}>
+            {currentRole.desc}
+          </p>
+        </div>
+      </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 14 }}>
-        {steps.map(s => (
+      {/* Role sub-navigation pills */}
+      <div style={{
+        display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 10, marginBottom: 18,
+        borderBottom: '1px solid rgba(148, 163, 184, 0.15)'
+      }}>
+        {['seekers', 'hosts', 'copilot', 'admin'].map(rKey => {
+          const item = rm[rKey];
+          const active = role === rKey;
+          return (
+            <button
+              key={rKey}
+              onClick={() => setRole(rKey)}
+              style={{
+                padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700,
+                border: active ? '1px solid #D52B1E' : '1px solid rgba(148, 163, 184, 0.2)',
+                background: active ? 'rgba(213, 43, 30, 0.2)' : 'rgba(255, 255, 255, 0.04)',
+                color: active ? '#FCA5A5' : '#CBD5E1',
+                cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all .15s'
+              }}
+            >
+              {item.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Step Cards Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14, marginBottom: 20 }}>
+        {stepsList.map(s => (
           <div key={s.n} style={{
             background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(148, 163, 184, 0.15)',
             borderRadius: 12, padding: 16, display: 'flex', flexDirection: 'column'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <span style={{ fontFamily: 'var(--f-mono)', fontSize: 12, fontWeight: 800, color: '#D52B1E' }}>
-                КРОК {s.n}
+                {isUk ? `КРОК ${s.n}` : `ÉTAPE ${s.n}`}
               </span>
+              {s.b && (
+                <span style={{
+                  fontSize: 10.5, fontWeight: 700, padding: '2px 8px', borderRadius: 6,
+                  background: 'rgba(56, 189, 248, 0.12)', color: '#38BDF8', border: '1px solid rgba(56, 189, 248, 0.25)'
+                }}>
+                  {s.b}
+                </span>
+              )}
             </div>
-            <div style={{ fontSize: 14.5, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{s.t}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{s.t}</div>
             <div style={{ fontSize: 12.5, color: '#94A3B8', lineHeight: 1.5 }}>{s.d}</div>
           </div>
         ))}
       </div>
+
+      {/* Extra Action Callout */}
+      {role === 'admin' ? (
+        <div style={{
+          background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)',
+          borderRadius: 12, padding: 14, fontSize: 12.5, color: '#BAE6FD', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10
+        }}>
+          <div>
+            <b>📘 Документація репозиторію:</b> Повний файл інструкцій розміщено в <code>docs/USER_AND_ADMIN_GUIDE.md</code>.
+          </div>
+          <a
+            href="https://t.me/SwissResilienceHubBot?start=admin_help"
+            target="_blank" rel="noopener noreferrer"
+            style={{ color: '#38BDF8', fontWeight: 700, textDecoration: 'none' }}
+          >
+            Telegram Стійкість ↗
+          </a>
+        </div>
+      ) : (
+        <div style={{
+          background: 'rgba(213, 43, 30, 0.08)', border: '1px solid rgba(213, 43, 30, 0.25)',
+          borderRadius: 12, padding: 14, fontSize: 12.5, color: '#FECACA', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10
+        }}>
+          <div>
+            <b>💡 Потрібна жива порада?</b> ШІ-Копілот ACCORD підкаже ліміти EVAM для вашої комуни та складе лист французькою за 20 секунд.
+          </div>
+          <button
+            onClick={() => {
+              if (window.location.hash !== '#chat') {
+                const fab = document.querySelector('.v2-agent-fab');
+                if (fab) fab.click();
+              }
+            }}
+            style={{
+              background: '#D52B1E', color: '#fff', border: 'none', borderRadius: 8,
+              padding: '6px 12px', fontSize: 12, fontWeight: 700, cursor: 'pointer'
+            }}
+          >
+            🤖 Запустити Копілот
+          </button>
+        </div>
+      )}
     </div>
   );
 }

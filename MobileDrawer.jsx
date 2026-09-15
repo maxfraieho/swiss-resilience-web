@@ -3,7 +3,7 @@
 // containing-block trap. 100dvh, inset:0, z-index 99999.
 // Contains 2×2 language grid (Anomalie 2 FIX).
 
-function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClose, onDonate, onOpenInfo, t }) {
+function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClose, onDonate, onOpenInfo, onOpenChat, t }) {
   // Body scroll lock
   React.useEffect(() => {
     document.body.classList.add('no-scroll');
@@ -170,6 +170,26 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
             </button>
           </div>
         </div>
+
+        {/* AI Co-Pilot Launcher */}
+        {onOpenChat && (
+          <div className="drawer-section" style={{ paddingTop: '8px', paddingBottom: '8px' }}>
+            <button
+              className="svc-item"
+              onClick={() => { onClose(); onOpenChat(); }}
+              style={{ background: 'linear-gradient(135deg, rgba(213,43,30,0.18) 0%, rgba(30,41,59,0.7) 100%)', border: '1px solid rgba(213,43,30,0.35)' }}
+            >
+              <div className="icon">🤖</div>
+              <div className="info">
+                <div className="label" style={{ color: '#FCA5A5', fontWeight: 700 }}>
+                  {lang === 'uk' ? 'ШІ-Копілот ACCORD Suisse' : 'Co-pilote IA ACCORD'}
+                </div>
+                <div className="sub">{lang === 'uk' ? 'Діалог 24/7 · EVAM, ст. 262 CO, досьє' : 'Dialogue 24/7 · EVAM, Art. 262 CO'}</div>
+              </div>
+              <Ico.arrow className="arrow"/>
+            </button>
+          </div>
+        )}
 
         {/* Actions */}
         <div className="drawer-actions">

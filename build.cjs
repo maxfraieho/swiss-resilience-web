@@ -20,6 +20,7 @@ const files = [
   'Sublease.jsx',
   'BenevolMentors.jsx',
   'BetaDonation.jsx',
+  'AgentChatWidget.jsx',
   'Footer.jsx',
   'app.jsx'
 ];

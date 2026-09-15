@@ -54,6 +54,14 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, onOpe
           <a href="#calc" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.calc}</a>
           <a href="#dossier" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.dossier}</a>
           <a href="#mentors" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.mentors}</a>
+          <a
+            href="#guide"
+            onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('guide'); }}
+            className="v2-nav-link"
+            style={{ fontSize: 13, fontWeight: 600, color: '#38BDF8', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+          >
+            <span>📖</span> {nl.guide}
+          </a>
         </nav>
 
         <div className="v2-nav-actions">

@@ -1,6 +1,6 @@
 // SwissRelief 2.6 — Horizontal 5-service switcher bar under the header.
 // Isolated stacking context (z-index: 10) so the language dropdown (z: 1100) stays above.
-function ServiceSwitcher({ activeId, onPick, t }) {
+function ServiceSwitcher({ activeId, onPick, onOpenChat, t }) {
   const sw = t?.switcher || {};
 
   const services = [
@@ -125,6 +125,24 @@ function ServiceSwitcher({ activeId, onPick, t }) {
                 <div className="v2-svc-sub">{s.sub}</div>
               </button>
             ))}
+            {onOpenChat && (
+              <button
+                className="v2-svc-btn side-ai"
+                onClick={onOpenChat}
+                title="ШІ-Копілот ACCORD Suisse"
+                style={{ background: 'linear-gradient(135deg, rgba(213,43,30,0.18) 0%, rgba(15,23,42,0.6) 100%)', border: '1px solid rgba(213,43,30,0.35)' }}
+              >
+                <div className="v2-svc-top">
+                  <span className="v2-svc-num" style={{ color: '#F87171' }}>AI</span>
+                  <span className="v2-svc-badge" style={{ background: '#22C55E', color: '#000', fontWeight: 800 }}>LIVE</span>
+                </div>
+                <div className="v2-svc-body">
+                  <span className="v2-svc-icon" aria-hidden="true">🤖</span>
+                  <span className="v2-svc-label">{t?.svc?.copilot || "ШІ-Копілот"}</span>
+                </div>
+                <div className="v2-svc-sub">{t?.svc?.copilotSub || "Діалог 24/7"}</div>
+              </button>
+            )}
           </div>
         </nav>
       </div>

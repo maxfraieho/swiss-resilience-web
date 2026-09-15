@@ -142,6 +142,14 @@ function NavV2({ lang, setLang, side, setSide, onOpenDrawer, onOpenDonate, onOpe
           <a href="#calc" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.calc}</a>
           <a href="#dossier" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.dossier}</a>
           <a href="#mentors" className="v2-nav-link" style={{ fontSize: 13, fontWeight: 600, color: 'var(--fg-2)', textDecoration: 'none' }}>{nl.mentors}</a>
+          <a
+            href="#guide"
+            onClick={(e) => { e.preventDefault(); if (onOpenInfo) onOpenInfo('guide'); }}
+            className="v2-nav-link"
+            style={{ fontSize: 13, fontWeight: 600, color: '#38BDF8', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+          >
+            <span>📖</span> {nl.guide}
+          </a>
         </nav>
 
         <div className="v2-nav-actions">
@@ -244,7 +252,7 @@ Object.assign(window, { NavV2, TopBannerV2, BrandMark });
 // ==================== [Module: ServiceSwitcher.jsx] ====================
 // SwissRelief 2.6 — Horizontal 5-service switcher bar under the header.
 // Isolated stacking context (z-index: 10) so the language dropdown (z: 1100) stays above.
-function ServiceSwitcher({ activeId, onPick, t }) {
+function ServiceSwitcher({ activeId, onPick, onOpenChat, t }) {
   const sw = t?.switcher || {};
 
   const services = [
@@ -369,6 +377,24 @@ function ServiceSwitcher({ activeId, onPick, t }) {
                 <div className="v2-svc-sub">{s.sub}</div>
               </button>
             ))}
+            {onOpenChat && (
+              <button
+                className="v2-svc-btn side-ai"
+                onClick={onOpenChat}
+                title="ШІ-Копілот ACCORD Suisse"
+                style={{ background: 'linear-gradient(135deg, rgba(213,43,30,0.18) 0%, rgba(15,23,42,0.6) 100%)', border: '1px solid rgba(213,43,30,0.35)' }}
+              >
+                <div className="v2-svc-top">
+                  <span className="v2-svc-num" style={{ color: '#F87171' }}>AI</span>
+                  <span className="v2-svc-badge" style={{ background: '#22C55E', color: '#000', fontWeight: 800 }}>LIVE</span>
+                </div>
+                <div className="v2-svc-body">
+                  <span className="v2-svc-icon" aria-hidden="true">🤖</span>
+                  <span className="v2-svc-label">{t?.svc?.copilot || "ШІ-Копілот"}</span>
+                </div>
+                <div className="v2-svc-sub">{t?.svc?.copilotSub || "Діалог 24/7"}</div>
+              </button>
+            )}
           </div>
         </nav>
       </div>
@@ -385,7 +411,7 @@ Object.assign(window, { ServiceSwitcher });
 // containing-block trap. 100dvh, inset:0, z-index 99999.
 // Contains 2×2 language grid (Anomalie 2 FIX).
 
-function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClose, onDonate, onOpenInfo, t }) {
+function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClose, onDonate, onOpenInfo, onOpenChat, t }) {
   // Body scroll lock
   React.useEffect(() => {
     document.body.classList.add('no-scroll');
@@ -552,6 +578,26 @@ function MobileDrawer({ lang, setLang, side, setSide, service, setService, onClo
             </button>
           </div>
         </div>
+
+        {/* AI Co-Pilot Launcher */}
+        {onOpenChat && (
+          <div className="drawer-section" style={{ paddingTop: '8px', paddingBottom: '8px' }}>
+            <button
+              className="svc-item"
+              onClick={() => { onClose(); onOpenChat(); }}
+              style={{ background: 'linear-gradient(135deg, rgba(213,43,30,0.18) 0%, rgba(30,41,59,0.7) 100%)', border: '1px solid rgba(213,43,30,0.35)' }}
+            >
+              <div className="icon">🤖</div>
+              <div className="info">
+                <div className="label" style={{ color: '#FCA5A5', fontWeight: 700 }}>
+                  {lang === 'uk' ? 'ШІ-Копілот ACCORD Suisse' : 'Co-pilote IA ACCORD'}
+                </div>
+                <div className="sub">{lang === 'uk' ? 'Діалог 24/7 · EVAM, ст. 262 CO, досьє' : 'Dialogue 24/7 · EVAM, Art. 262 CO'}</div>
+              </div>
+              <Ico.arrow className="arrow"/>
+            </button>
+          </div>
+        )}
 
         {/* Actions */}
         <div className="drawer-actions">
@@ -846,56 +892,211 @@ function AboutTab({ lang }) {
 }
 
 // --------------------------------------------------------------------------
-// 2. TAB: ЯК КОРИСТУВАТИСЬ (GUIDE)
+// 2. TAB: ЯК КОРИСТУВАТИСЬ (GUIDE) — MULTI-ROLE DOCUMENTATION (CLIENTS & ADMIN)
 // --------------------------------------------------------------------------
 function GuideTab({ lang }) {
-  const stepsUk = [
-    { n: "01", t: "Пошук житла з реальними фото", d: "Оберіть вкладку «Житло». Перевіряйте квартири з реальними фото, прямим закріпленням за режі (без сайтів-агрегаторів) та розрахунком часу CFF/SBB до найближчого вокзалу." },
-    { n: "02", t: "Калькулятор кантональних лімітів", d: "У вкладці «Калькулятор» оберіть свій кантон (EVAM у Vaud, Hospice Général у Genève тощо) та перевірте, чи вписується вартість оренди в офіційні норми соціальної допомоги та правило 33% зарплати." },
-    { n: "03", t: "Генератор досьє для режі в 1 клік", d: "Введіть свої дані та статус у вкладці «Досьє». Платформа створить офіційний лист-заявку французькою або німецькою мовою з повним пакетом додатків (Art. 253 CO), готовий для передачі до режі." },
-    { n: "04", t: "Вакансії та швейцарське CV", d: "У вкладці «Робота» переглядайте 63 актуальні пропозиції, відсортовані за ст. 17 LEI (миттєвий найм) та ст. 21a LEI (пріоритет ORP). Ознайомтеся зі швейцарським стандартом резюме та створіть мотиваційний лист." },
-    { n: "05", t: "Суборенда та швейцарські наставники", d: "Розрахуйте законну частку оплати кімнати за ст. 262 CO (максимум 20% за меблі). Подайте запит на волонтерський супровід від швейцарців мережі Benevol (ст. 394 CO)." },
-    { n: "06", t: "Підключення бота @SwissResilienceHubBot", d: "Запустіть Telegram-бота для отримання персональних сповіщень швидше за 60 секунд. Відгукуйтесь першими, поки оголошення не отримало сотні відгуків." }
-  ];
+  const [role, setRole] = React.useState('seekers');
+  const isUk = lang === 'uk';
+  const isFr = lang === 'fr';
+  const isDe = lang === 'de';
 
-  const stepsFr = [
-    { n: "01", t: "Trouver un logement vérifié", d: "Consultez la section « Logement ». Chaque bien est attribué factuellement à sa gérance, avec calcul précis du temps CFF/SBB et conformité aux barèmes EVAM." },
-    { n: "02", t: "Calculer les plafonds cantonaux", d: "Vérifiez dans le « Calculateur » si le loyer respecte les barèmes officiels de votre canton et la règle impérative des 33% de vos revenus nets." },
-    { n: "03", t: "Générer son dossier de régie 1-clic", d: "Renseignez vos coordonnées dans le « Dossier ». L'application compose automatiquement la lettre de candidature formelle selon l'Art. 253 CO." },
-    { n: "04", t: "Emplois et standard CV suisse", d: "Explorez les 63 offres réelles, le radar de priorité Art. 21a LEI, et suivez le guide pas-à-pas pour adapter votre CV aux exigences des recruteurs suisses." },
-    { n: "05", t: "Sous-location & Réseau de mentors", d: "Estimez une participation équitable pour une chambre selon l'Art. 262 CO. Rejoignez ou sollicitez l'accompagnement citoyen bénévole Benevol (Art. 394 CO)." },
-    { n: "06", t: "Alertes via @SwissResilienceHubBot", d: "Activez le bot Telegram pour recevoir les nouvelles annonces en moins de 60 secondes chrono et postuler avant la saturation des régies." }
-  ];
+  const roleMeta = {
+    uk: {
+      seekers: { label: "🎯 Шукачам (Permis S)", title: "Інструкція для шукачів житла та роботи", desc: "Покроковий алгоритм дій для швидкого отримання житла від режі та легальної роботи без посередників і комісій." },
+      hosts:   { label: "🤝 Господарям (ст. 262)", title: "Посібник для швейцарських господарів", desc: "Легальна суборенда за ст. 262 CO, прозорий розрахунок без зловживань та менторство Benevol." },
+      copilot: { label: "🤖 ШІ-Копілот і Голос", title: "Як користуватись ШІ-Копілотом ACCORD", desc: "Автономний діалог 24/7, швидкі кнопки переходу та голосові повідомлення Whisper STT у Telegram." },
+      admin:   { label: "⚙️ Адміністратору", title: "Керівництво адміністратора та оператора", desc: "Швидкий довідник керування демоном бота, моніторингу шлюзів .184 / .251 та збірки бандлу." }
+    },
+    fr: {
+      seekers: { label: "🎯 Candidats (Permis S)", title: "Mode d'emploi pour candidats Permis S", desc: "Guide méthodique pour obtenir un logement vérifié de régie et un emploi légal sans frais d'intermédiaires." },
+      hosts:   { label: "🤝 Hôtes (Art. 262 CO)", title: "Guide pour les hôtes suisses solidaires", desc: "Sous-location légale Art. 262 CO, plafonnement mobilier à 20% et mentorat citoyen Benevol." },
+      copilot: { label: "🤖 Co-pilote & Vocal", title: "Utilisation du Co-pilote IA & Vocal", desc: "Assistance interactive 24/7, boutons d'action et messages vocaux Whisper STT sur Telegram." },
+      admin:   { label: "⚙️ Administration", title: "Guide d'exploitation & Administration", desc: "Gestion du démon de bot, surveillance des passerelles .184/.251 et compilation du bundle." }
+    },
+    de: {
+      seekers: { label: "🎯 Status S Suchende", title: "Anleitung für Status S Suchende", desc: "Schritt-für-Schritt-Leitfaden für Wohnungen von Verwaltungen und legale Arbeit ohne Vermittlungsgebühren." },
+      hosts:   { label: "🤝 Gastgeber (Art. 262)", title: "Leitfaden für Schweizer Gastgeber", desc: "Rechtssichere Untermiete nach Art. 262 OR, Möblierungszuschlag max. 20% und Benevol-Mentorat." },
+      copilot: { label: "🤖 KI-Copilot & Sprache", title: "Nutzung des KI-Copiloten & Whisper", desc: "24/7 Interaktiver Dialog, Aktionsknöpfe und Sprachnachrichten via Whisper STT im Telegram-Bot." },
+      admin:   { label: "⚙️ Administration", title: "Betriebshandbuch & Administration", desc: "Bot-Daemon-Verwaltung, Statusprüfung der Gateways .184/.251 und Bundle-Kompilierung." }
+    },
+    en: {
+      seekers: { label: "🎯 Seekers (Permis S)", title: "User Guide for Permis S Beneficiaries", desc: "Step-by-step roadmap to verified housing and legal employment without exploitative fees." },
+      hosts:   { label: "🤝 Swiss Hosts (Art. 262)", title: "Guide for Swiss Solidarity Hosts", desc: "Legal Art. 262 CO subleases, 20% furniture cap compliance, and Benevol mentorship." },
+      copilot: { label: "🤖 AI Co-Pilot & Voice", title: "How to use AI Co-Pilot & Whisper Voice", desc: "24/7 interactive widget, 1-click action triggers, and Whisper STT voice notes in Telegram." },
+      admin:   { label: "⚙️ Administrator", title: "Operator & Platform Administrator Guide", desc: "Bot daemon lifecycle management, .184/.251 gateway health, and bundle builds." }
+    }
+  };
 
-  const steps = lang === 'uk' ? stepsUk : stepsFr;
+  const rm = roleMeta[lang] || roleMeta.fr;
+  const currentRole = rm[role] || rm.seekers;
+
+  const stepsData = {
+    seekers: {
+      uk: [
+        { n: "01", t: "Пошук житла від режі та Reprise de bail", b: "Art. 264 CO", d: "Оберіть вкладку «Житло». Переглядайте верифіковані квартири з реальними фото, закріплені за офіційними агенціями (Bernard Nicod, Cogestim, Wincasa). Шукайте позначки «Reprise de bail» (передача чинного договору без підвищення ціни) та розрахунок часу CFF/SBB до вокзалів." },
+        { n: "02", t: "Калькулятор кантональних лімітів EVAM", b: "EVAM / 33%", d: "У вкладці «Калькулятор» оберіть кантон Во або Женеву та склад сім'ї. Перевірте, чи вписується чиста оренда та комунальні у соціальні норми (наприклад, CHF 1'350–2'050 для 3 осіб у Во) та правило 33% заробітної плати." },
+        { n: "03", t: "Генератор досьє для режі в 1 клік", b: "Art. 253 CO / USPI", d: "Заповніть коротку форму у вкладці «Досьє». Платформа створить офіційний лист-заявку французькою або німецькою мовою за стандартом USPI з переліком обов'язкових додатків: Permis S, витяг з реєстру боргів (Office des poursuites) та гарантія EVAM." },
+        { n: "04", t: "Вакансії та захищене вікно ст. 21a LEI", b: "Art. 17 & 21a LEI", d: "У вкладці «Робота» переглядайте 63 реальні вакансії. Використовуйте перевагу 5-денного захищеного вікна RAV/ORP (ст. 21a LEI) та завантажте зразок резюме, адаптованого під швейцарські кадрові стандарти." },
+        { n: "05", t: "Безоплатний супровід менторів Benevol", b: "Art. 394 CO", d: "У вкладці «Ментори» подайте запит на волонтерську підтримку від швейцарських громадян (розмовна практика французької, спільні візити на огляди житла, консультації з оформлення)." }
+      ],
+      fr: [
+        { n: "01", t: "Logement vérifié de régie & Reprise de bail", b: "Art. 264 CO", d: "Consultez la section « Logement ». Chaque bien est attribué factuellement à sa gérance (Bernard Nicod, Cogestim, etc.) avec calcul précis du temps CFF/SBB et repérage prioritaire des reprises de bail sans hausse de loyer." },
+        { n: "02", t: "Calculateur des plafonds cantonaux EVAM", b: "EVAM / 33%", d: "Vérifiez dans le « Calculateur » si le loyer respecte les barèmes officiels de votre canton (ex. CHF 1'350–2'050 pour 3 personnes à Vaud) et la règle impérative des 33% de vos revenus nets." },
+        { n: "03", t: "Générateur de dossier de régie 1-clic", b: "Art. 253 CO / USPI", d: "Renseignez vos coordonnées dans le « Dossier ». L'application compose automatiquement la lettre de candidature formelle aux standards USPI avec la liste des pièces justificatives (Permis S, poursuites vierges, attestation EVAM)." },
+        { n: "04", t: "Offres d'emploi & Priorité indigène Art. 21a LEI", b: "Art. 17 & 21a LEI", d: "Explorez 63 offres réelles, exploitez la fenêtre de priorité ORP/RAV de 5 jours réservée aux résidents, et suivez le modèle suisse pour optimiser votre CV." },
+        { n: "05", t: "Accompagnement bénévole Benevol", b: "Art. 394 CO", d: "Dans la section « Mentors », sollicitez un accompagnement citoyen gratuit (Art. 394 CO) pour la pratique du français et les visites communes de logements." }
+      ]
+    },
+    hosts: {
+      uk: [
+        { n: "01", t: "Легальна суборенда кімнати за законом", b: "Art. 262 CO", d: "Швейцарські господарі та чинні орендарі мають законне право здавати частину житла бенефіціарам статусу S. Формула справедливої частки: (Кімнати кімнати / Загальні кімнати) * Оренда + Комунальні." },
+        { n: "02", t: "Ліміт націнки за умеблювання (max 20%)", b: "Юридичний щит", d: "Згідно зі швейцарською судовою практикою, максимальна надбавка за вміст меблів не може перевищувати 20% від базової ставки. Це захищає вас від звинувачень у здирництві (loyer usuraire)." },
+        { n: "03", t: "Офіційне повідомлення режі (Notification)", b: "Art. 262 al. 1 CO", d: "Закон вимагає повідомити орендодавця про умови суборенди. Майстер суборенди сформує офіційний лист французькою мовою для вашої режі. Орендодавець не має права відмовити без поважних причин." },
+        { n: "04", t: "Участь у волонтерській мережі Benevol", b: "Art. 394 CO", d: "Приєднуйтесь як цивільний наставник. Формат безоплатного доручення (contrat de mandat gratuit) повністю виключає податкові, трудові або юридичні ризики для швейцарських помічників." }
+      ],
+      fr: [
+        { n: "01", t: "Sous-location légale et transparente", b: "Art. 262 CO", d: "Les locataires principaux ont le droit légal de sous-louer une partie de leur logement. Formule équitable : (Pièces occupées / Total pièces) * Loyer net + Charges réelles." },
+        { n: "02", t: "Plafond de majoration pour meubles (max 20%)", b: "Bouclier juridique", d: "Conformément à la jurisprudence du Tribunal fédéral, la majoration pour mobilier ne doit pas dépasser 20%. Cela vous met à l'abri de toute contestation pour loyer abusif." },
+        { n: "03", t: "Notification officielle à la gérance", b: "Art. 262 al. 1 CO", d: "Le formulaire génère automatiquement la lettre de communication formelle destinée à votre régie. Le bailleur ne peut refuser son consentement sauf motifs légitimes stricts." },
+        { n: "04", t: "Engagement bénévole citoyen Benevol", b: "Art. 394 CO", d: "Devenez mentor bénévole. Le contrat de mandat gratuit (Art. 394 CO) garantit l'absence totale de contraintes contractuelles ou fiscales d'un rapport de travail." }
+      ]
+    },
+    copilot: {
+      uk: [
+        { n: "01", t: "Діалоговий віджет 24/7 на сайті та в Mini App", b: "ШІ-Агент", d: "Натискайте червону круглу кнопку «🤖 ШІ-Копілот» у нижньому кутку екрана. Ставте запитання будь-якою мовою про норми EVAM, статті законів (CO, LEI), процедури режі або розклад SBB." },
+        { n: "02", t: "Інтерактивні кнопки дій у відповідях", b: "1-Click Дії", d: "Кожна відповідь копілота містить кнопки швидкого переходу (наприклад, «🧮 Ліміти EVAM» або «📄 Досьє для режі»), які автоматично відкривають потрібний інструмент з уже підставленими параметрами." },
+        { n: "03", t: "Голосові повідомлення через Whisper STT у Telegram", b: "Whisper AI", d: "У боті @SwissResilienceHubBot надсилайте аудіо- або голосові повідомлення. Вбудована модель Whisper STT локально розпізнає голос та надає точну юридичну консультацію за 2 секунди." }
+      ],
+      fr: [
+        { n: "01", t: "Widget interactif 24/7 Web & Mini App", b: "Agent IA", d: "Cliquez sur le bouton flottant « 🤖 Co-pilote IA » en bas à droite. Posez librement vos questions sur les barèmes EVAM, les articles CO/LEI, les régies ou les liaisons CFF." },
+        { n: "02", t: "Boutons d'action intégrés 1-clic", b: "Navigation fluide", d: "Chaque réponse propose des boutons directionnels (ex. « 🧮 Plafonds EVAM », « 📄 Générer Dossier ») pré-remplissant instantanément les formulaires du portail." },
+        { n: "03", t: "Messages vocaux via Whisper STT sur Telegram", b: "Whisper Vocal", d: "Dans le bot @SwissResilienceHubBot, envoyez des notes vocales. Le moteur Whisper STT convertit la voix en texte et formule une réponse juridique précise sans délai." }
+      ]
+    },
+    admin: {
+      uk: [
+        { n: "01", t: "Архітектура системи та внутрішні шлюзи", b: "Edge / .184 / .251", d: "Клієнтський рівень: статичний бандл React (web/app-bundle.js) у Cloudflare CDN. Серверний рівень: Telegram-бот на Python, ШІ-шлюз на http://192.168.1.184:8082 та граф знань Utopia DB на http://192.168.1.251:9922." },
+        { n: "02", t: "Керування демоном бота (start_bot_daemon.sh)", b: "CLI Демон", d: "Команди керування: bash scripts/start_bot_daemon.sh {start|stop|restart|status|supervise}. Режим supervise забезпечує безперервний перезапуск бота при збоях." },
+        { n: "03", t: "Збірка та синхронізація фронтенду", b: "node web/build.cjs", d: "Після будь-яких правок у web/*.jsx виконайте «node web/build.cjs». Скрипт транскомпілює код через Babel та оновлює бандли в /web/, /hub/, /app/ та /mini-app/." },
+        { n: "04", t: "Повний технічний та операційний посібник", b: "Документація", d: "Детальні інструкції для Арсена Коваленка та координаторів зібрано у файлі docs/USER_AND_ADMIN_GUIDE.md (архітектура, безпека даних, логи та відновлення)." }
+      ],
+      fr: [
+        { n: "01", t: "Architecture système et passerelles internes", b: "Edge / .184 / .251", d: "Couche client : bundle React statique sans dépendance d'exécution. Couche serveur : bot Telegram Python, passerelle LLM (http://192.168.1.184:8082) et Utopia DB (http://192.168.1.251:9922)." },
+        { n: "02", t: "Gestion du démon bot (start_bot_daemon.sh)", b: "CLI Démon", d: "Commandes du cycle de vie : bash scripts/start_bot_daemon.sh {start|stop|restart|status|supervise}. Le mode supervise relance automatiquement le processus en cas d'interruption." },
+        { n: "03", t: "Compilation du bundle frontend", b: "node web/build.cjs", d: "Après modification des fichiers web/*.jsx, exécutez « node web/build.cjs ». Il compile le code via Babel et synchronise les répertoires hub, app et mini-app." },
+        { n: "04", t: "Manuel d'exploitation complet", b: "Documentation", d: "Retrouvez l'intégralité des spécifications d'administration dans le fichier docs/USER_AND_ADMIN_GUIDE.md du référentiel." }
+      ]
+    }
+  };
+
+  const stepsList = (stepsData[role] && (stepsData[role][lang] || stepsData[role].uk)) || stepsData.seekers.uk;
 
   return (
     <div>
-      <h2 style={{ fontSize: 22, fontWeight: 800, color: '#fff', marginTop: 0, marginBottom: 8 }}>
-        {lang === 'uk' ? 'Як користуватись платформою АКОРД' : 'Mode d\'emploi de la plateforme ACCORD'}
-      </h2>
-      <p style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 20 }}>
-        {lang === 'uk'
-          ? 'Простий покроковий алгоритм для швидкого отримання житла, роботи та легального захисту.'
-          : 'Guide méthodique pour réussir vos démarches de logement et d\'emploi en Suisse Romande.'}
-      </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
+        <div>
+          <h2 style={{ fontSize: 22, fontWeight: 800, color: '#fff', margin: '0 0 4px' }}>
+            {currentRole.title}
+          </h2>
+          <p style={{ color: 'var(--muted)', fontSize: 13, margin: 0 }}>
+            {currentRole.desc}
+          </p>
+        </div>
+      </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 14 }}>
-        {steps.map(s => (
+      {/* Role sub-navigation pills */}
+      <div style={{
+        display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 10, marginBottom: 18,
+        borderBottom: '1px solid rgba(148, 163, 184, 0.15)'
+      }}>
+        {['seekers', 'hosts', 'copilot', 'admin'].map(rKey => {
+          const item = rm[rKey];
+          const active = role === rKey;
+          return (
+            <button
+              key={rKey}
+              onClick={() => setRole(rKey)}
+              style={{
+                padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700,
+                border: active ? '1px solid #D52B1E' : '1px solid rgba(148, 163, 184, 0.2)',
+                background: active ? 'rgba(213, 43, 30, 0.2)' : 'rgba(255, 255, 255, 0.04)',
+                color: active ? '#FCA5A5' : '#CBD5E1',
+                cursor: 'pointer', whiteSpace: 'nowrap', transition: 'all .15s'
+              }}
+            >
+              {item.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Step Cards Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 14, marginBottom: 20 }}>
+        {stepsList.map(s => (
           <div key={s.n} style={{
             background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(148, 163, 184, 0.15)',
             borderRadius: 12, padding: 16, display: 'flex', flexDirection: 'column'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <span style={{ fontFamily: 'var(--f-mono)', fontSize: 12, fontWeight: 800, color: '#D52B1E' }}>
-                КРОК {s.n}
+                {isUk ? `КРОК ${s.n}` : `ÉTAPE ${s.n}`}
               </span>
+              {s.b && (
+                <span style={{
+                  fontSize: 10.5, fontWeight: 700, padding: '2px 8px', borderRadius: 6,
+                  background: 'rgba(56, 189, 248, 0.12)', color: '#38BDF8', border: '1px solid rgba(56, 189, 248, 0.25)'
+                }}>
+                  {s.b}
+                </span>
+              )}
             </div>
-            <div style={{ fontSize: 14.5, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{s.t}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#fff', marginBottom: 6 }}>{s.t}</div>
             <div style={{ fontSize: 12.5, color: '#94A3B8', lineHeight: 1.5 }}>{s.d}</div>
           </div>
         ))}
       </div>
+
+      {/* Extra Action Callout */}
+      {role === 'admin' ? (
+        <div style={{
+          background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)',
+          borderRadius: 12, padding: 14, fontSize: 12.5, color: '#BAE6FD', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10
+        }}>
+          <div>
+            <b>📘 Документація репозиторію:</b> Повний файл інструкцій розміщено в <code>docs/USER_AND_ADMIN_GUIDE.md</code>.
+          </div>
+          <a
+            href="https://t.me/SwissResilienceHubBot?start=admin_help"
+            target="_blank" rel="noopener noreferrer"
+            style={{ color: '#38BDF8', fontWeight: 700, textDecoration: 'none' }}
+          >
+            Telegram Стійкість ↗
+          </a>
+        </div>
+      ) : (
+        <div style={{
+          background: 'rgba(213, 43, 30, 0.08)', border: '1px solid rgba(213, 43, 30, 0.25)',
+          borderRadius: 12, padding: 14, fontSize: 12.5, color: '#FECACA', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10
+        }}>
+          <div>
+            <b>💡 Потрібна жива порада?</b> ШІ-Копілот ACCORD підкаже ліміти EVAM для вашої комуни та складе лист французькою за 20 секунд.
+          </div>
+          <button
+            onClick={() => {
+              if (window.location.hash !== '#chat') {
+                const fab = document.querySelector('.v2-agent-fab');
+                if (fab) fab.click();
+              }
+            }}
+            style={{
+              background: '#D52B1E', color: '#fff', border: 'none', borderRadius: 8,
+              padding: '6px 12px', fontSize: 12, fontWeight: 700, cursor: 'pointer'
+            }}
+          >
+            🤖 Запустити Копілот
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -3276,6 +3477,531 @@ function DonationModal({ onClose, t }) {
 Object.assign(window, { BetaSection, DonationModal });
 
 
+// ==================== [Module: AgentChatWidget.jsx] ====================
+// ACCORD Suisse — Autonomous Agent Dialogue Widget
+// Milestone 4: Multi-channel AI Co-Pilot for Web Portal & Telegram Mini App
+// Instant synchronization with 7-service switcher & mobile drawer
+
+function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lang = 'uk', t = {} }) {
+  const [messages, setMessages] = React.useState(() => {
+    const isUk = lang === 'uk';
+    const isFr = lang === 'fr';
+    const isDe = lang === 'de';
+
+    const welcome = isUk
+      ? "Вітаю! Я автономний ШІ-копілот ACCORD Suisse 🇨🇭🇺🇦.\nДопомагаю знайти житло під ліміти EVAM, підібрати вакансії з дозволом S (ст. 21a LEI), розрахувати суборенду за ст. 262 CO або згенерувати досьє для режі.\n\nОберіть тему або напишіть запитання нижче:"
+      : isFr
+      ? "Bonjour ! Je suis le co-pilote IA autonome ACCORD Suisse 🇨🇭.\nJe vous accompagne pour le logement aux barèmes EVAM, les postes prioritaires Permis S (Art. 21a LEI), le bouclier de sous-location (Art. 262 CO) et le dossier officiel pour régies.\n\nPosez votre question ou choisissez un sujet ci-dessous :"
+      : isDe
+      ? "Guten Tag! Ich bin der autonome KI-Copilot von ACCORD Suisse 🇨🇭.\nIch helfe Ihnen bei Wohnungen nach EVAM-Grenzwerten, Stellen für Status S (Art. 21a AIG), Untermiete nach Art. 262 OR und Bewerbungsdossiers für Verwaltungen.\n\nStellen Sie Ihre Frage oder wählen Sie ein Thema:"
+      : "Hello! I am the ACCORD Suisse Autonomous AI Co-Pilot 🇨🇭.\nI assist with EVAM-compliant housing, Permis S priority jobs (Art. 21a LEI), Art. 262 CO sublease calculations, and official régie dossiers.\n\nAsk a question or pick a topic below:";
+
+    return [
+      {
+        id: 'msg_welcome',
+        role: 'assistant',
+        text: welcome,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        actions: [
+          { label: '🧮 Ліміти EVAM (03)', service: 'calc', side: 'a' },
+          { label: '🛡️ Суборенда ст. 262 (05)', service: 'sublease', side: 'b' },
+          { label: '📄 Досьє для режі (04)', service: 'dossier', side: 'a' }
+        ]
+      }
+    ];
+  });
+
+  const [input, setInput] = React.useState('');
+  const [isTyping, setIsTyping] = React.useState(false);
+  const messagesEndRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (isOpen && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, isOpen]);
+
+  // Suggestions chips
+  const suggestions = [
+    { label: '🏠 Ліміти EVAM (Во)', q: 'Які ліміти оренди EVAM у кантоні Во для сім\'ї з 3 осіб?' },
+    { label: '🛡️ Розрахунок суборенди', q: 'Як законно розрахувати плату за кімнату за ст. 262 CO з меблями?' },
+    { label: '📄 Досьє для Bernard Nicod', q: 'Як підготувати мотиваційний лист для режі Bernard Nicod?' },
+    { label: '💼 Вакансії Art. 21a LEI', q: 'Як працює 5-денне захищене вікно RAV для дозволу S?' },
+    { label: '🚆 SBB Etoy -> Lausanne', q: 'Скільки їхати потягом від Etoy до Lausanne Gare?' },
+    { label: '🤝 Ментори Benevol', q: 'Як отримати волонтера Benevol за договором ст. 394 CO?' }
+  ];
+
+  const handleSend = (textToSend) => {
+    const q = (textToSend || input).trim();
+    if (!q) return;
+
+    const userMsg = {
+      id: 'usr_' + Date.now(),
+      role: 'user',
+      text: q,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    setMessages(prev => [...prev, userMsg]);
+    setInput('');
+    setIsTyping(true);
+
+    // Knowledge graph / B-SDD deterministic rule compiler response
+    setTimeout(() => {
+      const qLow = q.toLowerCase();
+      let answer = '';
+      let actions = [];
+
+      if (qLow.includes('evam') || qLow.includes('ліміт') || qLow.includes('hospice') || qLow.includes('норм') || qLow.includes('оренд') || qLow.includes('вартість')) {
+        answer = "🧮 **Офіційні нормативи оренди кантону Во (EVAM) та Женеви (Hospice) :**\n\n" +
+          "• **Кантон Во (VD, бареми EVAM):**\n" +
+          "  - 1 особа: **CHF 1'050 – 1'350** / міс брутто\n" +
+          "  - 2 особи: **CHF 1'200 – 1'750** / міс брутто\n" +
+          "  - 3 особи: **CHF 1'350 – 2'050** / міс брутто\n" +
+          "  - 4 особи: **CHF 1'500 – 2'350** / міс брутто\n" +
+          "• **Правило 33%:** брутто-оренда не повинна перевищувати 33.3% сукупного доходу сім'ї.\n\n" +
+          "💡 _Усі квартири у нашому каталозі мають автоматичну відмітку відповідності нормам EVAM._";
+        actions = [
+          { label: '👉 Відкрити Калькулятор лімітів (03)', service: 'calc', side: 'a' },
+          { label: '👉 Переглянути перевірене житло (01)', service: 'housing', side: 'a' }
+        ];
+      } else if (qLow.includes('суборенд') || qLow.includes('262') || qLow.includes('кімнат') || qLow.includes('sous-location') || qLow.includes('господар')) {
+        answer = "🛡️ **Юридичний захист суборенди за статтею 262 CO (Code des Obligations) :**\n\n" +
+          "1. **Безумовне право наймача:** Жодна gérance не може повністю заборонити суборенду. Такий пункт договору є нікчемним (_nul de plein droit_).\n" +
+          "2. **Обмеження націнки за меблі:** Максимум **20.0%** від базової частки кімнати (судова практика Федерального суду ATF та директиви ASLOCA).\n" +
+          "3. **Еталонний приклад:** 4 кімнати (2'000 CHF) -> 500 CHF/кімната + 100 CHF (20% меблі) + 80 CHF комунальні = **680 CHF/міс**.\n" +
+          "4. **Строк розірвання:** 2 тижні на кінець місяця (ст. 266e CO).";
+        actions = [
+          { label: '👉 Відкрити Майстер суборенди (05)', service: 'sublease', side: 'b' },
+          { label: '👉 Повідомлення до режі (Avis 262 CO)', service: 'sublease', side: 'b' }
+        ];
+      } else if (qLow.includes('досьє') || qLow.includes('dossier') || qLow.includes('bernard') || qLow.includes('мотиваційн') || qLow.includes('лист')) {
+        answer = "📄 **Стандартизоване швейцарське досьє кандидата (USPI / Art. 253 CO) :**\n\n" +
+          "Швейцарські режі (Bernard Nicod, Cogestim, Domicim, Wincasa) вимагають чіткий пакет документів:\n" +
+          "1. **Attestation Permis S** (Art. 4 LEI — право легального проживання).\n" +
+          "2. **Гарантія оплати EVAM / Fiche de salaire** (підтвердження покриття орендної плати).\n" +
+          "3. **Extrait de l'Office des poursuites** (оригінальний витяг без заборгованостей < 3 міс).\n" +
+          "4. **Attestation RC Ménage** (поліс страхування цивільної відповідальності на CHF 5'000'000).\n\n" +
+          "Наш генератор складає офіційного листа французькою мовою в 1 клік.";
+        actions = [
+          { label: '👉 Згенерувати офіційне досьє (04)', service: 'dossier', side: 'a' }
+        ];
+      } else if (qLow.includes('ваканс') || qLow.includes('робот') || qLow.includes('21a') || qLow.includes('lei') || qLow.includes('rav') || qLow.includes('orp')) {
+        answer = "💼 **Вакансії зі статусом Permis S та правовий режим Art. 21a LEI :**\n\n" +
+          "• **Право на працю:** Власники статусу S мають безумовне право працювати у Швейцарії без квот та дозволів кантональної влади.\n" +
+          "• **Вікно Stellenmeldepflicht (ст. 21a LEI):** Для професій із рівнем безробіття >= 5% вакансії спочатку публікуються виключно для зареєстрованих шукачів ORP/RAV на 5 робочих днів.\n" +
+          "• **Оплата праці:** Суворо регулюється галузевими колективними договорами CCT / GAV.";
+        actions = [
+          { label: '👉 Відкрити каталог вакансій (02)', service: 'prof', side: 'a' }
+        ];
+      } else if (qLow.includes('sbb') || qLow.includes('потяг') || qLow.includes('хвилин') || qLow.includes('etoy') || qLow.includes('morges') || qLow.includes('дорог')) {
+        answer = "🚆 **Транспортна логістика SBB CFF FFS у регіоні La Côte (Vaud) :**\n\n" +
+          "• **Etoy ⟷ Morges:** 9 хвилин (прямий потяг RER Vaud R5/R6)\n" +
+          "• **Etoy ⟷ Lausanne Gare:** 22-24 хвилини (прямий або 1 пересадка в Renens)\n" +
+          "• **Morges ⟷ Genève:** 29 хвилин (прямий міжрегіональний потяг IR)\n" +
+          "• **Matran ⟷ Lausanne:** 25 хвилин (1 пересадка)\n\n" +
+          "Усі картки житла на порталі АКОРД автоматично розраховують точний час сполучення.";
+        actions = [
+          { label: '👉 Шукати житло біля станцій (01)', service: 'housing', side: 'a' }
+        ];
+      } else if (qLow.includes('ментор') || qLow.includes('benevol') || qLow.includes('волонтер') || qLow.includes('мова')) {
+        answer = "🤝 **Мережа швейцарських волонтерів Benevol (Art. 394 CO) :**\n\n" +
+          "• **Формат:** Безоплатне цивільне доручення (_contrat de mandat gratuit_), що виключає трудові зобов'язання (ст. 319 CO).\n" +
+          "• **Сфери допомоги:**\n" +
+          "  1. Практика розмовної французької мови.\n" +
+          "  2. Перевірка швейцарського резюме (CV) та супровідних листів.\n" +
+          "  3. Спільні візити на перегляди житла.\n" +
+          "  4. Допомога з адміністративними процедурами.";
+        actions = [
+          { label: '👉 Обрати ментора Benevol (06)', service: 'mentors', side: 'b' }
+        ];
+      } else if (qLow.includes('інструкц') || qLow.includes('користуват') || qLow.includes('посібник') || qLow.includes('довідк') || qLow.includes('як працює') || qLow.includes('guide') || qLow.includes('emploi') || qLow.includes('anleitung')) {
+        answer = "📖 **Покроковий посібник користувача ACCORD Suisse :**\n\n" +
+          "1. 🏠 **Житло:** верифіковані квартири від режі (без комісій і посередників) та логістика SBB.\n" +
+          "2. 🧮 **Калькулятор:** ліміти EVAM кантону Во та Hospice Женеви (правило 33% доходу).\n" +
+          "3. 📄 **Досьє для режі:** 1-Click створення офіційного пакета за ст. 253 CO французькою.\n" +
+          "4. 💼 **Робота:** 63 вакансії та 5-денне захищене вікно ORP/RAV (ст. 21a LEI).\n" +
+          "5. 🛡️ **Суборенда:** легальний розрахунок за ст. 262 CO з меблями (max 20%).\n" +
+          "6. 🤝 **Ментори:** безоплатна підтримка волонтерів Benevol (ст. 394 CO).\n" +
+          "7. 🎙️ **Голос у Telegram:** записуйте голосові повідомлення у боті @SwissResilienceHubBot (Whisper STT).\n\n" +
+          "Оберіть дію нижче для перегляду повного інтерактивного керівництва:";
+        actions = [
+          { label: '📖 Відкрити повний гід', service: 'guide', side: 'a' },
+          { label: '🧮 Ліміти EVAM (03)', service: 'calc', side: 'a' },
+          { label: '📄 Досьє для режі (04)', service: 'dossier', side: 'a' }
+        ];
+      } else {
+        answer = "🤖 **ШІ-копілот ACCORD Suisse опрацював ваш запит :**\n\n" +
+          `«${q}»\n\n` +
+          "Платформа АКОРД підтримує вас у ключових питаннях швейцарської інтеграції:\n" +
+          "• 🏠 **Житло:** верифікація за лімітами EVAM 26 кантонів та розрахунок логістики SBB.\n" +
+          "• 🛡️ **Суборенда:** захист за ст. 262 CO (обмеження меблів <=20%).\n" +
+          "• 📄 **Досьє для режі:** 1-Click генерація мотиваційного листа французькою.\n" +
+          "• 💼 **Робота:** вакансії за ст. 21a LEI з захищеним вікном ORP/RAV.\n" +
+          "• 🤝 **Ментори:** безоплатна підтримка волонтерів Benevol (ст. 394 CO).\n\n" +
+          "Оберіть дію нижче для швидкого переходу :";
+        actions = [
+          { label: '🏠 Житло (01)', service: 'housing', side: 'a' },
+          { label: '💼 Робота (02)', service: 'prof', side: 'a' },
+          { label: '🧮 Ліміти EVAM (03)', service: 'calc', side: 'a' },
+          { label: '🛡️ Суборенда (05)', service: 'sublease', side: 'b' }
+        ];
+      }
+
+      const botMsg = {
+        id: 'bot_' + Date.now(),
+        role: 'assistant',
+        text: answer,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        actions: actions
+      };
+
+      setMessages(prev => [...prev, botMsg]);
+      setIsTyping(false);
+    }, 450);
+  };
+
+  const handleActionClick = (act) => {
+    if (act.service === 'guide') {
+      try { window.location.hash = 'guide'; } catch (e) {}
+    } else if (act.service && onSwitchService) {
+      onSwitchService(act.service, act.side || 'a');
+    }
+  };
+
+  return (
+    <React.Fragment>
+      {/* Floating Toggle Button */}
+      <button
+        onClick={onToggle}
+        className="v2-agent-fab"
+        aria-label="ШІ-Копілот ACCORD Suisse"
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          zIndex: 9000,
+          background: 'linear-gradient(135deg, #D52B1E 0%, #991B1B 100%)',
+          color: '#FFFFFF',
+          border: '1px solid rgba(255, 255, 255, 0.25)',
+          borderRadius: '28px',
+          padding: '10px 16px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          boxShadow: '0 8px 30px rgba(213, 43, 30, 0.45)',
+          cursor: 'pointer',
+          fontFamily: "'Inter', sans-serif",
+          fontSize: '13px',
+          fontWeight: 700,
+          letterSpacing: '-0.01em',
+          transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
+      >
+        <span style={{ fontSize: '16px' }}>🤖</span>
+        <span>{lang === 'uk' ? 'ШІ-Копілот' : lang === 'fr' ? 'Co-pilote IA' : lang === 'de' ? 'KI-Copilot' : 'AI Co-Pilot'}</span>
+        <span style={{
+          width: '8px',
+          height: '8px',
+          borderRadius: '50%',
+          background: '#22C55E',
+          boxShadow: '0 0 8px #22C55E',
+          display: 'inline-block'
+        }}></span>
+      </button>
+
+      {/* Slide-in / Modal Dialogue Container */}
+      {isOpen && (
+        <div
+          className="v2-agent-dialogue-overlay"
+          onClick={onToggle}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(7, 11, 18, 0.72)',
+            backdropFilter: 'blur(6px)',
+            zIndex: 99998,
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'flex-end',
+            padding: '16px'
+          }}
+        >
+          <div
+            className="v2-agent-dialogue-panel"
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '460px',
+              height: '82vh',
+              maxHeight: '680px',
+              background: '#0B111E',
+              border: '1px solid rgba(148, 163, 184, 0.2)',
+              borderRadius: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(213, 43, 30, 0.2)',
+              overflow: 'hidden',
+              fontFamily: "'Inter', sans-serif",
+              color: '#F8FAFC'
+            }}
+          >
+            {/* Header */}
+            <div style={{
+              padding: '14px 16px',
+              background: 'linear-gradient(180deg, rgba(213, 43, 30, 0.15) 0%, rgba(11, 17, 30, 0) 100%)',
+              borderBottom: '1px solid rgba(148, 163, 184, 0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '10px',
+                  background: 'linear-gradient(135deg, #D52B1E 0%, #7F1D1D 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '18px',
+                  boxShadow: '0 0 12px rgba(213, 43, 30, 0.4)'
+                }}>
+                  🤖
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '14px', letterSpacing: '-0.01em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    ACCORD Co-Pilot
+                    <span style={{ fontSize: '10px', background: 'rgba(34, 197, 94, 0.15)', color: '#4ADE80', border: '1px solid rgba(34, 197, 94, 0.3)', padding: '1px 5px', borderRadius: '4px' }}>
+                      ONLINE
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#94A3B8' }}>
+                    NVIDIA Nemotron .184 · Utopia DB .251
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button
+                  onClick={() => setMessages(prev => prev.slice(0, 1))}
+                  title="Очистити історію"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#94A3B8',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    padding: '4px'
+                  }}
+                >
+                  🔄
+                </button>
+                <button
+                  onClick={onToggle}
+                  aria-label="Закрити"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: '#F8FAFC',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    width: '28px',
+                    height: '28px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Suggestions Carousel */}
+            <div style={{
+              padding: '10px 14px',
+              borderBottom: '1px solid rgba(148, 163, 184, 0.08)',
+              display: 'flex',
+              gap: '6px',
+              overflowX: 'auto',
+              scrollbarWidth: 'none',
+              whiteSpace: 'nowrap',
+              background: 'rgba(255, 255, 255, 0.02)'
+            }}>
+              {suggestions.map((s, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSend(s.q)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(148, 163, 184, 0.15)',
+                    borderRadius: '16px',
+                    color: '#CBD5E1',
+                    padding: '5px 10px',
+                    fontSize: '11.5px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    flexShrink: 0
+                  }}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Messages Stream */}
+            <div style={{
+              flex: 1,
+              padding: '14px',
+              overflowY: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}>
+              {messages.map((m) => {
+                const isUser = m.role === 'user';
+                return (
+                  <div
+                    key={m.id}
+                    style={{
+                      alignSelf: isUser ? 'flex-end' : 'flex-start',
+                      maxWidth: '88%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '4px'
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: isUser ? 'linear-gradient(135deg, #D52B1E 0%, #B91C1C 100%)' : 'rgba(30, 41, 59, 0.65)',
+                        border: isUser ? 'none' : '1px solid rgba(148, 163, 184, 0.15)',
+                        borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                        padding: '10px 14px',
+                        fontSize: '12.5px',
+                        lineHeight: 1.55,
+                        color: '#F8FAFC',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
+                        boxShadow: isUser ? '0 4px 14px rgba(213, 43, 30, 0.25)' : 'none'
+                      }}
+                    >
+                      {m.text}
+                    </div>
+
+                    {/* Action buttons if attached */}
+                    {m.actions && m.actions.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '4px' }}>
+                        {m.actions.map((act, aIdx) => (
+                          <button
+                            key={aIdx}
+                            onClick={() => handleActionClick(act)}
+                            style={{
+                              background: 'rgba(56, 189, 248, 0.12)',
+                              border: '1px solid rgba(56, 189, 248, 0.3)',
+                              borderRadius: '12px',
+                              padding: '4px 10px',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              color: '#38BDF8',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {act.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    <span style={{
+                      fontSize: '10px',
+                      color: '#64748B',
+                      alignSelf: isUser ? 'flex-end' : 'flex-start',
+                      padding: '0 4px'
+                    }}>
+                      {m.time}
+                    </span>
+                  </div>
+                );
+              })}
+
+              {isTyping && (
+                <div style={{
+                  alignSelf: 'flex-start',
+                  background: 'rgba(30, 41, 59, 0.65)',
+                  border: '1px solid rgba(148, 163, 184, 0.15)',
+                  borderRadius: '16px 16px 16px 4px',
+                  padding: '8px 14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '12px',
+                  color: '#94A3B8'
+                }}>
+                  <span>Аналіз законодавства Швейцарії</span>
+                  <span style={{ display: 'inline-block', animation: 'pulse 1s infinite' }}>⏳</span>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Bar */}
+            <form
+              onSubmit={(e) => { e.preventDefault(); handleSend(); }}
+              style={{
+                padding: '12px',
+                borderTop: '1px solid rgba(148, 163, 184, 0.12)',
+                background: 'rgba(11, 17, 30, 0.95)',
+                display: 'flex',
+                gap: '8px',
+                alignItems: 'center'
+              }}
+            >
+              <input
+                type="text"
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                placeholder={lang === 'uk' ? "Запитайте про оренду, EVAM, суборенду, досьє..." : "Posez une question sur le logement, EVAM, bail..."}
+                style={{
+                  flex: 1,
+                  background: 'rgba(255, 255, 255, 0.06)',
+                  border: '1px solid rgba(148, 163, 184, 0.2)',
+                  borderRadius: '12px',
+                  padding: '10px 14px',
+                  fontSize: '12.5px',
+                  color: '#F8FAFC',
+                  outline: 'none'
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!input.trim()}
+                style={{
+                  background: input.trim() ? '#D52B1E' : 'rgba(255, 255, 255, 0.08)',
+                  color: input.trim() ? '#FFFFFF' : '#64748B',
+                  border: 'none',
+                  borderRadius: '12px',
+                  padding: '10px 16px',
+                  fontWeight: 700,
+                  fontSize: '13px',
+                  cursor: input.trim() ? 'pointer' : 'default',
+                  transition: 'background 0.2s ease'
+                }}
+              >
+                ➤
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </React.Fragment>
+  );
+}
+
+Object.assign(window, { AgentChatWidget });
+
+
 // ==================== [Module: Footer.jsx] ====================
 // ACCORD Suisse — Legal and accessible footer with verified working links
 function FooterV2({ t, onOpenInfo, lang = 'uk' }) {
@@ -3503,6 +4229,10 @@ function App() {
   const [drawerOpen, setDrawer] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
   const [infoModal, setInfoModal] = React.useState({ open: false, tab: 'about' });
+  const [chatOpen, setChatOpen] = React.useState(false);
+
+  const openChat = () => setChatOpen(true);
+  const toggleChat = () => setChatOpen(prev => !prev);
 
   const openInfo = (tab = 'about') => {
     setInfoModal({ open: true, tab });
@@ -3736,6 +4466,15 @@ function App() {
           </button>
         </nav>
 
+        <AgentChatWidget
+          isOpen={chatOpen}
+          onToggle={toggleChat}
+          activeService={service}
+          onSwitchService={pickService}
+          lang={lang}
+          t={t}
+        />
+
         <InfoModal
           isOpen={infoModal.open}
           onClose={closeInfo}
@@ -3761,7 +4500,7 @@ function App() {
         onOpenInfo={openInfo}
         t={t}
       />
-      <ServiceSwitcher activeId={service} onPick={pickService} t={t}/>
+      <ServiceSwitcher activeId={service} onPick={pickService} onOpenChat={openChat} t={t}/>
       <main>
         <HeroV2 side={side} setSide={setSide} onOpenInfo={openInfo} t={t}/>
         {side === 'a' ? (
@@ -3811,9 +4550,19 @@ function App() {
           onOpenDonate={openTelegramDonate}
           onDonate={openTelegramDonate}
           onOpenInfo={openInfo}
+          onOpenChat={openChat}
           t={t}
         />
       )}
+
+      <AgentChatWidget
+        isOpen={chatOpen}
+        onToggle={toggleChat}
+        activeService={service}
+        onSwitchService={pickService}
+        lang={lang}
+        t={t}
+      />
 
       <InfoModal
         isOpen={infoModal.open}

@@ -87,6 +87,10 @@ function App() {
   const [drawerOpen, setDrawer] = React.useState(false);
   const [dossierPrefill, setPrefill] = React.useState(null);
   const [infoModal, setInfoModal] = React.useState({ open: false, tab: 'about' });
+  const [chatOpen, setChatOpen] = React.useState(false);
+
+  const openChat = () => setChatOpen(true);
+  const toggleChat = () => setChatOpen(prev => !prev);
 
   const openInfo = (tab = 'about') => {
     setInfoModal({ open: true, tab });
@@ -320,6 +324,15 @@ function App() {
           </button>
         </nav>
 
+        <AgentChatWidget
+          isOpen={chatOpen}
+          onToggle={toggleChat}
+          activeService={service}
+          onSwitchService={pickService}
+          lang={lang}
+          t={t}
+        />
+
         <InfoModal
           isOpen={infoModal.open}
           onClose={closeInfo}
@@ -345,7 +358,7 @@ function App() {
         onOpenInfo={openInfo}
         t={t}
       />
-      <ServiceSwitcher activeId={service} onPick={pickService} t={t}/>
+      <ServiceSwitcher activeId={service} onPick={pickService} onOpenChat={openChat} t={t}/>
       <main>
         <HeroV2 side={side} setSide={setSide} onOpenInfo={openInfo} t={t}/>
         {side === 'a' ? (
@@ -395,9 +408,19 @@ function App() {
           onOpenDonate={openTelegramDonate}
           onDonate={openTelegramDonate}
           onOpenInfo={openInfo}
+          onOpenChat={openChat}
           t={t}
         />
       )}
+
+      <AgentChatWidget
+        isOpen={chatOpen}
+        onToggle={toggleChat}
+        activeService={service}
+        onSwitchService={pickService}
+        lang={lang}
+        t={t}
+      />
 
       <InfoModal
         isOpen={infoModal.open}
