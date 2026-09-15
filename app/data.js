@@ -855,7 +855,7 @@ window.HOUSING_LISTINGS = [
     },
     "regie": "Gérance Immobilière Bernard Nicod",
     "regieType": "regie",
-    "image_url": "https://flatfox.ch/thumb/ff/2026/09/50pqh6d02dmrxgtego5rq0490ehi56xx8kscek5lkgqpw6kxud.jpg?alias=facebook_l&amp;signature=TfrhEbHJAqcZFE6xQ2ElaKzGtkG_ELM09KKe09H3erA",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/50pqh6d02dmrxgtego5rq0490ehi56xx8kscek5lkgqpw6kxud.jpg?alias=facebook_l&signature=TfrhEbHJAqcZFE6xQ2ElaKzGtkG_ELM09KKe09H3erA",
     "sbb": {
       "minutes": 16,
       "city": "Nyon Gare",
@@ -1518,7 +1518,7 @@ window.HOUSING_LISTINGS = [
     },
     "regie": "Régie Domicim Romandie",
     "regieType": "regie",
-    "image_url": "https://flatfox.ch/thumb/ff/2026/09/plzwjwuyh715apdh0fr1sp7lhr8tno5jft0kqstrgzyn35mfy6.jpg?alias=facebook_l&amp;signature=b6-mYoGjW27Q47ImGGkDMZh2SC_T2AsIsjkyHUasfek",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/plzwjwuyh715apdh0fr1sp7lhr8tno5jft0kqstrgzyn35mfy6.jpg?alias=facebook_l&signature=b6-mYoGjW27Q47ImGGkDMZh2SC_T2AsIsjkyHUasfek",
     "sbb": {
       "minutes": 12,
       "city": "Genève Cornavin",
@@ -1791,7 +1791,7 @@ window.HOUSING_LISTINGS = [
     },
     "regie": "Gérance Immobilière Bernard Nicod",
     "regieType": "regie",
-    "image_url": "https://flatfox.ch/thumb/ff/2026/09/djrekr52b4qs8qrcqcr0wiqucj2zvrxfjzk4q3q96xue8sfacj.jpg?alias=facebook_l&amp;signature=ucgouUJb-z_F9lCVS8FRoI6VoikT9w7gmz0ARSxV03Y",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/djrekr52b4qs8qrcqcr0wiqucj2zvrxfjzk4q3q96xue8sfacj.jpg?alias=facebook_l&signature=ucgouUJb-z_F9lCVS8FRoI6VoikT9w7gmz0ARSxV03Y",
     "sbb": {
       "minutes": 22,
       "city": "Lausanne Gare",
@@ -1986,7 +1986,7 @@ window.HOUSING_LISTINGS = [
     },
     "regie": "de Rham Immobilière",
     "regieType": "regie",
-    "image_url": "https://flatfox.ch/thumb/ff/2026/09/dgwtcfj67x9v5w8agx6c6webtat2wgkp18kcoh73q218d379r7.jpg?alias=facebook_l&amp;signature=RznA8NpiaaGrvdIotHinrqIXISF5tH8ZixghXtlYViY",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/dgwtcfj67x9v5w8agx6c6webtat2wgkp18kcoh73q218d379r7.jpg?alias=facebook_l&signature=RznA8NpiaaGrvdIotHinrqIXISF5tH8ZixghXtlYViY",
     "sbb": {
       "minutes": 7,
       "city": "Lausanne Gare",
@@ -2337,7 +2337,7 @@ window.HOUSING_LISTINGS = [
     },
     "regie": "Régie Foncia Suisse",
     "regieType": "regie",
-    "image_url": "https://flatfox.ch/thumb/ff/2026/09/saroo994ph2w14i0cafyjeyuv1fte43uhpwl3eu2h0z5vcw8kh.jpg?alias=facebook_l&amp;signature=BghZbCQaIdqp5QT-iGBF-ZtDInSvWg2e8eKlBlfAppA",
+    "image_url": "https://flatfox.ch/thumb/ff/2026/09/saroo994ph2w14i0cafyjeyuv1fte43uhpwl3eu2h0z5vcw8kh.jpg?alias=facebook_l&signature=BghZbCQaIdqp5QT-iGBF-ZtDInSvWg2e8eKlBlfAppA",
     "sbb": {
       "minutes": 25,
       "city": "Lausanne Gare",
