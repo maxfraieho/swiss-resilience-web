@@ -229,15 +229,22 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
           { label: '👉 Шукати житло біля станцій (01)', service: 'housing', side: 'a' }
         ];
 
-      // 12. Housing Search with REAL APARTMENT DATABASE QUERY
+      // 12. Housing Search with REAL APARTMENT DATABASE QUERY (Typo-tolerant & Price-aware)
       } else if (
-        qLow.includes('житл') || qLow.includes('квартир') || qLow.includes('знайти житло') ||
-        qLow.includes('оренд') || qLow.includes('appart') || qLow.includes('logement') ||
+        qLow.includes('житл') || qLow.includes('квартир') || qLow.includes('квартип') ||
+        qLow.includes('кватрир') || qLow.includes('кварт') || qLow.includes('знайти житло') ||
+        qLow.includes('оренд') || qLow.includes('аренд') || qLow.includes('зняти') ||
+        qLow.includes('снять') || qLow.includes('помешкан') || qLow.includes('хат') ||
+        qLow.includes('кімнат') || qLow.includes('комнат') || qLow.includes('студі') ||
+        qLow.includes('studio') || qLow.includes('appart') || qLow.includes('logement') ||
+        qLow.includes('wohnung') || qLow.includes('coloc') || qLow.includes('sublet') ||
         qLow.includes('лозанн') || qLow.includes('ньон') || qLow.includes('морж') ||
         qLow.includes('женев') || qLow.includes('рене') || qLow.includes('фрібур') ||
         qLow.includes('еґль') || qLow.includes('егль') || qLow.includes('матран') ||
         qLow.includes('блоне') || qLow.includes('версуа') || qLow.includes('шезо') ||
-        qLow.includes('кларен') || qLow.includes('студі')
+        qLow.includes('кларен') ||
+        (/\b\d{3,4}\b\s*(?:франк|іранк|chf|фр)/.test(qLow)) ||
+        (/(?:до|бюджет|дешевш|ціна|вартіст|<)\s*\d{3,4}/.test(qLow))
       ) {
         const allListings = (typeof window !== 'undefined' && (window.HOUSING_LISTINGS || window.SR_HOUSING)) || [];
 
@@ -274,9 +281,9 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
         const priceMatches = qLow.match(/\b(\d{3,4})\b/g);
         let maxPrice = null;
         if (priceMatches) {
-          const nums = priceMatches.map(p => parseInt(p, 10)).filter(n => n >= 600 && n <= 6000);
+          const nums = priceMatches.map(p => parseInt(p, 10)).filter(n => n >= 300 && n <= 6000);
           if (nums.length > 0) {
-            maxPrice = (qLow.includes('до') || qLow.includes('<') || qLow.includes('дешевш') || qLow.includes('макс')) ? Math.min(...nums) : nums[0];
+            maxPrice = (qLow.includes('до') || qLow.includes('<') || qLow.includes('дешевш') || qLow.includes('макс') || qLow.includes('бюджет') || qLow.includes('за') || qLow.includes('ціна')) ? Math.min(...nums) : nums[0];
           }
         }
 
@@ -304,10 +311,19 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
         if (filtered.length === 0 && allListings.length > 0) {
           if (targetCity) {
             prefixNote = `_У місті **${targetCity}** наразі прямих вільних об'єктів немає, але ось найближчі перевірені варіанти поруч уздовж гілки SBB:_\n\n`;
+            filtered = allListings.slice(0, 3);
           } else if (maxPrice) {
-            prefixNote = `_За вартістю до **CHF ${maxPrice}** прямо зараз немає вільних, але ось найдоступніші квартири з нашої бази:_\n\n`;
+            // Sort by price ascending so the user sees the cheapest real options
+            const sortedByPrice = [...allListings].sort((a, b) => {
+              const pa = a.price || a.rent_gross || 99999;
+              const pb = b.price || b.rent_gross || 99999;
+              return pa - pb;
+            });
+            prefixNote = `⚠️ _За вартістю до **CHF ${maxPrice}** окремих квартир у базі наразі немає (найдоступніша окрема студія в базі — від **CHF 860/міс** у Lovatens, або кімната в **суборенді за ст. 262 CO** за CHF 500–750/міс). Ось найдешевші перевірені варіанти з нашої бази:_\n\n`;
+            filtered = sortedByPrice.slice(0, 3);
+          } else {
+            filtered = allListings.slice(0, 3);
           }
-          filtered = allListings.slice(0, 3);
         }
 
         const displayItems = filtered.slice(0, 3);
@@ -339,6 +355,7 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
 
           actions = [
             { label: '👉 Відкрити каталог житла (01)', service: 'housing', side: 'a' },
+            ...(maxPrice && maxPrice < 1000 ? [{ label: '🛡️ Суборенда кімнати (05)', service: 'sublease', side: 'a' }] : []),
             { label: '📄 Скласти досьє для режі (04)', service: 'dossier', side: 'a' },
             { label: '🧮 Ліміти EVAM (03)', service: 'calc', side: 'a' }
           ];
