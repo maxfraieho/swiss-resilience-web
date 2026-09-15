@@ -43,6 +43,7 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
 
   // Suggestions chips
   const suggestions = [
+    { label: '📝 Резюме (CV) та робота', q: 'А з резюме та швейцарським форматом CV допоможеш?' },
     { label: '🏠 Ліміти EVAM (Во)', q: 'Які ліміти оренди EVAM у кантоні Во для сім\'ї з 3 осіб?' },
     { label: '🛡️ Розрахунок суборенди', q: 'Як законно розрахувати плату за кімнату за ст. 262 CO з меблями?' },
     { label: '📄 Досьє для Bernard Nicod', q: 'Як підготувати мотиваційний лист для режі Bernard Nicod?' },
@@ -72,7 +73,100 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
       let answer = '';
       let actions = [];
 
-      if (qLow.includes('evam') || qLow.includes('ліміт') || qLow.includes('hospice') || qLow.includes('норм') || qLow.includes('оренд') || qLow.includes('вартість')) {
+      // 1. Resume / CV / Cover Letter
+      if (qLow.includes('резюме') || qLow.includes('cv') || qLow.includes('curriculum') || qLow.includes('vitae')) {
+        answer = "📝 **Так, обов'язково допоможемо скласти та перевірити швейцарське резюме (CV)!**\n\n" +
+          "У Швейцарії до CV діють суворі стандарти, від яких безпосередньо залежить запрошення на інтерв'ю:\n\n" +
+          "1. 📌 **Обов'язкова позначка Permis S у шапці:**\n" +
+          "   Зазначте: *«Permis S (activité lucrative autorisée — безумовне право на працю без обмежень за ст. 4 та 21a LEI)»*. Швейцарські HR часто помилково вважають, що потрібні квоти або складний дозвіл влади.\n\n" +
+          "2. 📄 **Швейцарська структура (максимум 2 сторінки):**\n" +
+          "   • **Фото:** діловий портрет на нейтральному фоні з легкою посмішкою.\n" +
+          "   • **Мови за шкалою CEFR:** наприклад, *«Français A2 (en cours) / Anglais B2»*.\n" +
+          "   • **Досвід:** у зворотному хронологічному порядку із зазначенням конкретних результатів та обов'язків.\n" +
+          "   • **Розділ «Références»:** *«sur demande»* (контакти попередніх керівників або швейцарських менторів).\n\n" +
+          "3. 🤝 **Безкоштовна вичитка волонтерами Benevol (ст. 394 CO):**\n" +
+          "   Швейцарські носії мови безоплатно вичитають ваше резюме, виправлять стиль і підкажуть правильні терміни.\n\n" +
+          "4. 💼 **63 відкриті вакансії:**\n" +
+          "   У каталозі АКОРД зібрано перевірені пропозиції без посередників від роботодавців, які готові брати кандидатів з дозволом S.";
+        actions = [
+          { label: '🤝 Ментор Benevol для вичитки CV (06)', service: 'mentors', side: 'b' },
+          { label: '💼 Каталог вакансій Permis S (02)', service: 'prof', side: 'a' },
+          { label: '📄 Скласти супровідний лист (04)', service: 'dossier', side: 'a' }
+        ];
+
+      // 2. Greetings / Who are you
+      } else if (
+        qLow.includes('привіт') || qLow.includes('добрий день') || qLow.includes('доброго дня') ||
+        qLow.includes('доброго ранку') || qLow.includes('добрий вечір') || qLow.includes('вітаю') ||
+        qLow.includes('хто ти') || qLow.includes('що ти вмієш') || qLow.includes('що вмієш') ||
+        qLow.includes('hello') || qLow.includes('bonjour') || qLow.includes('salut') ||
+        qLow.includes('guten tag') || qLow === 'hi' || qLow === 'hey' || qLow === 'start' ||
+        qLow.includes('почати')
+      ) {
+        answer = "👋 **Вітаю! Я — персональний ШІ-копілот платформи ACCORD Suisse.**\n\n" +
+          "Я допомагаю українцям у Швейцарії (кантони Vaud, Genève, Fribourg, Valais) розв'язувати питання житла, роботи та юридичної інтеграції безкоштовно та конфіденційно.\n\n" +
+          "🎯 **Ось чим я можу допомогти просто зараз:**\n" +
+          "• 📝 **Резюме та робота:** допомога зі швейцарським форматом CV, вичитка носієм мови та 63 відкриті вакансії Permis S.\n" +
+          "• 🏠 **Житло від gérances:** перевірені квартири без посередників і точний розрахунок часу поїздами SBB CFF.\n" +
+          "• 🧮 **Кантональні норми:** калькулятор лімітів EVAM (Во) та Hospice Général (Женева), правило 33%.\n" +
+          "• 🛡️ **Суборенда кімнат:** перевірка законності за ст. 262 CO з обмеженням меблів до 20%.\n" +
+          "• 🤝 **Волонтери Benevol:** безкоштовні ментори для практики французької мови (ст. 394 CO).\n\n" +
+          "Напишіть ваше запитання або оберіть швидку дію нижче:";
+        actions = [
+          { label: '📝 Допомога з резюме / CV', service: 'mentors', side: 'b' },
+          { label: '🏠 Пошук житла (01)', service: 'housing', side: 'a' },
+          { label: '💼 Каталог вакансій (02)', service: 'prof', side: 'a' },
+          { label: '🧮 Ліміти EVAM (03)', service: 'calc', side: 'a' }
+        ];
+
+      // 3. Gratitude / Thanks
+      } else if (qLow.includes('дякую') || qLow.includes('спасибі') || qLow.includes('мерсі') || qLow.includes('merci') || qLow.includes('danke') || qLow.includes('thank')) {
+        answer = "🌟 **Щиро будь ласка! Завжди раді підтримати вас у Швейцарії.**\n\n" +
+          "Якщо виникнуть нові питання щодо оренди, перевірки договору, адаптації CV чи підготовки до співбесіди — звертайтесь у будь-який час!\n\n" +
+          "💡 _Бажаємо успішної та спокійної інтеграції! Разом ми сильніші._ 🇨🇭🇺🇦";
+        actions = [
+          { label: '🏠 Переглянути житло (01)', service: 'housing', side: 'a' },
+          { label: '💼 Каталог вакансій (02)', service: 'prof', side: 'a' },
+          { label: '📖 Інструкція платформи', service: 'guide', side: 'a' }
+        ];
+
+      // 4. Job Interview / Hiring Process
+      } else if (qLow.includes('співбесід') || qLow.includes('інтерв\'ю') || qLow.includes('entretien') || qLow.includes('interview')) {
+        answer = "💼 **Підготовка до співбесіди у Швейцарії (Entretien d'embauche) :**\n\n" +
+          "• ⏰ **Пунктуальність:** Прибувайте рівно за 5–7 хвилин до початку (у Швейцарії це критичний показник надійності).\n" +
+          "• 📜 **Статус Permis S:** Майте копію картки S і впевнено поясніть: компанії достатньо лише подати коротке онлайн-повідомлення (*déclaration de prise d'emploi*), жодних дозволів чи квот не потрібно.\n" +
+          "• 🗣️ **Рівень мови:** Чесно вкажіть ваш рівень французької/німецької та готовність швидко вчити професійну термінологію.\n" +
+          "• 🤝 **Тренування з ментором:** Волонтери Benevol проводять безоплатні тренувальні співбесіди, щоб зняти мовний бар'єр.";
+        actions = [
+          { label: '🤝 Потренувати співбесіду з ментором (06)', service: 'mentors', side: 'b' },
+          { label: '💼 Каталог вакансій Permis S (02)', service: 'prof', side: 'a' }
+        ];
+
+      // 5. Language Learning / French Courses
+      } else if (qLow.includes('мовні курс') || qLow.includes('французьк') || qLow.includes('німецьк') || qLow.includes('вивчення мов') || (qLow.includes('мов') && (qLow.includes('курс') || qLow.includes('вчит') || qLow.includes('практик')))) {
+        answer = "🗣️ **Вивчення мови (Romandie) та мовна практика з носіями :**\n\n" +
+          "• **Офіційні програми EVAM / Hospice:** Соціальні служби компенсують ваучери на курси французької (Français en Jeu, Université Populaire тощо) до рівня B1.\n" +
+          "• **Практика з менторами Benevol (ст. 394 CO):** Безкоштовне спілкування з франкомовними волонтерами за кавою, спільні прогулянки та подолання мовного бар'єра.\n" +
+          "• **Професійна термінологія:** Складання списку ключових термінів за вашою спеціальністю.";
+        actions = [
+          { label: '🤝 Обрати ментора Benevol (06)', service: 'mentors', side: 'b' },
+          { label: '💼 Вакансії з базовою мовою (02)', service: 'prof', side: 'a' }
+        ];
+
+      // 6. Permis S Rights / Labor Law
+      } else if (qLow.includes('дозвіл s') || qLow.includes('статус s') || qLow.includes('permis s') || (qLow.includes('прав') && qLow.includes('прац'))) {
+        answer = "🛡️ **Правовий статус Permis S у Швейцарії (Art. 4 & 21a LEI) :**\n\n" +
+          "• **Безумовне право на працю:** Особи зі статусом захисту S мають право працювати у будь-якому кантоні Швейцарії без квот чи федеральних обмежень.\n" +
+          "• **Процедура найму:** Роботодавець не оформлює складний дозвіл — лише надсилає стандартне повідомлення про найм до кантональної служби зайнятості (наприклад, DGEP у Во).\n" +
+          "• **Захищене вікно RAV (ст. 21a LEI):** На вакансії у сферах із безробіттям >= 5% діє пріоритетне 5-денне вікно для зареєстрованих шукачів.\n" +
+          "• **Оплата:** Права захищені галузевими колективними угодами (CCT), демпінг зарплат суворо заборонено.";
+        actions = [
+          { label: '💼 Каталог вакансій Permis S (02)', service: 'prof', side: 'a' },
+          { label: '🤝 Менторська підтримка (06)', service: 'mentors', side: 'b' }
+        ];
+
+      // 7. EVAM / Hospice / Limits
+      } else if (qLow.includes('evam') || qLow.includes('ліміт') || qLow.includes('hospice') || qLow.includes('норм') || qLow.includes('плафон') || qLow.includes('вартість')) {
         answer = "🧮 **Офіційні нормативи оренди кантону Во (EVAM) та Женеви (Hospice) :**\n\n" +
           "• **Кантон Во (VD, бареми EVAM):**\n" +
           "  - 1 особа: **CHF 1'050 – 1'350** / міс брутто\n" +
@@ -85,6 +179,8 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
           { label: '👉 Відкрити Калькулятор лімітів (03)', service: 'calc', side: 'a' },
           { label: '👉 Переглянути перевірене житло (01)', service: 'housing', side: 'a' }
         ];
+
+      // 8. Sublease / Art. 262 CO
       } else if (qLow.includes('суборенд') || qLow.includes('262') || qLow.includes('кімнат') || qLow.includes('sous-location') || qLow.includes('господар')) {
         answer = "🛡️ **Юридичний захист суборенди за статтею 262 CO (Code des Obligations) :**\n\n" +
           "1. **Безумовне право наймача:** Жодна gérance не може повністю заборонити суборенду. Такий пункт договору є нікчемним (_nul de plein droit_).\n" +
@@ -95,6 +191,8 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
           { label: '👉 Відкрити Майстер суборенди (05)', service: 'sublease', side: 'b' },
           { label: '👉 Повідомлення до режі (Avis 262 CO)', service: 'sublease', side: 'b' }
         ];
+
+      // 9. Rental Dossier / Régies
       } else if (qLow.includes('досьє') || qLow.includes('dossier') || qLow.includes('bernard') || qLow.includes('мотиваційн') || qLow.includes('лист')) {
         answer = "📄 **Стандартизоване швейцарське досьє кандидата (USPI / Art. 253 CO) :**\n\n" +
           "Швейцарські режі (Bernard Nicod, Cogestim, Domicim, Wincasa) вимагають чіткий пакет документів:\n" +
@@ -106,15 +204,21 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
         actions = [
           { label: '👉 Згенерувати офіційне досьє (04)', service: 'dossier', side: 'a' }
         ];
-      } else if (qLow.includes('ваканс') || qLow.includes('робот') || qLow.includes('21a') || qLow.includes('lei') || qLow.includes('rav') || qLow.includes('orp')) {
+
+      // 10. Jobs / Art. 21a LEI / RAV / ORP
+      } else if (qLow.includes('ваканс') || qLow.includes('робот') || qLow.includes('21a') || qLow.includes('lei') || qLow.includes('rav') || qLow.includes('orp') || qLow.includes('безробітт') || qLow.includes('chômage')) {
         answer = "💼 **Вакансії зі статусом Permis S та правовий режим Art. 21a LEI :**\n\n" +
           "• **Право на працю:** Власники статусу S мають безумовне право працювати у Швейцарії без квот та дозволів кантональної влади.\n" +
           "• **Вікно Stellenmeldepflicht (ст. 21a LEI):** Для професій із рівнем безробіття >= 5% вакансії спочатку публікуються виключно для зареєстрованих шукачів ORP/RAV на 5 робочих днів.\n" +
-          "• **Оплата праці:** Суворо регулюється галузевими колективними договорами CCT / GAV.";
+          "• **Оплата праці:** Суворо регулюється галузевими колективними договорами CCT / GAV.\n" +
+          "• **Актуальна база:** 63 перевірені пропозиції у Romandie прямо від роботодавців.";
         actions = [
-          { label: '👉 Відкрити каталог вакансій (02)', service: 'prof', side: 'a' }
+          { label: '👉 Відкрити каталог вакансій (02)', service: 'prof', side: 'a' },
+          { label: '🤝 Ментор Benevol для CV (06)', service: 'mentors', side: 'b' }
         ];
-      } else if (qLow.includes('sbb') || qLow.includes('потяг') || qLow.includes('хвилин') || qLow.includes('etoy') || qLow.includes('morges') || qLow.includes('дорог')) {
+
+      // 11. SBB / Commute
+      } else if (qLow.includes('sbb') || qLow.includes('потяг') || qLow.includes('хвилин') || qLow.includes('etoy') || qLow.includes('morges') || qLow.includes('дорог') || qLow.includes('маршрут')) {
         answer = "🚆 **Транспортна логістика SBB CFF FFS у регіоні La Côte (Vaud) :**\n\n" +
           "• **Etoy ⟷ Morges:** 9 хвилин (прямий потяг RER Vaud R5/R6)\n" +
           "• **Etoy ⟷ Lausanne Gare:** 22-24 хвилини (прямий або 1 пересадка в Renens)\n" +
@@ -124,7 +228,22 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
         actions = [
           { label: '👉 Шукати житло біля станцій (01)', service: 'housing', side: 'a' }
         ];
-      } else if (qLow.includes('ментор') || qLow.includes('benevol') || qLow.includes('волонтер') || qLow.includes('мова')) {
+
+      // 12. Housing Search
+      } else if (qLow.includes('житл') || qLow.includes('квартир') || qLow.includes('знайти житло') || qLow.includes('оренд') || qLow.includes('appart') || qLow.includes('logement')) {
+        answer = "🏠 **Пошук житла без посередників та комісій у Romandie :**\n\n" +
+          "• **Офіційні régies та перевірені власники:** Жодних скам-оголошень та платних передплат.\n" +
+          "• **Фільтр норм EVAM:** Кожна квартира має автоматичний бейдж відповідності соціальним лімітам кантону Во та Женеви.\n" +
+          "• **SBB-калькулятор:** Точний розрахунок часу в дорозі потягом до Моржа, Лозанни та Женеви.\n" +
+          "• **Reprise de bail (ст. 264 CO):** Передача оренди від попереднього наймача за зафіксованою ціною.";
+        actions = [
+          { label: '👉 Переглянути каталог житла (01)', service: 'housing', side: 'a' },
+          { label: '🧮 Перевірити ліміти EVAM (03)', service: 'calc', side: 'a' },
+          { label: '📄 Скласти досьє для режі (04)', service: 'dossier', side: 'a' }
+        ];
+
+      // 13. Benevol Mentors
+      } else if (qLow.includes('ментор') || qLow.includes('benevol') || qLow.includes('волонтер')) {
         answer = "🤝 **Мережа швейцарських волонтерів Benevol (Art. 394 CO) :**\n\n" +
           "• **Формат:** Безоплатне цивільне доручення (_contrat de mandat gratuit_), що виключає трудові зобов'язання (ст. 319 CO).\n" +
           "• **Сфери допомоги:**\n" +
@@ -135,6 +254,8 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
         actions = [
           { label: '👉 Обрати ментора Benevol (06)', service: 'mentors', side: 'b' }
         ];
+
+      // 14. User Guide / Documentation
       } else if (qLow.includes('інструкц') || qLow.includes('користуват') || qLow.includes('посібник') || qLow.includes('довідк') || qLow.includes('як працює') || qLow.includes('guide') || qLow.includes('emploi') || qLow.includes('anleitung')) {
         answer = "📖 **Покроковий посібник користувача ACCORD Suisse :**\n\n" +
           "1. 🏠 **Житло:** верифіковані квартири від режі (без комісій і посередників) та логістика SBB.\n" +
@@ -150,21 +271,22 @@ function AgentChatWidget({ isOpen, onToggle, activeService, onSwitchService, lan
           { label: '🧮 Ліміти EVAM (03)', service: 'calc', side: 'a' },
           { label: '📄 Досьє для режі (04)', service: 'dossier', side: 'a' }
         ];
+
+      // 15. Smart Contextual Fallback
       } else {
-        answer = "🤖 **ШІ-копілот ACCORD Suisse опрацював ваш запит :**\n\n" +
-          `«${q}»\n\n` +
-          "Платформа АКОРД підтримує вас у ключових питаннях швейцарської інтеграції:\n" +
-          "• 🏠 **Житло:** верифікація за лімітами EVAM 26 кантонів та розрахунок логістики SBB.\n" +
-          "• 🛡️ **Суборенда:** захист за ст. 262 CO (обмеження меблів <=20%).\n" +
-          "• 📄 **Досьє для режі:** 1-Click генерація мотиваційного листа французькою.\n" +
-          "• 💼 **Робота:** вакансії за ст. 21a LEI з захищеним вікном ORP/RAV.\n" +
-          "• 🤝 **Ментори:** безоплатна підтримка волонтерів Benevol (ст. 394 CO).\n\n" +
-          "Оберіть дію нижче для швидкого переходу :";
+        answer = "🤖 **Дякую за ваше запитання щодо:** *«" + q + "»*\n\n" +
+          "Я можу допомогти вам знайти точне та юридично вивірене рішення за нормами Швейцарії. Оберіть тему, яка найкраще відповідає вашій ситуації:\n\n" +
+          "• 📝 **Резюме та пошук роботи:** адаптація CV під швейцарські вимоги, вичитка носієм мови через Benevol, 63 перевірені вакансії без посередників.\n" +
+          "• 🏠 **Житло та нормативи:** перевірка орендної плати за лімітами EVAM (Во) чи Hospice (Женева), пошук квартир без комісій.\n" +
+          "• 🛡️ **Суборенда кімнати:** легальний розрахунок вартості за ст. 262 CO (максимум 20% за меблі).\n" +
+          "• 📄 **Досьє кандидата:** генерація офіційного листа для gérances французькою в 1 клік.\n" +
+          "• 🤝 **Швейцарський волонтер:** безкоштовний ментор для розмовної практики та супроводу.\n\n" +
+          "Оберіть один із розділів або сформулюйте запит детальніше :";
         actions = [
-          { label: '🏠 Житло (01)', service: 'housing', side: 'a' },
-          { label: '💼 Робота (02)', service: 'prof', side: 'a' },
+          { label: '📝 Резюме та вакансії (02)', service: 'prof', side: 'a' },
+          { label: '🏠 Пошук житла (01)', service: 'housing', side: 'a' },
           { label: '🧮 Ліміти EVAM (03)', service: 'calc', side: 'a' },
-          { label: '🛡️ Суборенда (05)', service: 'sublease', side: 'b' }
+          { label: '🤝 Ментор Benevol (06)', service: 'mentors', side: 'b' }
         ];
       }
 
