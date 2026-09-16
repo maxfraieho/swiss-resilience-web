@@ -188,14 +188,15 @@
 │   ┌──────────────────────────────────────────────────────────────┐     │
 │   │ Telegram Bot Daemon: bots/resilience_navigator_bot.py        │     │
 │   │ • Multi-modal Voice / STT: src/adapters/whisper_stt.py        │     │
-│   │ • Autonomous Agent Pipeline: handle_agent_query              │     │
-│   │ • Sublease Shield & Dossier Generator Engine                 │     │
+│   │ • Autonomous Agent Pipeline: handle_agent_query (agent-proxy)│     │
+│   │ • Sublease Shield & Dossier Generator Engine (src/tools/)    │     │
 │   └───────────────┬───────────────────────────────┬──────────────┘     │
 │                   │                               │                    │
 │   ┌───────────────▼──────────────┐ ┌──────────────▼──────────────┐     │
-│   │ Local LLM Gateway (.184)     │ │ Utopia Knowledge Graph (.251│     │
-│   │ http://192.168.1.184:8082    │ │ http://192.168.1.251:9922   │     │
-│   │ OpenAI-compatible proxy      │ │ Bitemporal DB / Event Log   │     │
+│   │ Sovereign LLM Gateway (.184) │ │ Utopia Knowledge Graph (.251)│    │
+│   │ http://192.168.3.184:18880   │ │ Host 192.168.3.251:9922 SSH│     │
+│   │ 8 Specialized Model Slots    │ │ Docker 'utopia-db' (PSQL)   │     │
+│   │ (OpenAI /chat/completions)   │ │ Web UI: http://.251:1516/   │     │
 │   └──────────────────────────────┘ └─────────────────────────────┘     │
 └────────────────────────────────────────────────────────────────────────┘
 ```
@@ -208,10 +209,10 @@
 
 #### Доступні команди:
 ```bash
-# 1. Запуск демона у фоновому режимі (nohup + запис PID у var/run/bot.pid):
+# 1. Запуск демона у фоновому режимі (nohup + запис PID у resilience_bot.pid):
 bash scripts/start_bot_daemon.sh start
 
-# 2. Перевірка статусу процесу, uptime, споживання пам'яті та шлюзів .184/.251:
+# 2. Перевірка статусу процесу, uptime, стану процесу та шлюзів .184:18880:
 bash scripts/start_bot_daemon.sh status
 
 # 3. Зупинка демона (graceful SIGTERM з переходом на SIGKILL у разі таймауту):
@@ -229,9 +230,9 @@ bash scripts/start_bot_daemon.sh dry-run
 ```
 
 #### Файли демона:
-- **PID файл:** `var/run/bot.pid`
-- **Файл логів:** `var/log/bot.log`
-- **Supervisor лог:** `var/log/supervisor.log`
+- **PID файл:** `resilience_bot.pid`
+- **Файл логів:** `resilience_bot.log`
+- **Підписники:** `resilience_subscribers.json`
 
 ---
 
@@ -239,24 +240,42 @@ bash scripts/start_bot_daemon.sh dry-run
 
 Демон взаємодіє з двома ключовими внутрішніми сервісами локальної мережі:
 
-1. **LLM Gateway (Шлюз ШІ):**
-   - **Адреса:** `http://192.168.1.184:8082` (або `http://localhost:8082`)
-   - **Ендпоінт здоров'я:** `GET /health`
+1. **Sovereign LLM Gateway (Шлюз ШІ на хості .184):**
+   - **Адреса:** `http://192.168.3.184:18880` (OpenAI-сумісний проксі; резерв Anthropic: `:8082`)
+   - **Авторизація:** `Authorization: Bearer freecc`
+   - **Ендпоінт здоров'я:** `GET /health` (`{"status":"ok","proxy":"openai-compatible","port":18880}`)
    - **Ендпоінт генерації:** `POST /v1/chat/completions`
-   - **Поведінка у разі недоступності:** бот автоматично активує вбудований детерміністичний компілятор правил (B-SDD Knowledge Graph), гарантуючи коректні відповіді щодо статей законів (262 CO, 21a LEI, EVAM) навіть за відсутності зв'язку з LLM.
+   - **Спеціалізовані слоти моделі на `:18880` (NVIDIA NIM `meta/llama-3.2-11b-vision-instruct`):**
+     * `agent-proxy` *(default / sonnet)*: автономний діалоговий копілот (~0.66с)
+     * `standard-proxy` *(gpt-4o)*: збалансовані консультації (~0.95с)
+     * `fast-proxy` *(haiku)*: надшвидка класифікація та пінги (~2.08с)
+     * `reasoning-proxy` *(opus)*: глибокий аналіз швейцарських контрактів та законодавства (~7.89с)
+     * `coding-proxy`: генерація технічних структур та схем (~0.46с)
+     * `multimedia-proxy`: аналіз зображень та документів (~0.51с)
+     * `cheap-proxy`: масова обробка фонових завдань (~1.72с)
+     * `docs-assistant-proxy`: поглиблений пошук у регуляторних актах (~2.91с)
+   - **Поведінка у разі недоступності:** бот автоматично активує вбудований детерміністичний компілятор правил (B-SDD Knowledge Graph), гарантуючи юридично вивірені відповіді щодо статей законів (ст. 262 CO, ст. 21a LEI, норми EVAM) навіть за повної відсутності зв'язку з LLM.
 
 2. **Utopia Knowledge Graph (.251):**
-   - **Адреса:** `http://192.168.1.251:9922`
-   - **Ендпоінт здоров'я:** `GET /health`
-   - **Призначення:** синхронізація подій, верифікація бітемпоральних зв'язків та збереження журналу взаємодій.
+   - **Адреса:** Host `192.168.3.251`, SSH Port `9922` (User: `root`, Pass: `podroid`)
+   - **СУБД:** PostgreSQL 16 у Docker-контейнері `utopia-db` (`docker exec -i utopia-db psql -U utopia -d utopia`)
+   - **Web UI:** `http://192.168.3.251:1516/` (Health: `GET http://192.168.3.251:1516/api/v1/health`)
+   - **Призначення:** онтологічний граф знань ADR-001–ADR-024, перевірені вакансії SECO/Jobup, юридичні норми та аудит взаємодій.
 
 #### Швидка перевірка зв'язку вручну:
 ```bash
-# Перевірка LLM Gateway
-curl -s -o /dev/null -w "%{http_code}\n" http://192.168.1.184:8082/health
+# Перевірка здоров'я LLM Gateway (.184:18880)
+curl -s -H "Authorization: Bearer freecc" http://192.168.3.184:18880/health
 
-# Перевірка Utopia DB
-curl -s -o /dev/null -w "%{http_code}\n" http://192.168.1.251:9922/health
+# Тестовий пінг слота agent-proxy
+curl -s -X POST http://192.168.3.184:18880/v1/chat/completions \
+  -H "Authorization: Bearer freecc" \
+  -H "Content-Type: application/json" \
+  -d '{"model":"agent-proxy","messages":[{"role":"user","content":"ping"}]}'
+
+# Перевірка Utopia DB (.251)
+sshpass -p podroid ssh -p 9922 -o StrictHostKeyChecking=no root@192.168.3.251 \
+  "docker exec -i utopia-db psql -U utopia -d utopia -c 'SELECT count(*) FROM entities;'"
 ```
 
 ---
