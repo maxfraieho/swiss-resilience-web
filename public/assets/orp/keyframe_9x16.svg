@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920">
+  <rect width="1080" height="1920" fill="#0b1020"/>
+  <rect x="60" y="120" width="960" height="320" rx="32" fill="#131c31" stroke="#38bdf8" stroke-width="4"/>
+  <text x="540" y="240" font-family="sans-serif" font-size="48" font-weight="bold" fill="#f8fafc" text-anchor="middle">🇨🇭 GAIN INTERMÉDIAIRE</text>
+  <text x="540" y="320" font-family="sans-serif" font-size="36" fill="#38bdf8" text-anchor="middle">Art. 24 LACI • Canton de Vaud</text>
+  <rect x="60" y="520" width="960" height="680" rx="32" fill="#1e293b" stroke="#10b981" stroke-width="4"/>
+  <text x="540" y="660" font-family="sans-serif" font-size="44" font-weight="bold" fill="#6ee7b7" text-anchor="middle">Посада 40%–50% + Доплата Каси</text>
+  <text x="540" y="780" font-family="sans-serif" font-size="64" font-weight="bold" fill="#ffffff" text-anchor="middle">+450 .. +700 CHF / міс.</text>
+  <text x="540" y="900" font-family="sans-serif" font-size="34" fill="#cbd5e1" text-anchor="middle">• Просте повідомлення Permis S (SPOP Vaud)</text>
+  <text x="540" y="980" font-family="sans-serif" font-size="34" fill="#cbd5e1" text-anchor="middle">• 5 днів фори ORP (Obligation d'annonce)</text>
+  <text x="540" y="1060" font-family="sans-serif" font-size="34" fill="#cbd5e1" text-anchor="middle">• Мовний замок FR для звіту PRE</text>
+  <rect x="120" y="1360" width="840" height="220" rx="40" fill="#0284c7"/>
+  <text x="540" y="1485" font-family="sans-serif" font-size="42" font-weight="bold" fill="#ffffff" text-anchor="middle">📱 swiss-resilience-web.pages.dev</text>
+</svg>

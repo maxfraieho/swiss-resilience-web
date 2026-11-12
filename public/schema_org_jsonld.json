@@ -1,0 +1,39 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Swiss Resilience ORP / LACI Co-Pilot",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web, Telegram Mini App",
+      "url": "https://swiss-resilience-web.pages.dev",
+      "description": "Outil logiciel d'aide à l'auto-candidature (SaaS Self-Service Co-Pilot). Ne constitue pas une agence de placement privé au sens de la LSE (RS 823.11).",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CHF"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Pourquoi un emploi à 30%–50% en Gain intermédiaire (Art. 24 LACI) est-il avantageux ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La caisse de chômage compense 70% à 80% de la perte de gain, ce qui augmente le revenu mensuel net total de plusieurs centaines de CHF tout en prolongeant les droits et en validant des cotisations AVS suisses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment un employeur dans le canton de Vaud engage-t-il un titulaire du Permis S ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depuis le 1er décembre 2025, une simple annonce gratuite par e-mail à emploi.asile.spop@vd.ch ou via EasyGov.swiss suffit (formulaire 1 page), sans attente d'autorisation préalable."
+          }
+        }
+      ]
+    }
+  ]
+}

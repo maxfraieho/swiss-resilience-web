@@ -1,0 +1,16 @@
+# Swiss Resilience Web — ORP / RAV Vaud & LACI Co-Pilot
+
+> Open self-service calculator and compliance navigator for job seekers in Canton de Vaud / Romandie (LACI Art. 17, 21a, 24 & OACI Art. 26). Strictly compliant with Swiss LSE (RS 823.11) and nLPD.
+
+## Core Modules
+- [Gain Intermédiaire Calculator (Art. 24 LACI)](https://swiss-resilience-web.pages.dev/#gain-intermediaire): Interactive calculator showing monthly net income uplift for 30%–80% part-time roles.
+- [Permis S Employer Simple Annonce Guide (Canton de Vaud)](https://swiss-resilience-web.pages.dev/#permis-s): 1-page employer notification workflow via emploi.asile.spop@vd.ch or EasyGov.swiss.
+- [PRE & IPA Monthly Compliance Checklist](https://swiss-resilience-web.pages.dev/#orp-compliance): French UI lock (ORP-LANG-FR), 8–10 monthly applications before the 25th, and 13-question IPA verification.
+
+## Legal Posture
+Outil logiciel d'aide à l'auto-candidature (SaaS Self-Service Co-Pilot). Ne constitue pas une agence de placement privé au sens de la LSE (RS 823.11).
+
+## Technical Architecture (Pi + MetaHarness + MCP)
+- Runtime: Deterministic System 1 Markdown Atlases + DRAKON Silhouette Pseudocode (<10ms)
+- Privacy: 100% client/self-hosted PII isolation under Swiss Federal Act on Data Protection (nLPD / revDSG)
+- Embargo Advantage: Monitors 5-day ORP Obligation d'annonce vacancies (Art. 21a LACI)
