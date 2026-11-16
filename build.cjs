@@ -1,5 +1,6 @@
 // Build script: Pre-compiles JSX modules into a single production bundle
 // Eliminates in-browser Babel, eliminates race conditions, accelerates mobile TMA load
+const os = require('os');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -27,7 +28,9 @@ const files = [
 
 
 async function ensureBabel() {
-  const babelPath = '/tmp/babel.min.js';
+  const tmpDir = process.env.TMPDIR || os.tmpdir();
+  fs.mkdirSync(tmpDir, { recursive: true });
+  const babelPath = path.join(tmpDir, 'babel.min.js');
   if (fs.existsSync(babelPath) && fs.statSync(babelPath).size > 1000000) {
     return fs.readFileSync(babelPath, 'utf8');
   }
